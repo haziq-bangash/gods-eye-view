@@ -249,7 +249,8 @@
     "Regional",
     "OPT-IN",
     "{minutes} min",
-    "1 min/s"
+    "1 min/s",
+    "{length} km"
   ],
   "es": [
     "1 min/s",
@@ -413,7 +414,8 @@
     "NORAD: {id}",
     "Regional",
     "{datasets} · {tiles} · {packs}",
-    "VIRTUAL"
+    "VIRTUAL",
+    "{length} km"
   ],
   "fr": [
     "1 min/s",
@@ -637,7 +639,8 @@
     "Orthophoto",
     "Oblique",
     "Type",
-    "{range} NM"
+    "{range} NM",
+    "{length} km"
   ],
   "it": [
     "1 min/s",
@@ -843,7 +846,8 @@
     "NORAD: {id}",
     "DATASET",
     "{count} datasets",
-    "ZOOM"
+    "ZOOM",
+    "{length} km"
   ],
   "ja": [
     "1090 MHz",
@@ -909,7 +913,8 @@
     "▲ {frp} MW",
     "ICAO: {id}",
     "MMSI: {id}",
-    "NORAD: {id}"
+    "NORAD: {id}",
+    "{length} km"
   ],
   "pt": [
     "1 min/s",
@@ -1073,7 +1078,8 @@
     "MMSI: {id}",
     "NORAD: {id}",
     "Regional",
-    "VIRTUAL"
+    "VIRTUAL",
+    "{length} km"
   ],
   "ru": [
     "1900–1945",
@@ -1270,7 +1276,8 @@
     "Period",
     "ICAO: {id}",
     "NORAD: {id}",
-    "MMSI: {id}"
+    "MMSI: {id}",
+    "{length} km"
   ],
   "uk": [
     "1900–1945",

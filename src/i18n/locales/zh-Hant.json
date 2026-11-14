@@ -3532,5 +3532,27 @@
   "Cable car": "纜索電車",
   "Monorail": "單軌列車",
   "Funicular": "纜索鐵路",
-  "Gondola": "纜車"
+  "Gondola": "纜車",
+  "{length} km": "{length} 公里",
+  "+{minutes} min delay": "+{minutes} 分鐘延誤",
+  "avg {speed} km/h": "平均 {speed} 公里/小時",
+  "since {time}": "自 {time}",
+  "Informational only · follow official signs": "僅供參考 · 請遵守官方標誌",
+  "Autobahn traffic source unavailable": "高速公路交通資料來源無法使用",
+  "Show events on the {road}": "顯示 {road} 上的事件",
+  "Hide events on the {road}": "隱藏 {road} 上的事件",
+  "LONG-TERM ROADWORKS": "長期施工",
+  "Show long-term roadworks": "顯示長期施工",
+  "Hide long-term roadworks": "隱藏長期施工",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "other": "部分更新：{count} 個道路資料來源未回應。僅供參考——請遵守官方標誌與公告。"
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "來自 Autobahn GmbH 的 A1、A2、A3、A5、A7、A40 與 A61 目前封閉、警告與施工資訊。僅供參考——請遵守官方標誌與公告。",
+  "Closure": "封閉",
+  "Junction closure": "交流道封閉",
+  "Traffic warning": "交通警告",
+  "Short-term roadworks": "短期施工",
+  "Roadworks": "施工",
+  "Autobahn Closures & Roadworks": "德國高速公路封閉與施工",
+  "Freight": "貨運"
 }

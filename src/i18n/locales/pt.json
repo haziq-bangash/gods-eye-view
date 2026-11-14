@@ -3706,5 +3706,29 @@
   "Cable car": "Bonde a cabo",
   "Monorail": "Monotrilho",
   "Funicular": "Funicular",
-  "Gondola": "Teleférico"
+  "Gondola": "Teleférico",
+  "{length} km": "{length} km",
+  "+{minutes} min delay": "+{minutes} min de atraso",
+  "avg {speed} km/h": "média {speed} km/h",
+  "since {time}": "desde {time}",
+  "Informational only · follow official signs": "Apenas informativo · siga a sinalização oficial",
+  "Autobahn traffic source unavailable": "Fonte de trânsito da Autobahn indisponível",
+  "Show events on the {road}": "Mostrar ocorrências na {road}",
+  "Hide events on the {road}": "Ocultar ocorrências na {road}",
+  "LONG-TERM ROADWORKS": "OBRAS DE LONGA DURAÇÃO",
+  "Show long-term roadworks": "Mostrar obras de longa duração",
+  "Hide long-term roadworks": "Ocultar obras de longa duração",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "one": "Atualização parcial: {count} fonte rodoviária não respondeu. Apenas informativo — siga a sinalização e os avisos oficiais.",
+    "many": "Atualização parcial: {count} fontes rodoviárias não responderam. Apenas informativo — siga a sinalização e os avisos oficiais.",
+    "other": "Atualização parcial: {count} fontes rodoviárias não responderam. Apenas informativo — siga a sinalização e os avisos oficiais."
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "Interdições, alertas e obras atuais na A1, A2, A3, A5, A7, A40 e A61, da Autobahn GmbH. Apenas informativo — siga a sinalização e os avisos oficiais.",
+  "Closure": "Interdição",
+  "Junction closure": "Interdição de acesso",
+  "Traffic warning": "Alerta de trânsito",
+  "Short-term roadworks": "Obras de curta duração",
+  "Roadworks": "Obras",
+  "Autobahn Closures & Roadworks": "Autobahn: interdições e obras",
+  "Freight": "Cargas"
 }

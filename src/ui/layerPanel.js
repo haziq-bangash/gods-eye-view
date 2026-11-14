@@ -102,6 +102,11 @@ const PANEL_GROUPS = [
       'weather-cyclones',
     ],
   },
+  // Freight Pulse DE: German road and river freight disruption layers.
+  {
+    label: msg('Freight'),
+    ids: ['autobahn-traffic'],
+  },
   // Directions renders in the Utilities panel, beside Draw and Import, and
   // needs no heading there.
   {

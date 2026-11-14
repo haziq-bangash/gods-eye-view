@@ -3532,5 +3532,27 @@
   "Cable car": "ケーブルトラム",
   "Monorail": "モノレール",
   "Funicular": "ケーブルカー",
-  "Gondola": "ゴンドラ"
+  "Gondola": "ゴンドラ",
+  "{length} km": "{length} km",
+  "+{minutes} min delay": "+{minutes}分の遅延",
+  "avg {speed} km/h": "平均 {speed} km/h",
+  "since {time}": "{time}から",
+  "Informational only · follow official signs": "情報提供のみ · 公式の標識に従ってください",
+  "Autobahn traffic source unavailable": "アウトバーン交通情報を取得できません",
+  "Show events on the {road}": "{road} のイベントを表示",
+  "Hide events on the {road}": "{road} のイベントを非表示",
+  "LONG-TERM ROADWORKS": "長期工事",
+  "Show long-term roadworks": "長期工事を表示",
+  "Hide long-term roadworks": "長期工事を非表示",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "other": "一部のみ更新：{count}件の道路フィードが応答しませんでした。情報提供のみです。公式の標識と告知に従ってください。"
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "Autobahn GmbH による A1・A2・A3・A5・A7・A40・A61 の現在の通行止め、警告、工事。情報提供のみです。公式の標識と告知に従ってください。",
+  "Closure": "通行止め",
+  "Junction closure": "IC閉鎖",
+  "Traffic warning": "交通警報",
+  "Short-term roadworks": "短期工事",
+  "Roadworks": "工事",
+  "Autobahn Closures & Roadworks": "アウトバーン通行止め・工事",
+  "Freight": "貨物"
 }

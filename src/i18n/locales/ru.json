@@ -3793,5 +3793,30 @@
   "Cable car": "Канатный трамвай",
   "Monorail": "Монорельс",
   "Funicular": "Фуникулёр",
-  "Gondola": "Канатная дорога"
+  "Gondola": "Канатная дорога",
+  "{length} km": "{length} км",
+  "+{minutes} min delay": "+{minutes} мин задержки",
+  "avg {speed} km/h": "в среднем {speed} км/ч",
+  "since {time}": "с {time}",
+  "Informational only · follow official signs": "Только для информации · соблюдайте официальные знаки",
+  "Autobahn traffic source unavailable": "Источник данных о движении Autobahn недоступен",
+  "Show events on the {road}": "Показать события на {road}",
+  "Hide events on the {road}": "Скрыть события на {road}",
+  "LONG-TERM ROADWORKS": "ДОЛГОСРОЧНЫЕ ДОРОЖНЫЕ РАБОТЫ",
+  "Show long-term roadworks": "Показать долгосрочные дорожные работы",
+  "Hide long-term roadworks": "Скрыть долгосрочные дорожные работы",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "one": "Частичное обновление: {count} дорожный канал не ответил. Только для информации — соблюдайте официальные знаки и уведомления.",
+    "few": "Частичное обновление: {count} дорожных канала не ответили. Только для информации — соблюдайте официальные знаки и уведомления.",
+    "many": "Частичное обновление: {count} дорожных каналов не ответили. Только для информации — соблюдайте официальные знаки и уведомления.",
+    "other": "Частичное обновление: {count} дорожных каналов не ответили. Только для информации — соблюдайте официальные знаки и уведомления."
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "Текущие перекрытия, предупреждения и дорожные работы на A1, A2, A3, A5, A7, A40 и A61 по данным Autobahn GmbH. Только для информации — соблюдайте официальные знаки и уведомления.",
+  "Closure": "Перекрытие",
+  "Junction closure": "Закрытие развязки",
+  "Traffic warning": "Предупреждение о движении",
+  "Short-term roadworks": "Краткосрочные дорожные работы",
+  "Roadworks": "Дорожные работы",
+  "Autobahn Closures & Roadworks": "Автобаны: перекрытия и работы",
+  "Freight": "Грузоперевозки"
 }

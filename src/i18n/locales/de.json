@@ -3619,5 +3619,28 @@
   "Cable car": "Kabelstraßenbahn",
   "Monorail": "Einschienenbahn",
   "Funicular": "Standseilbahn",
-  "Gondola": "Gondelbahn"
+  "Gondola": "Gondelbahn",
+  "{length} km": "{length} km",
+  "+{minutes} min delay": "+{minutes} Min. Verzögerung",
+  "avg {speed} km/h": "Ø {speed} km/h",
+  "since {time}": "seit {time}",
+  "Informational only · follow official signs": "Nur zur Information · amtliche Beschilderung beachten",
+  "Autobahn traffic source unavailable": "Autobahn-Verkehrsdaten nicht verfügbar",
+  "Show events on the {road}": "Meldungen auf der {road} anzeigen",
+  "Hide events on the {road}": "Meldungen auf der {road} ausblenden",
+  "LONG-TERM ROADWORKS": "DAUERBAUSTELLEN",
+  "Show long-term roadworks": "Dauerbaustellen anzeigen",
+  "Hide long-term roadworks": "Dauerbaustellen ausblenden",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "one": "Teilaktualisierung: {count} Straßen-Feed hat nicht geantwortet. Nur zur Information – amtliche Beschilderung und Hinweise beachten.",
+    "other": "Teilaktualisierung: {count} Straßen-Feeds haben nicht geantwortet. Nur zur Information – amtliche Beschilderung und Hinweise beachten."
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "Aktuelle Sperrungen, Warnungen und Baustellen auf der A1, A2, A3, A5, A7, A40 und A61 von der Autobahn GmbH. Nur zur Information – amtliche Beschilderung und Hinweise beachten.",
+  "Closure": "Sperrung",
+  "Junction closure": "Anschlussstellensperrung",
+  "Traffic warning": "Verkehrswarnung",
+  "Short-term roadworks": "Tagesbaustelle",
+  "Roadworks": "Baustelle",
+  "Autobahn Closures & Roadworks": "Autobahn-Sperrungen & Baustellen",
+  "Freight": "Güterverkehr"
 }

@@ -3706,5 +3706,29 @@
   "Cable car": "Tramway à câble",
   "Monorail": "Monorail",
   "Funicular": "Funiculaire",
-  "Gondola": "Télécabine"
+  "Gondola": "Télécabine",
+  "{length} km": "{length} km",
+  "+{minutes} min delay": "+{minutes} min de retard",
+  "avg {speed} km/h": "moy. {speed} km/h",
+  "since {time}": "depuis {time}",
+  "Informational only · follow official signs": "Information uniquement · respectez la signalisation officielle",
+  "Autobahn traffic source unavailable": "Source trafic Autobahn indisponible",
+  "Show events on the {road}": "Afficher les événements sur l’autoroute {road}",
+  "Hide events on the {road}": "Masquer les événements sur l’autoroute {road}",
+  "LONG-TERM ROADWORKS": "TRAVAUX DE LONGUE DURÉE",
+  "Show long-term roadworks": "Afficher les travaux de longue durée",
+  "Hide long-term roadworks": "Masquer les travaux de longue durée",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "one": "Mise à jour partielle : {count} flux routier n’a pas répondu. Information uniquement — respectez la signalisation et les avis officiels.",
+    "many": "Mise à jour partielle : {count} flux routiers n’ont pas répondu. Information uniquement — respectez la signalisation et les avis officiels.",
+    "other": "Mise à jour partielle : {count} flux routiers n’ont pas répondu. Information uniquement — respectez la signalisation et les avis officiels."
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "Fermetures, alertes et travaux en cours sur les A1, A2, A3, A5, A7, A40 et A61, d’après Autobahn GmbH. Information uniquement — respectez la signalisation et les avis officiels.",
+  "Closure": "Fermeture",
+  "Junction closure": "Fermeture d’échangeur",
+  "Traffic warning": "Alerte trafic",
+  "Short-term roadworks": "Travaux de courte durée",
+  "Roadworks": "Travaux",
+  "Autobahn Closures & Roadworks": "Autobahn : fermetures et travaux",
+  "Freight": "Fret"
 }

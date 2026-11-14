@@ -3793,5 +3793,30 @@
   "Cable car": "Канатний трамвай",
   "Monorail": "Монорейка",
   "Funicular": "Фунікулер",
-  "Gondola": "Канатна дорога"
+  "Gondola": "Канатна дорога",
+  "{length} km": "{length} км",
+  "+{minutes} min delay": "+{minutes} хв затримки",
+  "avg {speed} km/h": "у середньому {speed} км/год",
+  "since {time}": "з {time}",
+  "Informational only · follow official signs": "Лише для інформації · дотримуйтеся офіційних знаків",
+  "Autobahn traffic source unavailable": "Джерело даних про рух Autobahn недоступне",
+  "Show events on the {road}": "Показати події на {road}",
+  "Hide events on the {road}": "Приховати події на {road}",
+  "LONG-TERM ROADWORKS": "ДОВГОСТРОКОВІ ДОРОЖНІ РОБОТИ",
+  "Show long-term roadworks": "Показати довгострокові дорожні роботи",
+  "Hide long-term roadworks": "Приховати довгострокові дорожні роботи",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "one": "Часткове оновлення: {count} дорожній канал не відповів. Лише для інформації — дотримуйтеся офіційних знаків і повідомлень.",
+    "few": "Часткове оновлення: {count} дорожні канали не відповіли. Лише для інформації — дотримуйтеся офіційних знаків і повідомлень.",
+    "many": "Часткове оновлення: {count} дорожніх каналів не відповіли. Лише для інформації — дотримуйтеся офіційних знаків і повідомлень.",
+    "other": "Часткове оновлення: {count} дорожніх каналів не відповіли. Лише для інформації — дотримуйтеся офіційних знаків і повідомлень."
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "Поточні перекриття, попередження та дорожні роботи на A1, A2, A3, A5, A7, A40 і A61 за даними Autobahn GmbH. Лише для інформації — дотримуйтеся офіційних знаків і повідомлень.",
+  "Closure": "Перекриття",
+  "Junction closure": "Закриття розв’язки",
+  "Traffic warning": "Попередження про рух",
+  "Short-term roadworks": "Короткострокові дорожні роботи",
+  "Roadworks": "Дорожні роботи",
+  "Autobahn Closures & Roadworks": "Автобани: перекриття й роботи",
+  "Freight": "Вантажоперевезення"
 }

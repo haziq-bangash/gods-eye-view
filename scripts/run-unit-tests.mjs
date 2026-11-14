@@ -88,9 +88,43 @@ function runTests(args) {
   return result.status ?? 1;
 }
 
+/**
+ * Windows caps a whole command line at 32,767 characters, which the full test
+ * list exceeds (spawnSync fails with ENAMETOOLONG). Leave room for the Node
+ * path and flags.
+ */
+export const WINDOWS_ARGUMENT_BUDGET = 24_000;
+
+/**
+ * Split test files into consecutive batches whose joined arguments fit in
+ * `budget` characters. Order is kept; a single over-long path gets its own batch.
+ */
+export function batchTestFiles(files, budget = Infinity) {
+  const batches = [];
+  let batch = [];
+  let length = 0;
+  for (const file of files) {
+    const cost = file.length + 1;
+    if (batch.length && length + cost > budget) {
+      batches.push(batch);
+      batch = [];
+      length = 0;
+    }
+    batch.push(file);
+    length += cost;
+  }
+  if (batch.length) batches.push(batch);
+  return batches;
+}
+
 export function runUnitTests() {
   const plan = buildUnitTestPlan(discoverUnitTestFiles());
-  const parallelStatus = runTests(['--test', ...plan.parallel]);
+  const budget = process.platform === 'win32' ? WINDOWS_ARGUMENT_BUDGET : Infinity;
+  let parallelStatus = 0;
+  for (const batch of batchTestFiles(plan.parallel, budget)) {
+    const status = runTests(['--test', ...batch]);
+    if (status !== 0 && parallelStatus === 0) parallelStatus = status;
+  }
   if (parallelStatus !== 0) return parallelStatus;
 
   // The GC-bracketed budgets are calibrated on every supported Node major.

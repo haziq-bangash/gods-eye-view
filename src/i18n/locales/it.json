@@ -3706,5 +3706,29 @@
   "Cable car": "Tram a fune",
   "Monorail": "Monorotaia",
   "Funicular": "Funicolare",
-  "Gondola": "Cabinovia"
+  "Gondola": "Cabinovia",
+  "{length} km": "{length} km",
+  "+{minutes} min delay": "+{minutes} min di ritardo",
+  "avg {speed} km/h": "media {speed} km/h",
+  "since {time}": "dal {time}",
+  "Informational only · follow official signs": "Solo informativo · rispettare la segnaletica ufficiale",
+  "Autobahn traffic source unavailable": "Fonte traffico Autobahn non disponibile",
+  "Show events on the {road}": "Mostra eventi sulla {road}",
+  "Hide events on the {road}": "Nascondi eventi sulla {road}",
+  "LONG-TERM ROADWORKS": "CANTIERI DI LUNGA DURATA",
+  "Show long-term roadworks": "Mostra cantieri di lunga durata",
+  "Hide long-term roadworks": "Nascondi cantieri di lunga durata",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "one": "Aggiornamento parziale: {count} feed stradale non ha risposto. Solo informativo — rispettare la segnaletica e gli avvisi ufficiali.",
+    "many": "Aggiornamento parziale: {count} feed stradali non hanno risposto. Solo informativo — rispettare la segnaletica e gli avvisi ufficiali.",
+    "other": "Aggiornamento parziale: {count} feed stradali non hanno risposto. Solo informativo — rispettare la segnaletica e gli avvisi ufficiali."
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "Chiusure, avvisi e cantieri attuali su A1, A2, A3, A5, A7, A40 e A61, da Autobahn GmbH. Solo informativo — rispettare la segnaletica e gli avvisi ufficiali.",
+  "Closure": "Chiusura",
+  "Junction closure": "Chiusura svincolo",
+  "Traffic warning": "Avviso traffico",
+  "Short-term roadworks": "Cantiere di breve durata",
+  "Roadworks": "Cantiere",
+  "Autobahn Closures & Roadworks": "Autobahn: chiusure e cantieri",
+  "Freight": "Merci"
 }
