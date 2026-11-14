@@ -648,6 +648,36 @@ panel that holds its row, and `set_panel_open` reaches it as
 `utilities-panel` or by "utilities", "draw", "drawing" or "import". On a phone
 it sits collapsed in the Layers sheet under Data Layers.
 
+## Side rails and the screen edge — November 14, 2026
+
+Visual (`#pp-toggles`, the display settings, rail item `palette`) is the last
+panel of the left column, after Data Layers, Utilities and Authoring, and
+opens from the left rail like them (`PanelLayoutController`, falling back to
+the right column in a host without a left stack). Context leads the right
+column, followed by CCTV, Street Level and the other right panels. An open
+Context or CCTV panel takes the column's full height; the other right panels
+keep the content-sized layout and its hysteresis band. With nothing open, a
+rail's icons and their names show as two glass pieces side by side; once a
+panel opens, the icons stay in place and a highlight slides to the open one.
+
+Each collapsible panel header has an edge switch (`UiPanelEdge.vue`,
+`src/ui/panelEdge.js`): it moves that side's panels over their rail to the
+screen edge, with the rail as a row of icons above the open panel, and back.
+The choice is per side, kept in `localStorage` (`gev.panelEdge`), and applies
+on the desktop shell only: phones and Cockpit keep their own layouts and do
+not show the switch.
+
+Scrolling the wheel at a screen edge (`src/ui/railEdgeScroll.js`, from the
+edge to just past the rail, at most 84 px) steps that side's rail to its next
+or previous panel instead of zooming the globe, wrapping round at either end.
+One gesture is one step, trackpad coasting included, with at least half a
+second between steps; a step that comes too soon is held until then and is
+dropped if the pointer leaves the strip. Panels, controls, dialogs and the
+world timeline in the strip keep their own wheel. The strip is off on phones
+and touch screens, while the rails are hidden (clean view, recording), and it
+follows the rails' sides in a right-to-left language. On a phone, Visual is in
+the More sheet with the dock's Visual Presets, as before.
+
 ## God's Eye View in conversations — October 2, 2026
 
 Tool answers that can be shown in God's Eye View include a view: camera, layers,
@@ -3446,7 +3476,8 @@ reads `NASA FIRMS · LIVE · updated …`. A source may instead answer the 24 ho
 to a set time, naming its end as `at` (epoch ms): the row then reads
 `NASA FIRMS · 24 h to MM-DD HH:MM UTC`, `getStats()` reports `at`, and
 `get_active_fires` says "in the 24 hours to" that time and reports it as
-`window_end`. The dev proxy never sets `at`.
+`window_end`, and card and detail ages count back from that time instead of
+now. The dev proxy never sets `at`.
 
 The FIRMS CSV parser rejects impossible acquisition calendar dates before the proxy filters records to the trailing 24 hours, while retaining valid UTC acquisition times.
 FIRMS ages round to whole hours before choosing a unit, so a 47.6-hour age reads "2d", not "48h"; with detections filtered to 24 hours, this shows mostly in the `STALE · cached {age}` stats line.
@@ -8403,7 +8434,11 @@ clock drives all enabled observation rows. Earlier/Later use the sorted union of
 non-suspended products' advertised times; each product selects its nearest frame
 at or before the requested UTC time, never a future frame or an interpolation.
 The maximum gap is 30 minutes for radar, regional infrared and lightning, and
-3 hours for hourly global infrared. A missing eligible frame hides that product
+3 hours for hourly global infrared, but never less than one and a half of the
+feed's median frame spacing over its latest frames, so a regional feed whose
+frames come an hour apart holds each for 90 minutes; the latest frame reads late
+after the same floor (20 minutes for radar and regional infrared, 45 for
+lightning, 4 hours for global infrared). A missing eligible frame hides that product
 and reports the gap; rows show actual displayed UTC time with synced/nearest labels.
 Manifest rollover preserves the requested history time, even when frames expire.
 

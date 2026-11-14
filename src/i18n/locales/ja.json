@@ -3533,6 +3533,8 @@
   "Monorail": "モノレール",
   "Funicular": "ケーブルカー",
   "Gondola": "ゴンドラ",
+  "Move panels back beside the rail": "パネルをレールの横に戻す",
+  "Move panels over the rail, to the edge": "パネルをレールの上、画面端へ移動",
   "{length} km": "{length} km",
   "+{minutes} min delay": "+{minutes}分の遅延",
   "avg {speed} km/h": "平均 {speed} km/h",

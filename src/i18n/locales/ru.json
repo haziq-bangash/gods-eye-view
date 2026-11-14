@@ -3794,6 +3794,8 @@
   "Monorail": "Монорельс",
   "Funicular": "Фуникулёр",
   "Gondola": "Канатная дорога",
+  "Move panels back beside the rail": "Вернуть панели к боковой панели",
+  "Move panels over the rail, to the edge": "Переместить панели поверх боковой панели к краю",
   "{length} km": "{length} км",
   "+{minutes} min delay": "+{minutes} мин задержки",
   "avg {speed} km/h": "в среднем {speed} км/ч",

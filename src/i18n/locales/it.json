@@ -3707,6 +3707,8 @@
   "Monorail": "Monorotaia",
   "Funicular": "Funicolare",
   "Gondola": "Cabinovia",
+  "Move panels back beside the rail": "Riporta i pannelli accanto alla barra",
+  "Move panels over the rail, to the edge": "Sposta i pannelli sopra la barra, fino al bordo",
   "{length} km": "{length} km",
   "+{minutes} min delay": "+{minutes} min di ritardo",
   "avg {speed} km/h": "media {speed} km/h",

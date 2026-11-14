@@ -3707,6 +3707,8 @@
   "Monorail": "Monotrilho",
   "Funicular": "Funicular",
   "Gondola": "Teleférico",
+  "Move panels back beside the rail": "Voltar os painéis para junto da barra",
+  "Move panels over the rail, to the edge": "Mover os painéis sobre a barra, até a borda",
   "{length} km": "{length} km",
   "+{minutes} min delay": "+{minutes} min de atraso",
   "avg {speed} km/h": "média {speed} km/h",

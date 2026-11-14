@@ -3533,6 +3533,8 @@
   "Monorail": "单轨列车",
   "Funicular": "缆索铁路",
   "Gondola": "缆车",
+  "Move panels back beside the rail": "将面板移回侧栏旁",
+  "Move panels over the rail, to the edge": "将面板移到侧栏上方，贴靠边缘",
   "{length} km": "{length} 公里",
   "+{minutes} min delay": "+{minutes} 分钟延误",
   "avg {speed} km/h": "平均 {speed} 公里/小时",

@@ -3620,6 +3620,8 @@
   "Monorail": "Einschienenbahn",
   "Funicular": "Standseilbahn",
   "Gondola": "Gondelbahn",
+  "Move panels back beside the rail": "Bedienfelder zurück neben die Leiste",
+  "Move panels over the rail, to the edge": "Bedienfelder über die Leiste an den Rand verschieben",
   "{length} km": "{length} km",
   "+{minutes} min delay": "+{minutes} Min. Verzögerung",
   "avg {speed} km/h": "Ø {speed} km/h",

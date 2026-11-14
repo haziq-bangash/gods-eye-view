@@ -3707,6 +3707,8 @@
   "Monorail": "מונורייל",
   "Funicular": "פוניקולר",
   "Gondola": "רכבל",
+  "Move panels back beside the rail": "החזרת הלוחות לצד הסרגל",
+  "Move panels over the rail, to the edge": "הזזת הלוחות מעל הסרגל, אל הקצה",
   "{length} km": "{length} ק״מ",
   "+{minutes} min delay": "+{minutes} דק׳ עיכוב",
   "avg {speed} km/h": "ממוצע {speed} קמ״ש",
