@@ -785,3 +785,18 @@ test('a proxied request from another site is still refused', async (t) => {
   assert.equal(response.status, 403);
   assert.equal(calls.length, 0);
 });
+
+test('Vertex express keys go to Vertex AI, AI Studio keys to the Gemini API', async () => {
+  const { geminiChatEndpoint } =
+    await import('../server/providers/gemini/chat.js');
+  assert.equal(
+    geminiChatEndpoint('gemini-2.5-flash-lite', 'AQ.Ab8RN6x', ''),
+    'https://aiplatform.googleapis.com/v1/publishers/google/models/gemini-2.5-flash-lite:generateContent',
+  );
+  assert.equal(
+    geminiChatEndpoint('gemini-2.5-flash-lite', 'AIzaSyX', ''),
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent',
+  );
+  assert.match(geminiChatEndpoint('m', 'AIzaSyX', 'vertex'), /aiplatform/);
+  assert.match(geminiChatEndpoint('m', 'AQ.x', 'gemini'), /generativelanguage/);
+});

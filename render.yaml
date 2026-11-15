@@ -29,8 +29,9 @@ services:
       # requests whose Origin is exactly this address (the server otherwise
       # answers AI requests only from the same machine), allow each visitor
       # 10 questions per Berlin day (and at most 10 requests a minute), and
-      # offer Gemini only. Set GEMINI_API_KEY in the dashboard, from a
-      # project without billing so the free tier is the hard cap. Voice
+      # offer Gemini only. Set GEMINI_API_KEY in the dashboard: an AI Studio key
+      # (AIza…) or a Vertex AI express key (AQ.…), which is detected and sent
+      # to Vertex AI. Voice
       # stays local-only.
       - key: GEV_PUBLIC_ASSISTANT_ORIGIN
         value: https://nadeloehr.dropboard.de
@@ -38,6 +39,10 @@ services:
         value: '10'
       - key: GEV_PUBLIC_ASSISTANT_DAILY_QUESTIONS
         value: '10'
+      # The whole site's assistant requests per day: the hard bound on what
+      # a paid key can spend (one request is ~16k tokens), counted in Upstash.
+      - key: GEV_PUBLIC_ASSISTANT_DAILY_REQUESTS
+        value: '200'
       - key: GEV_ASSISTANT_PROVIDER
         value: gemini
       # Push alerts for pinned roads and places: subscriptions are stored in

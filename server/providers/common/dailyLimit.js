@@ -92,3 +92,73 @@ export function isNewQuestion(input) {
   );
   return !answersTools;
 }
+
+/**
+ * A ceiling on the whole site's assistant requests per Berlin day: the hard
+ * bound on what the public assistant can spend, whoever asks and from
+ * however many addresses. Counted in Upstash Redis when it is configured
+ * (so restarts and redeploys do not reset it), else in memory; if Upstash
+ * fails, the memory count takes over rather than letting requests through
+ * uncounted. `limit` 0 turns it off.
+ */
+export function createSiteDailyLimit({
+  limit = 200,
+  url = '',
+  token = '',
+  fetchImpl = (...args) => globalThis.fetch(...args),
+  now = Date.now,
+} = {}) {
+  let memoryDay = null;
+  let memoryCount = 0;
+  const memory = (day) => {
+    if (day !== memoryDay) {
+      memoryDay = day;
+      memoryCount = 0;
+    }
+    memoryCount += 1;
+    return memoryCount;
+  };
+  async function shared(day) {
+    const base = String(url).replace(/\/+$/, '');
+    const response = await fetchImpl(`${base}/pipeline`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify([
+        ['INCR', `nd:assistant:${day}`],
+        ['EXPIRE', `nd:assistant:${day}`, 172800],
+      ]),
+      redirect: 'error',
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok) throw new Error(`counter ${response.status}`);
+    const [first] = await response.json();
+    const count = Number(first?.result);
+    if (!Number.isFinite(count)) throw new Error('counter result');
+    return count;
+  }
+  return {
+    /** Counts one request; null when allowed, else the refusal. */
+    async take() {
+      if (!(limit > 0)) return null;
+      const at = now();
+      const day = berlinDay(at);
+      let count;
+      if (url && token && /^https:\/\//.test(url)) {
+        try {
+          count = await shared(day);
+        } catch {
+          count = memory(day);
+        }
+      } else count = memory(day);
+      return count > limit
+        ? {
+            code: 'SITE_DAILY_LIMIT',
+            retryAfter: secondsUntilBerlinMidnight(at),
+          }
+        : null;
+    },
+  };
+}

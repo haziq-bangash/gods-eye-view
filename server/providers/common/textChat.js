@@ -13,6 +13,7 @@ import {
 import { parseUsage } from './textTools.js';
 import {
   createDailyLimit,
+  createSiteDailyLimit,
   isNewQuestion,
   resolveDailyAllowance,
 } from './dailyLimit.js';
@@ -70,6 +71,14 @@ export function createTextChatHandler({
   // Public visitors' questions per Berlin day (default 10; 0 = no limit).
   resolveDailyQuestions = () =>
     process.env.GEV_PUBLIC_ASSISTANT_DAILY_QUESTIONS,
+  // All public visitors together: requests per Berlin day (default 200; 0 =
+  // none). The hard bound on spend; counted in Upstash when configured.
+  resolveSiteDailyRequests = () =>
+    process.env.GEV_PUBLIC_ASSISTANT_DAILY_REQUESTS,
+  resolveCounterStore = () => ({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+  }),
   resolveRateLimit = () =>
     process.env[`GEV_RATELIMIT_${provider.toUpperCase()}_CHAT_PER_MIN`],
   // An unset chat throttle follows the provider's own cost throttle.
@@ -82,6 +91,7 @@ export function createTextChatHandler({
 } = {}) {
   let limiter;
   let daily;
+  let siteDaily;
   let rejected = null;
   return async (req, res) => {
     if (req.aborted || res.destroyed || res.writableEnded) return;
@@ -181,6 +191,17 @@ export function createTextChatHandler({
             code: over.code,
             allowance: over.allowance,
           });
+        }
+        if (siteDaily === undefined)
+          siteDaily = createSiteDailyLimit({
+            limit: resolveDailyAllowance(resolveSiteDailyRequests(), 200),
+            ...resolveCounterStore(),
+            now,
+          });
+        const full = await siteDaily.take();
+        if (full) {
+          res.setHeader('Retry-After', String(full.retryAfter));
+          return reply(429, { error: FAILURE, code: full.code });
         }
       }
       const { endpoint, body, headers } = prepared;

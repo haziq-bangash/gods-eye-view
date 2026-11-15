@@ -4134,5 +4134,6 @@
   "Notifications are blocked for this site. Allow them in the browser settings to turn alerts on.": "Les notifications sont bloquées pour ce site. Autorisez-les dans les réglages du navigateur pour activer les alertes.",
   "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "Sur iPhone et iPad, ajoutez d’abord Nadelöhr à l’écran d’accueil (Partager, puis « Sur l’écran d’accueil »), puis activez les alertes depuis là.",
   "Pin a road or place to get alerts for it.": "Épinglez une route ou un lieu pour recevoir des alertes.",
-  "This browser cannot show alerts.": "Ce navigateur ne peut pas afficher d’alertes."
+  "This browser cannot show alerts.": "Ce navigateur ne peut pas afficher d’alertes.",
+  "The assistant has answered all it can for today. Ask again tomorrow.": "L’assistant a répondu à tout ce qu’il pouvait aujourd’hui. Reposez votre question demain."
 }
