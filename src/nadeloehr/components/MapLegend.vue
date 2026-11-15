@@ -4,6 +4,7 @@
 import { computed } from 'vue';
 import { t } from '../../i18n/index.js';
 import { SEVERITY_COLORS, severityCopy } from '../disruptions.js';
+import Tip from './Tip.vue';
 
 const props = defineProps({
   app: { type: Object, required: true },
@@ -69,41 +70,45 @@ const items = computed(() => [
       />
       {{ severityCopy(severity).label }}
     </span>
-    <button
+    <Tip
       v-for="item in items"
       :key="item.id"
-      type="button"
-      class="flex cursor-pointer items-center gap-1.5 rounded-full px-2 py-1 outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
-      :class="item.on ? '' : 'opacity-45 line-through decoration-1'"
-      :aria-pressed="String(item.on)"
-      :title="
+      :text="
         item.on
           ? t('Hide {name}', { name: item.label })
           : t('Show {name}', { name: item.label })
       "
-      @click="item.toggle()"
+      side="top"
     >
-      <span
-        v-if="item.swatch === 'dot'"
-        class="size-2.5 rounded-full border-2 border-white shadow-[0_0_0_1px_rgb(0_0_0/0.12)]"
-        :style="{ background: item.color }"
-      />
-      <span
-        v-else-if="item.swatch === 'gauge'"
-        class="size-3 rounded-[4px] border-2 border-white bg-[#0062cc] shadow-[0_0_0_1px_rgb(0_0_0/0.12)]"
-      />
-      <span
-        v-else-if="item.swatch === 'parking'"
-        class="grid size-3.5 place-items-center rounded-[3px] border border-white bg-[#0062cc] text-[10px] leading-none font-extrabold text-white shadow-[0_0_0_1px_rgb(0_0_0/0.12)]"
-        aria-hidden="true"
-        >P</span
+      <button
+        type="button"
+        class="flex cursor-pointer items-center gap-1.5 rounded-full px-2 py-1 outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
+        :class="item.on ? '' : 'opacity-45 line-through decoration-1'"
+        :aria-pressed="String(item.on)"
+        @click="item.toggle()"
       >
-      <span
-        v-else-if="item.swatch === 'weather'"
-        class="size-3 rounded-[3px] border border-[#ff9500] bg-[linear-gradient(135deg,#ffcc00aa,#ff3b30aa)]"
-      />
-      <span v-else class="h-1.5 w-4 rounded-full bg-[#ff9500]/40" />
-      {{ item.label }}
-    </button>
+        <span
+          v-if="item.swatch === 'dot'"
+          class="size-2.5 rounded-full border-2 border-white shadow-[0_0_0_1px_rgb(0_0_0/0.12)]"
+          :style="{ background: item.color }"
+        />
+        <span
+          v-else-if="item.swatch === 'gauge'"
+          class="size-3 rounded-[4px] border-2 border-white bg-[#0062cc] shadow-[0_0_0_1px_rgb(0_0_0/0.12)]"
+        />
+        <span
+          v-else-if="item.swatch === 'parking'"
+          class="grid size-3.5 place-items-center rounded-[3px] border border-white bg-[#0062cc] text-[10px] leading-none font-extrabold text-white shadow-[0_0_0_1px_rgb(0_0_0/0.12)]"
+          aria-hidden="true"
+          >P</span
+        >
+        <span
+          v-else-if="item.swatch === 'weather'"
+          class="size-3 rounded-[3px] border border-[#ff9500] bg-[linear-gradient(135deg,#ffcc00aa,#ff3b30aa)]"
+        />
+        <span v-else class="h-1.5 w-4 rounded-full bg-[#ff9500]/40" />
+        {{ item.label }}
+      </button>
+    </Tip>
   </div>
 </template>

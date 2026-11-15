@@ -1558,6 +1558,7 @@
   "src/nadeloehr/components/InstallPrompt.vue",
   "src/nadeloehr/components/TodaySkeleton.vue",
   "src/nadeloehr/components/InfoTip.vue",
+  "src/nadeloehr/components/Tip.vue",
   "src/nadeloehr/components/IntroTour.vue",
   "src/nadeloehr/components/PanelTabs.vue",
   "scripts/record-corridor-history.mjs"

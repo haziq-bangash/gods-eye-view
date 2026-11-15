@@ -4171,8 +4171,6 @@
   "Skip": "Пропустити",
   "Next": "Далі",
   "Get started": "Почати",
-  "What is {name}?": "Що таке «{name}»?",
-  "the score": "оцінка",
   "What is the water score?": "Що таке водна оцінка?",
   "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "Закриті дороги, дорожні попередження та закриті з’їзди в цьому коридорі. Найбільше важить закрита дорога; звичайні дорожні роботи майже не враховуються.",
   "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "Скільки місць для вантажівок припадає на 100 км на стоянках уздовж шляху, без стоянок біля перекриття. Що менше місць, то вища оцінка.",
@@ -4223,7 +4221,8 @@
   "World Children's Day": "Всесвітній день дітей",
   "across Germany": "по всій Німеччині",
   "in {states}": "у землях {states}",
-  "the ship count": "кількість суден",
-  "the truck ban": "заборона для вантажівок",
-  "{moving} ships under way, {stopped} stopped": "У русі: {moving} · стоять: {stopped}"
+  "{moving} ships under way, {stopped} stopped": "У русі: {moving} · стоять: {stopped}",
+  "About {name}": "Докладніше: {name}",
+  "Risk score": "Оцінка ризику",
+  "Ship count": "Кількість суден"
 }

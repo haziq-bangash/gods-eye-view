@@ -7,6 +7,7 @@ import { BAN_EXPLAIN } from '../bans.js';
 import { SYSTEM_COLORS } from '../icons.js';
 import IconBadge from './IconBadge.vue';
 import InfoTip from './InfoTip.vue';
+import Tip from './Tip.vue';
 
 const props = defineProps({
   /** { active: [...], next } from banNotice(). */
@@ -40,14 +41,16 @@ function title(ban) {
         <p class="nd-ink text-subhead font-semibold" style="--ink: #ff3b30">
           {{ ban.name }}
         </p>
-        <p
-          class="mt-0.5 text-callout text-muted-foreground"
-          :title="ban.stateNames"
-        >
-          {{ ban.body }}
-        </p>
+        <Tip :text="ban.stateNames">
+          <p
+            class="mt-0.5 text-callout text-muted-foreground"
+            :tabindex="ban.stateNames ? 0 : undefined"
+          >
+            {{ ban.body }}
+          </p>
+        </Tip>
       </div>
-      <InfoTip :label="t('the truck ban')" :text="t(BAN_EXPLAIN)" />
+      <InfoTip :label="t('Truck driving ban')" :text="t(BAN_EXPLAIN)" />
     </div>
   </section>
   <p
@@ -55,14 +58,19 @@ function title(ban) {
     class="flex flex-wrap items-center gap-x-1.5 px-1 text-subhead text-muted-foreground"
   >
     <PhTruck class="size-4 shrink-0" aria-hidden="true" />
-    <span class="min-w-0 flex-1" :title="bans.next.stateNames">
-      {{
-        t('Next truck ban: {when} ({name})', {
-          when: bans.next.when,
-          name: bans.next.label,
-        })
-      }}
-    </span>
-    <InfoTip :label="t('the truck ban')" :text="t(BAN_EXPLAIN)" />
+    <Tip :text="bans.next.stateNames">
+      <span
+        class="min-w-0 flex-1"
+        :tabindex="bans.next.stateNames ? 0 : undefined"
+      >
+        {{
+          t('Next truck ban: {when} ({name})', {
+            when: bans.next.when,
+            name: bans.next.label,
+          })
+        }}
+      </span>
+    </Tip>
+    <InfoTip :label="t('Truck driving ban')" :text="t(BAN_EXPLAIN)" />
   </p>
 </template>

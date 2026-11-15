@@ -3973,8 +3973,6 @@
   "Skip": "Hoppa över",
   "Next": "Nästa",
   "Get started": "Kom igång",
-  "What is {name}?": "Vad är {name}?",
-  "the score": "värdet",
   "What is the water score?": "Vad är vattenvärdet?",
   "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "Avstängda vägar, trafikvarningar och stängda avfarter på korridoren. En avstängd väg väger tyngst; vanliga vägarbeten räknas knappt.",
   "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "Hur många lastbilsplatser det finns per 100 km på rastplatser längs vägen, utom rastplatser intill en avstängning. Färre platser ger ett högre värde.",
@@ -4023,7 +4021,8 @@
   "World Children's Day": "Världsbarnens dag",
   "across Germany": "i hela Tyskland",
   "in {states}": "i {states}",
-  "the ship count": "fartygsantalet",
-  "the truck ban": "körförbudet för lastbilar",
-  "{moving} ships under way, {stopped} stopped": "Under gång: {moving} · stilla: {stopped}"
+  "{moving} ships under way, {stopped} stopped": "Under gång: {moving} · stilla: {stopped}",
+  "About {name}": "Om: {name}",
+  "Risk score": "Riskvärde",
+  "Ship count": "Fartygsantal"
 }

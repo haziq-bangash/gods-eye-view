@@ -3874,8 +3874,6 @@
   "Skip": "スキップ",
   "Next": "次へ",
   "Get started": "はじめる",
-  "What is {name}?": "{name}とは？",
-  "the score": "スコア",
   "What is the water score?": "水位スコアとは？",
   "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "この回廊の通行止め、交通警報、出口閉鎖です。通行止めが最も重く、通常の道路工事はほとんど影響しません。",
   "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "沿線の休憩施設にある 100 km あたりのトラック駐車枠の数です（通行止め付近の施設を除く）。枠が少ないほどスコアは高くなります。",
@@ -3923,7 +3921,8 @@
   "World Children's Day": "世界子どもの日",
   "across Germany": "ドイツ全土",
   "in {states}": "{states} で",
-  "the ship count": "船の数",
-  "the truck ban": "トラック走行禁止",
-  "{moving} ships under way, {stopped} stopped": "航行中：{moving} ・停止：{stopped}"
+  "{moving} ships under way, {stopped} stopped": "航行中：{moving} ・停止：{stopped}",
+  "About {name}": "{name}について",
+  "Risk score": "リスクスコア",
+  "Ship count": "船の数"
 }

@@ -16,6 +16,7 @@ import { corridorView } from './today.js';
 import { kaubRow } from '../layers/riverLevels/records.js';
 import { useCollapsed } from './collapse.js';
 import { PhCaretDown } from '@phosphor-icons/vue';
+import { TooltipProvider } from 'reka-ui';
 import BrandMark from './components/BrandMark.vue';
 import CorridorCards from './components/CorridorCards.vue';
 import CorridorDetail from './components/CorridorDetail.vue';
@@ -258,289 +259,305 @@ async function locate() {
 </script>
 
 <template>
-  <div class="nadeloehr nd-compact pointer-events-none fixed inset-0 z-[400]">
-    <!-- Top bar: brand, search, freshness -->
-    <header
-      class="absolute inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] z-20 flex items-start gap-2.5 lg:inset-x-4"
-    >
-      <div
-        class="glass pointer-events-auto flex h-11 shrink-0 items-center gap-2 rounded-full px-2 lg:ps-2.5 lg:pe-4"
+  <TooltipProvider :delay-duration="350" :skip-delay-duration="250">
+    <div class="nadeloehr nd-compact pointer-events-none fixed inset-0 z-[400]">
+      <!-- Top bar: brand, search, freshness -->
+      <header
+        class="absolute inset-x-3 top-[max(0.75rem,env(safe-area-inset-top))] z-20 flex items-start gap-2.5 lg:inset-x-4"
       >
-        <BrandMark class="size-7 text-foreground" />
-        <span class="text-headline font-bold max-lg:sr-only" translate="no"
-          >Nadelöhr</span
+        <div
+          class="glass pointer-events-auto flex h-11 shrink-0 items-center gap-2 rounded-full px-2 lg:ps-2.5 lg:pe-4"
         >
-      </div>
-      <div
-        class="glass pointer-events-auto min-w-0 flex-1 rounded-[22px] lg:mx-auto lg:max-w-[460px]"
-      >
-        <SearchField floating :search="app.search" @pick="app.pickResult" />
-      </div>
-      <HeaderTools v-if="wide" :app="app" />
-      <p
-        v-if="updatedAt"
-        class="glass pointer-events-auto mt-1.5 flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-caption font-semibold text-muted-foreground max-lg:hidden"
-      >
-        <span
-          class="size-[7px] rounded-full bg-[#34c759] shadow-[0_0_0_3px_rgb(52_199_89/0.2)]"
-        />
-        {{ t('Live · {time}', { time: updatedAt }) }}
-      </p>
-    </header>
-
-    <!-- Today in numbers -->
-    <TodayStrip
-      v-if="app.kpis.value.length"
-      class="pointer-events-auto absolute inset-x-3 top-[calc(max(0.75rem,env(safe-area-inset-top))+56px)] lg:right-4 lg:left-[432px]"
-      :kpis="app.kpis.value"
-      :active="activeKpi"
-      :horizon="app.horizon.value"
-      :loading="!app.loaded.value"
-      @pick="pickKpi"
-      @update:horizon="app.setHorizon"
-    />
-
-    <!-- Right insight: the selected corridor, else Kaub (≥ 1280 px) -->
-    <aside
-      v-if="wider && (corridor || kaub)"
-      class="glass-strong nd-scroll pointer-events-auto absolute top-[184px] right-4 max-h-[calc(100%-264px)] w-[320px] overflow-y-auto rounded-[26px]"
-      :class="insight.isCollapsed() ? 'px-4 py-2.5' : 'p-4'"
-    >
-      <button
-        type="button"
-        class="absolute top-3 right-3 z-10 grid size-7 cursor-pointer place-items-center rounded-full text-muted-foreground outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
-        :class="insight.isCollapsed() ? 'top-2' : corridor ? 'right-12' : ''"
-        :aria-label="insight.isCollapsed() ? t('Expand') : t('Collapse')"
-        :aria-expanded="String(!insight.isCollapsed())"
-        @click="insight.toggle"
-      >
-        <PhCaretDown
-          weight="bold"
-          class="size-3.5 transition-transform"
-          :class="insight.isCollapsed() ? '' : 'rotate-180'"
-        />
-      </button>
-      <p v-if="insight.isCollapsed()" class="truncate pe-8 text-headline">
-        {{ insightTitle }}
-      </p>
-      <template v-else>
-        <CorridorDetail
-          v-if="corridor"
-          :corridor="corridor"
-          :history="app.corridorHistory.value"
-          :bans="corridor.states?.length ? app.bansFor(corridor.states) : null"
-          :horizon="app.horizon.value"
-          @close="app.selectCorridor(null)"
-        />
-        <KaubInsight
-          v-else
-          :gauge="kaub"
-          :horizon="app.horizon.value"
-          :range="app.range.value"
-          :ships="app.rhineShips.value"
-          @open="app.showGaugeOnMap"
-          @ships="app.showRhineShips"
-        />
-      </template>
-    </aside>
-
-    <!-- Map controls: under the strip on phones, bottom right on desktop -->
-    <div
-      class="pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] right-3 flex flex-col items-end gap-3 lg:top-auto lg:right-4 lg:bottom-14 xl:right-[352px] xl:bottom-14"
-    >
-      <MapControls
-        :heading-deg="app.camera.value?.heading ?? 0"
-        :tilted="app.camera.value?.tilted === true"
-        :locating="locating"
-        @map-style="styleOpen = !styleOpen"
-        @toggle-3d="app.toggleTilt()"
-        @locate="locate"
-        @zoom-in="app.zoom('in')"
-        @zoom-out="app.zoom('out')"
-        @north="app.northUp()"
-      />
-    </div>
-    <div
-      v-if="styleOpen"
-      class="pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] right-16 left-3 flex justify-end sm:left-auto lg:top-auto lg:right-20 lg:bottom-14 xl:right-[416px]"
-    >
-      <MapStylePicker
-        :styles="mapStyles"
-        :selected="app.mapStyle.value"
-        @select="pickStyle"
-        @close="styleOpen = false"
-      />
-    </div>
-
-    <MapLegend
-      v-if="wider"
-      :app="app"
-      class="pointer-events-auto absolute bottom-12 left-[432px]"
-    />
-
-    <!-- A tool's short message -->
-    <p
-      v-if="app.notice.value"
-      role="status"
-      class="glass-strong pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] left-1/2 max-w-[min(420px,calc(100vw-2rem))] -translate-x-1/2 rounded-full px-4 py-2 text-center text-callout font-semibold"
-    >
-      {{ app.notice.value }}
-    </p>
-
-    <!-- Panel (≥ 1024 px) or sheet -->
-    <section
-      class="glass-strong pointer-events-auto absolute inset-x-0 bottom-0 flex flex-col rounded-t-[var(--sheet-radius)] pb-[env(safe-area-inset-bottom)] transition-[height,transform] duration-300 ease-[cubic-bezier(0.2,0.9,0.3,1)] sm:inset-x-auto sm:bottom-4 sm:left-4 sm:w-[400px] sm:rounded-sheet sm:pb-0 lg:top-[calc(max(0.75rem,env(safe-area-inset-top))+56px)]"
-      :class="
-        wide
-          ? ''
-          : {
-              'h-[52dvh]': sheet === 'half',
-              'h-[88dvh]': sheet === 'full',
-              'sm:h-auto sm:max-h-[calc(100dvh-14rem)]': expanded,
-            }
-      "
-      :style="dragOffset ? { transform: `translateY(${dragOffset}px)` } : null"
-      aria-label="Nadelöhr"
-    >
-      <div
-        v-if="!wide"
-        class="shrink-0 touch-none select-none"
-        @pointerdown="onDragStart"
-        @pointermove="onDragMove"
-        @pointerup="onDragEnd"
-        @pointercancel="onDragEnd"
-      >
-        <button
-          type="button"
-          data-grabber
-          class="nd-no-hit mx-auto block h-11 w-20 cursor-grab"
-          :aria-label="expanded ? t('Collapse') : t('Expand')"
-          :aria-expanded="String(expanded)"
-          @click="toggleSheet"
+          <BrandMark class="size-7 text-foreground" />
+          <span class="text-headline font-bold max-lg:sr-only" translate="no"
+            >Nadelöhr</span
+          >
+        </div>
+        <div
+          class="glass pointer-events-auto min-w-0 flex-1 rounded-[22px] lg:mx-auto lg:max-w-[460px]"
+        >
+          <SearchField floating :search="app.search" @pick="app.pickResult" />
+        </div>
+        <HeaderTools v-if="wide" :app="app" />
+        <p
+          v-if="updatedAt"
+          class="glass pointer-events-auto mt-1.5 flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-caption font-semibold text-muted-foreground max-lg:hidden"
         >
           <span
-            class="mx-auto block h-[5px] w-9 rounded-full bg-muted-foreground/45"
-          ></span>
-        </button>
+            class="size-[7px] rounded-full bg-[#34c759] shadow-[0_0_0_3px_rgb(52_199_89/0.2)]"
+          />
+          {{ t('Live · {time}', { time: updatedAt }) }}
+        </p>
+      </header>
+
+      <!-- Today in numbers -->
+      <TodayStrip
+        v-if="app.kpis.value.length"
+        class="pointer-events-auto absolute inset-x-3 top-[calc(max(0.75rem,env(safe-area-inset-top))+56px)] lg:right-4 lg:left-[432px]"
+        :kpis="app.kpis.value"
+        :active="activeKpi"
+        :horizon="app.horizon.value"
+        :loading="!app.loaded.value"
+        @pick="pickKpi"
+        @update:horizon="app.setHorizon"
+      />
+
+      <!-- Right insight: the selected corridor, else Kaub (≥ 1280 px) -->
+      <aside
+        v-if="wider && (corridor || kaub)"
+        class="glass-strong nd-scroll pointer-events-auto absolute top-[184px] right-4 max-h-[calc(100%-264px)] w-[320px] overflow-y-auto rounded-[26px]"
+        :class="insight.isCollapsed() ? 'px-4 py-2.5' : 'p-4'"
+      >
         <button
-          v-if="!expanded"
           type="button"
-          class="block min-h-11 w-full cursor-pointer truncate px-5 pb-3 text-start text-headline"
-          @click="toggleSheet"
+          class="absolute top-3 right-3 z-10 grid size-7 cursor-pointer place-items-center rounded-full text-muted-foreground outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
+          :class="insight.isCollapsed() ? 'top-2' : corridor ? 'right-12' : ''"
+          :aria-label="insight.isCollapsed() ? t('Expand') : t('Collapse')"
+          :aria-expanded="String(!insight.isCollapsed())"
+          @click="insight.toggle"
         >
-          {{ peekLine }}
+          <PhCaretDown
+            weight="bold"
+            class="size-3.5 transition-transform"
+            :class="insight.isCollapsed() ? '' : 'rotate-180'"
+          />
         </button>
+        <p v-if="insight.isCollapsed()" class="truncate pe-8 text-headline">
+          {{ insightTitle }}
+        </p>
+        <template v-else>
+          <CorridorDetail
+            v-if="corridor"
+            :corridor="corridor"
+            :history="app.corridorHistory.value"
+            :bans="
+              corridor.states?.length ? app.bansFor(corridor.states) : null
+            "
+            :horizon="app.horizon.value"
+            @close="app.selectCorridor(null)"
+          />
+          <KaubInsight
+            v-else
+            :gauge="kaub"
+            :horizon="app.horizon.value"
+            :range="app.range.value"
+            :ships="app.rhineShips.value"
+            @open="app.showGaugeOnMap"
+            @ships="app.showRhineShips"
+          />
+        </template>
+      </aside>
+
+      <!-- Map controls: under the strip on phones, bottom right on desktop -->
+      <div
+        class="pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] right-3 flex flex-col items-end gap-3 lg:top-auto lg:right-4 lg:bottom-14 xl:right-[352px] xl:bottom-14"
+      >
+        <MapControls
+          :heading-deg="app.camera.value?.heading ?? 0"
+          :tilted="app.camera.value?.tilted === true"
+          :locating="locating"
+          @map-style="styleOpen = !styleOpen"
+          @toggle-3d="app.toggleTilt()"
+          @locate="locate"
+          @zoom-in="app.zoom('in')"
+          @zoom-out="app.zoom('out')"
+          @north="app.northUp()"
+        />
+      </div>
+      <div
+        v-if="styleOpen"
+        class="pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] right-16 left-3 flex justify-end sm:left-auto lg:top-auto lg:right-20 lg:bottom-14 xl:right-[416px]"
+      >
+        <MapStylePicker
+          :styles="mapStyles"
+          :selected="app.mapStyle.value"
+          @select="pickStyle"
+          @close="styleOpen = false"
+        />
       </div>
 
-      <div
-        v-if="expanded"
-        class="nd-scroll scroll-edge min-h-0 flex-1 touch-pan-y px-4 pt-1 pb-4 lg:pt-4"
-        :style="
-          swipe.offset.value
-            ? { transform: `translateX(${swipe.offset.value}px)` }
-            : { transition: 'transform 200ms ease-out' }
-        "
-        v-bind="swipe.handlers"
+      <MapLegend
+        v-if="wider"
+        :app="app"
+        class="pointer-events-auto absolute bottom-12 left-[432px]"
+      />
+
+      <!-- A tool's short message -->
+      <p
+        v-if="app.notice.value"
+        role="status"
+        class="glass-strong pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] left-1/2 max-w-[min(420px,calc(100vw-2rem))] -translate-x-1/2 rounded-full px-4 py-2 text-center text-callout font-semibold"
       >
-        <PlaceCard
-          v-if="card"
-          :card="card"
-          @close="closeCard"
-          @focus="app.showOnMap(app.selected.value, { close: true })"
-          @share="app.share()"
-        />
-        <GaugeCard
-          v-else-if="gauge"
-          :card="gauge"
-          :series="app.selectedGauge.value?.series || []"
-          :ships="app.rhineShips.value"
-          @close="closeCard"
-          @ships="app.showRhineShips"
-          @focus="app.showGaugeOnMap(app.selectedGauge.value, { close: true })"
-          @share="app.share()"
-        />
-        <WarningCard
-          v-else-if="warning"
-          :card="warning"
-          @close="closeCard"
-          @focus="app.showWarningOnMap(app.selectedWarning.value)"
-          @share="app.share()"
-        />
-        <ParkingCard
-          v-else-if="parkingRow"
-          :row="parkingRow"
-          :affected="parkingAffected"
-          @close="closeCard"
-          @focus="app.showParkingOnMap(parkingRow)"
-          @share="app.share()"
-        />
-        <CorridorDetail
-          v-else-if="corridor && !wider"
-          :corridor="corridor"
-          :history="app.corridorHistory.value"
-          :bans="corridor.states?.length ? app.bansFor(corridor.states) : null"
-          :horizon="app.horizon.value"
-          @close="app.selectCorridor(null)"
-        />
-        <div v-else class="flex flex-col gap-4">
-          <!-- Sticky tabs on a near-solid band, so cards scrolling under
+        {{ app.notice.value }}
+      </p>
+
+      <!-- Panel (≥ 1024 px) or sheet -->
+      <section
+        class="glass-strong pointer-events-auto absolute inset-x-0 bottom-0 flex flex-col rounded-t-[var(--sheet-radius)] pb-[env(safe-area-inset-bottom)] transition-[height,transform] duration-300 ease-[cubic-bezier(0.2,0.9,0.3,1)] sm:inset-x-auto sm:bottom-4 sm:left-4 sm:w-[400px] sm:rounded-sheet sm:pb-0 lg:top-[calc(max(0.75rem,env(safe-area-inset-top))+56px)]"
+        :class="
+          wide
+            ? ''
+            : {
+                'h-[52dvh]': sheet === 'half',
+                'h-[88dvh]': sheet === 'full',
+                'sm:h-auto sm:max-h-[calc(100dvh-14rem)]': expanded,
+              }
+        "
+        :style="
+          dragOffset ? { transform: `translateY(${dragOffset}px)` } : null
+        "
+        aria-label="Nadelöhr"
+      >
+        <div
+          v-if="!wide"
+          class="shrink-0 touch-none select-none"
+          @pointerdown="onDragStart"
+          @pointermove="onDragMove"
+          @pointerup="onDragEnd"
+          @pointercancel="onDragEnd"
+        >
+          <button
+            type="button"
+            data-grabber
+            class="nd-no-hit mx-auto block h-11 w-20 cursor-grab"
+            :aria-label="expanded ? t('Collapse') : t('Expand')"
+            :aria-expanded="String(expanded)"
+            @click="toggleSheet"
+          >
+            <span
+              class="mx-auto block h-[5px] w-9 rounded-full bg-muted-foreground/45"
+            ></span>
+          </button>
+          <button
+            v-if="!expanded"
+            type="button"
+            class="block min-h-11 w-full cursor-pointer truncate px-5 pb-3 text-start text-headline"
+            @click="toggleSheet"
+          >
+            {{ peekLine }}
+          </button>
+        </div>
+
+        <div
+          v-if="expanded"
+          class="nd-scroll scroll-edge min-h-0 flex-1 touch-pan-y px-4 pt-1 pb-4 lg:pt-4"
+          :style="
+            swipe.offset.value
+              ? { transform: `translateX(${swipe.offset.value}px)` }
+              : { transition: 'transform 200ms ease-out' }
+          "
+          v-bind="swipe.handlers"
+        >
+          <PlaceCard
+            v-if="card"
+            :card="card"
+            @close="closeCard"
+            @focus="app.showOnMap(app.selected.value, { close: true })"
+            @share="app.share()"
+          />
+          <GaugeCard
+            v-else-if="gauge"
+            :card="gauge"
+            :series="app.selectedGauge.value?.series || []"
+            :ships="app.rhineShips.value"
+            @close="closeCard"
+            @ships="app.showRhineShips"
+            @focus="
+              app.showGaugeOnMap(app.selectedGauge.value, { close: true })
+            "
+            @share="app.share()"
+          />
+          <WarningCard
+            v-else-if="warning"
+            :card="warning"
+            @close="closeCard"
+            @focus="app.showWarningOnMap(app.selectedWarning.value)"
+            @share="app.share()"
+          />
+          <ParkingCard
+            v-else-if="parkingRow"
+            :row="parkingRow"
+            :affected="parkingAffected"
+            @close="closeCard"
+            @focus="app.showParkingOnMap(parkingRow)"
+            @share="app.share()"
+          />
+          <CorridorDetail
+            v-else-if="corridor && !wider"
+            :corridor="corridor"
+            :history="app.corridorHistory.value"
+            :bans="
+              corridor.states?.length ? app.bansFor(corridor.states) : null
+            "
+            :horizon="app.horizon.value"
+            @close="app.selectCorridor(null)"
+          />
+          <div v-else class="flex flex-col gap-4">
+            <!-- Sticky tabs on a near-solid band, so cards scrolling under
                them never show through the labels. -->
-          <div
-            class="sticky -top-1 z-10 -mx-4 -mt-1 lg:-top-4 bg-[color-mix(in_oklch,var(--background)_94%,transparent)] px-4 pt-1 pb-2 backdrop-blur-xl lg:-mt-4 lg:pt-4"
-          >
-            <PanelTabs
-              :model-value="app.tab.value"
-              @update:model-value="app.setTab"
-            />
-          </div>
-          <div
-            v-if="app.tab.value === 'today'"
-            id="nd-panel-today"
-            role="tabpanel"
-            aria-labelledby="nd-tab-today"
-            class="flex flex-col gap-5"
-          >
-            <TodaySkeleton v-if="!app.loaded.value" />
-            <template v-else>
-              <HeroCard
-                :headline="app.headline.value"
-                :horizon="app.horizon.value"
-                @open="openHeadline"
+            <div
+              class="sticky -top-1 z-10 -mx-4 -mt-1 lg:-top-4 bg-[color-mix(in_oklch,var(--background)_94%,transparent)] px-4 pt-1 pb-2 backdrop-blur-xl lg:-mt-4 lg:pt-4"
+            >
+              <PanelTabs
+                :model-value="app.tab.value"
+                @update:model-value="app.setTab"
               />
-              <BanNotice :bans="app.bans.value" :horizon="app.horizon.value" />
-              <MyPins :app="app" />
-              <CorridorCards
-                :corridors="corridors"
-                :selected-id="app.selectedCorridorId.value"
-                @select="app.selectCorridor"
-              />
-              <DisruptionsSection :app="app" />
-            </template>
-          </div>
-          <div
-            v-else-if="app.tab.value === 'routes'"
-            id="nd-panel-routes"
-            role="tabpanel"
-            aria-labelledby="nd-tab-routes"
-            class="flex flex-col gap-5"
-          >
-            <RouteCheck :app="app" />
-          </div>
-          <div
-            v-else
-            id="nd-panel-map"
-            role="tabpanel"
-            aria-labelledby="nd-tab-map"
-          >
-            <HomePanel :app="app" :tools-in-bar="wide" />
+            </div>
+            <div
+              v-if="app.tab.value === 'today'"
+              id="nd-panel-today"
+              role="tabpanel"
+              aria-labelledby="nd-tab-today"
+              class="flex flex-col gap-5"
+            >
+              <TodaySkeleton v-if="!app.loaded.value" />
+              <template v-else>
+                <HeroCard
+                  :headline="app.headline.value"
+                  :horizon="app.horizon.value"
+                  @open="openHeadline"
+                />
+                <BanNotice
+                  :bans="app.bans.value"
+                  :horizon="app.horizon.value"
+                />
+                <MyPins :app="app" />
+                <CorridorCards
+                  :corridors="corridors"
+                  :selected-id="app.selectedCorridorId.value"
+                  @select="app.selectCorridor"
+                />
+                <DisruptionsSection :app="app" />
+              </template>
+            </div>
+            <div
+              v-else-if="app.tab.value === 'routes'"
+              id="nd-panel-routes"
+              role="tabpanel"
+              aria-labelledby="nd-tab-routes"
+              class="flex flex-col gap-5"
+            >
+              <RouteCheck :app="app" />
+            </div>
+            <div
+              v-else
+              id="nd-panel-map"
+              role="tabpanel"
+              aria-labelledby="nd-tab-map"
+            >
+              <HomePanel :app="app" :tools-in-bar="wide" />
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- First visit: a short welcome (once per browser). -->
-    <IntroTour v-if="app.kpis.value.length" />
-    <!-- Later visits: offer to add the app to the home screen. -->
-    <InstallPrompt />
-  </div>
+      <!-- First visit: a short welcome (once per browser). -->
+      <IntroTour v-if="app.kpis.value.length" />
+      <!-- Later visits: offer to add the app to the home screen. -->
+      <InstallPrompt />
+    </div>
+    <!-- Floating tips and explanations render here, outside the desktop's
+       80% zoom, so they line up with what they point at. -->
+    <div id="nd-float" class="nadeloehr nd-float" />
+  </TooltipProvider>
 </template>

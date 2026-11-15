@@ -3973,8 +3973,6 @@
   "Skip": "Überspringen",
   "Next": "Weiter",
   "Get started": "Los geht’s",
-  "What is {name}?": "Was ist {name}?",
-  "the score": "der Wert",
   "What is the water score?": "Was ist der Wasserwert?",
   "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "Gesperrte Straßen, Verkehrswarnungen und gesperrte Anschlussstellen auf diesem Korridor. Eine Sperrung zählt am meisten, normale Baustellen kaum.",
   "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "Wie viele Lkw-Stellplätze es pro 100 km an Rastanlagen entlang der Strecke gibt, ohne Rastanlagen neben einer Sperrung. Weniger Plätze bedeuten einen höheren Wert.",
@@ -4023,7 +4021,8 @@
   "World Children's Day": "Weltkindertag",
   "across Germany": "in ganz Deutschland",
   "in {states}": "in {states}",
-  "the ship count": "die Schiffszahl",
-  "the truck ban": "das Lkw-Fahrverbot",
-  "{moving} ships under way, {stopped} stopped": "Unterwegs: {moving} · stehend: {stopped}"
+  "{moving} ships under way, {stopped} stopped": "Unterwegs: {moving} · stehend: {stopped}",
+  "About {name}": "Über: {name}",
+  "Risk score": "Risikowert",
+  "Ship count": "Schiffszahl"
 }
