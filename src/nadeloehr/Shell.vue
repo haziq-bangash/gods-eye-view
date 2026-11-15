@@ -474,11 +474,16 @@ async function locate() {
           @close="app.selectCorridor(null)"
         />
         <div v-else class="flex flex-col gap-4">
-          <PanelTabs
-            class="sticky top-0 z-10"
-            :model-value="app.tab.value"
-            @update:model-value="app.setTab"
-          />
+          <!-- Sticky tabs on a near-solid band, so cards scrolling under
+               them never show through the labels. -->
+          <div
+            class="sticky -top-1 z-10 -mx-4 -mt-1 lg:-top-4 bg-[color-mix(in_oklch,var(--background)_94%,transparent)] px-4 pt-1 pb-2 backdrop-blur-xl lg:-mt-4 lg:pt-4"
+          >
+            <PanelTabs
+              :model-value="app.tab.value"
+              @update:model-value="app.setTab"
+            />
+          </div>
           <div
             v-if="app.tab.value === 'today'"
             id="nd-panel-today"
