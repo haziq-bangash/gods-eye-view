@@ -254,6 +254,10 @@ export function useApp() {
       range: horizon.value === 'now' ? null : range.value,
     }),
   );
+  /** True once the first Autobahn data has arrived (until then: placeholders). */
+  const loaded = computed(() =>
+    Number.isFinite(layerById('autobahn-traffic')?.stats?.lastUpdate),
+  );
   const kpis = computed(() =>
     todayKpis(disruptions.value, gauges.value, {
       warnings: weatherOn.value ? warnings.value : null,
@@ -640,6 +644,7 @@ export function useApp() {
     checkRoute,
     clearRoute,
     corridors,
+    loaded,
     kpis,
     headline,
     selectedCorridorId,

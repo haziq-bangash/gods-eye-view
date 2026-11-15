@@ -4179,5 +4179,11 @@
   "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "Рівень Рейну в Каубі. Нижче 150 см баржі мусять залишати частину вантажу, тож більше вантажів іде дорогами; дуже висока вода зупиняє судноплавство.",
   "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "Найсильніше офіційне погодне попередження DWD уздовж коридору: жовте 25, помаранчеве 50, червоне 75, темно-червоне 100.",
   "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "Кожна частина оцінюється від 0 до 100 і має вагу: перекриття 35 %, стоянки для вантажівок 20 %, рівень води 25 %, погода 20 %. Нижче 33 — низький, від 33 до 66 — підвищений, понад 66 — високий. Це орієнтир, а не прогноз затримок.",
-  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Наскільки рівень води в Каубі впливає на вантажоперевезення: від 0 (норма, 150–460 см) до 100 (40 см і нижче або судноплавство зупинено). Це водна частина оцінки рейнського коридору."
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Наскільки рівень води в Каубі впливає на вантажоперевезення: від 0 (норма, 150–460 см) до 100 (40 см і нижче або судноплавство зупинено). Це водна частина оцінки рейнського коридору.",
+  "Add Nadelöhr to your home screen": "Додайте Nadelöhr на головний екран",
+  "In Safari, tap Share, then “Add to Home Screen”.": "У Safari торкніться «Поширити», потім «На початковий екран».",
+  "Install": "Встановити",
+  "Not now": "Не зараз",
+  "Opens full screen in one tap, like an app. No store, no account.": "Відкривається на весь екран одним дотиком, як застосунок. Без магазину й облікового запису.",
+  "When: {time}. Tap for {next}.": "Час: {time}. Торкніться для варіанта «{next}»."
 }

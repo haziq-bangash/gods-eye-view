@@ -4377,5 +4377,11 @@
   "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "منسوب نهر الراين عند كاوب. تحت 150 سم تضطر الصنادل إلى ترك جزء من الحمولة، فينتقل مزيد من الشحن إلى الطرق؛ والمياه المرتفعة جدًا توقف الملاحة.",
   "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "أقوى تحذير رسمي للطقس من DWD على طول الممر: أصفر 25، برتقالي 50، أحمر 75، أحمر داكن 100.",
   "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "يُقيَّم كل جزء من 0 إلى 100 ويُرجَّح: الإغلاقات 35٪، مواقف الشاحنات 20٪، منسوب المياه 25٪، الطقس 20٪. أقل من 33 منخفض، ومن 33 إلى 66 مرتفع، وأكثر من 66 عالٍ. دليل تقريبي، وليس توقعًا للتأخير.",
-  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "مدى تأثير منسوب كاوب على الشحن، من 0 (طبيعي، 150–460 سم) إلى 100 (40 سم أو أقل، أو توقف الملاحة). وهو جزء المياه في درجة ممر الراين."
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "مدى تأثير منسوب كاوب على الشحن، من 0 (طبيعي، 150–460 سم) إلى 100 (40 سم أو أقل، أو توقف الملاحة). وهو جزء المياه في درجة ممر الراين.",
+  "Add Nadelöhr to your home screen": "أضف Nadelöhr إلى الشاشة الرئيسية",
+  "In Safari, tap Share, then “Add to Home Screen”.": "في Safari، اضغط على مشاركة ثم “إضافة إلى الشاشة الرئيسية”.",
+  "Install": "تثبيت",
+  "Not now": "ليس الآن",
+  "Opens full screen in one tap, like an app. No store, no account.": "يُفتح بملء الشاشة بلمسة واحدة مثل التطبيق. بلا متجر ولا حساب.",
+  "When: {time}. Tap for {next}.": "الوقت: {time}. اضغط لعرض {next}."
 }

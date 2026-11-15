@@ -4080,5 +4080,11 @@
   "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "Le niveau du Rhin à Kaub. Sous 150 cm, les bateaux doivent laisser du fret à quai, donc plus de marchandises passent par la route ; des eaux très hautes arrêtent la navigation.",
   "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "L’alerte météo officielle du DWD la plus forte le long du corridor : jaune 25, orange 50, rouge 75, rouge foncé 100.",
   "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "Chaque partie est notée de 0 à 100 et pondérée : fermetures 35 %, stationnement poids lourds 20 %, niveau d’eau 25 %, météo 20 %. Moins de 33 : faible, de 33 à 66 : élevé, plus de 66 : fort. Un repère approximatif, pas une prévision de retard.",
-  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Le poids du niveau de Kaub sur le fret, de 0 (normal, 150–460 cm) à 100 (40 cm ou moins, ou navigation arrêtée). C’est la part eau de la note du corridor rhénan."
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Le poids du niveau de Kaub sur le fret, de 0 (normal, 150–460 cm) à 100 (40 cm ou moins, ou navigation arrêtée). C’est la part eau de la note du corridor rhénan.",
+  "Add Nadelöhr to your home screen": "Ajouter Nadelöhr à l’écran d’accueil",
+  "In Safari, tap Share, then “Add to Home Screen”.": "Dans Safari, touchez Partager, puis « Sur l’écran d’accueil ».",
+  "Install": "Installer",
+  "Not now": "Pas maintenant",
+  "Opens full screen in one tap, like an app. No store, no account.": "S’ouvre en plein écran d’une touche, comme une app. Sans store ni compte.",
+  "When: {time}. Tap for {next}.": "Moment : {time}. Touchez pour {next}."
 }

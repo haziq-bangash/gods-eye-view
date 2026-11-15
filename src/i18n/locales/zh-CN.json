@@ -3882,5 +3882,11 @@
   "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "考布的莱茵河水位。低于 150 厘米时驳船必须减载，更多货物转向公路；水位过高则停航。",
   "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "走廊沿线最强的 DWD 官方天气预警：黄色 25，橙色 50，红色 75，深红色 100。",
   "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "每部分按 0–100 打分并加权：封路 35%，货车停车 20%，水位 25%，天气 20%。低于 33 为低，33 到 66 为偏高，高于 66 为高。仅供粗略参考，并非延误预测。",
-  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "考布水位对货运的影响程度，从 0（正常，150–460 厘米）到 100（40 厘米或更低，或停航）。它是莱茵走廊分数中的水位部分。"
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "考布水位对货运的影响程度，从 0（正常，150–460 厘米）到 100（40 厘米或更低，或停航）。它是莱茵走廊分数中的水位部分。",
+  "Add Nadelöhr to your home screen": "将 Nadelöhr 添加到主屏幕",
+  "In Safari, tap Share, then “Add to Home Screen”.": "在 Safari 中点按“分享”，然后选择“添加到主屏幕”。",
+  "Install": "安装",
+  "Not now": "以后再说",
+  "Opens full screen in one tap, like an app. No store, no account.": "像应用一样一键全屏打开。无需应用商店，无需账号。",
+  "When: {time}. Tap for {next}.": "时间：{time}。点按切换到{next}。"
 }

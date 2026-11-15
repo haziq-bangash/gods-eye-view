@@ -349,6 +349,28 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Phone polish: strip, swipes, touch targets, placeholders, install — Nadelöhr
+
+- **Strip.** On phones (< 640 px) the Today strip starts minimised: a time
+  chip that steps Now → Tonight → Tomorrow, then one chip per number.
+  `useCollapsed(id, { byDefault })` in `src/nadeloehr/collapse.js` keeps the
+  reader's own choice once they make one ("!id" marks an explicit open).
+- **Swipes** (`src/nadeloehr/swipe.js`, touch only). In the panel, left and
+  right move between Today, Routes and Map. On a corridor they move to the
+  next or previous corridor, and right on the first corridor goes back. On
+  any other card, right goes back. Rows that scroll sideways are left alone.
+- **Touch targets.** Under `(pointer: coarse)` every button gets an invisible
+  hit area of at least 44 × 44 px (`styles.css`). `.nd-tap` grows a button
+  itself, and `.nd-no-hit` opts out where neighbours sit too close.
+- **Placeholders.** Until the first Autobahn data arrives (`app.loaded`),
+  the strip and the Today tab show grey shapes (`TodaySkeleton.vue`), not
+  zeros.
+- **Install.** `src/nadeloehr/install.js` catches `beforeinstallprompt` at
+  start-up. From the second visit, after 15 s, `InstallPrompt.vue` offers to
+  install (Chrome and Edge) or explains Share → "Add to Home Screen" (Safari
+  on iPhone). "Not now" hides it for good (`nadeloehr.install.v1`). No
+  service worker is needed.
+
 ## Tabs, route search, legend switches and explanations — Nadelöhr
 
 The panel has three tabs (`PanelTabs.vue`, remembered in `nadeloehr.tab.v1`):

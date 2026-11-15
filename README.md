@@ -21,6 +21,10 @@ server, and adds a German freight layer and an interface anyone can read.
   the same search finds a road, a town or a whole trip ("Hamburg → München").
   A short intro on the first visit and an ⓘ beside each score part explain
   what the numbers mean, and every legend item switches its marks on or off.
+- **Made for phones.** The number strip starts as one line so the map stays
+  in view, the panel swipes between tabs and corridors, every control is at
+  least 44 px to the finger, grey placeholders show while data loads, and
+  from the second visit the app offers to go on the home screen.
 - **Your roads and places.** Pin an Autobahn or a town from search; the top
   of the panel then says what applies to each of them.
 - **Seven days of history.** Every corridor's score is recorded hourly; its
@@ -163,6 +167,11 @@ More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
   („Hamburg → München“). Eine kurze Einführung beim ersten Besuch und ein ⓘ
   neben jedem Teilwert erklären die Zahlen, und jeder Legendeneintrag blendet
   seine Markierungen ein oder aus.
+- **Fürs Handy gemacht.** Die Zahlenleiste startet einzeilig, damit die
+  Karte sichtbar bleibt; der Bereich wechselt per Wischen zwischen Reitern
+  und Korridoren, jedes Bedienelement ist für den Finger mindestens 44 px
+  groß, beim Laden stehen graue Platzhalter, und ab dem zweiten Besuch
+  bietet sich die App für den Home-Bildschirm an.
 - **Eigene Strecken und Orte.** Eine Autobahn oder einen Ort aus der Suche
   anheften; oben im Bereich steht dann, was für sie gerade gilt.
 - **Sieben Tage Verlauf.** Der Wert jedes Korridors wird stündlich

@@ -4179,5 +4179,11 @@
   "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "Уровень Рейна у Кауба. Ниже 150 см баржи вынуждены оставлять часть груза, и больше грузов уходит на дороги; очень высокая вода останавливает судоходство.",
   "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "Самое сильное официальное погодное предупреждение DWD вдоль коридора: жёлтое 25, оранжевое 50, красное 75, тёмно-красное 100.",
   "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "Каждая часть оценивается от 0 до 100 и взвешивается: перекрытия 35 %, парковки для грузовиков 20 %, уровень воды 25 %, погода 20 %. Ниже 33 — низкий, от 33 до 66 — повышенный, выше 66 — высокий. Это ориентир, а не прогноз задержек.",
-  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Насколько уровень воды у Кауба влияет на грузоперевозки: от 0 (норма, 150–460 см) до 100 (40 см и ниже или судоходство остановлено). Это водная часть оценки рейнского коридора."
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Насколько уровень воды у Кауба влияет на грузоперевозки: от 0 (норма, 150–460 см) до 100 (40 см и ниже или судоходство остановлено). Это водная часть оценки рейнского коридора.",
+  "Add Nadelöhr to your home screen": "Добавьте Nadelöhr на главный экран",
+  "In Safari, tap Share, then “Add to Home Screen”.": "В Safari нажмите «Поделиться», затем «На экран „Домой“».",
+  "Install": "Установить",
+  "Not now": "Не сейчас",
+  "Opens full screen in one tap, like an app. No store, no account.": "Открывается на весь экран одним нажатием, как приложение. Без магазина и аккаунта.",
+  "When: {time}. Tap for {next}.": "Время: {time}. Нажмите для варианта «{next}»."
 }

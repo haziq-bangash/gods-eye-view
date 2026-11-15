@@ -3882,5 +3882,11 @@
   "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "カウプのライン川水位です。150 cm を下回ると船は積荷を減らさねばならず、道路輸送が増えます。水位が非常に高いと航行が止まります。",
   "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "回廊沿いで最も強い DWD 公式気象警報です：黄 25、橙 50、赤 75、濃赤 100。",
   "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "各要素は 0〜100 で採点され、重み付けされます：通行止め 35%、トラック駐車 20%、水位 25%、天候 20%。33 未満は低、33〜66 はやや高、66 超は高。目安であり、遅延予測ではありません。",
-  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "カウプの水位が貨物輸送に与える影響の大きさで、0（通常、150〜460 cm）から 100（40 cm 以下、または航行停止）まで。ライン回廊スコアの水位部分です。"
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "カウプの水位が貨物輸送に与える影響の大きさで、0（通常、150〜460 cm）から 100（40 cm 以下、または航行停止）まで。ライン回廊スコアの水位部分です。",
+  "Add Nadelöhr to your home screen": "Nadelöhr をホーム画面に追加",
+  "In Safari, tap Share, then “Add to Home Screen”.": "Safari で共有ボタンをタップし、「ホーム画面に追加」を選びます。",
+  "Install": "インストール",
+  "Not now": "今はしない",
+  "Opens full screen in one tap, like an app. No store, no account.": "アプリのようにワンタップで全画面表示。ストアもアカウントも不要です。",
+  "When: {time}. Tap for {next}.": "時間：{time}。タップで{next}に切り替え。"
 }

@@ -3981,5 +3981,11 @@
   "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "Der Rheinpegel in Kaub. Unter 150 cm müssen Schiffe Ladung zurücklassen, also verlagert sich mehr Fracht auf die Straße; sehr hohes Wasser stoppt die Schifffahrt.",
   "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "Die stärkste amtliche DWD-Wetterwarnung entlang des Korridors: Gelb 25, Orange 50, Rot 75, Dunkelrot 100.",
   "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "Jeder Teil wird mit 0–100 bewertet und gewichtet: Sperrungen 35 %, Lkw-Parken 20 %, Pegel 25 %, Wetter 20 %. Unter 33 ist niedrig, 33 bis 66 erhöht, über 66 hoch. Eine grobe Orientierung, keine Verspätungsprognose.",
-  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Wie stark der Pegel Kaub auf den Güterverkehr drückt, von 0 (normal, 150–460 cm) bis 100 (40 cm oder weniger, oder Schifffahrt eingestellt). Er ist der Wasseranteil am Wert des Rheinkorridors."
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Wie stark der Pegel Kaub auf den Güterverkehr drückt, von 0 (normal, 150–460 cm) bis 100 (40 cm oder weniger, oder Schifffahrt eingestellt). Er ist der Wasseranteil am Wert des Rheinkorridors.",
+  "Add Nadelöhr to your home screen": "Nadelöhr zum Home-Bildschirm hinzufügen",
+  "In Safari, tap Share, then “Add to Home Screen”.": "Tippe in Safari auf „Teilen“ und dann auf „Zum Home-Bildschirm“.",
+  "Install": "Installieren",
+  "Not now": "Nicht jetzt",
+  "Opens full screen in one tap, like an app. No store, no account.": "Öffnet sich mit einem Tipp im Vollbild, wie eine App. Kein Store, kein Konto.",
+  "When: {time}. Tap for {next}.": "Zeit: {time}. Tippen für {next}."
 }

@@ -28,14 +28,26 @@ watch(
   { deep: true },
 );
 
-/** Whether a card is minimised, and a toggle for it. */
-export function useCollapsed(id) {
+/**
+ * Whether a card is minimised, and a toggle for it. `byDefault` (a function)
+ * says whether it starts minimised; once the reader chooses, their choice
+ * wins ("!id" records an explicit "keep it open").
+ */
+export function useCollapsed(id, { byDefault = () => false } = {}) {
+  const isCollapsed = () =>
+    collapsed.value.has(id) ||
+    (Boolean(byDefault()) && !collapsed.value.has(`!${id}`));
   return {
-    isCollapsed: () => collapsed.value.has(id),
+    isCollapsed,
     toggle() {
       const next = new Set(collapsed.value);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+      if (isCollapsed()) {
+        next.delete(id);
+        next.add(`!${id}`);
+      } else {
+        next.add(id);
+        next.delete(`!${id}`);
+      }
       collapsed.value = next;
     },
   };
