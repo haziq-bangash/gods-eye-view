@@ -15,6 +15,21 @@ const GERMANY_CENTER = Object.freeze({ lat: 51.1, lon: 10.45 });
 const PHOTON_LANGS = new Set(['de', 'en', 'fr']);
 const ROAD = /^\s*a\s*-?\s*(\d{1,3})\s*$/i;
 
+/**
+ * "Hamburg → München", "Hamburg -> München", "Hamburg nach München",
+ * "Hamburg to Munich", "Hamburg – München": [from, to], else null. A plain
+ * hyphen needs spaces around it, so "Duisburg-Ruhrort" stays one place.
+ */
+export function routeQuery(text) {
+  const match =
+    /^\s*(.+?)\s*(?:→|->|—|–|\s-\s|\snach\s|\sto\s|\sbis\s)\s*(.+?)\s*$/i.exec(
+      String(text || ''),
+    );
+  if (!match) return null;
+  const [, from, to] = match;
+  return from.length >= 2 && to.length >= 2 ? [from, to] : null;
+}
+
 /** "a 7", "A-7", "a7" → "A7"; anything else → null. */
 export function autobahnQuery(text) {
   const match = ROAD.exec(String(text || ''));
@@ -24,6 +39,16 @@ export function autobahnQuery(text) {
 /** Results that need no network: roads, gauges and corridors. */
 export function localResults(text, { events = [], gauges = [] } = {}) {
   const results = [];
+  const trip = routeQuery(text);
+  if (trip)
+    return [
+      {
+        type: 'route',
+        id: `route:${trip.join('|')}`,
+        from: trip[0],
+        to: trip[1],
+      },
+    ];
   const road = autobahnQuery(text);
   if (road)
     results.push({
@@ -95,7 +120,7 @@ export async function searchPlacesDE(
   } = {},
 ) {
   const query = String(text || '').trim();
-  if (query.length < 2 || autobahnQuery(query)) return [];
+  if (query.length < 2 || autobahnQuery(query) || routeQuery(query)) return [];
   const response = await fetchImpl(placeSearchUrl(query, locale), { signal });
   if (!response.ok) return [];
   const data = await response.json();

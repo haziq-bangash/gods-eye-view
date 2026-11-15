@@ -232,7 +232,10 @@
       "src/nadeloehr/components/RouteCheck.vue",
       "src/nadeloehr/history.js",
       "src/nadeloehr/pins.js",
-      "src/nadeloehr/components/MyPins.vue"
+      "src/nadeloehr/components/MyPins.vue",
+      "src/nadeloehr/components/PanelTabs.vue",
+      "src/nadeloehr/components/IntroTour.vue",
+      "src/nadeloehr/components/InfoTip.vue"
     ],
     "external": [
       "vue",

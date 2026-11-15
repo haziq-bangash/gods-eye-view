@@ -5,6 +5,7 @@ export * from './records.js';
 export { createRiverLevelSource } from './source.js';
 
 const PICK_PREFIX = 'river-levels:';
+const NEAR_GAUGES = new Cesium.DistanceDisplayCondition(0, 700_000);
 
 /** One marker image per colour: a rounded square, white rim, white wave. */
 const _markers = new Map();
@@ -101,6 +102,9 @@ export function createRiverLevelLayer({
         height: size,
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        // At country scale only Kaub and the key gauges show; the rest
+        // appear when zoomed in, so the map stays readable.
+        distanceDisplayCondition: isKaub || row.key ? undefined : NEAR_GAUGES,
       },
       // Kaub carries its level on the map; the others show it when picked.
       label: isKaub

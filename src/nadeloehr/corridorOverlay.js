@@ -47,6 +47,12 @@ export function createCorridorOverlay(viewer) {
       }
       viewer.scene.requestRender?.();
     },
+    /** Show or hide the corridor bands (the route stays). */
+    setVisible(visible) {
+      if (destroyed || viewer.isDestroyed?.()) return;
+      source.show = Boolean(visible);
+      viewer.scene.requestRender?.();
+    },
     /**
      * Draw a checked route like a navigation route: a blue line on a white
      * casing, above the corridor bands. Null clears it. (The card shows its

@@ -4,6 +4,7 @@ import {
   autobahnQuery,
   localResults,
   placeSearchUrl,
+  routeQuery,
   searchPlacesDE,
 } from './search.js';
 
@@ -93,4 +94,19 @@ test('a city outranks hamlets of the same name', async () => {
     });
   const places = await searchPlacesDE('München', { fetchImpl });
   assert.equal(places[0].place.name, 'Munich');
+});
+
+test('a trip typed in search becomes a route check', () => {
+  for (const text of [
+    'Hamburg → München',
+    'Hamburg -> München',
+    'Hamburg nach München',
+    'hamburg to munich',
+    'Hamburg – München',
+    'Hamburg - München',
+  ])
+    assert.equal(localResults(text, {})[0]?.type, 'route', text);
+  assert.deepEqual(routeQuery('Hamburg nach München'), ['Hamburg', 'München']);
+  assert.equal(routeQuery('Duisburg-Ruhrort'), null);
+  assert.equal(routeQuery('Bad Hersfeld'), null);
 });

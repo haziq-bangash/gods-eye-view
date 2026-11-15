@@ -6,6 +6,8 @@ import { computed } from 'vue';
 import { t } from '../../i18n/index.js';
 import { comparedToUsual, corridorSeries } from '../history.js';
 import Sparkline from './Sparkline.vue';
+import InfoTip from './InfoTip.vue';
+import { LEVEL_EXPLAIN } from '../today.js';
 import Button from '../ui/Button.vue';
 
 const props = defineProps({
@@ -52,14 +54,17 @@ defineEmits(['close']);
       }}</span>
       <span class="text-title2 text-muted-foreground">/ 100</span>
     </div>
-    <span
-      class="nd-ink self-start rounded-full px-2.5 py-1 text-subhead font-bold"
-      :style="{
-        '--ink': corridor.color,
-        background: `color-mix(in oklch, ${corridor.color} 14%, transparent)`,
-      }"
-      >● {{ corridor.levelLabel }}</span
-    >
+    <span class="flex flex-wrap items-center gap-1">
+      <span
+        class="nd-ink self-start rounded-full px-2.5 py-1 text-subhead font-bold"
+        :style="{
+          '--ink': corridor.color,
+          background: `color-mix(in oklch, ${corridor.color} 14%, transparent)`,
+        }"
+        >● {{ corridor.levelLabel }}</span
+      >
+      <InfoTip :label="t('the score')" :text="t(LEVEL_EXPLAIN)" />
+    </span>
 
     <section
       v-if="history && corridor.id !== 'route'"
@@ -87,7 +92,10 @@ defineEmits(['close']);
         class="grid grid-cols-[1fr_auto] gap-x-2 gap-y-1"
         :class="part.available ? '' : 'opacity-55'"
       >
-        <span class="text-callout font-semibold">{{ part.label }}</span>
+        <span
+          class="flex flex-wrap items-center gap-x-1 text-callout font-semibold"
+          >{{ part.label }}<InfoTip :label="part.label" :text="part.explain"
+        /></span>
         <span class="text-callout font-semibold tabular-nums">{{
           part.available ? part.value : t('Soon')
         }}</span>

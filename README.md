@@ -17,6 +17,10 @@ server, and adds a German freight layer and an interface anyone can read.
 
 ### What is new in this fork
 
+- **Three tabs, one search.** Today, Routes and Map keep the panel short;
+  the same search finds a road, a town or a whole trip ("Hamburg → München").
+  A short intro on the first visit and an ⓘ beside each score part explain
+  what the numbers mean, and every legend item switches its marks on or off.
 - **Your roads and places.** Pin an Autobahn or a town from search; the top
   of the panel then says what applies to each of them.
 - **Seven days of history.** Every corridor's score is recorded hourly; its
@@ -154,6 +158,11 @@ More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
 
 ### Was dieser Fork neu macht
 
+- **Drei Reiter, eine Suche.** Heute, Routen und Karte halten den Bereich
+  kurz; dieselbe Suche findet eine Autobahn, einen Ort oder eine ganze Fahrt
+  („Hamburg → München“). Eine kurze Einführung beim ersten Besuch und ein ⓘ
+  neben jedem Teilwert erklären die Zahlen, und jeder Legendeneintrag blendet
+  seine Markierungen ein oder aus.
 - **Eigene Strecken und Orte.** Eine Autobahn oder einen Ort aus der Suche
   anheften; oben im Bereich steht dann, was für sie gerade gilt.
 - **Sieben Tage Verlauf.** Der Wert jedes Korridors wird stündlich

@@ -31,6 +31,8 @@ import MapStylePicker from './components/MapStylePicker.vue';
 import PlaceCard from './components/PlaceCard.vue';
 import RouteCheck from './components/RouteCheck.vue';
 import MyPins from './components/MyPins.vue';
+import PanelTabs from './components/PanelTabs.vue';
+import IntroTour from './components/IntroTour.vue';
 import SearchField from './components/SearchField.vue';
 import TodayStrip from './components/TodayStrip.vue';
 
@@ -145,11 +147,13 @@ const activeKpi = computed(
 function pickKpi(kpi) {
   const action = kpi.action || {};
   if (action.severity) {
+    app.setTab('today');
     app.setSeverity(action.severity);
     open();
   } else if (action.gauge) app.showGaugeOnMap(action.gauge);
   else if (action.rivers) {
     app.setLayer('river-levels', true);
+    app.setTab('map');
     open();
   } else if (action.warnings) {
     const [first] = app.warnings.value;
@@ -324,6 +328,7 @@ async function locate() {
 
     <MapLegend
       v-if="wider"
+      :app="app"
       class="pointer-events-auto absolute bottom-12 left-[432px]"
     />
 
@@ -421,23 +426,54 @@ async function locate() {
           :history="app.corridorHistory.value"
           @close="app.selectCorridor(null)"
         />
-        <div v-else class="flex flex-col gap-5">
-          <HeroCard
-            :headline="app.headline.value"
-            :horizon="app.horizon.value"
-            @open="openHeadline"
+        <div v-else class="flex flex-col gap-4">
+          <PanelTabs
+            class="sticky top-0 z-10"
+            :model-value="app.tab.value"
+            @update:model-value="app.setTab"
           />
-          <MyPins :app="app" />
-          <RouteCheck :app="app" />
-          <CorridorCards
-            :corridors="corridors"
-            :selected-id="app.selectedCorridorId.value"
-            @select="app.selectCorridor"
-          />
-          <DisruptionsSection :app="app" />
-          <HomePanel :app="app" :tools-in-bar="wide" />
+          <div
+            v-if="app.tab.value === 'today'"
+            id="nd-panel-today"
+            role="tabpanel"
+            aria-labelledby="nd-tab-today"
+            class="flex flex-col gap-5"
+          >
+            <HeroCard
+              :headline="app.headline.value"
+              :horizon="app.horizon.value"
+              @open="openHeadline"
+            />
+            <MyPins :app="app" />
+            <CorridorCards
+              :corridors="corridors"
+              :selected-id="app.selectedCorridorId.value"
+              @select="app.selectCorridor"
+            />
+            <DisruptionsSection :app="app" />
+          </div>
+          <div
+            v-else-if="app.tab.value === 'routes'"
+            id="nd-panel-routes"
+            role="tabpanel"
+            aria-labelledby="nd-tab-routes"
+            class="flex flex-col gap-5"
+          >
+            <RouteCheck :app="app" />
+          </div>
+          <div
+            v-else
+            id="nd-panel-map"
+            role="tabpanel"
+            aria-labelledby="nd-tab-map"
+          >
+            <HomePanel :app="app" :tools-in-bar="wide" />
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- First visit: a short welcome (once per browser). -->
+    <IntroTour v-if="app.kpis.value.length" />
   </div>
 </template>

@@ -71,6 +71,7 @@ function label(result) {
     return t('Autobahn {road}', { road: result.road });
   if (result.type === 'gauge') return result.gauge.name;
   if (result.type === 'corridor') return corridorTitle(result.corridor);
+  if (result.type === 'route') return `${result.from} → ${result.to}`;
   const place = result.place || result;
   return place?.name || place?.label || t('Unnamed place');
 }
@@ -86,6 +87,7 @@ function sublabel(result) {
   if (result.type === 'gauge')
     return `${levelText(result.gauge.levelCm)} · ${gaugeStatus(result.gauge).label}`;
   if (result.type === 'corridor') return t('Freight corridor');
+  if (result.type === 'route') return t('Check this route');
   const place = result.place || result;
   const text = place?.label || '';
   return text && text !== label(result) ? text : '';
@@ -93,6 +95,7 @@ function sublabel(result) {
 function badge(result) {
   if (result.type === 'gauge') return layerIcon('river-levels');
   if (result.type === 'corridor') return KIND_ICONS.warning;
+  if (result.type === 'route') return TOOL_ICONS.route;
   return TOOL_ICONS.place;
 }
 

@@ -3959,5 +3959,27 @@
   "{count} closures": {
     "one": "{count} Sperrung",
     "other": "{count} Sperrungen"
-  }
+  },
+  "Routes": "Routen",
+  "Views": "Ansichten",
+  "Check this route": "Diese Route prüfen",
+  "Welcome to Nadelöhr": "Willkommen bei Nadelöhr",
+  "The numbers show today": "Die Zahlen zeigen heute",
+  "The strip at the top counts closed roads, traffic warnings, the Rhine water level at Kaub and weather warnings. Tap one for the details, or switch to Tonight or Tomorrow to look ahead.": "Die Leiste oben zählt gesperrte Straßen, Verkehrswarnungen, den Rheinpegel in Kaub und Wetterwarnungen. Tippe auf eine Zahl für Details oder wechsle zu Heute Nacht oder Morgen für einen Blick nach vorn.",
+  "Corridors score the risk": "Korridore bewerten das Risiko",
+  "Each freight corridor gets a score from 0 to 100 from closures, truck parking, water level and weather. Tap a corridor to see what drives it.": "Jeder Güterkorridor erhält einen Wert von 0 bis 100 aus Sperrungen, Lkw-Parkplätzen, Pegelstand und Wetter. Tippe auf einen Korridor, um zu sehen, was ihn treibt.",
+  "Make it yours": "Mach es zu deinem",
+  "Pin an Autobahn or a town from search to follow it, or type a trip such as “Hamburg → München” to check your route.": "Hefte eine Autobahn oder einen Ort aus der Suche an, um ihn zu verfolgen, oder tippe eine Fahrt wie „Hamburg → München“, um deine Route zu prüfen.",
+  "Skip": "Überspringen",
+  "Next": "Weiter",
+  "Get started": "Los geht’s",
+  "What is {name}?": "Was ist {name}?",
+  "the score": "der Wert",
+  "What is the water score?": "Was ist der Wasserwert?",
+  "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "Gesperrte Straßen, Verkehrswarnungen und gesperrte Anschlussstellen auf diesem Korridor. Eine Sperrung zählt am meisten, normale Baustellen kaum.",
+  "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "Wie viele Lkw-Stellplätze es pro 100 km an Rastanlagen entlang der Strecke gibt, ohne Rastanlagen neben einer Sperrung. Weniger Plätze bedeuten einen höheren Wert.",
+  "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "Der Rheinpegel in Kaub. Unter 150 cm müssen Schiffe Ladung zurücklassen, also verlagert sich mehr Fracht auf die Straße; sehr hohes Wasser stoppt die Schifffahrt.",
+  "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "Die stärkste amtliche DWD-Wetterwarnung entlang des Korridors: Gelb 25, Orange 50, Rot 75, Dunkelrot 100.",
+  "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "Jeder Teil wird mit 0–100 bewertet und gewichtet: Sperrungen 35 %, Lkw-Parken 20 %, Pegel 25 %, Wetter 20 %. Unter 33 ist niedrig, 33 bis 66 erhöht, über 66 hoch. Eine grobe Orientierung, keine Verspätungsprognose.",
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Wie stark der Pegel Kaub auf den Güterverkehr drückt, von 0 (normal, 150–460 cm) bis 100 (40 cm oder weniger, oder Schifffahrt eingestellt). Er ist der Wasseranteil am Wert des Rheinkorridors."
 }

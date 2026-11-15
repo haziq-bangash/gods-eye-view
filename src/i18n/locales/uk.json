@@ -4157,5 +4157,27 @@
     "few": "{count} перекриття",
     "many": "{count} перекриттів",
     "other": "{count} перекриттів"
-  }
+  },
+  "Routes": "Маршрути",
+  "Views": "Розділи",
+  "Check this route": "Перевірити маршрут",
+  "Welcome to Nadelöhr": "Ласкаво просимо до Nadelöhr",
+  "The numbers show today": "Цифри показують сьогодні",
+  "The strip at the top counts closed roads, traffic warnings, the Rhine water level at Kaub and weather warnings. Tap one for the details, or switch to Tonight or Tomorrow to look ahead.": "Смуга вгорі показує кількість закритих доріг, дорожніх попереджень, рівень Рейну в Каубі та погодні попередження. Торкніться числа, щоб побачити деталі, або перемкніть на «Уночі» чи «Завтра», щоб зазирнути вперед.",
+  "Corridors score the risk": "Коридори оцінюють ризик",
+  "Each freight corridor gets a score from 0 to 100 from closures, truck parking, water level and weather. Tap a corridor to see what drives it.": "Кожен вантажний коридор отримує оцінку від 0 до 100 за перекриттями, стоянками для вантажівок, рівнем води та погодою. Торкніться коридору, щоб побачити, що на неї впливає.",
+  "Make it yours": "Налаштуйте під себе",
+  "Pin an Autobahn or a town from search to follow it, or type a trip such as “Hamburg → München” to check your route.": "Закріпіть автобан або місто з пошуку, щоб стежити за ними, або введіть поїздку, наприклад «Hamburg → München», щоб перевірити маршрут.",
+  "Skip": "Пропустити",
+  "Next": "Далі",
+  "Get started": "Почати",
+  "What is {name}?": "Що таке «{name}»?",
+  "the score": "оцінка",
+  "What is the water score?": "Що таке водна оцінка?",
+  "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "Закриті дороги, дорожні попередження та закриті з’їзди в цьому коридорі. Найбільше важить закрита дорога; звичайні дорожні роботи майже не враховуються.",
+  "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "Скільки місць для вантажівок припадає на 100 км на стоянках уздовж шляху, без стоянок біля перекриття. Що менше місць, то вища оцінка.",
+  "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "Рівень Рейну в Каубі. Нижче 150 см баржі мусять залишати частину вантажу, тож більше вантажів іде дорогами; дуже висока вода зупиняє судноплавство.",
+  "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "Найсильніше офіційне погодне попередження DWD уздовж коридору: жовте 25, помаранчеве 50, червоне 75, темно-червоне 100.",
+  "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "Кожна частина оцінюється від 0 до 100 і має вагу: перекриття 35 %, стоянки для вантажівок 20 %, рівень води 25 %, погода 20 %. Нижче 33 — низький, від 33 до 66 — підвищений, понад 66 — високий. Це орієнтир, а не прогноз затримок.",
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Наскільки рівень води в Каубі впливає на вантажоперевезення: від 0 (норма, 150–460 см) до 100 (40 см і нижче або судноплавство зупинено). Це водна частина оцінки рейнського коридору."
 }

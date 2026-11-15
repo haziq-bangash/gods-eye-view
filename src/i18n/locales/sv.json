@@ -2195,8 +2195,8 @@
     "other": "{count} kartobjekt"
   },
   ", drawn with its own styles": ", ritas med egna stilar",
-  "Hide {name}": "Dölj {name}",
-  "Show {name}": "Visa {name}",
+  "Hide {name}": "Dölj: {name}",
+  "Show {name}": "Visa: {name}",
   "Fly to {name}": "Flyg till {name}",
   "Remove {name}": "Ta bort {name}",
   "At most {count} files at once — remove one first.": "Högst {count} filer åt gången – ta bort en först.",
@@ -3959,5 +3959,27 @@
   "{count} closures": {
     "one": "{count} avstängning",
     "other": "{count} avstängningar"
-  }
+  },
+  "Routes": "Rutter",
+  "Views": "Vyer",
+  "Check this route": "Kontrollera rutten",
+  "Welcome to Nadelöhr": "Välkommen till Nadelöhr",
+  "The numbers show today": "Siffrorna visar i dag",
+  "The strip at the top counts closed roads, traffic warnings, the Rhine water level at Kaub and weather warnings. Tap one for the details, or switch to Tonight or Tomorrow to look ahead.": "Raden högst upp räknar avstängda vägar, trafikvarningar, Rhens vattennivå vid Kaub och vädervarningar. Tryck på en för detaljer, eller byt till I kväll eller I morgon för att se framåt.",
+  "Corridors score the risk": "Korridorerna poängsätter risken",
+  "Each freight corridor gets a score from 0 to 100 from closures, truck parking, water level and weather. Tap a corridor to see what drives it.": "Varje godskorridor får ett värde från 0 till 100 utifrån avstängningar, lastbilsparkering, vattennivå och väder. Tryck på en korridor för att se vad som påverkar den.",
+  "Make it yours": "Gör det till ditt",
+  "Pin an Autobahn or a town from search to follow it, or type a trip such as “Hamburg → München” to check your route.": "Fäst en motorväg eller en ort från sökningen för att följa den, eller skriv en resa som ”Hamburg → München” för att kontrollera rutten.",
+  "Skip": "Hoppa över",
+  "Next": "Nästa",
+  "Get started": "Kom igång",
+  "What is {name}?": "Vad är {name}?",
+  "the score": "värdet",
+  "What is the water score?": "Vad är vattenvärdet?",
+  "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "Avstängda vägar, trafikvarningar och stängda avfarter på korridoren. En avstängd väg väger tyngst; vanliga vägarbeten räknas knappt.",
+  "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "Hur många lastbilsplatser det finns per 100 km på rastplatser längs vägen, utom rastplatser intill en avstängning. Färre platser ger ett högre värde.",
+  "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "Rhens vattennivå vid Kaub. Under 150 cm måste pråmar lämna last kvar, så mer gods går på väg; mycket högt vatten stoppar sjöfarten.",
+  "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "Den starkaste officiella DWD-vädervarningen längs korridoren: gul 25, orange 50, röd 75, mörkröd 100.",
+  "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "Varje del får 0–100 och viktas: avstängningar 35 %, lastbilsparkering 20 %, vattennivå 25 %, väder 20 %. Under 33 är lågt, 33 till 66 förhöjt, över 66 högt. En grov vägledning, inte en förseningsprognos.",
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Hur mycket Kaubs vattennivå påverkar godstrafiken, från 0 (normalt, 150–460 cm) till 100 (40 cm eller mindre, eller sjöfarten stoppad). Det är vattendelen av Rhenkorridorens värde."
 }
