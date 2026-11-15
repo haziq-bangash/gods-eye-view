@@ -21,6 +21,11 @@ export const MAIN_LAYERS = Object.freeze([
     subtitle: msg('Hundreds of building sites, off by default'),
   }),
   Object.freeze({
+    id: 'river-levels',
+    title: msg('River water levels'),
+    subtitle: msg('Rhine and Elbe gauges, Kaub highlighted'),
+  }),
+  Object.freeze({
     id: 'weather-radar',
     title: msg('Rain radar'),
     subtitle: msg('Where it is raining now'),

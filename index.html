@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png" />
   <!-- Listed after the PNG: browsers that use the last usable icon keep the SVG
        for the tab. -->
-  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="icon" type="image/svg+xml" href="/brand/mark.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <meta name="theme-color" content="#1c100f" />
@@ -46,9 +46,16 @@
   <div class="gev-view" data-gev-view="nadeloehr-shell"></div>
 
   <!-- Loading screen -->
-  <div id="loading-screen">
+  <!-- The mark draws itself, then traffic flows along it until the map is
+       ready (styles in src/nadeloehr/styles.css). -->
+  <div id="loading-screen" class="nd-splash">
     <div class="loader-content">
-      <span class="loader-logo brand-logo" data-logo-gaze data-logo-src="/logo.svg" aria-hidden="true"><img src="/logo.svg" alt="" /></span>
+      <svg class="nd-splash-mark" viewBox="56 47 336 336" aria-hidden="true" focusable="false">
+        <path class="nd-splash-wave" pathLength="100" d="M92 304C92 178 134 122 172 122C214 122 230 182 246 234C259 278 272 298 298 298C324 298 334 264 334 222" />
+        <path class="nd-splash-flow" pathLength="100" d="M92 304C92 178 134 122 172 122C214 122 230 182 246 234C259 278 272 298 298 298C324 298 334 264 334 222" />
+        <circle class="nd-splash-dot" cx="300" cy="118" r="21" />
+        <circle class="nd-splash-dot nd-splash-dot-2" cx="362" cy="118" r="21" />
+      </svg>
       <h2 translate="no">Nadelöhr</h2>
       <p class="loader-status" data-i18n>Initializing photorealistic world...</p>
     </div>

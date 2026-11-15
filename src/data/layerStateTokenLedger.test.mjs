@@ -108,6 +108,7 @@ const beforeLastDigitRows = reservationRows.filter(
       'shipwrecks',
       'rail',
       'autobahn-traffic',
+      'river-levels',
     ].includes(id),
 );
 
@@ -146,6 +147,11 @@ function writeCodecFixture(cwd, rows, entries) {
       /  Object\.freeze\(\{\s*id: 'autobahn-traffic',[\s\S]*?\}\),\n/,
       '',
     );
+  if (!rows.some(([id]) => id === 'river-levels'))
+    source = source.replace(
+      /  Object\.freeze\(\{\s*id: 'river-levels',[\s\S]*?\}\),\n/,
+      '',
+    );
   const registryEnd = ']);\n\nexport const REGISTERED_LAYER_IDS';
   assert.equal(source.split(registryEnd).length, 2);
   const additions = entries
@@ -169,7 +175,7 @@ test('reservation ledger is complete, pinned, and rejects duplicate or malformed
     { ...parseLayerStateTokenReservations(reservationRows) },
     { ...LAYER_STATE_TOKEN_RESERVATIONS },
   );
-  assert.equal(Object.keys(LAYER_STATE_TOKEN_RESERVATIONS).length, 40);
+  assert.equal(Object.keys(LAYER_STATE_TOKEN_RESERVATIONS).length, 41);
   assert.deepEqual(
     { ...LAYER_STATE_TOKEN_RESERVATIONS },
     {
@@ -186,6 +192,7 @@ test('reservation ledger is complete, pinned, and rejects duplicate or malformed
       shipwrecks: '01',
       rail: '02',
       'autobahn-traffic': '03',
+      'river-levels': '04',
     },
   );
   assert.throws(
@@ -211,9 +218,9 @@ test('reservation ledger is complete, pinned, and rejects duplicate or malformed
     /Duplicate layer-state token reservation/,
   );
   assert.equal(
-    parseLayerStateTokenReservations([...reservationRows, ['future', '04']])
+    parseLayerStateTokenReservations([...reservationRows, ['future', '05']])
       .future,
-    '04',
+    '05',
   );
   assert.throws(
     () =>
@@ -444,19 +451,19 @@ test('an isolated valid two-character fixture round-trips an l field beyond the 
 test('checker reads a complete future base ledger and rejects retired-token reuse', () => {
   withPublishedBase(
     {
-      rows: [...reservationRows, ['retired-layer', '04']],
+      rows: [...reservationRows, ['retired-layer', '05']],
       source:
-        'export const LAYER_STATE_TOKEN_RESERVATIONS = Object.freeze({ ["retired-layer"]: "04" });\n',
+        'export const LAYER_STATE_TOKEN_RESERVATIONS = Object.freeze({ ["retired-layer"]: "05" });\n',
     },
     (cwd) => {
       const published = readPublishedLayerStateReservations('HEAD', cwd);
-      assert.equal(Object.keys(published).length, 41);
-      assert.equal(published['retired-layer'], '04');
+      assert.equal(Object.keys(published).length, 42);
+      assert.equal(published['retired-layer'], '05');
       assert.throws(
         () =>
           validateLayerStateAllocations(published, {
             ...LAYER_STATE_TOKEN_RESERVATIONS,
-            newcomer: '04',
+            newcomer: '05',
           }),
         /changed or removed/,
       );

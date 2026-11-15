@@ -32,6 +32,7 @@ import { ghostMapsProxy } from './ghostMaps.js';
 import { shipwrecksProxy } from './shipwrecks.js';
 import { droneAirspaceProxy } from './droneAirspace.js';
 import { autobahnProxy } from './autobahn.js';
+import { pegelonlineProxy } from './pegelonline.js';
 import { newsProxy } from './news.js';
 import { inaturalistProxy } from './inaturalist/observations.js';
 import { acartiaProxy } from './acartia.js';
@@ -92,6 +93,7 @@ function localProviderPlugins({
     shipwrecksProxy(),
     droneAirspaceProxy(),
     autobahnProxy(),
+    pegelonlineProxy(),
     newsProxy(),
     inaturalistProxy(),
     acartiaProxy(),

@@ -6,13 +6,14 @@ import { computed, ref, watch } from 'vue';
 import { t } from '../i18n/index.js';
 import { useApp } from './useApp.js';
 import { disruptionCard } from './disruptions.js';
+import { gaugeCard, kaubSummary } from './rivers.js';
+import GaugeCard from './components/GaugeCard.vue';
+import BrandMark from './components/BrandMark.vue';
 import HomePanel from './components/HomePanel.vue';
 import MapControls from './components/MapControls.vue';
 import MapStylePicker from './components/MapStylePicker.vue';
 import PlaceCard from './components/PlaceCard.vue';
 import SearchField from './components/SearchField.vue';
-import IconBadge from './components/IconBadge.vue';
-import { SYSTEM_COLORS } from './icons.js';
 
 const app = useApp();
 
@@ -24,6 +25,12 @@ const expanded = computed(() => sheet.value !== 'peek');
 const card = computed(() =>
   app.selected.value ? disruptionCard(app.selected.value) : null,
 );
+const gauge = computed(() =>
+  app.selectedGauge.value ? gaugeCard(app.selectedGauge.value) : null,
+);
+watch(gauge, (next) => {
+  if (next && sheet.value === 'peek') sheet.value = 'half';
+});
 watch(card, (next) => {
   if (next && sheet.value === 'peek') sheet.value = 'half';
 });
@@ -72,6 +79,13 @@ const peekSummary = computed(() => {
   if (!rows.length) return t('Loading Autobahn disruptions…');
   const closed = rows.filter((row) => row.kind === 'closure').length;
   const warnings = rows.filter((row) => row.kind === 'warning').length;
+  const kaub = kaubSummary(app.gauges.value);
+  if (kaub)
+    return t('{closed} closed · {warnings} warnings · Kaub {level}', {
+      closed,
+      warnings,
+      level: kaub.level,
+    });
   return t('{closed} closed · {warnings} warnings · tap for details', {
     closed,
     warnings,
@@ -117,6 +131,7 @@ async function locate() {
 
 function closeCard() {
   app.select(null);
+  app.selectGauge(null);
 }
 </script>
 
@@ -126,7 +141,7 @@ function closeCard() {
     <div
       class="glass pointer-events-auto absolute top-[max(1rem,env(safe-area-inset-top))] left-4 flex items-center gap-2 rounded-full py-1.5 ps-2 pe-4"
     >
-      <IconBadge text="N" :color="SYSTEM_COLORS.brand" size="sm" />
+      <BrandMark class="size-7 text-foreground" />
       <span class="text-headline font-bold" translate="no">Nadelöhr</span>
     </div>
 
@@ -205,7 +220,7 @@ function closeCard() {
             @focus="sheet === 'peek' && toggleSheet()"
           />
           <button
-            v-if="!expanded && !card"
+            v-if="!expanded && !card && !gauge"
             type="button"
             class="mt-2 w-full cursor-pointer truncate px-1 text-start text-callout text-muted-foreground"
             @click="toggleSheet"
@@ -224,6 +239,13 @@ function closeCard() {
           :card="card"
           @close="closeCard"
           @focus="app.showOnMap(app.selected.value, { close: true })"
+          @share="app.share()"
+        />
+        <GaugeCard
+          v-else-if="gauge"
+          :card="gauge"
+          @close="closeCard"
+          @focus="app.showGaugeOnMap(app.selectedGauge.value, { close: true })"
           @share="app.share()"
         />
         <HomePanel v-else :app="app" />

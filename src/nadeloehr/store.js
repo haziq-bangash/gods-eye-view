@@ -3,8 +3,8 @@ import { computed, shallowRef } from 'vue';
 
 /**
  * What the Nadelöhr shell reads from the running application: the services
- * it drives (published once the scene and tools exist) and the Autobahn
- * events the layer hands over (published by the layer's onRows/onSelect).
+ * it drives (published once the scene and tools exist), and the Autobahn
+ * events and river gauges the layers hand over (their onRows/onSelect).
  */
 export const useNadeloehrStore = defineStore('nadeloehr', () => {
   /**
@@ -21,6 +21,10 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
   const disruptions = shallowRef([]);
   /** The event the user picked on the map or in the list. */
   const selected = shallowRef(null);
+  /** Rhine and Elbe gauges, as the river layer last drew them. */
+  const gauges = shallowRef([]);
+  /** The gauge the user picked; one card shows at a time. */
+  const selectedGauge = shallowRef(null);
   /** Bumped when layer state changes, so computed reads re-run. */
   const layerRevision = shallowRef(0);
 
@@ -39,6 +43,20 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
 
   function publishSelected(row) {
     selected.value = row || null;
+    if (row) selectedGauge.value = null;
+  }
+
+  function publishGauges(rows) {
+    gauges.value = Array.isArray(rows) ? rows : [];
+    const picked = selectedGauge.value;
+    if (picked)
+      selectedGauge.value =
+        gauges.value.find((row) => row.stableId === picked.stableId) || null;
+  }
+
+  function publishSelectedGauge(row) {
+    selectedGauge.value = row || null;
+    if (row) selected.value = null;
   }
 
   function touchLayers() {
@@ -50,10 +68,14 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
     ready,
     disruptions,
     selected,
+    gauges,
+    selectedGauge,
     layerRevision,
     connect,
     publishDisruptions,
     publishSelected,
+    publishGauges,
+    publishSelectedGauge,
     touchLayers,
   };
 });

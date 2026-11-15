@@ -1,21 +1,25 @@
+<p align="center"><img src="public/icons/icon-180.png" width="96" height="96" alt="Nadelöhr logo" /></p>
+
 # Nadelöhr
 
 **Freight bottlenecks across Germany, on one live map.** Nadelöhr shows
 Autobahn closures, junction closures, warnings and roadworks from the Autobahn
-GmbH API in an Apple Maps-style interface that anyone can use: search a place,
+GmbH API, and Rhine and Elbe water levels from PEGELONLINE with Kaub, the
+Middle Rhine bottleneck, highlighted, in an Apple Maps-style interface that anyone can use: search a place,
 see what is closed right now, tap an event for a plain explanation and the
 official notice. Light and dark, phone and desktop, 13 languages.
 
 **Engpässe im deutschen Güterverkehr auf einer Live-Karte.** Nadelöhr zeigt
 Sperrungen, gesperrte Anschlussstellen, Warnungen und Baustellen auf der
-Autobahn (Autobahn GmbH) in einer Oberfläche im Stil von Apple Karten: Ort
+Autobahn (Autobahn GmbH) und die Pegel an Rhein und Elbe (PEGELONLINE) mit
+Kaub, dem Engpass am Mittelrhein, in einer Oberfläche im Stil von Apple Karten: Ort
 suchen, sehen, was gerade gesperrt ist, und ein Ereignis antippen für eine
 verständliche Erklärung und den amtlichen Hinweis.
 
 Nadelöhr is a fork of [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view)
 (MIT). What this fork adds is described in
 [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md) under "Nadelöhr interface" and
-"Autobahn Closures & Roadworks"; data sources and licences are in
+"Rhine & Elbe Water Levels" and "Autobahn Closures & Roadworks"; data sources and licences are in
 [DATA_SOURCES.md](DATA_SOURCES.md). Data is shown for information only — always
 follow road signs and official notices.
 

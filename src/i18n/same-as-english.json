@@ -252,7 +252,9 @@
     "1 min/s",
     "{length} km",
     "Transport",
-    "{speed} km/h"
+    "{speed} km/h",
+    "{level} cm",
+    "Elbe"
   ],
   "es": [
     "1 min/s",
@@ -419,7 +421,8 @@
     "VIRTUAL",
     "{length} km",
     "+{minutes} min",
-    "{speed} km/h"
+    "{speed} km/h",
+    "{level} cm"
   ],
   "fr": [
     "1 min/s",
@@ -650,7 +653,9 @@
     "+{minutes} min",
     "Direction",
     "{speed} km/h",
-    "Trains"
+    "Trains",
+    "{level} cm",
+    "Elbe"
   ],
   "it": [
     "1 min/s",
@@ -860,7 +865,9 @@
     "{length} km",
     "Satellite",
     "+{minutes} min",
-    "{speed} km/h"
+    "{speed} km/h",
+    "{level} cm",
+    "{change} cm in 24 h"
   ],
   "ja": [
     "1090 MHz",
@@ -927,7 +934,8 @@
     "ICAO: {id}",
     "MMSI: {id}",
     "NORAD: {id}",
-    "{length} km"
+    "{length} km",
+    "{level} cm"
   ],
   "pt": [
     "1 min/s",
@@ -1094,7 +1102,8 @@
     "VIRTUAL",
     "{length} km",
     "+{minutes} min",
-    "{speed} km/h"
+    "{speed} km/h",
+    "{level} cm"
   ],
   "ru": [
     "1900–1945",
@@ -1295,7 +1304,9 @@
     "{length} km",
     "Transport",
     "+{minutes} min",
-    "{speed} km/h"
+    "{speed} km/h",
+    "{level} cm",
+    "Elbe"
   ],
   "uk": [
     "1900–1945",

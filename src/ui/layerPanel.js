@@ -106,7 +106,7 @@ const PANEL_GROUPS = [
   // Nadelöhr: German road and river freight disruption layers.
   {
     label: msg('Freight'),
-    ids: ['autobahn-traffic'],
+    ids: ['autobahn-traffic', 'river-levels'],
   },
   // Directions renders in the Utilities panel, beside Draw and Import, and
   // needs no heading there.

@@ -1481,5 +1481,17 @@
   "src/nadeloehr/ui/utils.js",
   "src/nadeloehr/ui/button.js",
   "src/nadeloehr/styles.css",
-  "src/nadeloehr/camera.js"
+  "src/nadeloehr/camera.js",
+  "src/layers/riverLevels/index.js",
+  "src/layers/riverLevels/records.js",
+  "src/layers/riverLevels/source.js",
+  "src/layers/riverLevels/records.test.mjs",
+  "src/layers/riverLevels/source.test.mjs",
+  "src/app/layers/riverLevels.js",
+  "server/providers/pegelonline.js",
+  "src/data/pegelonlineProxy.test.mjs",
+  "src/nadeloehr/rivers.js",
+  "src/nadeloehr/rivers.test.mjs",
+  "src/nadeloehr/components/GaugeCard.vue",
+  "src/nadeloehr/components/BrandMark.vue"
 ]

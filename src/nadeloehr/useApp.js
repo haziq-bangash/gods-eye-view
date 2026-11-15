@@ -14,12 +14,20 @@ import { useVoiceStore } from '../ui/stores/voice.js';
 import { useNadeloehrStore } from './store.js';
 
 const AUTOBAHN = 'autobahn-traffic';
+const RIVERS = 'river-levels';
 
 export function useApp() {
   const store = useNadeloehrStore();
   const globe = useGlobeActionsStore();
-  const { services, ready, disruptions, selected, layerRevision } =
-    storeToRefs(store);
+  const {
+    services,
+    ready,
+    disruptions,
+    selected,
+    gauges,
+    selectedGauge,
+    layerRevision,
+  } = storeToRefs(store);
   const camera = computed(() => globe.camera);
 
   // Layer state, refreshed whenever the manager reports a change.
@@ -44,8 +52,10 @@ export function useApp() {
     return manager?.getAll ? manager.getAll() : [];
   });
   const layerById = (id) => layers.value.find((layer) => layer.id === id);
-  const autobahnModule = () =>
-    services.value?.dataManager?.layers?.get?.(AUTOBAHN)?.module || null;
+  const layerModule = (id) =>
+    services.value?.dataManager?.layers?.get?.(id)?.module || null;
+  const autobahnModule = () => layerModule(AUTOBAHN);
+  const riverModule = () => layerModule(RIVERS);
 
   async function run(name, args = {}) {
     const runner = services.value?.run;
@@ -106,8 +116,16 @@ export function useApp() {
     }
   }
 
+  // One card at a time: picking an event or a gauge clears the other.
   function select(row) {
+    if (row) riverModule()?.select?.(null);
     autobahnModule()?.select?.(row ? row.stableId : null);
+  }
+  function selectGauge(row) {
+    if (row) autobahnModule()?.select?.(null);
+    const module = riverModule();
+    if (!module?.select?.(row ? row.stableId : null))
+      store.publishSelectedGauge(row || null);
   }
   /** Fly straight down onto a point, north up, like Apple Maps does. */
   function flyFlat(lat, lon, altitudeM) {
@@ -119,6 +137,11 @@ export function useApp() {
     if (!row) return;
     select(row);
     flyFlat(row.lat, row.lon, close ? 4_000 : 30_000);
+  }
+  function showGaugeOnMap(row, { close = false } = {}) {
+    if (!row) return;
+    selectGauge(row);
+    flyFlat(row.lat, row.lon, close ? 15_000 : 40_000);
   }
   const kindVisible = (kind) => {
     void layerRevision.value;
@@ -245,6 +268,10 @@ export function useApp() {
     selected,
     select,
     showOnMap,
+    gauges,
+    selectedGauge,
+    selectGauge,
+    showGaugeOnMap,
     kindVisible,
     setKindVisible,
     mapStyle,
