@@ -4086,5 +4086,10 @@
   "Install": "Instalar",
   "Not now": "Agora não",
   "Opens full screen in one tap, like an app. No store, no account.": "Abre em tela cheia com um toque, como um app. Sem loja, sem conta.",
-  "When: {time}. Tap for {next}.": "Quando: {time}. Toque para {next}."
+  "When: {time}. Tap for {next}.": "Quando: {time}. Toque para {next}.",
+  "You have asked your {count} questions for today. Ask again tomorrow.": {
+    "one": "Você já fez sua {count} pergunta de hoje. Pergunte de novo amanhã.",
+    "other": "Você já fez suas {count} perguntas de hoje. Pergunte de novo amanhã.",
+    "many": "Você já fez suas {count} perguntas de hoje. Pergunte de novo amanhã."
+  }
 }

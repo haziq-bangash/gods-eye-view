@@ -11,6 +11,11 @@ import {
   isGeminiRequestOriginAllowed,
 } from '../gemini/request.js';
 import { parseUsage } from './textTools.js';
+import {
+  createDailyLimit,
+  isNewQuestion,
+  resolveDailyAllowance,
+} from './dailyLimit.js';
 
 const MAX_BYTES = 512 * 1024;
 const FAILURE = 'Could not connect. Try again.';
@@ -62,6 +67,9 @@ export function createTextChatHandler({
   // A public deployment's exact origin (see hostedChatClient); unset keeps
   // the chat local-only.
   resolvePublicOrigin = () => process.env.GEV_PUBLIC_ASSISTANT_ORIGIN,
+  // Public visitors' questions per Berlin day (default 10; 0 = no limit).
+  resolveDailyQuestions = () =>
+    process.env.GEV_PUBLIC_ASSISTANT_DAILY_QUESTIONS,
   resolveRateLimit = () =>
     process.env[`GEV_RATELIMIT_${provider.toUpperCase()}_CHAT_PER_MIN`],
   // An unset chat throttle follows the provider's own cost throttle.
@@ -73,6 +81,7 @@ export function createTextChatHandler({
   timeoutMs = 60000,
 } = {}) {
   let limiter;
+  let daily;
   let rejected = null;
   return async (req, res) => {
     if (req.aborted || res.destroyed || res.writableEnded) return;
@@ -155,6 +164,25 @@ export function createTextChatHandler({
       const prepared = prepare(input);
       if (!prepared) return reply(400, FAILURE);
       if (prepared.errorStatus) return reply(prepared.errorStatus, FAILURE);
+      if (hosted) {
+        if (daily === undefined) {
+          const questions = resolveDailyAllowance(resolveDailyQuestions(), 10);
+          daily = createDailyLimit({
+            questions,
+            requests: questions * 10,
+            now,
+          });
+        }
+        const over = daily.take(hosted, { question: isNewQuestion(input) });
+        if (over) {
+          res.setHeader('Retry-After', String(over.retryAfter));
+          return reply(429, {
+            error: FAILURE,
+            code: over.code,
+            allowance: over.allowance,
+          });
+        }
+      }
       const { endpoint, body, headers } = prepared;
       lifetime.signal.throwIfAborted();
       const acquisition = Promise.resolve(

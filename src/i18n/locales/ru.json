@@ -4185,5 +4185,11 @@
   "Install": "Установить",
   "Not now": "Не сейчас",
   "Opens full screen in one tap, like an app. No store, no account.": "Открывается на весь экран одним нажатием, как приложение. Без магазина и аккаунта.",
-  "When: {time}. Tap for {next}.": "Время: {time}. Нажмите для варианта «{next}»."
+  "When: {time}. Tap for {next}.": "Время: {time}. Нажмите для варианта «{next}».",
+  "You have asked your {count} questions for today. Ask again tomorrow.": {
+    "one": "Вы задали свой {count} вопрос на сегодня. Спросите снова завтра.",
+    "few": "Вы задали свои {count} вопроса на сегодня. Спросите снова завтра.",
+    "many": "Вы задали свои {count} вопросов на сегодня. Спросите снова завтра.",
+    "other": "Вы задали свои {count} вопросов на сегодня. Спросите снова завтра."
+  }
 }

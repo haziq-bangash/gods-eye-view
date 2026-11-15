@@ -710,7 +710,8 @@
       "src/voice/layerManifest.js",
       "server/providers/openai/toolDescriptions.js",
       "src/sources/rateLimit.js",
-      "server/providers/overpass/constants.js"
+      "server/providers/overpass/constants.js",
+      "server/providers/common/dailyLimit.js"
     ],
     "external": []
   },

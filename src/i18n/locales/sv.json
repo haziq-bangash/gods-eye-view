@@ -3987,5 +3987,9 @@
   "Install": "Installera",
   "Not now": "Inte nu",
   "Opens full screen in one tap, like an app. No store, no account.": "Öppnas i helskärm med ett tryck, som en app. Ingen butik, inget konto.",
-  "When: {time}. Tap for {next}.": "När: {time}. Tryck för {next}."
+  "When: {time}. Tap for {next}.": "När: {time}. Tryck för {next}.",
+  "You have asked your {count} questions for today. Ask again tomorrow.": {
+    "one": "Du har ställt din {count} fråga för i dag. Fråga igen i morgon.",
+    "other": "Du har ställt dina {count} frågor för i dag. Fråga igen i morgon."
+  }
 }

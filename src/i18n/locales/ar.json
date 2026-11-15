@@ -4383,5 +4383,13 @@
   "Install": "تثبيت",
   "Not now": "ليس الآن",
   "Opens full screen in one tap, like an app. No store, no account.": "يُفتح بملء الشاشة بلمسة واحدة مثل التطبيق. بلا متجر ولا حساب.",
-  "When: {time}. Tap for {next}.": "الوقت: {time}. اضغط لعرض {next}."
+  "When: {time}. Tap for {next}.": "الوقت: {time}. اضغط لعرض {next}.",
+  "You have asked your {count} questions for today. Ask again tomorrow.": {
+    "zero": "لقد طرحت أسئلتك اليوم ({count}). اسأل مجددًا غدًا.",
+    "one": "لقد طرحت أسئلتك اليوم ({count}). اسأل مجددًا غدًا.",
+    "two": "لقد طرحت أسئلتك اليوم ({count}). اسأل مجددًا غدًا.",
+    "few": "لقد طرحت أسئلتك اليوم ({count}). اسأل مجددًا غدًا.",
+    "many": "لقد طرحت أسئلتك اليوم ({count}). اسأل مجددًا غدًا.",
+    "other": "لقد طرحت أسئلتك اليوم ({count}). اسأل مجددًا غدًا."
+  }
 }
