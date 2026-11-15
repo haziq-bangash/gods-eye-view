@@ -76,6 +76,8 @@
 }
 
 @theme inline {
+  --color-primary-ink: var(--primary-ink);
+  --color-primary-fill: var(--primary-fill);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -549,5 +551,29 @@
     bottom: auto;
     width: 125vw;
     height: 125vh;
+  }
+}
+
+/* ── Contrast ───────────────────────────────────────────────────────────
+   Toxic Orange and Apple's system colours stay as fills, dots and bars.
+   As text they are too light on white (2–3.5:1), so text uses an "ink"
+   of the same hue mixed toward the foreground: darker in light mode,
+   lighter in dark mode, at least 4.5:1 in both. Buttons that carry white
+   text use a deeper orange fill. */
+.nadeloehr {
+  --primary-ink: color-mix(in oklch, var(--primary) 66%, var(--foreground));
+  --primary-fill: oklch(0.56 0.19 38);
+}
+.nadeloehr .nd-ink {
+  color: color-mix(in oklch, var(--ink, currentColor) 58%, var(--foreground));
+}
+
+/* The 80% desktop scale shrinks every size; small text keeps a floor of
+   about 11 px as rendered so captions stay readable. */
+@media (min-width: 1024px) {
+  .nadeloehr.nd-compact .text-caption,
+  .nadeloehr.nd-compact .text-subhead,
+  .nadeloehr.nd-compact .nd-eyebrow {
+    font-size: 14px;
   }
 }

@@ -87,7 +87,7 @@ watch(
         <p class="text-body">{{ t('Disruptions are hidden.') }}</p>
         <button
           type="button"
-          class="cursor-pointer rounded-full bg-primary px-4 py-2 text-callout font-semibold text-primary-foreground"
+          class="cursor-pointer rounded-full bg-primary-fill px-4 py-2 text-callout font-semibold text-primary-foreground"
           @click="app.setLayer('autobahn-traffic', true)"
         >
           {{ t('Show') }}
@@ -115,14 +115,14 @@ watch(
             @click="app.setSeverity(entry.severity)"
           >
             <span
-              class="nd-figure block text-[28px] leading-none"
-              :style="{ color: SEVERITY_COLORS[entry.severity] }"
+              class="nd-figure nd-ink block text-[28px] leading-none"
+              :style="{ '--ink': SEVERITY_COLORS[entry.severity] }"
               >{{ entry.count }}</span
             >
             <span class="mt-1 block truncate text-caption font-semibold">{{
               severityCopy(entry.severity).label
             }}</span>
-            <span class="block truncate text-[11px] text-muted-foreground">{{
+            <span class="block truncate text-caption text-muted-foreground">{{
               severityCopy(entry.severity).hint
             }}</span>
           </button>
@@ -168,7 +168,7 @@ watch(
               </span>
               <span
                 v-if="row.delayMinutes > 0"
-                class="shrink-0 text-subhead font-semibold text-primary"
+                class="shrink-0 text-subhead font-semibold text-primary-ink"
               >
                 {{ t('+{minutes} min', { minutes: row.delayMinutes }) }}
               </span>
@@ -183,7 +183,7 @@ watch(
         <button
           v-if="filtered.length > shown.length"
           type="button"
-          class="mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary hover:bg-accent"
+          class="mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary-ink hover:bg-accent"
           @click="showAll = true"
         >
           {{ tn(filtered.length, 'Show all {count}', 'Show all {count}') }}
@@ -191,7 +191,7 @@ watch(
         <button
           v-else-if="!app.severity.value && minorCount"
           type="button"
-          class="mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary hover:bg-accent"
+          class="mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary-ink hover:bg-accent"
           @click="app.setSeverity('minor')"
         >
           {{

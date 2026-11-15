@@ -313,7 +313,7 @@ async function locate() {
 
     <MapLegend
       v-if="wider"
-      class="pointer-events-auto absolute bottom-4 left-[432px]"
+      class="pointer-events-auto absolute bottom-12 left-[432px]"
     />
 
     <!-- A tool's short message -->

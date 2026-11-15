@@ -160,7 +160,7 @@ const tools = computed(() => [
           <p class="text-body">{{ t('Weather warnings are hidden.') }}</p>
           <button
             type="button"
-            class="cursor-pointer rounded-full bg-primary px-4 py-2 text-callout font-semibold text-primary-foreground"
+            class="cursor-pointer rounded-full bg-primary-fill px-4 py-2 text-callout font-semibold text-primary-foreground"
             @click="app.setLayer('weather-warnings', true)"
           >
             {{ t('Show') }}
@@ -205,7 +205,7 @@ const tools = computed(() => [
           <button
             v-if="warningRows.length > shownWarnings.length"
             type="button"
-            class="mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary hover:bg-accent"
+            class="mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary-ink hover:bg-accent"
             @click="showAllWarnings = true"
           >
             {{ tn(warningRows.length, 'Show all {count}', 'Show all {count}') }}
@@ -238,7 +238,7 @@ const tools = computed(() => [
           <p class="text-body">{{ t('Water levels are hidden.') }}</p>
           <button
             type="button"
-            class="cursor-pointer rounded-full bg-primary px-4 py-2 text-callout font-semibold text-primary-foreground"
+            class="cursor-pointer rounded-full bg-primary-fill px-4 py-2 text-callout font-semibold text-primary-foreground"
             @click="app.setLayer('river-levels', true)"
           >
             {{ t('Show') }}
@@ -344,7 +344,7 @@ const tools = computed(() => [
           <span class="flex-1 text-headline">{{ t('More on the map') }}</span>
           <span
             v-if="moreOnCount"
-            class="text-subhead font-semibold text-primary"
+            class="text-subhead font-semibold text-primary-ink"
             >{{ tn(moreOnCount, '{count} on', '{count} on') }}</span
           >
           <PhCaretDown

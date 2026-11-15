@@ -75,8 +75,8 @@ const compassStyle = () => ({
         <IconBadge v-if="tilted" :icon="PhCube" :color="C.brand" size="sm" />
         <PhCube
           v-else
-          class="size-5"
-          :style="{ color: C.orange }"
+          class="nd-ink size-5"
+          :style="{ '--ink': C.orange }"
           weight="fill"
         />
       </button>
@@ -111,7 +111,11 @@ const compassStyle = () => ({
         :title="t('Zoom in')"
         @click="$emit('zoom-in')"
       >
-        <PhPlus class="size-5" :style="{ color: C.gray }" weight="bold" />
+        <PhPlus
+          class="nd-ink size-5"
+          :style="{ '--ink': C.gray }"
+          weight="bold"
+        />
       </button>
       <span class="mx-2.5 h-px bg-border" aria-hidden="true"></span>
       <button
@@ -121,7 +125,11 @@ const compassStyle = () => ({
         :title="t('Zoom out')"
         @click="$emit('zoom-out')"
       >
-        <PhMinus class="size-5" :style="{ color: C.gray }" weight="bold" />
+        <PhMinus
+          class="nd-ink size-5"
+          :style="{ '--ink': C.gray }"
+          weight="bold"
+        />
       </button>
     </div>
   </div>

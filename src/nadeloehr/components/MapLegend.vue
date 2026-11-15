@@ -29,7 +29,8 @@ import { SEVERITY_COLORS, severityCopy } from '../disruptions.js';
     </span>
     <span class="flex items-center gap-1.5">
       <span
-        class="grid size-3 place-items-center rounded-[3px] border border-white bg-[#007aff] text-[8px] leading-none font-extrabold text-white shadow-[0_0_0_1px_rgb(0_0_0/0.12)]"
+        class="grid size-3.5 place-items-center rounded-[3px] border border-white bg-[#0062cc] text-[10px] leading-none font-extrabold text-white shadow-[0_0_0_1px_rgb(0_0_0/0.12)]"
+        aria-hidden="true"
         >P</span
       >
       {{ t('Truck parking') }}
