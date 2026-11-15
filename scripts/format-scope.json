@@ -1529,5 +1529,7 @@
   "src/app/layers/truckParking.js",
   "src/nadeloehr/components/ParkingCard.vue",
   "src/tools/queries/freight.js",
-  "src/tools/queries/freight.test.mjs"
+  "src/tools/queries/freight.test.mjs",
+  "scripts/render-start.mjs",
+  "src/tooling/renderStart.test.mjs"
 ]

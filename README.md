@@ -103,6 +103,17 @@ assistant, follow [docs/MCP_SETUP.md](docs/MCP_SETUP.md) and ask for
 
 ### Deploy
 
+**On Render (set up):** the repository carries a Render Blueprint,
+[`render.yaml`](render.yaml). In Render choose **New → Blueprint**, connect
+this GitHub repository and apply it. Render builds the app
+(`npm ci && npm run build`) and serves it in Frankfurt with
+`scripts/render-start.mjs`, which runs the production server with every data
+route and allows the service's `*.onrender.com` name automatically. Every push
+to `main` deploys. The free plan sleeps after 15 minutes without visits, so
+the first page after a pause takes about a minute.
+
+**Elsewhere:**
+
 Nadelöhr is one Node process: the server that serves the page also runs the
 data routes (`/api/autobahn`, `/api/pegel`, `/api/dwd`), so it needs a host
 that runs a container or a Node service, not static hosting. The repository's
@@ -201,7 +212,7 @@ Schlüssel nötig.
 
 ### Veröffentlichen
 
-Nadelöhr ist ein einziger Node-Prozess, der auch die Datenrouten bedient; es
+Auf Render: in Render **New → Blueprint** wählen und dieses Repository verbinden; `render.yaml` erledigt den Rest, und jeder Push auf `main` wird veröffentlicht. Nadelöhr ist ein einziger Node-Prozess, der auch die Datenrouten bedient; es
 braucht also einen Container- oder Node-Host, kein statisches Hosting. Das
 `Dockerfile` im Repository ist die ganze Anwendung (`docker build`, dann
 `docker run -p 4173:4173 -e GEV_ALLOWED_HOSTS=ihre.domain`). Die Domain muss in
