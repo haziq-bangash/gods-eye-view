@@ -200,8 +200,20 @@ export const corridorTitle = (corridor) => `${corridor.from} → ${corridor.to}`
 export function partWhy(entry, part) {
   if (!part.available)
     return part.key === 'P'
-      ? t('Truck parking data is coming soon.')
-      : t('Weather warnings are coming soon.');
+      ? t('Turn on truck parking to include it.')
+      : t('Turn on weather warnings to include them.');
+  if (part.key === 'P') {
+    const p = entry.parking || {};
+    return t(
+      '{usable} of {total} truck spaces usable at {areas} rest areas ({perKm} per 100 km)',
+      {
+        usable: formatNumber(p.usableSpaces ?? 0),
+        total: formatNumber(p.totalSpaces ?? 0),
+        areas: formatNumber(p.restAreas ?? 0),
+        perKm: formatNumber(p.perHundredKm ?? 0),
+      },
+    );
+  }
   if (part.key === 'C') {
     const c = entry.counts || {};
     return t(

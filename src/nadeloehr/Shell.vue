@@ -10,6 +10,8 @@ import { disruptionCard } from './disruptions.js';
 import { gaugeCard } from './rivers.js';
 import { warningCard } from './warnings.js';
 import WarningCard from './components/WarningCard.vue';
+import ParkingCard from './components/ParkingCard.vue';
+import { affectedParkingIds } from '../layers/truckParking/records.js';
 import { corridorView } from './today.js';
 import { kaubRow } from '../layers/riverLevels/records.js';
 import { useCollapsed } from './collapse.js';
@@ -56,6 +58,12 @@ const gauge = computed(() =>
 const warning = computed(() =>
   app.selectedWarning.value ? warningCard(app.selectedWarning.value) : null,
 );
+const parkingRow = computed(() => app.selectedParking.value);
+const parkingAffected = computed(
+  () =>
+    Boolean(parkingRow.value) &&
+    affectedParkingIds([parkingRow.value], app.disruptions.value).size > 0,
+);
 const corridors = computed(() => app.corridors.value.map(corridorView));
 const corridor = computed(
   () =>
@@ -74,6 +82,7 @@ function closeCard() {
   app.select(null);
   app.selectGauge(null);
   app.selectWarning(null);
+  app.selectParking(null);
 }
 
 // ── The sheet (below 1024 px): peek, half and full, as in Apple Maps ──
@@ -83,7 +92,10 @@ const expanded = computed(() => wide.value || sheet.value !== 'peek');
 function open() {
   if (!wide.value && sheet.value === 'peek') sheet.value = 'half';
 }
-watch([card, gauge, warning], ([a, b, c]) => (a || b || c) && open());
+watch(
+  [card, gauge, warning, parkingRow],
+  (selections) => selections.some(Boolean) && open(),
+);
 watch(corridor, (next) => next && !wider.value && open());
 function step(direction) {
   const order = narrow.value ? DETENTS : ['peek', 'full'];
@@ -382,6 +394,14 @@ async function locate() {
           :card="warning"
           @close="closeCard"
           @focus="app.showWarningOnMap(app.selectedWarning.value)"
+          @share="app.share()"
+        />
+        <ParkingCard
+          v-else-if="parkingRow"
+          :row="parkingRow"
+          :affected="parkingAffected"
+          @close="closeCard"
+          @focus="app.showParkingOnMap(parkingRow)"
           @share="app.share()"
         />
         <CorridorDetail

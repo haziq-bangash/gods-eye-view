@@ -17,6 +17,10 @@
 import { msg } from '../i18n/marker.js';
 import { kaubHydrologyScore } from '../layers/riverLevels/records.js';
 import { weatherScore } from '../layers/weatherWarnings/records.js';
+import { parkingScore } from '../layers/truckParking/records.js';
+
+/** Rest areas further than this from the corridor line are not on it. */
+export const PARKING_BUFFER_KM = 15;
 
 export const RISK_WEIGHTS = Object.freeze({ C: 0.35, P: 0.2, H: 0.25, W: 0.2 });
 
@@ -190,7 +194,8 @@ export function closureScore(events) {
  * @param {object} corridor - One of CORRIDORS.
  * @param {{events?: object[], kaubLevelCm?: ?number, parking?: ?number,
  *   warnings?: ?object[], weather?: ?number, now?: number}} inputs -
- *   Parking is a 0–100 sub-score once its layer exists (null until then).
+ *   P comes from the rest areas on the corridor (`restAreas`, null while
+ *   the parking layer is off); `parking` overrides it with a fixed score.
  *   W comes from the DWD warning rows crossing the corridor (null when the
  *   warnings layer is off); `weather` overrides it with a fixed score.
  * @returns {{id: string, score: ?number, level: ?string, parts: object[],
@@ -202,6 +207,7 @@ export function scoreCorridor(
     events = [],
     kaubLevelCm = null,
     parking = null,
+    restAreas = null,
     warnings = null,
     weather = null,
     now = Date.now(),
@@ -213,6 +219,23 @@ export function scoreCorridor(
   const onPath = Array.isArray(warnings)
     ? weatherScore(corridor.path, warnings, { now })
     : null;
+  const parkingDetail = Array.isArray(restAreas)
+    ? parkingScore(
+        corridor,
+        restAreas.filter(
+          (row) =>
+            corridor.roads.includes(row?.road) &&
+            Number.isFinite(row.lat) &&
+            Number.isFinite(row.lon) &&
+            distanceToPathKm([row.lon, row.lat], corridor.path) <=
+              PARKING_BUFFER_KM,
+        ),
+        events,
+      )
+    : null;
+  const parkingValue = Number.isFinite(parking)
+    ? parking
+    : (parkingDetail?.value ?? null);
   const weatherValue = Number.isFinite(weather)
     ? weather
     : (onPath?.value ?? null);
@@ -220,7 +243,7 @@ export function scoreCorridor(
     { key: 'C', value: closures.value, applies: true },
     {
       key: 'P',
-      value: Number.isFinite(parking) ? parking : null,
+      value: parkingValue,
       applies: true,
     },
     { key: 'H', value: hydrology, applies: Boolean(corridor.river) },
@@ -255,6 +278,7 @@ export function scoreCorridor(
     counts: closures.counts,
     points: closures.points,
     warnings: onPath?.warnings ?? [],
+    parking: parkingDetail,
     events: onCorridor,
   };
 }

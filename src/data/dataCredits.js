@@ -228,7 +228,7 @@ export const DATA_CREDITS = [
     html:
       'Autobahn traffic: ' +
       '<a href="https://www.autobahn.de/" target="_blank" rel="noopener">Die Autobahn GmbH des Bundes</a>' +
-      ' (closures, roadworks and warnings; informational only)',
+      ' (closures, roadworks, warnings and truck parking; informational only)',
   },
   {
     key: 'pegelonline',

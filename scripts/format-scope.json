@@ -1521,5 +1521,11 @@
   "server/providers/dwdWarnings.js",
   "src/data/dwdWarningsProxy.test.mjs",
   "src/nadeloehr/warnings.js",
-  "src/nadeloehr/components/WarningCard.vue"
+  "src/nadeloehr/components/WarningCard.vue",
+  "src/layers/truckParking/index.js",
+  "src/layers/truckParking/records.js",
+  "src/layers/truckParking/source.js",
+  "src/layers/truckParking/records.test.mjs",
+  "src/app/layers/truckParking.js",
+  "src/nadeloehr/components/ParkingCard.vue"
 ]

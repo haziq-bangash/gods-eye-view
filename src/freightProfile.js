@@ -43,6 +43,7 @@ export const FREIGHT_FIRST_VISIT_LAYER_IDS = Object.freeze([
   'autobahn-traffic',
   'river-levels',
   'weather-warnings',
+  'truck-parking',
 ]);
 
 /**

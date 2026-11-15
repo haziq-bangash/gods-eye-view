@@ -349,6 +349,24 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Truck Parking — Nadelöhr
+
+The fourth **Freight** layer is **Truck Parking** (`truck-parking`, share-link
+token `06`), on for first-time visitors. `/api/autobahn/parking` reads the
+Autobahn API's `parking_lorry` service for the seven watched roads every six
+hours: each rest area with its truck and car spaces and facilities. The feed
+publishes no live occupancy. Rest areas show as blue "P" signs sized by
+truck spaces when zoomed in; a rest area that is blocked, within 3 km of a
+road closure or within 1 km of an exit closure on its own road turns red and
+stays visible at country scale. Its card lists the spaces, facilities and
+whether a closure may shut it.
+
+The parking part P of the corridor score is
+100 × (1 − usable truck spaces per 100 km ÷ 800), clamped to 0–100, over the
+rest areas on the corridor's roads within 15 km of its line; usable spaces
+leave out the red rest areas. 800 per 100 km is a reference, not a measured
+demand: today's corridors have roughly 400 (A7) to 730 (Rhine axis).
+
 ## DWD Weather Warnings — Nadelöhr
 
 The third **Freight** layer is **DWD Weather Warnings** (`weather-warnings`,
@@ -386,8 +404,7 @@ Duisburg → Karlsruhe (A61, A3, A5 and the Rhine) — as
 R = 0.35·C + 0.20·P + 0.25·H + 0.20·W. C counts the events on the corridor's
 roads within 25 km of its line (closure 15 points, warning 8, others 1 or
 less) on a saturating curve, 100·(1 − e^(−points/60)); H is the Kaub score.
-Parts without data (parking until that layer exists, weather while its layer
-is off) and H on road-only corridors are left out and the rest rescaled. The panel lists the
+Parts without data (parking or weather while their layer is off) and H on road-only corridors are left out and the rest rescaled. The panel lists the
 corridors with score, level and main driver; selecting one draws its band on
 the map and opens the breakdown with each part, its weight and the formula.
 

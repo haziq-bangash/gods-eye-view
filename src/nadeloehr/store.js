@@ -28,8 +28,22 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
   /** DWD warnings as the warnings layer last drew them, and the picked one. */
   const warnings = shallowRef([]);
   const selectedWarning = shallowRef(null);
+  /** Truck rest areas from the parking layer, and the picked one. */
+  const parking = shallowRef([]);
+  const selectedParking = shallowRef(null);
   /** Bumped when layer state changes, so computed reads re-run. */
   const layerRevision = shallowRef(0);
+
+  /** One card at a time: picking anything clears the other selections. */
+  function clearOthers(keep) {
+    for (const [name, ref] of Object.entries({
+      selected,
+      selectedGauge,
+      selectedWarning,
+      selectedParking,
+    }))
+      if (name !== keep) ref.value = null;
+  }
 
   function connect(next) {
     services.value = next ? Object.freeze({ ...next }) : null;
@@ -46,10 +60,7 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
 
   function publishSelected(row) {
     selected.value = row || null;
-    if (row) {
-      selectedGauge.value = null;
-      selectedWarning.value = null;
-    }
+    if (row) clearOthers('selected');
   }
 
   function publishWarnings(rows) {
@@ -62,10 +73,20 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
 
   function publishSelectedWarning(row) {
     selectedWarning.value = row || null;
-    if (row) {
-      selected.value = null;
-      selectedGauge.value = null;
-    }
+    if (row) clearOthers('selectedWarning');
+  }
+
+  function publishParking(rows) {
+    parking.value = Array.isArray(rows) ? rows : [];
+    const picked = selectedParking.value;
+    if (picked)
+      selectedParking.value =
+        parking.value.find((row) => row.stableId === picked.stableId) || null;
+  }
+
+  function publishSelectedParking(row) {
+    selectedParking.value = row || null;
+    if (row) clearOthers('selectedParking');
   }
 
   function publishGauges(rows) {
@@ -78,10 +99,7 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
 
   function publishSelectedGauge(row) {
     selectedGauge.value = row || null;
-    if (row) {
-      selected.value = null;
-      selectedWarning.value = null;
-    }
+    if (row) clearOthers('selectedGauge');
   }
 
   function touchLayers() {
@@ -97,6 +115,8 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
     selectedGauge,
     warnings,
     selectedWarning,
+    parking,
+    selectedParking,
     layerRevision,
     connect,
     publishDisruptions,
@@ -105,6 +125,8 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
     publishSelectedGauge,
     publishWarnings,
     publishSelectedWarning,
+    publishParking,
+    publishSelectedParking,
     touchLayers,
   };
 });
