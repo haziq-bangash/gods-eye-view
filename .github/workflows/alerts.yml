@@ -1,0 +1,57 @@
+# Nadelöhr: every 15 minutes, check subscribers' pinned roads and places
+# (and Kaub) and send Web Push notifications for new closures. The
+# subscriptions live in Upstash Redis; see scripts/send-alerts.mjs.
+#
+# Repository secrets: UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN,
+# VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY. Without them the job does nothing.
+name: Alerts
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alerts
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+      UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+      VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
+      VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+    steps:
+      - name: Skip until configured
+        id: configured
+        run: |
+          if [ -n "$UPSTASH_REDIS_REST_URL" ] && [ -n "$UPSTASH_REDIS_REST_TOKEN" ] && [ -n "$VAPID_PRIVATE_KEY" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Alert secrets are not set; nothing to do."
+          fi
+
+      - if: steps.configured.outputs.ok == 'true'
+        uses: actions/checkout@v4
+
+      - if: steps.configured.outputs.ok == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # Only the push library, not the whole app's dependencies.
+      - if: steps.configured.outputs.ok == 'true'
+        name: Install web-push
+        run: npm install --prefix "$RUNNER_TEMP/push" --no-save --no-audit --no-fund web-push@3.6.7
+
+      - if: steps.configured.outputs.ok == 'true'
+        name: Check and send
+        env:
+          WEB_PUSH_MODULE: ${{ runner.temp }}/push/node_modules/web-push/src/index.js
+        run: node scripts/send-alerts.mjs

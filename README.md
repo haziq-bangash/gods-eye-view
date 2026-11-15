@@ -17,6 +17,10 @@ server, and adds a German freight layer and an interface anyone can read.
 
 ### What is new in this fork
 
+- **Alerts.** Switch on alerts under "My roads and places" and get a phone
+  or desktop notification when a pinned Autobahn or place gets a new
+  closure (and, if you like, when Kaub crosses a low-water line). No
+  account; checked every 15 minutes.
 - **Truck driving bans.** Sundays, public holidays (by state) and the summer
   Saturday ban, for now, tonight or tomorrow, on the Today tab and on each
   corridor that crosses an affected state.
@@ -167,6 +171,11 @@ More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
 
 ### Was dieser Fork neu macht
 
+- **Benachrichtigungen.** Unter „Eigene Strecken und Orte“ einschalten und
+  eine Meldung aufs Handy oder den Rechner bekommen, sobald eine
+  angeheftete Autobahn oder ein Ort neu gesperrt wird (auf Wunsch auch,
+  wenn Kaub eine Niedrigwassermarke überschreitet). Ohne Konto; alle
+  15 Minuten geprüft.
 - **Lkw-Fahrverbote.** Sonn- und Feiertage (je Bundesland) und das
   Sommer-Samstagsverbot, für jetzt, heute Nacht oder morgen, im Reiter Heute
   und bei jedem Korridor, der ein betroffenes Land durchquert.

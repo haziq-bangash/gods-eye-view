@@ -4124,5 +4124,15 @@
   "{moving} ships under way, {stopped} stopped": "In navigazione: {moving} · fermi: {stopped}",
   "About {name}": "Informazioni: {name}",
   "Risk score": "Punteggio di rischio",
-  "Ship count": "Conteggio navi"
+  "Ship count": "Conteggio navi",
+  "A check runs every 15 minutes against the official Autobahn closures and the Kaub gauge, and sends a notification for anything new on your pins. Your pins and this browser’s push address are stored for that, with no name or account; turning alerts off deletes them.": "Ogni 15 minuti un controllo verifica le chiusure ufficiali delle autostrade e l’idrometro di Kaub e invia una notifica per ogni novità sui tuoi elementi fissati. Per questo vengono salvati i tuoi elementi fissati e l’indirizzo push di questo browser, senza nome né account; disattivare gli avvisi li elimina.",
+  "Alerts could not be turned on. Try again.": "Impossibile attivare gli avvisi. Riprova.",
+  "Alerts": "Avvisi",
+  "Also when Kaub crosses a low-water line": "Anche quando Kaub supera una soglia di magra",
+  "Checked every 15 minutes. New closures arrive as a notification.": "Controllato ogni 15 minuti. Le nuove chiusure arrivano come notifica.",
+  "Get a notification when a pinned road or place gets a new closure.": "Ricevi una notifica quando una strada o un luogo fissato ha una nuova chiusura.",
+  "Notifications are blocked for this site. Allow them in the browser settings to turn alerts on.": "Le notifiche sono bloccate per questo sito. Consentile nelle impostazioni del browser per attivare gli avvisi.",
+  "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "Su iPhone e iPad aggiungi prima Nadelöhr alla schermata Home (Condividi, poi «Aggiungi alla schermata Home») e attiva lì gli avvisi.",
+  "Pin a road or place to get alerts for it.": "Fissa una strada o un luogo per ricevere avvisi.",
+  "This browser cannot show alerts.": "Questo browser non può mostrare avvisi."
 }

@@ -207,3 +207,13 @@ html body #cesium-credits .cesium-widget-credits {
 #right-context-rail {
   inset-inline-end: 76px !important;
 }
+/* …and below the "Today" number strip, above the legend: on wide screens the
+   strip reaches about 145 px down (the shell is drawn at 80%), so Street view
+   and the cameras open underneath it, not behind it. */
+@media (min-width: 1024px) {
+  /* The original layout sets its own top from script, so override it. */
+  #right-context-rail {
+    top: 156px !important;
+    max-height: calc(100vh - 156px - 72px) !important;
+  }
+}

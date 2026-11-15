@@ -11,6 +11,7 @@ import IconBadge from './IconBadge.vue';
 import RoadShield from './RoadShield.vue';
 import SectionHeader from './SectionHeader.vue';
 import Separator from '../ui/Separator.vue';
+import AlertsSwitch from './AlertsSwitch.vue';
 
 const props = defineProps({
   app: { type: Object, required: true },
@@ -108,6 +109,7 @@ function remove(item) {
           </div>
         </li>
       </ul>
+      <AlertsSwitch :has-pins="items.length > 0" />
     </template>
   </section>
 </template>
