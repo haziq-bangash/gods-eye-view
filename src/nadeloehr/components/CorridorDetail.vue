@@ -67,7 +67,7 @@ defineEmits(['close']);
         }"
         >● {{ corridor.levelLabel }}</span
       >
-      <InfoTip :label="t('the score')" :text="t(LEVEL_EXPLAIN)" />
+      <InfoTip :label="t('Risk score')" :text="t(LEVEL_EXPLAIN)" />
     </span>
 
     <BanNotice v-if="bans" :bans="bans" :horizon="horizon" />

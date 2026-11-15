@@ -84,7 +84,8 @@ function describe(day, { inForce }) {
       ? day.names.join(' · ')
       : `${day.names.join(' · ')}, ${codes.join(', ')}`,
     states: codes,
-    stateNames: codes.map((code) => STATES[code]).join(', '),
+    // Full state names for a hover tip; empty for a nationwide ban.
+    stateNames: everywhere ? '' : codes.map((code) => STATES[code]).join(', '),
     hours,
     until: inForce ? clock(day.to) : null,
     when: `${dayLabel(day.from)}, ${hours}`,

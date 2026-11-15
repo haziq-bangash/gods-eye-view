@@ -630,3 +630,31 @@
     background-position: -50% 0;
   }
 }
+
+/* ── Floating tips ──────────────────────────────────────────────────────
+   Tooltips and ⓘ explanations render into #nd-float, a sibling of the
+   shell outside its desktop zoom (so positions match), above the panels.
+   They fade and rise 2 px in from their side, and leave at once. */
+.nadeloehr.nd-float {
+  position: relative;
+  z-index: 650;
+}
+.nadeloehr .nd-pop {
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+}
+.nadeloehr .nd-tip[data-state='delayed-open'],
+.nadeloehr .nd-tip[data-state='instant-open'],
+.nadeloehr .nd-pop[data-state='open'] {
+  animation: nd-float-in 140ms cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+@keyframes nd-float-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--nd-float-shift, 2px)) scale(0.98);
+  }
+}
+.nadeloehr [data-side='bottom'].nd-tip,
+.nadeloehr [data-side='bottom'].nd-pop {
+  --nd-float-shift: -2px;
+}

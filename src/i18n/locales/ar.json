@@ -4369,8 +4369,6 @@
   "Skip": "تخطٍّ",
   "Next": "التالي",
   "Get started": "ابدأ",
-  "What is {name}?": "ما هو {name}؟",
-  "the score": "الدرجة",
   "What is the water score?": "ما هي درجة المياه؟",
   "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "الطرق المغلقة وتحذيرات المرور والمخارج المغلقة على هذا الممر. الطريق المغلق يُحتسب أكثر، وأعمال الطرق الاعتيادية بالكاد تُحتسب.",
   "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "عدد أماكن الشاحنات لكل 100 كم في الاستراحات على الطريق، باستثناء الاستراحات المجاورة لإغلاق. كلما قلّت الأماكن ارتفعت الدرجة.",
@@ -4423,7 +4421,8 @@
   "World Children's Day": "يوم الطفل العالمي",
   "across Germany": "في كل ألمانيا",
   "in {states}": "في {states}",
-  "the ship count": "عدد السفن",
-  "the truck ban": "حظر الشاحنات",
-  "{moving} ships under way, {stopped} stopped": "قيد الإبحار: {moving} · متوقفة: {stopped}"
+  "{moving} ships under way, {stopped} stopped": "قيد الإبحار: {moving} · متوقفة: {stopped}",
+  "About {name}": "حول: {name}",
+  "Risk score": "درجة المخاطر",
+  "Ship count": "عدد السفن"
 }

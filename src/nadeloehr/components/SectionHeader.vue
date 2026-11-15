@@ -18,7 +18,6 @@ defineEmits(['toggle']);
       class="group nd-tap nd-no-hit flex min-w-0 flex-1 cursor-pointer items-center gap-1.5 text-start outline-none focus-visible:underline"
       :aria-expanded="String(!collapsed)"
       :aria-controls="`${id}-body`"
-      :title="collapsed ? t('Expand') : t('Collapse')"
       @click="$emit('toggle')"
     >
       <h2 :id="id" class="nd-eyebrow truncate">{{ title }}</h2>

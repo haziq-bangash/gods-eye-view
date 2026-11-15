@@ -39,7 +39,7 @@ defineEmits(['show']);
       </button>
     </div>
     <InfoTip
-      :label="t('the ship count')"
+      :label="t('Ship count')"
       :text="
         t(
           'Live AIS positions from the last 30 minutes between Bingen and Koblenz, where Kaub sets how much a barge can carry. Stopped includes ships moored at a quay or anchored for the night, so it hints at waiting traffic rather than counting a queue.',

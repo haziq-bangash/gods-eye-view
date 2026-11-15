@@ -4072,8 +4072,6 @@
   "Skip": "Salta",
   "Next": "Avanti",
   "Get started": "Inizia",
-  "What is {name}?": "Che cos’è: {name}?",
-  "the score": "il punteggio",
   "What is the water score?": "Che cos’è il punteggio dell’acqua?",
   "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "Strade chiuse, avvisi sul traffico e uscite chiuse su questo corridoio. Una strada chiusa conta di più; i lavori ordinari contano appena.",
   "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "Quanti posti per camion ci sono ogni 100 km nelle aree di sosta lungo il percorso, escluse quelle vicine a una chiusura. Meno posti significano un punteggio più alto.",
@@ -4123,7 +4121,8 @@
   "World Children's Day": "Giornata mondiale dell’infanzia",
   "across Germany": "in tutta la Germania",
   "in {states}": "in {states}",
-  "the ship count": "il conteggio delle navi",
-  "the truck ban": "il divieto per i camion",
-  "{moving} ships under way, {stopped} stopped": "In navigazione: {moving} · fermi: {stopped}"
+  "{moving} ships under way, {stopped} stopped": "In navigazione: {moving} · fermi: {stopped}",
+  "About {name}": "Informazioni: {name}",
+  "Risk score": "Punteggio di rischio",
+  "Ship count": "Conteggio navi"
 }

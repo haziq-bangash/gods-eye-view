@@ -349,6 +349,18 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Tooltips and explanations — Nadelöhr
+
+Icon buttons (header tools, map controls, legend switches) use `Tip.vue`, a
+reka-ui tooltip on hover and keyboard focus, not the browser's `title`; the
+button keeps its aria-label. The ⓘ explanations (`InfoTip.vue`) are reka-ui
+popovers: a floating card with a title, the text, a close button and an
+arrow, opened by tap, click or Enter and closed by Esc, a tap outside or the
+ⓘ again; the layout never moves. Both render into `#nd-float`, a sibling of
+the shell outside its desktop 80% zoom, so they line up with their trigger.
+They fade in; they leave without an exit animation (an exit animation kept
+closed popovers on screen while waiting for it).
+
 ## Truck driving bans and Middle Rhine ships — Nadelöhr
 
 **Driving bans** (`src/freight/drivingBans.js`, portable). § 30 (3) StVO:

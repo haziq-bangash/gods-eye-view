@@ -3874,8 +3874,6 @@
   "Skip": "略過",
   "Next": "下一步",
   "Get started": "開始使用",
-  "What is {name}?": "什麼是{name}？",
-  "the score": "分數",
   "What is the water score?": "什麼是水位分數？",
   "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "該走廊上的封閉道路、交通警告和出口封閉。封路權重最大，例行道路施工幾乎不計。",
   "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "沿途服務區每 100 公里的貨車車位數，不含封路附近的服務區。車位越少，分數越高。",
@@ -3923,7 +3921,8 @@
   "World Children's Day": "世界兒童日",
   "across Germany": "德國全境",
   "in {states}": "在 {states}",
-  "the ship count": "船隻數量",
-  "the truck ban": "貨車禁行",
-  "{moving} ships under way, {stopped} stopped": "航行中：{moving} · 停止：{stopped}"
+  "{moving} ships under way, {stopped} stopped": "航行中：{moving} · 停止：{stopped}",
+  "About {name}": "關於：{name}",
+  "Risk score": "風險分數",
+  "Ship count": "船隻數量"
 }

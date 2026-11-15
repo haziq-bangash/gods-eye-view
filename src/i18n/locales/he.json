@@ -4072,8 +4072,6 @@
   "Skip": "דילוג",
   "Next": "הבא",
   "Get started": "בואו נתחיל",
-  "What is {name}?": "מה זה {name}?",
-  "the score": "הציון",
   "What is the water score?": "מה זה ציון המים?",
   "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "כבישים סגורים, אזהרות תנועה ויציאות סגורות במסדרון הזה. כביש סגור נחשב הכי הרבה; עבודות שגרתיות כמעט לא נחשבות.",
   "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "כמה מקומות חניה למשאיות יש לכל 100 ק״מ בתחנות המנוחה לאורך הדרך, בלי תחנות ליד סגירה. פחות מקומות פירושם ציון גבוה יותר.",
@@ -4123,7 +4121,8 @@
   "World Children's Day": "יום הילד הבין-לאומי",
   "across Germany": "בכל גרמניה",
   "in {states}": "ב־{states}",
-  "the ship count": "ספירת הספינות",
-  "the truck ban": "איסור המשאיות",
-  "{moving} ships under way, {stopped} stopped": "בתנועה: {moving} · עומדות: {stopped}"
+  "{moving} ships under way, {stopped} stopped": "בתנועה: {moving} · עומדות: {stopped}",
+  "About {name}": "אודות: {name}",
+  "Risk score": "ציון סיכון",
+  "Ship count": "ספירת ספינות"
 }
