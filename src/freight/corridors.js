@@ -58,6 +58,8 @@ export const CORRIDORS = Object.freeze([
     to: 'Dortmund',
     name: msg('Hamburg to the Ruhr'),
     roads: Object.freeze(['A1']),
+    // Federal states crossed, for state holidays (truck driving bans).
+    states: Object.freeze(['HH', 'NI', 'HB', 'NW']),
     river: null,
     path: Object.freeze([
       [10.0, 53.55],
@@ -74,6 +76,8 @@ export const CORRIDORS = Object.freeze([
     to: 'Ulm',
     name: msg('North–South on the A7'),
     roads: Object.freeze(['A7']),
+    // Federal states crossed, for state holidays (truck driving bans).
+    states: Object.freeze(['HH', 'NI', 'HE', 'BY', 'BW']),
     river: null,
     path: Object.freeze([
       [10.0, 53.55],
@@ -90,6 +94,8 @@ export const CORRIDORS = Object.freeze([
     to: 'Karlsruhe',
     name: msg('Rhine axis'),
     roads: Object.freeze(['A61', 'A3', 'A5']),
+    // Federal states crossed, for state holidays (truck driving bans).
+    states: Object.freeze(['NW', 'RP', 'HE', 'BW']),
     river: 'RHEIN',
     path: Object.freeze([
       [6.76, 51.43],

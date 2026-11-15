@@ -13,6 +13,7 @@ import {
 } from '../../freight/corridors.js';
 import { kaubRow, levelDuring } from '../../layers/riverLevels/records.js';
 import { HORIZONS, horizonRange } from '../../freight/horizon.js';
+import { bansDuring } from '../../freight/drivingBans.js';
 import { warningGroup } from '../../layers/weatherWarnings/records.js';
 
 const FREIGHT_LAYERS = Object.freeze([
@@ -119,6 +120,8 @@ export const getCorridorRisk = defineTool({
       range: when === 'now' ? null : range,
     }).filter((entry) => !args.corridor || entry.corridor.id === args.corridor);
     const kaub = gauges ? kaubRow(gauges) : null;
+    // Truck driving bans in the window (now: in force at this moment).
+    const banWindow = when === 'now' ? [range[0], range[0] + 1] : range;
     const rows = scored.map((entry) => ({
       id: entry.corridor.id,
       name: `${entry.corridor.from} → ${entry.corridor.to}`,
@@ -133,6 +136,18 @@ export const getCorridorRisk = defineTool({
         weight: Math.round(part.weight * 100) / 100,
         nominal_weight: RISK_WEIGHTS[part.key],
         reason: partReason(entry, part),
+      })),
+      truck_bans: bansDuring(banWindow[0], banWindow[1], {
+        states: entry.corridor.states || null,
+      }).map((ban) => ({
+        name: ban.name,
+        from: new Date(ban.from).toISOString(),
+        to: new Date(ban.to).toISOString(),
+        states: ban.statesHit,
+        rule:
+          ban.kind === 'summer-saturday'
+            ? 'Lorries over 7.5 t, listed holiday routes'
+            : 'Lorries over 7.5 t and lorries with a trailer',
       })),
       closed_roads: entry.events
         .filter((event) => event.kind === 'closure')
@@ -154,7 +169,10 @@ export const getCorridorRisk = defineTool({
       : null;
     const lines = rows.map(
       (row) =>
-        `${row.name} ${row.score ?? '–'}/100 (${row.level ?? 'unknown'})`,
+        `${row.name} ${row.score ?? '–'}/100 (${row.level ?? 'unknown'})` +
+        (row.truck_bans.length
+          ? `, truck ban (${row.truck_bans.map((ban) => ban.name).join(', ')})`
+          : ''),
     );
     const kaubLevel = kaub ? levelDuring(kaub, range) : null;
     const kaubLine = !Number.isFinite(kaubLevel)

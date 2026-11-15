@@ -326,6 +326,7 @@ export function corridorView(entry) {
     title: corridorTitle(entry.corridor),
     name: t(entry.corridor.name),
     roads: entry.corridor.roads || [],
+    states: entry.corridor.states || [],
     river: entry.corridor.river ? t('Rhine') : null,
     score: entry.score,
     level: entry.level,

@@ -16,6 +16,7 @@ import Button from '../ui/Button.vue';
 import { SYSTEM_COLORS } from '../icons.js';
 import IconBadge from './IconBadge.vue';
 import LevelChart from './LevelChart.vue';
+import RhineShips from './RhineShips.vue';
 
 const FACT_ICONS = {
   level: { icon: PhWaves, color: SYSTEM_COLORS.blue },
@@ -29,8 +30,10 @@ defineProps({
   card: { type: Object, required: true },
   /** [timeMs, levelCm] for the last day, when the gauge has it (Kaub). */
   series: { type: Array, default: () => [] },
+  /** Live Middle Rhine ships, shown on Kaub's card. */
+  ships: { type: Object, default: null },
 });
-defineEmits(['close', 'focus', 'share']);
+defineEmits(['close', 'focus', 'share', 'ships']);
 </script>
 
 <template>
@@ -109,6 +112,8 @@ defineEmits(['close', 'focus', 'share']);
         {{ t('This gauge has not reported recently.') }}
       </p>
     </section>
+
+    <RhineShips v-if="card.isKaub" :ships="ships" @show="$emit('ships')" />
 
     <p class="text-caption text-muted-foreground">
       {{

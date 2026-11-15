@@ -17,6 +17,11 @@ server, and adds a German freight layer and an interface anyone can read.
 
 ### What is new in this fork
 
+- **Truck driving bans.** Sundays, public holidays (by state) and the summer
+  Saturday ban, for now, tonight or tomorrow, on the Today tab and on each
+  corridor that crosses an affected state.
+- **Ships on the Middle Rhine.** Next to the Kaub level, the live count of
+  ships under way and stopped between Bingen and Koblenz (from AIS).
 - **Three tabs, one search.** Today, Routes and Map keep the panel short;
   the same search finds a road, a town or a whole trip ("Hamburg → München").
   A short intro on the first visit and an ⓘ beside each score part explain
@@ -162,6 +167,11 @@ More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
 
 ### Was dieser Fork neu macht
 
+- **Lkw-Fahrverbote.** Sonn- und Feiertage (je Bundesland) und das
+  Sommer-Samstagsverbot, für jetzt, heute Nacht oder morgen, im Reiter Heute
+  und bei jedem Korridor, der ein betroffenes Land durchquert.
+- **Schiffe am Mittelrhein.** Neben dem Pegel Kaub die Live-Zahl der
+  fahrenden und stehenden Schiffe zwischen Bingen und Koblenz (aus AIS).
 - **Drei Reiter, eine Suche.** Heute, Routen und Karte halten den Bereich
   kurz; dieselbe Suche findet eine Autobahn, einen Ort oder eine ganze Fahrt
   („Hamburg → München“). Eine kurze Einführung beim ersten Besuch und ein ⓘ
