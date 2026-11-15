@@ -3934,5 +3934,6 @@
   "Notifications are blocked for this site. Allow them in the browser settings to turn alerts on.": "このサイトの通知はブロックされています。ブラウザの設定で許可するとオンにできます。",
   "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "iPhone と iPad では、まず Nadelöhr をホーム画面に追加し（共有 →「ホーム画面に追加」）、そこから通知をオンにしてください。",
   "Pin a road or place to get alerts for it.": "道路か場所をピン留めすると通知が届きます。",
-  "This browser cannot show alerts.": "このブラウザでは通知を表示できません。"
+  "This browser cannot show alerts.": "このブラウザでは通知を表示できません。",
+  "The assistant has answered all it can for today. Ask again tomorrow.": "アシスタントは今日の回答上限に達しました。また明日お試しください。"
 }

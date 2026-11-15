@@ -4434,5 +4434,6 @@
   "Notifications are blocked for this site. Allow them in the browser settings to turn alerts on.": "الإشعارات محظورة لهذا الموقع. اسمح بها في إعدادات المتصفح لتشغيل التنبيهات.",
   "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "على iPhone وiPad، أضف Nadelöhr إلى الشاشة الرئيسية أولًا (مشاركة ثم “إضافة إلى الشاشة الرئيسية”)، ثم شغّل التنبيهات من هناك.",
   "Pin a road or place to get alerts for it.": "ثبّت طريقًا أو مكانًا لتلقي التنبيهات عنه.",
-  "This browser cannot show alerts.": "لا يستطيع هذا المتصفح عرض التنبيهات."
+  "This browser cannot show alerts.": "لا يستطيع هذا المتصفح عرض التنبيهات.",
+  "The assistant has answered all it can for today. Ask again tomorrow.": "أجاب المساعد عن كل ما يستطيع اليوم. اسأل مجددًا غدًا."
 }

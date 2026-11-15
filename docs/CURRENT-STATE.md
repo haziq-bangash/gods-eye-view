@@ -349,6 +349,23 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Assistant on Vertex AI keys, with a site-wide daily cap — Nadelöhr
+
+Typed chat sends to Vertex AI in express mode when `GEMINI_API_KEY` is a
+Vertex key ("AQ.…") or `GEMINI_API_BACKEND=vertex`. Otherwise it uses the
+Gemini API. Requests and responses are the same
+(`geminiChatEndpoint` in `server/providers/gemini/chat.js`). Two
+prerequisites: an express key can only target Vertex AI under the
+organisation policy, and its service account needs the Vertex AI Platform
+Express User role.
+
+Public visitors share a ceiling of `GEV_PUBLIC_ASSISTANT_DAILY_REQUESTS`
+requests per Berlin day (default 200), on top of 10 questions each. It is
+counted in Upstash (`nd:assistant:<day>`, two-day expiry) so restarts don't
+reset it, and falls back to memory if Upstash fails. Over the ceiling, chat
+answers 429 `SITE_DAILY_LIMIT`. One request is about 16k tokens (mostly
+tool declarations), so the ceiling bounds what a billed key can spend.
+
 ## Push alerts for pinned roads and places — Nadelöhr
 
 - **Browser** (`src/nadeloehr/alerts.js`, `AlertsSwitch.vue` under "My roads

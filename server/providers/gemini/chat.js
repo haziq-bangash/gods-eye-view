@@ -5,6 +5,24 @@ import { GEV_REALTIME_TOOLS, offeredTools } from '../openai/tools.js';
 import { resolveOverpassUpstreams } from '../overpass/constants.js';
 import { normalizeGeminiModel } from './config.js';
 
+/**
+ * Where typed chat goes: the Gemini API (AI Studio keys, "AIza…") or Vertex
+ * AI in express mode (keys tied to a Vertex service account, "AQ.…"), which
+ * serves the same models with the same request and response format.
+ * GEMINI_API_BACKEND=vertex or =gemini overrides the guess from the key.
+ */
+export function geminiChatEndpoint(model, apiKey, backend) {
+  const choice = String(backend || '')
+    .trim()
+    .toLowerCase();
+  const vertex =
+    choice === 'vertex' ||
+    (choice !== 'gemini' && String(apiKey || '').startsWith('AQ.'));
+  return vertex
+    ? `https://aiplatform.googleapis.com/v1/publishers/google/models/${model}:generateContent`
+    : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+}
+
 // The Gemini token route's throttle default (GEV_RATELIMIT_GEMINI_PER_MIN).
 export const GEMINI_DEFAULT_PER_MIN = 30;
 
@@ -87,6 +105,7 @@ export function createGeminiChatHandler({
   resolveChatModel = () =>
     process.env.GEMINI_CHAT_MODEL || 'gemini-3.5-flash-lite',
   resolveApiKey = () => process.env.GEMINI_API_KEY,
+  resolveBackend = () => process.env.GEMINI_API_BACKEND,
   resolveProviderRateLimit = () => process.env.GEV_RATELIMIT_GEMINI_PER_MIN,
   ...options
 } = {}) {
@@ -108,7 +127,7 @@ export function createGeminiChatHandler({
       if (!pairedContents(input.contents)) return null;
       const overpass = overpassConfigured();
       return {
-        endpoint: `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+        endpoint: geminiChatEndpoint(model, resolveApiKey(), resolveBackend()),
         headers: (key) => ({ 'x-goog-api-key': key }),
         body: {
           contents: input.contents,

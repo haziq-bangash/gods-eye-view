@@ -444,29 +444,36 @@ export function createTextChat({
                   ? t(
                       'The provider account is out of credit. Check its billing, or choose another AI Provider in Settings.',
                     )
-                  : error?.code === 'DAILY_LIMIT'
-                    ? tn(
-                        error.allowance || 10,
-                        'You have asked your {count} question for today. Ask again tomorrow.',
-                        'You have asked your {count} questions for today. Ask again tomorrow.',
+                  : error?.code === 'SITE_DAILY_LIMIT'
+                    ? t(
+                        'The assistant has answered all it can for today. Ask again tomorrow.',
                       )
-                    : error?.code === 'RATE_LIMITED' || error?.status === 429
-                      ? t('Too many chat requests. Try again in {seconds} s.', {
-                          seconds: Math.min(error.retryAfter || 60, 3600),
-                        })
-                      : error?.status === 504 || owner.signal.aborted
-                        ? t('Connection timed out. Try again.')
-                        : error?.incomplete
-                          ? t('Reply interrupted. You can try again.')
-                          : error?.tooManySteps
-                            ? applied
-                              ? t(
-                                  'That request needed too many steps. Changes already made to the map stay in place.',
-                                )
-                              : t(
-                                  'That request needed too many steps. Try a simpler request.',
-                                )
-                            : t('Could not connect. Try again.'),
+                    : error?.code === 'DAILY_LIMIT'
+                      ? tn(
+                          error.allowance || 10,
+                          'You have asked your {count} question for today. Ask again tomorrow.',
+                          'You have asked your {count} questions for today. Ask again tomorrow.',
+                        )
+                      : error?.code === 'RATE_LIMITED' || error?.status === 429
+                        ? t(
+                            'Too many chat requests. Try again in {seconds} s.',
+                            {
+                              seconds: Math.min(error.retryAfter || 60, 3600),
+                            },
+                          )
+                        : error?.status === 504 || owner.signal.aborted
+                          ? t('Connection timed out. Try again.')
+                          : error?.incomplete
+                            ? t('Reply interrupted. You can try again.')
+                            : error?.tooManySteps
+                              ? applied
+                                ? t(
+                                    'That request needed too many steps. Changes already made to the map stay in place.',
+                                  )
+                                : t(
+                                    'That request needed too many steps. Try a simpler request.',
+                                  )
+                              : t('Could not connect. Try again.'),
       );
     } finally {
       recordUsage(null);

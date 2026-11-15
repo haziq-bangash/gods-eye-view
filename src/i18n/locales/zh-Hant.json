@@ -3934,5 +3934,6 @@
   "Notifications are blocked for this site. Allow them in the browser settings to turn alerts on.": "此網站的通知已被封鎖。請在瀏覽器設定中允許後再開啟提醒。",
   "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "在 iPhone 和 iPad 上，請先將 Nadelöhr 加入主畫面（分享 →「加入主畫面」），再在那裡開啟提醒。",
   "Pin a road or place to get alerts for it.": "釘選一條道路或一個地點即可收到提醒。",
-  "This browser cannot show alerts.": "此瀏覽器無法顯示提醒。"
+  "This browser cannot show alerts.": "此瀏覽器無法顯示提醒。",
+  "The assistant has answered all it can for today. Ask again tomorrow.": "助理今天已達到回答上限。明天再來提問吧。"
 }

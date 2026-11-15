@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   berlinDay,
   createDailyLimit,
+  createSiteDailyLimit,
   isNewQuestion,
   resolveDailyAllowance,
   secondsUntilBerlinMidnight,
@@ -82,4 +83,50 @@ test('allowances come from the environment, 0 turns them off', () => {
 test('midnight is found across the summer-time change', () => {
   // 2026-03-29 is the spring change in Berlin; 22:30 local is 20:30 UTC.
   assert.equal(secondsUntilBerlinMidnight(Date.UTC(2026, 2, 29, 20, 30)), 5400);
+});
+
+test('the site-wide cap counts every request across visitors', async () => {
+  const site = createSiteDailyLimit({ limit: 3, now: () => MORNING });
+  for (let i = 0; i < 3; i++) assert.equal(await site.take(), null);
+  const full = await site.take();
+  assert.equal(full.code, 'SITE_DAILY_LIMIT');
+  assert.equal(full.retryAfter, 14 * 3600);
+  assert.equal(
+    await createSiteDailyLimit({ limit: 0 }).take(),
+    null,
+    '0 = off',
+  );
+});
+
+test('the site-wide cap counts in Upstash, and in memory if Upstash fails', async () => {
+  const sent = [];
+  let count = 0;
+  const upstash = async (url, options) => {
+    sent.push([url, JSON.parse(options.body)]);
+    count += 1;
+    return Response.json([{ result: count }, { result: 1 }]);
+  };
+  const shared = createSiteDailyLimit({
+    limit: 2,
+    url: 'https://x.upstash.io',
+    token: 't',
+    fetchImpl: upstash,
+    now: () => MORNING,
+  });
+  assert.equal(await shared.take(), null);
+  assert.equal(await shared.take(), null);
+  assert.equal((await shared.take()).code, 'SITE_DAILY_LIMIT');
+  assert.equal(sent[0][0], 'https://x.upstash.io/pipeline');
+  assert.deepEqual(sent[0][1][0], ['INCR', 'nd:assistant:2026-11-15']);
+  const broken = createSiteDailyLimit({
+    limit: 1,
+    url: 'https://x.upstash.io',
+    token: 't',
+    fetchImpl: async () => {
+      throw new Error('down');
+    },
+    now: () => MORNING,
+  });
+  assert.equal(await broken.take(), null);
+  assert.equal((await broken.take()).code, 'SITE_DAILY_LIMIT', 'still capped');
 });
