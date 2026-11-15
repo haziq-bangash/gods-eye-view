@@ -3888,5 +3888,8 @@
   "Install": "インストール",
   "Not now": "今はしない",
   "Opens full screen in one tap, like an app. No store, no account.": "アプリのようにワンタップで全画面表示。ストアもアカウントも不要です。",
-  "When: {time}. Tap for {next}.": "時間：{time}。タップで{next}に切り替え。"
+  "When: {time}. Tap for {next}.": "時間：{time}。タップで{next}に切り替え。",
+  "You have asked your {count} questions for today. Ask again tomorrow.": {
+    "other": "今日の質問（{count} 件）をすべて使いました。また明日お試しください。"
+  }
 }

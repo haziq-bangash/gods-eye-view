@@ -3888,5 +3888,8 @@
   "Install": "安裝",
   "Not now": "以後再說",
   "Opens full screen in one tap, like an app. No store, no account.": "像 App 一樣一鍵全螢幕開啟。無需商店，無需帳號。",
-  "When: {time}. Tap for {next}.": "時間：{time}。點按切換到{next}。"
+  "When: {time}. Tap for {next}.": "時間：{time}。點按切換到{next}。",
+  "You have asked your {count} questions for today. Ask again tomorrow.": {
+    "other": "你今天的 {count} 個問題已用完。明天再來提問吧。"
+  }
 }

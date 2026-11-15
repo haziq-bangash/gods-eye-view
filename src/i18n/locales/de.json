@@ -3987,5 +3987,9 @@
   "Install": "Installieren",
   "Not now": "Nicht jetzt",
   "Opens full screen in one tap, like an app. No store, no account.": "Öffnet sich mit einem Tipp im Vollbild, wie eine App. Kein Store, kein Konto.",
-  "When: {time}. Tap for {next}.": "Zeit: {time}. Tippen für {next}."
+  "When: {time}. Tap for {next}.": "Zeit: {time}. Tippen für {next}.",
+  "You have asked your {count} questions for today. Ask again tomorrow.": {
+    "one": "Du hast deine {count} Frage für heute gestellt. Frag morgen wieder.",
+    "other": "Du hast deine {count} Fragen für heute gestellt. Frag morgen wieder."
+  }
 }

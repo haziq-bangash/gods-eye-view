@@ -4086,5 +4086,10 @@
   "Install": "התקנה",
   "Not now": "לא עכשיו",
   "Opens full screen in one tap, like an app. No store, no account.": "נפתח במסך מלא בהקשה אחת, כמו אפליקציה. בלי חנות ובלי חשבון.",
-  "When: {time}. Tap for {next}.": "מתי: {time}. הקישו עבור {next}."
+  "When: {time}. Tap for {next}.": "מתי: {time}. הקישו עבור {next}.",
+  "You have asked your {count} questions for today. Ask again tomorrow.": {
+    "one": "שאלת את השאלה היומית שלך ({count}). אפשר לשאול שוב מחר.",
+    "two": "שאלת את {count} השאלות שלך להיום. אפשר לשאול שוב מחר.",
+    "other": "שאלת את {count} השאלות שלך להיום. אפשר לשאול שוב מחר."
+  }
 }

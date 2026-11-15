@@ -172,6 +172,7 @@ export function createBrowserViteConfig({
   cesiumToken,
   photonUrl,
   mapillaryToken,
+  assistantProvider,
   host = 'localhost',
   port = 4173,
   allowedHosts = DEFAULT_ALLOWED_HOSTS,
@@ -259,6 +260,13 @@ export function createBrowserViteConfig({
       // Mapillary client tokens are public by design (see SECURITY.md).
       'import.meta.env.MAPILLARY_CLIENT_TOKEN': JSON.stringify(
         mapillaryToken ?? '',
+      ),
+      // A deployment that offers only one assistant provider (for example a
+      // public site with just a Gemini key): 'openai', 'gemini' or ''.
+      'import.meta.env.GEV_ASSISTANT_PROVIDER': JSON.stringify(
+        ['openai', 'gemini'].includes(assistantProvider)
+          ? assistantProvider
+          : '',
       ),
     },
     build: { chunkSizeWarningLimit: 1500 },

@@ -727,3 +727,61 @@ test('OpenAI chat schemas drop only the patterns Chat Completions refuses', () =
     },
   );
 });
+
+test('a public visitor gets ten questions a day, then a daily-limit reply', async (t) => {
+  const { raw, calls } = await fixture(t, providers.gemini, null, {
+    resolvePublicOrigin: () => 'https://nadeloehr.dropboard.de',
+  });
+  const body = JSON.stringify(providers.gemini.input);
+  const ask = (ip) =>
+    raw(
+      {
+        method: 'POST',
+        headers: {
+          Host: 'nadeloehr.dropboard.de',
+          Origin: 'https://nadeloehr.dropboard.de',
+          'Sec-Fetch-Site': 'same-origin',
+          'CF-Connecting-IP': ip,
+          'X-Forwarded-For': ip,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(body),
+        },
+      },
+      body,
+    );
+  for (let i = 0; i < 10; i++)
+    assert.equal((await ask('203.0.113.9')).status, 200);
+  const over = await ask('203.0.113.9');
+  assert.equal(over.status, 429);
+  assert.equal(over.body.code, 'DAILY_LIMIT');
+  assert.equal(over.body.allowance, 10);
+  assert.ok(Number(over.headers['retry-after']) >= 60);
+  assert.equal(calls.length, 10, 'the eleventh never reaches the provider');
+  assert.equal(
+    (await ask('198.51.100.4')).status,
+    200,
+    'other visitors still ask',
+  );
+});
+
+test('a proxied request from another site is still refused', async (t) => {
+  const { raw, calls } = await fixture(t, providers.gemini, null, {
+    resolvePublicOrigin: () => 'https://nadeloehr.dropboard.de',
+  });
+  const body = JSON.stringify(providers.gemini.input);
+  const response = await raw(
+    {
+      method: 'POST',
+      headers: {
+        Host: 'nadeloehr.dropboard.de',
+        Origin: 'https://elsewhere.example',
+        'CF-Connecting-IP': '203.0.113.9',
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(body),
+      },
+    },
+    body,
+  );
+  assert.equal(response.status, 403);
+  assert.equal(calls.length, 0);
+});
