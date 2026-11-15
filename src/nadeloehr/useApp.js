@@ -6,7 +6,7 @@
  */
 import { banNotice } from './bans.js';
 import { fetchMiddleRhineShips } from './rhineShips.js';
-import { computed, onBeforeUnmount, shallowRef, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { getLocale, t } from '../i18n/index.js';
 import { LOCALES, LOCALE_NAMES } from '../i18n/locale.js';
@@ -235,7 +235,11 @@ export function useApp() {
   // ── When: now, tonight or tomorrow (Berlin time) ─────────────────
   const horizon = shallowRef('now');
   const clock = shallowRef(Date.now());
-  const tick = every(60_000, () => (clock.value = Date.now()));
+  let tick = null;
+  onMounted(() => {
+    clock.value = Date.now();
+    tick = every(60_000, () => (clock.value = Date.now()));
+  });
   onBeforeUnmount(() => clearInterval(tick));
   /** [from, to] of the chosen horizon; "now" is the current instant. */
   const range = computed(() => horizonRange(horizon.value, clock.value));
@@ -355,8 +359,14 @@ export function useApp() {
       /* No history yet, or offline: the breakdown simply omits it. */
     }
   }
-  loadHistory();
-  const historyTimer = every(3_600_000, loadHistory);
+  // Network loads and timers start once the shell is in a browser page, not
+  // while it is rendered on a server (tests do), which would fetch from the
+  // internet and outlive the render.
+  let historyTimer = null;
+  onMounted(() => {
+    loadHistory();
+    historyTimer = every(3_600_000, loadHistory);
+  });
   onBeforeUnmount(() => clearInterval(historyTimer));
 
   // ── Ships on the Middle Rhine (live AIS, when the server has a key) ──
@@ -364,8 +374,11 @@ export function useApp() {
   async function loadRhineShips() {
     rhineShips.value = await fetchMiddleRhineShips();
   }
-  loadRhineShips();
-  const shipsTimer = every(120_000, loadRhineShips);
+  let shipsTimer = null;
+  onMounted(() => {
+    loadRhineShips();
+    shipsTimer = every(120_000, loadRhineShips);
+  });
   onBeforeUnmount(() => clearInterval(shipsTimer));
   /** Ships layer on, and the camera over the valley between Bingen and Koblenz. */
   function showRhineShips() {

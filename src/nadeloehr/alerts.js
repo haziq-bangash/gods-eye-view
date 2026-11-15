@@ -4,7 +4,7 @@
  * sending happen in a scheduled job (scripts/send-alerts.mjs); this side
  * only subscribes. No account: the browser's push subscription is the id.
  */
-import { shallowRef, watch } from 'vue';
+import { onMounted, shallowRef, watch } from 'vue';
 import { getLocale } from '../i18n/index.js';
 import { usePins } from './pins.js';
 
@@ -219,8 +219,12 @@ function setKaub(on) {
   remember({ on: status.value === 'on', kaub: kaub.value });
 }
 
-/** The alert switch's state and verbs. */
+/**
+ * The alert switch's state and verbs. Checking the browser and the server
+ * starts when the switch is mounted in a page (never while rendering on a
+ * server).
+ */
 export function useAlerts() {
-  start();
+  onMounted(start);
   return { status, kaub, busy, enable, disable, setKaub };
 }
