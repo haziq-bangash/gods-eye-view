@@ -5,7 +5,7 @@
 **Freight bottlenecks across Germany, on one live map.**
 **Engpässe im deutschen Güterverkehr auf einer Live-Karte.**
 
-[English](#english) · [Deutsch](#deutsch)
+**Live:** [nadeloehr.dropboard.de](https://nadeloehr.dropboard.de) · [English](#english) · [Deutsch](#deutsch)
 
 Nadelöhr is a fork of [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view)
 (MIT). It keeps the 3D globe, ship tracking, the voice assistant and the MCP
