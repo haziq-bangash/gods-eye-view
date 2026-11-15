@@ -33,6 +33,16 @@ const RIVERS = 'river-levels';
 const WEATHER = 'weather-warnings';
 const PARKING = 'truck-parking';
 
+/**
+ * A repeating timer that never keeps Node alive (tests mount the shell
+ * without unmounting it); in the browser it is a plain setInterval.
+ */
+function every(ms, fn) {
+  const timer = setInterval(fn, ms);
+  timer?.unref?.();
+  return timer;
+}
+
 export function useApp() {
   const store = useNadeloehrStore();
   const globe = useGlobeActionsStore();
@@ -225,7 +235,7 @@ export function useApp() {
   // ── When: now, tonight or tomorrow (Berlin time) ─────────────────
   const horizon = shallowRef('now');
   const clock = shallowRef(Date.now());
-  const tick = setInterval(() => (clock.value = Date.now()), 60_000);
+  const tick = every(60_000, () => (clock.value = Date.now()));
   onBeforeUnmount(() => clearInterval(tick));
   /** [from, to] of the chosen horizon; "now" is the current instant. */
   const range = computed(() => horizonRange(horizon.value, clock.value));
@@ -346,7 +356,7 @@ export function useApp() {
     }
   }
   loadHistory();
-  const historyTimer = setInterval(loadHistory, 3_600_000);
+  const historyTimer = every(3_600_000, loadHistory);
   onBeforeUnmount(() => clearInterval(historyTimer));
 
   // ── Ships on the Middle Rhine (live AIS, when the server has a key) ──
@@ -355,7 +365,7 @@ export function useApp() {
     rhineShips.value = await fetchMiddleRhineShips();
   }
   loadRhineShips();
-  const shipsTimer = setInterval(loadRhineShips, 120_000);
+  const shipsTimer = every(120_000, loadRhineShips);
   onBeforeUnmount(() => clearInterval(shipsTimer));
   /** Ships layer on, and the camera over the valley between Bingen and Koblenz. */
   function showRhineShips() {
