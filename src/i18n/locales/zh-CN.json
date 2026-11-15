@@ -1822,8 +1822,8 @@
     "other": "{count} 个地图对象"
   },
   ", drawn with its own styles": "，使用其自带样式绘制",
-  "Hide {name}": "隐藏 {name}",
-  "Show {name}": "显示 {name}",
+  "Hide {name}": "隐藏：{name}",
+  "Show {name}": "显示：{name}",
   "Fly to {name}": "飞往 {name}",
   "Remove {name}": "移除 {name}",
   "At most {count} files at once — remove one first.": "一次最多 {count} 个文件——请先移除一个。",
@@ -3860,5 +3860,27 @@
   "{events} within {km} km": "{km} 公里内：{events}",
   "{count} closures": {
     "other": "{count} 处封闭"
-  }
+  },
+  "Routes": "路线",
+  "Views": "视图",
+  "Check this route": "检查此路线",
+  "Welcome to Nadelöhr": "欢迎使用 Nadelöhr",
+  "The numbers show today": "数字显示今天的情况",
+  "The strip at the top counts closed roads, traffic warnings, the Rhine water level at Kaub and weather warnings. Tap one for the details, or switch to Tonight or Tomorrow to look ahead.": "顶部条显示封闭道路、交通警告、考布的莱茵河水位和天气预警的数量。点按查看详情，或切换到“今晚”或“明天”提前了解。",
+  "Corridors score the risk": "走廊为风险打分",
+  "Each freight corridor gets a score from 0 to 100 from closures, truck parking, water level and weather. Tap a corridor to see what drives it.": "每条货运走廊根据封路、货车停车位、水位和天气得到 0 到 100 的分数。点按走廊查看影响因素。",
+  "Make it yours": "个性化设置",
+  "Pin an Autobahn or a town from search to follow it, or type a trip such as “Hamburg → München” to check your route.": "从搜索中固定一条高速公路或一个城镇来关注它，或输入行程如“Hamburg → München”来检查路线。",
+  "Skip": "跳过",
+  "Next": "下一步",
+  "Get started": "开始使用",
+  "What is {name}?": "什么是{name}？",
+  "the score": "分数",
+  "What is the water score?": "什么是水位分数？",
+  "Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.": "该走廊上的封闭道路、交通警告和出口封闭。封路权重最大，例行道路施工几乎不计。",
+  "How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.": "沿途服务区每 100 公里的货车车位数，不含封路附近的服务区。车位越少，分数越高。",
+  "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "考布的莱茵河水位。低于 150 厘米时驳船必须减载，更多货物转向公路；水位过高则停航。",
+  "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "走廊沿线最强的 DWD 官方天气预警：黄色 25，橙色 50，红色 75，深红色 100。",
+  "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "每部分按 0–100 打分并加权：封路 35%，货车停车 20%，水位 25%，天气 20%。低于 33 为低，33 到 66 为偏高，高于 66 为高。仅供粗略参考，并非延误预测。",
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "考布水位对货运的影响程度，从 0（正常，150–460 厘米）到 100（40 厘米或更低，或停航）。它是莱茵走廊分数中的水位部分。"
 }

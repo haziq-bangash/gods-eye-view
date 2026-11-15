@@ -349,6 +349,20 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Tabs, route search, legend switches and explanations — Nadelöhr
+
+The panel has three tabs (`PanelTabs.vue`, remembered in `nadeloehr.tab.v1`):
+**Today** (headline, pins, corridors, disruptions), **Routes** (Check a route)
+and **Map** (layers). The search recognises a trip such as "Hamburg → München",
+"Hamburg nach München" or "Hamburg to Munich" (`routeQuery` in
+`src/nadeloehr/search.js`) and offers "Check this route", which opens Routes
+and scores it. Each legend item except critical and major is a switch for
+its marks (minor events, river gauges, truck parking, DWD areas, corridor
+lines); distant river gauges hide beyond 700 km camera distance, except Kaub
+and key gauges. A three-step intro (`IntroTour.vue`, `nadeloehr.intro.v1`)
+runs once per browser, and `InfoTip.vue` adds an ⓘ with one plain sentence
+to each score part, the overall score and the Kaub water score.
+
 ## My roads and places, and corridor history — Nadelöhr
 
 **My roads and places.** Search results for an Autobahn or a place carry a

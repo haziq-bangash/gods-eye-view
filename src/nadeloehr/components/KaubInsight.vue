@@ -9,6 +9,8 @@ import {
 } from '../../layers/riverLevels/records.js';
 import { gaugeCard } from '../rivers.js';
 import LevelChart from './LevelChart.vue';
+import InfoTip from './InfoTip.vue';
+import { WATER_SCORE_EXPLAIN } from '../today.js';
 
 const props = defineProps({
   gauge: { type: Object, required: true },
@@ -115,6 +117,12 @@ const facts = computed(() =>
         <dd class="text-headline tabular-nums">{{ fact.value }}</dd>
       </div>
     </dl>
+    <p
+      class="mt-2 flex flex-wrap items-center gap-1 text-caption text-muted-foreground"
+    >
+      {{ t('What is the water score?') }}
+      <InfoTip :label="t('Water score')" :text="t(WATER_SCORE_EXPLAIN)" />
+    </p>
     <p class="mt-3 text-callout">{{ card.hint }}</p>
     <button
       type="button"

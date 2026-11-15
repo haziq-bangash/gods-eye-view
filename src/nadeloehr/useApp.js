@@ -280,6 +280,12 @@ export function useApp() {
     ([scored, id, next]) => next?.corridorOverlay?.update(scored, id),
     { immediate: true },
   );
+  /** The corridor bands on the map (the legend's switch). */
+  const corridorsOnMap = shallowRef(true);
+  function setCorridorsOnMap(on) {
+    corridorsOnMap.value = Boolean(on);
+    services.value?.corridorOverlay?.setVisible?.(corridorsOnMap.value);
+  }
   function selectCorridor(id) {
     selectedCorridorId.value = id || null;
     if (!id) return;
@@ -289,6 +295,24 @@ export function useApp() {
     selectParking(null);
     const corridor = CORRIDORS.find((entry) => entry.id === id);
     if (corridor) services.value?.flyToPoints?.(corridor.path);
+  }
+
+  // ── The panel's view: today, routes or map (kept in this browser) ──
+  const TAB_KEY = 'nadeloehr.tab.v1';
+  const TABS = ['today', 'routes', 'map'];
+  const tab = shallowRef(
+    TABS.includes(globalThis.localStorage?.getItem?.(TAB_KEY))
+      ? globalThis.localStorage.getItem(TAB_KEY)
+      : 'today',
+  );
+  function setTab(next) {
+    if (!TABS.includes(next)) return;
+    tab.value = next;
+    try {
+      globalThis.localStorage?.setItem(TAB_KEY, next);
+    } catch {
+      /* Private mode: the choice lasts for this visit. */
+    }
   }
 
   // ── Corridor history (recorded hourly by a GitHub Action) ──────
@@ -321,7 +345,12 @@ export function useApp() {
     });
     return first?.place || null;
   }
+  /** The route form's two fields, shared with the search bar. */
+  const routeFrom = shallowRef('');
+  const routeTo = shallowRef('');
   async function checkRoute(fromText, toText) {
+    routeFrom.value = fromText;
+    routeTo.value = toText;
     routeRequest?.abort();
     const request = new AbortController();
     routeRequest = request;
@@ -454,6 +483,10 @@ export function useApp() {
   function pickResult(result) {
     if (!result) return;
     if (result.type === 'road') return showRoad(result.road);
+    if (result.type === 'route') {
+      setTab('routes');
+      return checkRoute(result.from, result.to);
+    }
     if (result.type === 'gauge') return showGaugeOnMap(result.gauge);
     if (result.type === 'warning') return showWarningOnMap(result.warning);
     if (result.type === 'corridor') return selectCorridor(result.corridor.id);
@@ -593,8 +626,14 @@ export function useApp() {
     horizon,
     range,
     setHorizon,
+    tab,
+    setTab,
+    corridorsOnMap,
+    setCorridorsOnMap,
     corridorHistory,
     route,
+    routeFrom,
+    routeTo,
     routeStatus,
     routeError,
     routeScore,

@@ -1541,5 +1541,8 @@
   "src/nadeloehr/history.js",
   "src/nadeloehr/history.test.mjs",
   "src/nadeloehr/components/MyPins.vue",
+  "src/nadeloehr/components/InfoTip.vue",
+  "src/nadeloehr/components/IntroTour.vue",
+  "src/nadeloehr/components/PanelTabs.vue",
   "scripts/record-corridor-history.mjs"
 ]

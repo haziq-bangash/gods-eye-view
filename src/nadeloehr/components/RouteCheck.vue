@@ -2,7 +2,7 @@
 // Check a route: two places in, a driving route scored like a corridor
 // out — closures on the route, truck parking beside it, the weather it
 // crosses — for now, tonight or tomorrow.
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import {
   PhArrowsDownUp,
   PhCaretRight,
@@ -31,8 +31,15 @@ const props = defineProps({
 });
 
 const section = useCollapsed('route');
-const from = ref('');
-const to = ref('');
+// The fields live in the app so a route typed in search fills them too.
+const from = computed({
+  get: () => props.app.routeFrom.value,
+  set: (value) => (props.app.routeFrom.value = value),
+});
+const to = computed({
+  get: () => props.app.routeTo.value,
+  set: (value) => (props.app.routeTo.value = value),
+});
 const loading = computed(() => props.app.routeStatus.value === 'loading');
 const view = computed(() =>
   props.app.routeScore.value ? corridorView(props.app.routeScore.value) : null,

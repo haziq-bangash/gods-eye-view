@@ -27,6 +27,28 @@ export const RISK_COLORS = Object.freeze({
   elevated: '#ff9500',
   high: '#ff3b30',
 });
+/** One plain sentence per score part, for the ⓘ in the breakdown. */
+const PART_EXPLAIN = Object.freeze({
+  C: msg(
+    'Closed roads, traffic warnings and exit closures on this corridor. A closed road counts most; routine roadworks barely count.',
+  ),
+  P: msg(
+    'How many truck spaces there are per 100 km at rest areas along the way, minus rest areas next to a closure. Fewer spaces means a higher score.',
+  ),
+  H: msg(
+    'The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.',
+  ),
+  W: msg(
+    'The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.',
+  ),
+});
+export const LEVEL_EXPLAIN = msg(
+  'Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.',
+);
+export const WATER_SCORE_EXPLAIN = msg(
+  'How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.',
+);
+
 const PART_COLORS = Object.freeze({
   C: '#ff3b30',
   P: '#af52de',
@@ -294,6 +316,7 @@ export function corridorView(entry) {
     // Share of the bar: this part's contribution to the score.
     share: part.available ? part.value * part.weight : 0,
     why: partWhy(entry, part),
+    explain: t(PART_EXPLAIN[part.key]),
   }));
   const driver = [...parts]
     .filter((part) => part.available)

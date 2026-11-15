@@ -30,6 +30,7 @@ import {
   PhNewspaper,
   PhPawPrint,
   PhPersonSimpleWalk,
+  PhPath,
   PhPlanet,
   PhPlugs,
   PhProhibit,
@@ -135,5 +136,6 @@ export const TOOL_ICONS = Object.freeze({
   language: { icon: PhTranslate, color: C.indigo },
   sources: { icon: PhDatabase, color: C.gray },
   place: { icon: PhMapPin, color: C.red },
+  route: { icon: PhPath, color: C.blue },
   more: { icon: PhStack, color: C.teal },
 });
