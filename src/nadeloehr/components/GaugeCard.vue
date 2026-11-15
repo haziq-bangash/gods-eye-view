@@ -82,7 +82,7 @@ defineEmits(['close', 'focus', 'share']);
         </dt>
         <dd
           class="mt-0.5 text-headline"
-          :class="fact.emphasis ? 'text-primary' : ''"
+          :class="fact.emphasis ? 'text-primary-ink' : ''"
         >
           {{ fact.value }}
         </dd>

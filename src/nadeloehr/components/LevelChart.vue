@@ -12,8 +12,8 @@ const props = defineProps({
 });
 
 const W = 288;
-const H = 96;
-const PAD = 14;
+const H = 108;
+const PAD = 16;
 const model = computed(() => {
   const points = props.series.filter(
     ([time, value]) => Number.isFinite(time) && Number.isFinite(value),
@@ -56,7 +56,7 @@ const model = computed(() => {
     v-if="model"
     :viewBox="`0 0 ${W} ${H}`"
     preserveAspectRatio="none"
-    class="block h-24 w-full"
+    class="block h-[108px] w-full"
     role="img"
     :aria-label="t('Water level over the last 24 hours')"
   >
@@ -81,7 +81,7 @@ const model = computed(() => {
         :x="W"
         :y="ref.y - 4"
         text-anchor="end"
-        class="fill-muted-foreground text-[10px] font-semibold"
+        class="fill-muted-foreground text-[14px] font-semibold"
       >
         {{ ref.label }} {{ ref.value }}
       </text>
@@ -95,14 +95,14 @@ const model = computed(() => {
       stroke-linejoin="round"
       vector-effect="non-scaling-stroke"
     />
-    <text :x="0" :y="H - 2" class="fill-muted-foreground text-[10px]">
+    <text :x="0" :y="H - 2" class="fill-muted-foreground text-[14px]">
       {{ t('24 h ago') }}
     </text>
     <text
       :x="W"
       :y="H - 2"
       text-anchor="end"
-      class="fill-muted-foreground text-[10px]"
+      class="fill-muted-foreground text-[14px]"
     >
       {{ t('now') }}
     </text>

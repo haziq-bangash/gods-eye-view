@@ -35,7 +35,9 @@ defineEmits(['open']);
       />
       <span
         class="relative flex items-center gap-1.5 text-caption font-bold tracking-wider uppercase"
-        :class="headline.tone === 'calm' ? 'text-[#248a3d]' : 'text-primary'"
+        :class="
+          headline.tone === 'calm' ? 'text-[#248a3d]' : 'text-primary-ink'
+        "
       >
         <span class="size-1.5 rounded-full bg-current" aria-hidden="true" />
         {{ t('What matters today') }}

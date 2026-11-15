@@ -54,7 +54,7 @@ defineEmits(['select']);
             />
             <span
               v-if="corridor.river"
-              class="rounded-[4px] bg-[#007aff] px-1.5 text-[10px] leading-4 font-bold text-white"
+              class="rounded-[4px] bg-[#0062cc] px-1.5 text-caption leading-4 font-bold text-white"
               >{{ corridor.river }}</span
             >
           </span>
@@ -64,9 +64,9 @@ defineEmits(['select']);
             corridor.score ?? '–'
           }}</span>
           <span
-            class="mt-1 inline-block rounded-full px-2 py-0.5 text-caption font-bold"
+            class="nd-ink mt-1 inline-block rounded-full px-2 py-0.5 text-caption font-bold"
             :style="{
-              color: corridor.color,
+              '--ink': corridor.color,
               background: `color-mix(in oklch, ${corridor.color} 14%, transparent)`,
             }"
             >{{ corridor.levelLabel }}</span

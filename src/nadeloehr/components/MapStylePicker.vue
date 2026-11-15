@@ -50,7 +50,7 @@ defineEmits(['select', 'close']);
         >
           <span
             v-if="style.id === selected"
-            class="absolute top-1 right-1 grid size-5 place-items-center rounded-full bg-primary text-primary-foreground"
+            class="absolute top-1 right-1 grid size-5 place-items-center rounded-full bg-primary-fill text-primary-foreground"
             ><PhCheck weight="bold" class="size-3.5"
           /></span>
         </span>

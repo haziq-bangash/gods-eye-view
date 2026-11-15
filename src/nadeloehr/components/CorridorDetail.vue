@@ -40,9 +40,9 @@ defineEmits(['close']);
       <span class="text-title2 text-muted-foreground">/ 100</span>
     </div>
     <span
-      class="self-start rounded-full px-2.5 py-1 text-subhead font-bold"
+      class="nd-ink self-start rounded-full px-2.5 py-1 text-subhead font-bold"
       :style="{
-        color: corridor.color,
+        '--ink': corridor.color,
         background: `color-mix(in oklch, ${corridor.color} 14%, transparent)`,
       }"
       >● {{ corridor.levelLabel }}</span

@@ -37,9 +37,9 @@ const facts = computed(() => [
       <span class="text-title2 text-muted-foreground">{{ t('cm') }}</span>
     </div>
     <span
-      class="mt-2 self-start rounded-full px-2.5 py-1 text-subhead font-bold"
+      class="nd-ink mt-2 self-start rounded-full px-2.5 py-1 text-subhead font-bold"
       :style="{
-        color: card.color,
+        '--ink': card.color,
         background: `color-mix(in oklch, ${card.color} 14%, transparent)`,
       }"
       >● {{ card.status }}</span
@@ -55,7 +55,9 @@ const facts = computed(() => [
         :key="fact.key"
         class="rounded-[14px] bg-muted px-2.5 py-2"
       >
-        <dt class="truncate text-[11px] font-semibold text-muted-foreground">
+        <dt
+          class="text-caption leading-tight font-semibold text-muted-foreground"
+        >
           {{ fact.label }}
         </dt>
         <dd class="text-headline tabular-nums">{{ fact.value }}</dd>
@@ -64,7 +66,7 @@ const facts = computed(() => [
     <p class="mt-3 text-callout">{{ card.hint }}</p>
     <button
       type="button"
-      class="mt-2 self-start cursor-pointer text-callout font-semibold text-primary hover:underline"
+      class="mt-2 self-start cursor-pointer text-callout font-semibold text-primary-ink hover:underline"
       @click="$emit('open', gauge)"
     >
       {{ t('Show on map') }}
