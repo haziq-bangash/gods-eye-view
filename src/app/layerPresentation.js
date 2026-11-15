@@ -1,6 +1,7 @@
 import { LayerPanel } from '../ui/layers.js';
 import { governorRequestRender } from '../renderGovernor.js';
 import { markDetectionSourcesChanged } from '../data/detection.js';
+import { FREIGHT_PANEL_SECTIONS } from '../freightProfile.js';
 
 /** Own the layer panel and application reactions to lifecycle activity. */
 export class LayerPresentation {
@@ -39,6 +40,7 @@ export class LayerPresentation {
     if (!this._panel)
       this._panel = new LayerPanel({
         weatherClock: this.weatherClock,
+        sections: FREIGHT_PANEL_SECTIONS,
         getLayers: () => this.manager.getAll(),
         isEnabled: (id) => this.manager.isEnabled(id),
         setEnabled: (id, enabled, options) =>

@@ -100,7 +100,6 @@
   "Board cleared.": "畫板已清除。",
   "{owner} is using the pointer — close it first.": "{owner} 正在使用指針——請先關閉它。",
   "{label} · Detailed outline unavailable": "{label} · 無法獲取詳細輪廓",
-  "Flying to Austin, TX...": "正在飛往德克薩斯州奧斯汀…",
   "Restoring shared view...": "正在恢復分享視圖…",
   "Configuring viewer...": "正在配置視圖…",
   "Loading Google 3D Tiles...": "正在加載 Google 3D Tiles…",
@@ -2891,7 +2890,6 @@
   "SAVE KEYS": "保存密鑰",
   "ESC to close": "按 ESC 關閉",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "Google Maps 密鑰提供照片級逼真 3D 地球，其餘數據源都疊加在其上。",
-  "NO PLACE LEFT BEHIND": "不遺漏任何地方",
   "ACTIVE STYLE": "當前樣式",
   "Globe actions": "地球操作",
   "Turn off all selected data layers": "關閉所有已選數據圖層",
@@ -3556,5 +3554,12 @@
   "Short-term roadworks": "短期施工",
   "Roadworks": "施工",
   "Autobahn Closures & Roadworks": "德國高速公路封閉與施工",
-  "Freight": "貨運"
+  "Freight": "貨運",
+  "Transport": "運輸",
+  "Flying to Germany...": "正在飛往德國...",
+  "More layers": "更多圖層",
+  "{count} on": {
+    "other": "{count} 個已開啟"
+  },
+  "Freight bottlenecks across Germany": "德國貨運瓶頸"
 }

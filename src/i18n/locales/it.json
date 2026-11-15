@@ -108,7 +108,6 @@
   "Board cleared.": "Lavagna cancellata.",
   "{owner} is using the pointer — close it first.": "Lo strumento {owner} sta usando il puntatore: chiudilo prima.",
   "{label} · Detailed outline unavailable": "{label} · Contorno dettagliato non disponibile",
-  "Flying to Austin, TX...": "Volo verso Austin, TX...",
   "Restoring shared view...": "Ripristino della vista condivisa...",
   "Configuring viewer...": "Configurazione del visualizzatore...",
   "Loading Google 3D Tiles...": "Caricamento di Google 3D Tiles...",
@@ -3150,7 +3149,6 @@
   "SAVE KEYS": "SALVA CHIAVI",
   "ESC to close": "ESC per chiudere",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "La chiave Google Maps sblocca il pianeta fotorealistico: tutto il resto si aggiunge sopra.",
-  "NO PLACE LEFT BEHIND": "NESSUN LUOGO ESCLUSO",
   "ACTIVE STYLE": "STILE ATTIVO",
   "Globe actions": "Azioni del globo",
   "Turn off all selected data layers": "Disattiva tutti i livelli dati selezionati",
@@ -3732,5 +3730,14 @@
   "Short-term roadworks": "Cantiere di breve durata",
   "Roadworks": "Cantiere",
   "Autobahn Closures & Roadworks": "Autobahn: chiusure e cantieri",
-  "Freight": "Merci"
+  "Freight": "Merci",
+  "Transport": "Trasporti",
+  "Flying to Germany...": "Volo verso la Germania...",
+  "More layers": "Altri livelli",
+  "{count} on": {
+    "one": "{count} attivo",
+    "many": "{count} attivi",
+    "other": "{count} attivi"
+  },
+  "Freight bottlenecks across Germany": "Colli di bottiglia del trasporto merci in Germania"
 }

@@ -112,7 +112,6 @@
   "Board cleared.": "Дошку очищено.",
   "{owner} is using the pointer — close it first.": "Вказівник зайнятий: «{owner}». Спершу закрийте його.",
   "{label} · Detailed outline unavailable": "{label} · Докладний контур недоступний",
-  "Flying to Austin, TX...": "Переліт до Остіна, Техас...",
   "Restoring shared view...": "Відновлення спільного вигляду...",
   "Configuring viewer...": "Налаштування переглядача...",
   "Loading Google 3D Tiles...": "Завантаження Google 3D Tiles...",
@@ -3225,7 +3224,6 @@
   "SAVE KEYS": "ЗБЕРЕГТИ КЛЮЧІ",
   "ESC to close": "ESC — закрити",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "Ключ Google Maps відкриває фотореалістичну планету — усе інше нашаровується зверху.",
-  "NO PLACE LEFT BEHIND": "ЖОДНЕ МІСЦЕ НЕ ЗАЛИШИТЬСЯ ПОЗА УВАГОЮ",
   "ACTIVE STYLE": "АКТИВНИЙ СТИЛЬ",
   "Globe actions": "Дії з глобусом",
   "Turn off all selected data layers": "Вимкнути всі вибрані шари даних",
@@ -3820,5 +3818,15 @@
   "Short-term roadworks": "Короткострокові дорожні роботи",
   "Roadworks": "Дорожні роботи",
   "Autobahn Closures & Roadworks": "Автобани: перекриття й роботи",
-  "Freight": "Вантажоперевезення"
+  "Freight": "Вантажоперевезення",
+  "Transport": "Транспорт",
+  "Flying to Germany...": "Переліт до Німеччини...",
+  "More layers": "Інші шари",
+  "{count} on": {
+    "one": "{count} увімкнено",
+    "few": "{count} увімкнено",
+    "many": "{count} увімкнено",
+    "other": "{count} увімкнено"
+  },
+  "Freight bottlenecks across Germany": "Вузькі місця вантажних перевезень у Німеччині"
 }

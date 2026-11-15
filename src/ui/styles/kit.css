@@ -77,8 +77,8 @@
   border: 1px solid var(--glass-border);
   border-radius: calc(var(--btn-radius) + 4px);
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   pointer-events: auto;
 }
 .ui-rail__sep {
@@ -104,7 +104,7 @@
 }
 .ui-rail__item:hover:not(:disabled) {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(var(--ink-rgb) / 0.05);
 }
 .ui-rail__item--on,
 .ui-rail__item--on:hover:not(:disabled) {

@@ -17,9 +17,9 @@ const panelStyle = {
   zIndex: '30',
 };
 const cardStyle = {
-  color: '#e3faff',
+  color: 'rgb(var(--ink-rgb))',
   background: '#08141eed',
-  border: '1px solid #2491a8',
+  border: '1px solid rgb(var(--accent-rgb))',
   padding: '8px',
   margin: '4px',
   maxWidth: '260px',
@@ -40,6 +40,6 @@ const vPackMedia = {
 
 <template>
   <Teleport v-for="panel in panels" :key="panel.key" :to="panel.container">
-    <div data-director-packs="" :style="panelStyle"><section v-for="card in panel.cards" :key="card.key" :data-director-pack="card.id" :style="cardStyle"><div>{{ card.title }}</div><a v-if="card.url" :href="card.url" target="_blank" rel="noopener noreferrer" style="color: #6eeaff">{{ t('Source') }}</a><video v-if="card.media?.kind === 'video'" v-pack-media controls preload="none" style="width: 240px" :src="card.media.src"></video><audio v-else-if="card.media?.kind === 'audio'" v-pack-media controls preload="none" style="width: 240px" :src="card.media.src"></audio></section></div>
+    <div data-director-packs="" :style="panelStyle"><section v-for="card in panel.cards" :key="card.key" :data-director-pack="card.id" :style="cardStyle"><div>{{ card.title }}</div><a v-if="card.url" :href="card.url" target="_blank" rel="noopener noreferrer" style="color: rgb(var(--accent-hi-rgb))">{{ t('Source') }}</a><video v-if="card.media?.kind === 'video'" v-pack-media controls preload="none" style="width: 240px" :src="card.media.src"></video><audio v-else-if="card.media?.kind === 'audio'" v-pack-media controls preload="none" style="width: 240px" :src="card.media.src"></audio></section></div>
   </Teleport>
 </template>

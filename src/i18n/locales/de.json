@@ -86,7 +86,6 @@
   "Side labels describe the source, not whether a report is true.": "Angaben zur Seite beschreiben die Quelle, nicht ob eine Meldung stimmt.",
   "Exit cockpit to fly to a news report": "Cockpit verlassen, um zu einer Meldung zu fliegen",
   "News items in the feed": "Meldungen im Feed",
-  "Flying to Austin, TX...": "Flug nach Austin, TX...",
   "Restoring shared view...": "Geteilte Ansicht wird wiederhergestellt...",
   "Configuring viewer...": "Viewer wird konfiguriert...",
   "Loading Google 3D Tiles...": "Google 3D Tiles werden geladen...",
@@ -1014,7 +1013,6 @@
   "SAVE KEYS": "SCHLÜSSEL SPEICHERN",
   "ESC to close": "ESC zum Schließen",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "Der Google-Maps-Schlüssel liefert den fotorealistischen Planeten, alles andere kommt obendrauf.",
-  "NO PLACE LEFT BEHIND": "KEIN ORT BLEIBT ZURÜCK",
   "ACTIVE STYLE": "AKTIVER STIL",
   "Globe actions": "Globus-Aktionen",
   "Turn off all selected data layers": "Alle ausgewählten Datenebenen ausschalten",
@@ -3644,5 +3642,13 @@
   "Short-term roadworks": "Tagesbaustelle",
   "Roadworks": "Baustelle",
   "Autobahn Closures & Roadworks": "Autobahn-Sperrungen & Baustellen",
-  "Freight": "Güterverkehr"
+  "Freight": "Güterverkehr",
+  "Transport": "Transport",
+  "Flying to Germany...": "Flug nach Deutschland …",
+  "More layers": "Weitere Ebenen",
+  "{count} on": {
+    "one": "{count} aktiv",
+    "other": "{count} aktiv"
+  },
+  "Freight bottlenecks across Germany": "Engpässe im deutschen Güterverkehr"
 }

@@ -19,8 +19,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 212, 255, 0.06);
-  border: 1px solid rgba(0, 212, 255, 0.34);
+  background: rgb(var(--accent-rgb) / 0.06);
+  border: 1px solid rgb(var(--accent-rgb) / 0.34);
   border-radius: 0.18rem;
   color: var(--text-secondary);
   font-family: var(--font-mono);
@@ -36,8 +36,8 @@
 
 .gev-voice-tier-btn:hover {
   color: var(--text-primary);
-  border-color: rgba(0, 212, 255, 0.6);
-  background: rgba(0, 212, 255, 0.12);
+  border-color: rgb(var(--accent-rgb) / 0.6);
+  background: rgb(var(--accent-rgb) / 0.12);
 }
 
 /* MINI engaged — amber, distinct from the cyan default so the cheaper tier
@@ -166,7 +166,7 @@ html:not([lang='en'])
   padding: 8px 6px;
   border: 1px solid var(--glass-border);
   border-radius: 8px;
-  background: var(--bg-panel, #09121b);
+  background: var(--bg-panel, rgb(var(--surface-rgb)));
   color: var(--text-secondary);
   font-family: var(--font-mono);
   font-size: 0.5rem;
@@ -183,7 +183,7 @@ html:not([lang='en'])
   border-radius: 4px;
   font: inherit;
   font-size: 0.65rem;
-  --gev-field-background: #09121b;
+  --gev-field-background: rgb(var(--surface-rgb));
   --gev-field-border-color: var(--glass-border);
 }
 #gev-voice-control:hover .gev-voice-provider-field,
@@ -255,8 +255,8 @@ html:not([lang='en'])
   align-items: center;
   gap: 6px;
   padding: 6px 46px 6px 6px;
-  border-color: rgba(123, 189, 211, 0.28);
-  background: rgba(9, 18, 27, 0.88);
+  border-color: rgb(var(--ink-rgb) / 0.174);
+  background: rgb(var(--surface-rgb) / 0.88);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.46);
   color-scheme: dark;
   opacity: 1;
@@ -291,8 +291,8 @@ html:not([lang='en'])
   min-width: 34px;
   min-height: 34px;
   padding: 0;
-  color: rgba(190, 221, 230, 0.72);
-  background: rgba(9, 18, 27, 0.92);
+  color: rgb(var(--ink-rgb) / 0.72);
+  background: rgb(var(--surface-rgb) / 0.92);
   border: 1px solid var(--glass-border);
   border-radius: 0.3rem;
   font-size: 18px;
@@ -313,7 +313,7 @@ html:not([lang='en'])
   .gev-voice-settings-button:is(:hover, [aria-expanded='true']) {
   color: var(--voice-panel-accent, var(--accent));
   border-color: currentColor;
-  background: rgba(0, 212, 255, 0.12);
+  background: rgb(var(--accent-rgb) / 0.12);
 }
 #gev-voice-control .gev-voice-settings-button:focus-visible {
   outline: 2px solid var(--voice-panel-accent, var(--accent));

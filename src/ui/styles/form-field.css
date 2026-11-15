@@ -2,8 +2,8 @@
    features and themes supply palette variables and retain their own layout. */
 .gev-field {
   min-width: 0;
-  background: var(--gev-field-background, rgba(255, 255, 255, 0.06));
-  border: 1px solid var(--gev-field-border-color, rgba(255, 255, 255, 0.14));
+  background: var(--gev-field-background, rgb(var(--ink-rgb) / 0.06));
+  border: 1px solid var(--gev-field-border-color, rgb(var(--ink-rgb) / 0.14));
   border-radius: 7px;
   color: var(--gev-field-color, var(--text-primary));
   padding: 6px 8px;
@@ -55,8 +55,8 @@ select.gev-field--compact {
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.7px;
-  --gev-field-background: rgba(0, 212, 255, 0.1);
-  --gev-field-border-color: rgba(0, 212, 255, 0.5);
+  --gev-field-background: rgb(var(--accent-rgb) / 0.1);
+  --gev-field-border-color: rgb(var(--accent-rgb) / 0.5);
   border-radius: 4px;
   padding: 1px 3px;
   -moz-appearance: textfield;

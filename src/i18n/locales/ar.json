@@ -98,11 +98,9 @@
   "Side labels describe the source, not whether a report is true.": "تصف تسميات الأطراف المصدر، لا صحة التقرير.",
   "Exit cockpit to fly to a news report": "اخرج من القمرة للانتقال إلى خبر",
   "News items in the feed": "عدد الأخبار في الموجز",
-  "NO PLACE LEFT BEHIND": "لا مكان يُترك خلفنا",
   "Initializing photorealistic world...": "جارٍ تهيئة العالم الواقعي…",
   "Configuring viewer...": "جارٍ إعداد العارض…",
   "Google 3D Tiles unavailable ({detail}). Loading the keyless globe...": "بلاطات Google 3D Tiles غير متاحة ({detail}). جارٍ تحميل الكرة الأرضية بلا مفتاح…",
-  "Flying to Austin, TX...": "جارٍ الانتقال إلى أوستن، تكساس…",
   "Restoring shared view...": "جارٍ استعادة العرض المشترك…",
   "LOADING LIVE DATA": "جارٍ تحميل البيانات المباشرة",
   "LOAD COMPLETE": "اكتمل التحميل",
@@ -3996,5 +3994,17 @@
   "Short-term roadworks": "أعمال طرق قصيرة الأمد",
   "Roadworks": "أعمال طرق",
   "Autobahn Closures & Roadworks": "الأوتوبان: الإغلاقات وأعمال الطرق",
-  "Freight": "الشحن"
+  "Freight": "الشحن",
+  "Transport": "النقل",
+  "Flying to Germany...": "جارٍ الطيران إلى ألمانيا...",
+  "More layers": "طبقات أخرى",
+  "{count} on": {
+    "zero": "{count} مفعّلة",
+    "one": "{count} مفعّلة",
+    "two": "{count} مفعّلتان",
+    "few": "{count} مفعّلة",
+    "many": "{count} مفعّلة",
+    "other": "{count} مفعّلة"
+  },
+  "Freight bottlenecks across Germany": "اختناقات الشحن في ألمانيا"
 }

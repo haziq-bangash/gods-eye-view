@@ -1,0 +1,99 @@
+/* ═══════════════════════════════════════════════
+   NADELÖHR — Apple-style presentation over the upstream chrome.
+   Loaded after every upstream sheet except the opt-in Cyber skin, so Cyber
+   still wins while it is selected. Colours come from foundation.css roles.
+   ═══════════════════════════════════════════════ */
+
+/* Text drawn straight onto the globe keeps light ink in both appearances:
+   the photoreal terrain under it is dark whatever the system setting. */
+#style-indicator,
+#intel-hud,
+.scene-text-holdout {
+  --ink-rgb: 245 245 247;
+  /* Tokens derived from the ink resolve where they are declared (:root), so
+     they are derived again here for the light ink to reach them. */
+  --text-primary: rgb(var(--ink-rgb));
+  --text-secondary: rgb(var(--ink-rgb) / 0.5);
+  --text-dim: rgb(var(--ink-rgb) / 0.3);
+}
+
+/* The wordmark sits on a Liquid Glass card, like Apple Maps' corner chips,
+   so it follows the appearance instead of fighting the terrain. */
+#title-bar {
+  padding: 10px 16px 11px 12px;
+  border: 0.5px solid var(--glass-border);
+  border-radius: 20px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
+  box-shadow:
+    var(--glass-shadow),
+    inset 0 0.5px 0 var(--glass-rim);
+}
+
+#title-bar h1 {
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-shadow: none;
+}
+
+/* Upstream's scope-off holdouts (black plates behind text on the globe) are
+   not needed on the card. */
+:root[data-scope-mask='off'] #title-bar h1::before {
+  display: none;
+}
+
+#title-bar .scene-text-holdout {
+  --ink-rgb: inherit;
+  --text-primary: inherit;
+  --text-secondary: inherit;
+  --text-dim: inherit;
+  margin-inline: 0;
+  padding-inline: 0;
+  background: none;
+}
+
+#title-bar .title-glow {
+  display: none;
+}
+
+#title-bar .subtitle {
+  margin-top: 4px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgb(var(--ink-rgb) / 0.62);
+  text-shadow: none;
+}
+
+/* The visual-style readout ("ACTIVE STYLE · NORMAL") belongs to upstream's
+   surveillance looks; Display still switches styles. */
+#style-indicator {
+  display: none;
+}
+
+/* Apple labels are not letter-spaced. Upstream tracks its small caps wide;
+   keep the caps but close the tracking on the chrome's label families. */
+:is(
+  .data-layer-group-heading,
+  .data-layer-disclosure,
+  .panel-surface-title,
+  .panel-surface-control,
+  .data-toggle-btn,
+  .data-toggle-meta,
+  .loader-status
+) {
+  letter-spacing: 0.02em;
+}
+
+/* The loading screen: the system face, no sci-fi tracking. */
+.loader-content h2 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}

@@ -108,7 +108,6 @@
   "Board cleared.": "Tableau effacé.",
   "{owner} is using the pointer — close it first.": "Pointeur utilisé par : {owner}. Fermez d'abord cet outil.",
   "{label} · Detailed outline unavailable": "{label} · Contour détaillé indisponible",
-  "Flying to Austin, TX...": "En route vers Austin, Texas…",
   "Restoring shared view...": "Restauration de la vue partagée…",
   "Configuring viewer...": "Configuration de la vue…",
   "Loading Google 3D Tiles...": "Chargement de Google 3D Tiles…",
@@ -3150,7 +3149,6 @@
   "SAVE KEYS": "ENREGISTRER LES CLÉS",
   "ESC to close": "ESC pour fermer",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "La clé Google Maps offre la planète photoréaliste, tout le reste s'y superpose.",
-  "NO PLACE LEFT BEHIND": "AUCUN LIEU OUBLIÉ",
   "ACTIVE STYLE": "STYLE ACTIF",
   "Globe actions": "Actions du globe",
   "Turn off all selected data layers": "Désactiver toutes les couches de données sélectionnées",
@@ -3732,5 +3730,14 @@
   "Short-term roadworks": "Travaux de courte durée",
   "Roadworks": "Travaux",
   "Autobahn Closures & Roadworks": "Autobahn : fermetures et travaux",
-  "Freight": "Fret"
+  "Freight": "Fret",
+  "Transport": "Transport",
+  "Flying to Germany...": "Vol vers l’Allemagne…",
+  "More layers": "Autres couches",
+  "{count} on": {
+    "one": "{count} active",
+    "many": "{count} actives",
+    "other": "{count} actives"
+  },
+  "Freight bottlenecks across Germany": "Les goulets d’étranglement du fret en Allemagne"
 }

@@ -28,7 +28,7 @@
   flex: 0 0 1rem;
   width: 1rem;
   height: 1rem;
-  background: rgba(232, 234, 237, 0.3);
+  background: rgb(var(--ink-rgb) / 0.3);
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: contain;
@@ -53,7 +53,7 @@
 #command-dock :is(#location-bar, #control-panel):hover .dock-label-icon,
 #command-dock :is(#location-bar, #control-panel).dock-pinned .dock-label-icon {
   background: var(--accent);
-  filter: drop-shadow(0 0 0.35rem rgba(0, 212, 255, 0.28));
+  filter: drop-shadow(0 0 0.35rem rgb(var(--accent-rgb) / 0.28));
 }
 
 #command-dock :is(#location-bar, #control-panel):hover .location-toolbar-label,
@@ -130,11 +130,11 @@
 }
 
 #command-dock .location-toolbar-label::after {
-  background: linear-gradient(to right, rgba(232, 234, 237, 0.3), transparent);
+  background: linear-gradient(to right, rgb(var(--ink-rgb) / 0.3), transparent);
 }
 
 #command-dock #control-panel .panel-title::after {
-  background: linear-gradient(to left, rgba(232, 234, 237, 0.3), transparent);
+  background: linear-gradient(to left, rgb(var(--ink-rgb) / 0.3), transparent);
 }
 
 #command-dock .panel-title::after,
@@ -161,7 +161,7 @@
   margin: -1.48rem -0.22rem 0.25rem 0;
   padding: 0;
   border-radius: 50%;
-  background: rgba(8, 24, 34, 0.96);
+  background: rgb(var(--surface-rgb) / 0.96);
   box-shadow: 0 0.35rem 0.9rem rgba(0, 0, 0, 0.5);
   transform: translateY(-0.12rem);
 }
@@ -271,12 +271,12 @@
   height: 2.45rem;
   aspect-ratio: 1;
   box-sizing: border-box;
-  background: rgba(0, 212, 255, 0.06);
-  border: 1px solid rgba(0, 212, 255, 0.48);
+  background: rgb(var(--accent-rgb) / 0.06);
+  border: 1px solid rgb(var(--accent-rgb) / 0.48);
   border-radius: 50%;
   box-shadow:
-    0 0 0 0.18rem rgba(0, 212, 255, 0.06),
-    0 0 0.9rem rgba(0, 212, 255, 0.12);
+    0 0 0 0.18rem rgb(var(--accent-rgb) / 0.06),
+    0 0 0.9rem rgb(var(--accent-rgb) / 0.12);
 }
 
 #command-dock .gev-mic-label {
@@ -381,8 +381,8 @@
   box-shadow:
     0 0.9rem 2.2rem rgba(0, 0, 0, 0.62),
     0 0 1.4rem rgba(255, 92, 110, 0.08);
-  backdrop-filter: blur(28px) saturate(1.25);
-  -webkit-backdrop-filter: blur(28px) saturate(1.25);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   pointer-events: none;
   transform: translate(-50%, 0.55rem) scale(0.985);
   transform-origin: bottom center;
@@ -422,7 +422,7 @@
 #command-dock .gev-voice-error-dismiss {
   padding: 0.25rem 0.42rem;
   color: rgba(255, 220, 224, 0.72);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgb(var(--ink-rgb) / 0.04);
   border: 1px solid rgba(255, 143, 157, 0.32);
   border-radius: 0.2rem;
   font-family: var(--font-mono);

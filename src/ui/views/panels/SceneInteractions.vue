@@ -16,16 +16,16 @@ const panelStyle = {
   maxHeight: '40vh',
   overflowY: 'auto',
   background: '#08141eed',
-  color: '#e3faff',
-  border: '1px solid #2491a8',
+  color: 'rgb(var(--ink-rgb))',
+  border: '1px solid rgb(var(--accent-rgb))',
   padding: '10px',
   font: '13px sans-serif',
 };
 const buttonStyle = {
   display: 'block',
-  background: '#10242e',
-  color: '#e3faff',
-  border: '1px solid #397080',
+  background: 'rgb(var(--surface-rgb))',
+  color: 'rgb(var(--ink-rgb))',
+  border: '1px solid rgb(var(--ink-rgb) / 0.62)',
   borderRadius: '3px',
   padding: '6px 10px',
   cursor: 'pointer',
@@ -39,12 +39,12 @@ const buttonStyle = {
 const onClick = (owner, id) => () => controls.value?.dispatch(id, owner);
 const outline = (id) => ({
   ...buttonStyle,
-  outline: panel.value.outlined.includes(id) ? '2px solid #6eeaff' : '',
+  outline: panel.value.outlined.includes(id) ? '2px solid rgb(var(--accent-hi-rgb))' : '',
 });
 </script>
 
 <template>
   <Teleport v-if="panel" :to="panel.container">
-    <section :key="panel.id" data-director-interactions="" :aria-label="t('Scene actions')" :style="panelStyle"><strong>{{ t('Scene actions') }}</strong><p role="status">{{ panel.status }}</p><button v-for="item in panel.items" :key="item.id" type="button" :data-director-action="item.id" :disabled="panel.busy" :aria-pressed="String(panel.selected === item.id)" :style="outline(item.id)" :onClick="onClick(panel.owner, item.id)">{{ item.label }}</button><div data-director-action-card=""><template v-if="panel.card"><p>{{ panel.card.text }}</p><a v-if="panel.card.url" :href="panel.card.url" target="_blank" rel="noopener noreferrer" style="color: #6eeaff">{{ t('Source') }}</a></template></div></section>
+    <section :key="panel.id" data-director-interactions="" :aria-label="t('Scene actions')" :style="panelStyle"><strong>{{ t('Scene actions') }}</strong><p role="status">{{ panel.status }}</p><button v-for="item in panel.items" :key="item.id" type="button" :data-director-action="item.id" :disabled="panel.busy" :aria-pressed="String(panel.selected === item.id)" :style="outline(item.id)" :onClick="onClick(panel.owner, item.id)">{{ item.label }}</button><div data-director-action-card=""><template v-if="panel.card"><p>{{ panel.card.text }}</p><a v-if="panel.card.url" :href="panel.card.url" target="_blank" rel="noopener noreferrer" style="color: rgb(var(--accent-hi-rgb))">{{ t('Source') }}</a></template></div></section>
   </Teleport>
 </template>

@@ -109,8 +109,8 @@ test('an action reports its outcome and a card action shows its text and source'
   assert.equal(card1.getAttribute('aria-pressed'), 'true');
   // happy-dom orders the shorthand its own way.
   assert.deepEqual(card1.style.outline.split(' ').sort(), [
-    '#6eeaff',
     '2px',
+    'rgb(var(--accent-hi-rgb))',
     'solid',
   ]);
   $('[data-director-action="fly"]').click();

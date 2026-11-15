@@ -24,8 +24,8 @@
   border: 1px solid var(--glass-border);
   border-radius: calc(var(--btn-radius) + 4px);
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   pointer-events: none;
 }
 
@@ -79,8 +79,8 @@
   border: 1px solid var(--glass-border);
   border-radius: calc(var(--btn-radius) + 4px);
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   pointer-events: none;
 }
 
@@ -125,29 +125,29 @@
 /* ── Contrast: rails and name panels read clearly over dark space as well
    as bright imagery. ── */
 :is(.gev-panel-rail--left, .gev-panel-rail--right) .ui-rail {
-  background: rgba(16, 20, 28, 0.82) !important;
-  border-color: rgba(255, 255, 255, 0.14) !important;
+  background: rgb(var(--surface-rgb) / 0.82) !important;
+  border-color: rgb(var(--ink-rgb) / 0.14) !important;
   box-shadow:
     0 6px 20px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    inset 0 1px 0 rgb(var(--ink-rgb) / 0.05);
 }
 
 :is(.gev-panel-rail--left, .gev-panel-rail--right) .ui-rail--expanded::after {
-  background: rgba(16, 20, 28, 0.82) !important;
-  border-color: rgba(255, 255, 255, 0.14) !important;
+  background: rgb(var(--surface-rgb) / 0.82) !important;
+  border-color: rgb(var(--ink-rgb) / 0.14) !important;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
 }
 
 :is(.gev-panel-rail--left, .gev-panel-rail--right) .ui-rail__item {
-  color: rgba(225, 236, 242, 0.88);
+  color: rgb(var(--ink-rgb) / 0.88);
 }
 
 :is(.gev-panel-rail--left, .gev-panel-rail--right) .ui-rail__label {
-  color: rgba(225, 236, 242, 0.82) !important;
+  color: rgb(var(--ink-rgb) / 0.82) !important;
 }
 
 :is(.gev-panel-rail--left, .gev-panel-rail--right) .ui-rail__item:hover {
-  color: #fff;
+  color: rgb(var(--ink-rgb));
 }
 
 /* The open item takes the accent colour; its highlight is the rail's shared
@@ -156,7 +156,7 @@
    read as the highlight stretching. */
 :is(.gev-panel-rail--left, .gev-panel-rail--right)
   .ui-rail__item.ui-rail__item--on {
-  color: #00d4ff !important;
+  color: rgb(var(--accent-rgb)) !important;
 }
 
 :is(.gev-panel-rail--left, .gev-panel-rail--right)
@@ -167,8 +167,8 @@
 }
 
 :is(.gev-panel-rail--left, .gev-panel-rail--right) .ui-rail::before {
-  background: rgba(0, 212, 255, 0.15);
-  border-color: rgba(0, 212, 255, 0.28);
+  background: rgb(var(--accent-rgb) / 0.15);
+  border-color: rgb(var(--accent-rgb) / 0.28);
 }
 
 /* ── The open icon is its own island ──
@@ -201,11 +201,11 @@
   position: absolute;
   inset: -6px -5px;
   z-index: -1;
-  background: rgba(16, 20, 28, 0.82);
-  border: solid rgba(255, 255, 255, 0.14);
+  background: rgb(var(--surface-rgb) / 0.82);
+  border: solid rgb(var(--ink-rgb) / 0.14);
   border-width: 0 1px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   content: '';
   pointer-events: none;
 }

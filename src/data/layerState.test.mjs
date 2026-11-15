@@ -3232,3 +3232,42 @@ test('an application with every layer registered keeps every requested layer', a
   ]);
   coordinator.destroy();
 });
+
+test('a first visit opens the profile layers; saved state and shares still win', async () => {
+  const firstVisit = new LayerStateCoordinator(
+    productionManager(),
+    shareSink(),
+    {
+      storage: memoryStorage(),
+      firstVisitLayerIds: ['autobahn-traffic', 'not-a-layer'],
+    },
+  );
+  await firstVisit.start();
+  assert.equal(firstVisit.source, 'first-visit');
+  assert.deepEqual(firstVisit.getDurableState().enabledLayerIds, [
+    'autobahn-traffic',
+  ]);
+  assert.ok(firstVisit.dataManager.isEnabled('autobahn-traffic'));
+  firstVisit.destroy();
+
+  // Saved state, even an empty one, is the operator's own choice.
+  const saved = new LayerStateCoordinator(productionManager(), shareSink(), {
+    storage: memoryStorage(
+      JSON.stringify({ v: createDefaultLayerState().version, l: [], o: {} }),
+    ),
+    firstVisitLayerIds: ['autobahn-traffic'],
+  });
+  await saved.start();
+  assert.equal(saved.source, 'local');
+  assert.equal(saved.dataManager.isEnabled('autobahn-traffic'), false);
+  saved.destroy();
+
+  // A share link without layers keeps its legacy defaults.
+  const shared = new LayerStateCoordinator(productionManager(), shareSink(), {
+    storage: memoryStorage(),
+    firstVisitLayerIds: ['autobahn-traffic'],
+  });
+  await shared.start({ allowLocalState: false });
+  assert.equal(shared.dataManager.isEnabled('autobahn-traffic'), false);
+  shared.destroy();
+});

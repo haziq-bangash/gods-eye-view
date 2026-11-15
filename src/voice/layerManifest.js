@@ -478,7 +478,7 @@ export const VOICE_OFF_LAYERS = Object.freeze({
   // query for this layer wait until there is room.
   'drone-airspace':
     'informational airspace layer; no room in the prompt budget',
-  // Freight Pulse DE: the corridor briefing is an MCP tool; voice waits for room.
+  // Nadelöhr: the corridor briefing is an MCP tool; voice waits for room.
   'autobahn-traffic':
     'German Autobahn events; no room in the prompt budget (MCP corridor tool)',
   // Same budget: a historical wreck archive waits for room too.

@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { t } from '../../i18n/index.js';
+import { FREIGHT_TAGLINE } from '../../freightProfile.js';
 import { useDisplayStore } from '../stores/display.js';
 import { useLocationStore } from '../stores/location.js';
 import { useRecordingStore } from '../stores/recording.js';
@@ -74,8 +75,8 @@ const vToastText = {
   <!-- Title -->
   <div id="title-bar">
     <div class="title-glow"></div>
-    <h1><span class="title-logo brand-logo" data-logo-gaze data-logo-src="/logo.svg" aria-hidden="true"><img src="/logo.svg" alt="" /></span> <span translate="no">GOD'S EYE <span class="title-accent">VIEW</span></span></h1>
-    <p class="subtitle scene-text-holdout">{{ t('NO PLACE LEFT BEHIND') }}</p>
+    <h1><span class="title-logo brand-logo" data-logo-gaze data-logo-src="/logo.svg" aria-hidden="true"><img src="/logo.svg" alt="" /></span> <span translate="no">Nadelöhr</span></h1>
+    <p class="subtitle scene-text-holdout">{{ t(FREIGHT_TAGLINE) }}</p>
     <div v-if="fps" class="frame-rate-readout scene-text-holdout" :hidden="!fps.visible" :title="t('Rendered globe frames per second · toggle with `')">{{ fps.text }}</div>
   </div>
 

@@ -89,11 +89,9 @@
   "Side labels describe the source, not whether a report is true.": "Las etiquetas de bando describen la fuente, no si la noticia es cierta.",
   "Exit cockpit to fly to a news report": "Sal de la cabina para volar a una noticia",
   "News items in the feed": "Noticias en la lista",
-  "NO PLACE LEFT BEHIND": "NINGÚN RINCÓN SIN VIGILAR",
   "Initializing photorealistic world...": "Inicializando el mundo fotorrealista...",
   "Configuring viewer...": "Configurando el visor...",
   "Google 3D Tiles unavailable ({detail}). Loading the keyless globe...": "Google 3D Tiles no disponibles ({detail}). Cargando el globo sin clave...",
-  "Flying to Austin, TX...": "Volando a Austin, TX...",
   "Restoring shared view...": "Restaurando la vista compartida...",
   "LOADING LIVE DATA": "CARGANDO DATOS EN VIVO",
   "LOAD COMPLETE": "CARGA COMPLETA",
@@ -3732,5 +3730,14 @@
   "Short-term roadworks": "Obras de corta duración",
   "Roadworks": "Obras",
   "Autobahn Closures & Roadworks": "Autobahn: cortes y obras",
-  "Freight": "Mercancías"
+  "Freight": "Mercancías",
+  "Transport": "Transporte",
+  "Flying to Germany...": "Volando a Alemania...",
+  "More layers": "Más capas",
+  "{count} on": {
+    "one": "{count} activa",
+    "many": "{count} activas",
+    "other": "{count} activas"
+  },
+  "Freight bottlenecks across Germany": "Cuellos de botella del transporte de mercancías en Alemania"
 }

@@ -1467,5 +1467,9 @@
   "src/ui/styles/rail-edge.css",
   "src/ui/styles/rail-split.css",
   "src/ui/styles/left-tools.css",
-  "src/ui/styles/panel-edge.css"
+  "src/ui/styles/panel-edge.css",
+  "src/freightProfile.js",
+  "scripts/nadeloehr-theme.mjs",
+  "src/nadeloehrTheme.test.mjs",
+  "src/ui/styles/nadeloehr.css"
 ]

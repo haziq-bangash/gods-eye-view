@@ -250,7 +250,8 @@
     "OPT-IN",
     "{minutes} min",
     "1 min/s",
-    "{length} km"
+    "{length} km",
+    "Transport"
   ],
   "es": [
     "1 min/s",
@@ -640,7 +641,8 @@
     "Oblique",
     "Type",
     "{range} NM",
-    "{length} km"
+    "{length} km",
+    "Transport"
   ],
   "it": [
     "1 min/s",
@@ -1277,7 +1279,8 @@
     "ICAO: {id}",
     "NORAD: {id}",
     "MMSI: {id}",
-    "{length} km"
+    "{length} km",
+    "Transport"
   ],
   "uk": [
     "1900–1945",

@@ -86,7 +86,6 @@
   "Larger: more sources · fainter: older. Picture card: a major or fast-growing event with two or more sources.": "Större: fler källor · blekare: äldre. Bildkort: en allvarlig eller snabbt växande händelse med två eller fler källor.",
   "Side labels describe the source, not whether a report is true.": "Etiketter för sidtillhörighet beskriver källan, inte om en rapport är sann.",
   "News items in the feed": "Nyheter i flödet",
-  "Flying to Austin, TX...": "Flyger till Austin, TX …",
   "Restoring shared view...": "Återställer delad vy …",
   "Configuring viewer...": "Konfigurerar vyn …",
   "Loading Google 3D Tiles...": "Laddar Google 3D Tiles …",
@@ -936,7 +935,6 @@
   "SAVE KEYS": "SPARA NYCKLAR",
   "ESC to close": "ESC för att stänga",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "Google Maps-nyckeln ger den fotorealistiska planeten – allt annat läggs ovanpå.",
-  "NO PLACE LEFT BEHIND": "INGEN PLATS LÄMNAS KVAR",
   "ACTIVE STYLE": "AKTIV STIL",
   "Globe actions": "Globåtgärder",
   "Turn off all selected data layers": "Stäng av alla valda datalager",
@@ -3644,5 +3642,13 @@
   "Short-term roadworks": "Kortvariga vägarbeten",
   "Roadworks": "Vägarbeten",
   "Autobahn Closures & Roadworks": "Autobahn: avstängningar och vägarbeten",
-  "Freight": "Gods"
+  "Freight": "Gods",
+  "Transport": "Transport",
+  "Flying to Germany...": "Flyger till Tyskland...",
+  "More layers": "Fler lager",
+  "{count} on": {
+    "one": "{count} på",
+    "other": "{count} på"
+  },
+  "Freight bottlenecks across Germany": "Flaskhalsar i godstrafiken i Tyskland"
 }

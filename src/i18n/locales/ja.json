@@ -100,7 +100,6 @@
   "Board cleared.": "ボードを消去しました。",
   "{owner} is using the pointer — close it first.": "{owner}がポインターを使用中です。先に閉じてください。",
   "{label} · Detailed outline unavailable": "{label} · 詳細な輪郭を取得できません",
-  "Flying to Austin, TX...": "テキサス州オースティンへ移動中…",
   "Restoring shared view...": "共有ビューを復元中…",
   "Configuring viewer...": "ビューアーを設定中…",
   "Loading Google 3D Tiles...": "Google 3D Tilesを読み込み中…",
@@ -2998,7 +2997,6 @@
   "SAVE KEYS": "キーを保存",
   "ESC to close": "Escで閉じる",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "Google Mapsのキーでフォトリアルな地球が使えるようになり、他のすべてはその上に重なります。",
-  "NO PLACE LEFT BEHIND": "取り残される場所はない",
   "ACTIVE STYLE": "現在のスタイル",
   "Globe actions": "地球儀の操作",
   "Turn off all selected data layers": "選択中のデータレイヤーをすべてオフにする",
@@ -3556,5 +3554,12 @@
   "Short-term roadworks": "短期工事",
   "Roadworks": "工事",
   "Autobahn Closures & Roadworks": "アウトバーン通行止め・工事",
-  "Freight": "貨物"
+  "Freight": "貨物",
+  "Transport": "輸送",
+  "Flying to Germany...": "ドイツへ移動中...",
+  "More layers": "その他のレイヤー",
+  "{count} on": {
+    "other": "{count} 件オン"
+  },
+  "Freight bottlenecks across Germany": "ドイツ貨物輸送のボトルネック"
 }

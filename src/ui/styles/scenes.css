@@ -2,7 +2,7 @@
 #scene-panel {
   --panel-expanded-width: 360px;
   /* Secondary text in Authoring: dimmer than labels, but legible on the globe. */
-  --scene-quiet: rgba(232, 234, 237, 0.62);
+  --scene-quiet: rgb(var(--ink-rgb) / 0.62);
   position: fixed;
   top: calc(var(--left-stack-top) + (var(--left-stack-gap) * 2));
   left: var(--left-stack-x);
@@ -108,21 +108,21 @@
 #left-panel-stack > [data-panel-id]:not(.collapsed) .panel-divider {
   background: linear-gradient(
     90deg,
-    rgb(0 212 255 / 28%),
-    rgba(0, 212, 255, 0.18) 58%,
+    rgb(var(--accent-rgb) / 28%),
+    rgb(var(--accent-rgb) / 0.18) 58%,
     transparent
   );
-  box-shadow: 0 0 7px rgba(0, 212, 255, 0.22);
+  box-shadow: 0 0 7px rgb(var(--accent-rgb) / 0.22);
 }
 
 #right-context-rail [data-panel-id]:not(.collapsed) .panel-divider {
   background: linear-gradient(
     90deg,
-    rgb(0 212 255 / 28%),
-    rgba(0, 212, 255, 0.18) 58%,
+    rgb(var(--accent-rgb) / 28%),
+    rgb(var(--accent-rgb) / 0.18) 58%,
     transparent
   );
-  box-shadow: 0 0 7px rgba(0, 212, 255, 0.22);
+  box-shadow: 0 0 7px rgb(var(--accent-rgb) / 0.22);
 }
 
 #scene-panel .panel-glow {
@@ -130,7 +130,7 @@
   inset: -18px;
   background: radial-gradient(
     ellipse at center,
-    rgba(0, 212, 255, 0.16) 0%,
+    rgb(var(--accent-rgb) / 0.16) 0%,
     transparent 65%
   );
   filter: blur(16px);
@@ -147,12 +147,12 @@
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 24px);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+    0 0 0 1px rgb(var(--ink-rgb) / 0.03) inset,
+    0 1px 0 rgb(var(--ink-rgb) / 0.06) inset;
 }
 
 .scene-controls {
@@ -212,7 +212,7 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgb(var(--ink-rgb) / 0.08);
 }
 
 .panel-header + .scene-step-heading {
@@ -276,7 +276,7 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
 }
 
 .scene-shot-empty {
-  border: 1px dashed rgba(255, 255, 255, 0.14);
+  border: 1px dashed rgb(var(--ink-rgb) / 0.14);
   border-radius: 8px;
   padding: 16px 12px;
   text-align: center;
@@ -288,10 +288,10 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
 }
 
 .scene-shot-row {
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgb(var(--ink-rgb) / 0.12);
   border-radius: 9px;
   padding: 8px 10px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgb(var(--ink-rgb) / 0.03);
   counter-increment: scene-shot;
   transition:
     border-color var(--transition-fast),
@@ -300,7 +300,7 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
 
 .scene-shot-row.active {
   border-color: var(--accent);
-  background: rgba(0, 212, 255, 0.08);
+  background: rgb(var(--accent-rgb) / 0.08);
 }
 
 .scene-shot-top {
@@ -351,8 +351,8 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
   box-sizing: border-box;
   font: inherit;
   color: var(--text-primary);
-  background: var(--bg-panel, #101820);
-  border: 1px solid var(--accent, #00d4ff);
+  background: var(--bg-panel, rgb(var(--surface-rgb)));
+  border: 1px solid var(--accent, rgb(var(--accent-rgb)));
 }
 
 .scene-shot-meta {
@@ -373,8 +373,8 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
   width: 100%;
   height: 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgb(var(--ink-rgb) / 0.06);
+  border: 1px solid rgb(var(--ink-rgb) / 0.1);
   overflow: hidden;
 }
 
@@ -383,10 +383,10 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
   height: 100%;
   background: linear-gradient(
     90deg,
-    rgba(0, 212, 255, 0.2),
-    rgba(0, 212, 255, 0.75)
+    rgb(var(--accent-rgb) / 0.2),
+    rgb(var(--accent-rgb) / 0.75)
   );
-  color: #d5f7ff;
+  color: rgb(var(--ink-rgb));
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1px;
@@ -395,7 +395,7 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
   justify-content: flex-end;
   padding-right: 6px;
   transition: width 100ms linear;
-  text-shadow: 0 0 6px rgba(0, 212, 255, 0.6);
+  text-shadow: 0 0 6px rgb(var(--accent-rgb) / 0.6);
 }
 
 #scene-status {
@@ -421,12 +421,12 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 2px;
-  color: #bff4ff;
+  color: rgb(var(--ink-rgb));
   background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(0, 212, 255, 0.36);
+  border: 1px solid rgb(var(--accent-rgb) / 0.36);
   border-radius: 999px;
   padding: 6px 14px;
-  text-shadow: 0 0 8px rgba(0, 212, 255, 0.55);
+  text-shadow: 0 0 8px rgb(var(--accent-rgb) / 0.55);
   pointer-events: none;
 }
 
@@ -504,5 +504,5 @@ html:not([lang='en']) #scene-panel .scene-controls .scene-btn {
 }
 
 .director-sharing-dialog::backdrop {
-  background: rgba(0, 8, 14, 0.65);
+  background: rgb(var(--surface-rgb) / 0.65);
 }

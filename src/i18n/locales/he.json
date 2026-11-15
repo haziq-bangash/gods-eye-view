@@ -33,7 +33,6 @@
   "Board cleared.": "הלוח נוקה.",
   "{owner} is using the pointer — close it first.": "{owner} משתמש במצביע — סגור אותו תחילה.",
   "{label} · Detailed outline unavailable": "{label} · קו המתאר המפורט אינו זמין",
-  "Flying to Austin, TX...": "טס אל Austin, TX...",
   "Restoring shared view...": "משחזר תצוגה משותפת...",
   "Configuring viewer...": "מגדיר צפייה...",
   "Loading Google 3D Tiles...": "טוען Google 3D Tiles...",
@@ -2396,7 +2395,6 @@
   "SAVE KEYS": "שמירת מפתחות",
   "ESC to close": "Esc לסגירה",
   "Visible map targets": "היעדים הגלויים במפה",
-  "NO PLACE LEFT BEHIND": "בלי מקום שנשאר מאחור",
   "Rendered globe frames per second · toggle with `": "פריימי גלובוס לשנייה · הצגה/הסתרה עם `",
   "ACTIVE STYLE": "הסגנון הפעיל",
   "ORBIT": "הקפה",
@@ -3732,5 +3730,14 @@
   "Short-term roadworks": "עבודות כביש קצרות טווח",
   "Roadworks": "עבודות כביש",
   "Autobahn Closures & Roadworks": "אוטובאן: סגירות ועבודות",
-  "Freight": "מטענים"
+  "Freight": "מטענים",
+  "Transport": "תחבורה",
+  "Flying to Germany...": "טסים לגרמניה...",
+  "More layers": "שכבות נוספות",
+  "{count} on": {
+    "one": "{count} פעילה",
+    "two": "{count} פעילות",
+    "other": "{count} פעילות"
+  },
+  "Freight bottlenecks across Germany": "צווארי בקבוק בהובלת מטענים בגרמניה"
 }
