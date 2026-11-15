@@ -8,6 +8,8 @@ import {
   riskLevel,
   scoreCorridor,
   scoreCorridors,
+  scoreRoute,
+  thinPath,
 } from './corridors.js';
 
 const byId = Object.fromEntries(CORRIDORS.map((c) => [c.id, c]));
@@ -136,4 +138,43 @@ test('W comes from the DWD warnings crossing the corridor line', () => {
       .value,
     0,
   );
+});
+
+test('a checked route counts only what lies on it, on any road', () => {
+  // A straight 100 km route along latitude 50.
+  const path = Array.from({ length: 701 }, (_, i) => [8 + i * 0.002, 50]);
+  const result = scoreRoute(
+    { from: 'A', to: 'B', path },
+    {
+      events: [
+        event('closure', 'A3', 8.3, 50.001), // on the route (~0.1 km)
+        event('closure', 'A5', 8.3, 50.05), // parallel road, ~5.5 km away
+      ],
+      restAreas: [
+        { stableId: 'p', road: 'A3', lat: 50.004, lon: 8.5, lorrySpaces: 100 },
+        { stableId: 'far', road: 'A3', lat: 50.1, lon: 8.5, lorrySpaces: 999 },
+      ],
+      warnings: [],
+    },
+  );
+  assert.equal(result.corridor.id, 'route');
+  assert.equal(result.events.length, 1);
+  assert.equal(result.parking.restAreas, 1);
+  assert.deepEqual(
+    result.parts.map(({ key, available }) => [key, available]),
+    [
+      ['C', true],
+      ['P', true],
+      ['W', true],
+    ],
+  );
+  assert.ok(result.corridor.path.length < path.length);
+});
+
+test('thinning keeps the ends and roughly one point per step', () => {
+  const path = Array.from({ length: 1001 }, (_, i) => [8 + i * 0.0007, 50]);
+  const thin = thinPath(path, 0.5);
+  assert.deepEqual(thin[0], path[0]);
+  assert.deepEqual(thin.at(-1), path.at(-1));
+  assert.ok(thin.length > 90 && thin.length < 110, String(thin.length));
 });

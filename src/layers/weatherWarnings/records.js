@@ -245,19 +245,24 @@ export function samplePath(path, stepKm = 5) {
 }
 
 /**
- * Warnings in force now or starting within `horizonMs` whose area the path
- * crosses, most severe first.
+ * Warnings whose area the path crosses and that apply during `range`
+ * ([from, to]); by default those in force now or starting within
+ * `horizonMs`. Most severe first.
  */
 export function warningsOnPath(
   path,
   rows,
-  { now = Date.now(), horizonMs = 12 * 3_600_000 } = {},
+  { now = Date.now(), horizonMs = 12 * 3_600_000, range = null } = {},
 ) {
+  const [from, to] =
+    Array.isArray(range) && range[0] !== range[1]
+      ? range
+      : [now, now + horizonMs];
   const points = samplePath(path);
   return (Array.isArray(rows) ? rows : []).filter(
     (row) =>
-      (row.onset === null || row.onset <= now + horizonMs) &&
-      (row.expires === null || row.expires > now) &&
+      (row.onset === null || row.onset <= to) &&
+      (row.expires === null || row.expires > from) &&
       points.some((point) => warningCovers(row, point)),
   );
 }

@@ -29,6 +29,7 @@ import MapControls from './components/MapControls.vue';
 import MapLegend from './components/MapLegend.vue';
 import MapStylePicker from './components/MapStylePicker.vue';
 import PlaceCard from './components/PlaceCard.vue';
+import RouteCheck from './components/RouteCheck.vue';
 import SearchField from './components/SearchField.vue';
 import TodayStrip from './components/TodayStrip.vue';
 
@@ -247,7 +248,9 @@ async function locate() {
       class="pointer-events-auto absolute inset-x-3 top-[calc(max(0.75rem,env(safe-area-inset-top))+56px)] lg:right-4 lg:left-[432px]"
       :kpis="app.kpis.value"
       :active="activeKpi"
+      :horizon="app.horizon.value"
       @pick="pickKpi"
+      @update:horizon="app.setHorizon"
     />
 
     <!-- Right insight: the selected corridor, else Kaub (≥ 1280 px) -->
@@ -410,7 +413,12 @@ async function locate() {
           @close="app.selectCorridor(null)"
         />
         <div v-else class="flex flex-col gap-5">
-          <HeroCard :headline="app.headline.value" @open="openHeadline" />
+          <HeroCard
+            :headline="app.headline.value"
+            :horizon="app.horizon.value"
+            @open="openHeadline"
+          />
+          <RouteCheck :app="app" />
           <CorridorCards
             :corridors="corridors"
             :selected-id="app.selectedCorridorId.value"

@@ -11,7 +11,8 @@ import {
   RISK_WEIGHTS,
   scoreCorridors,
 } from '../../freight/corridors.js';
-import { kaubRow } from '../../layers/riverLevels/records.js';
+import { kaubRow, levelDuring } from '../../layers/riverLevels/records.js';
+import { HORIZONS, horizonRange } from '../../freight/horizon.js';
 import { warningGroup } from '../../layers/weatherWarnings/records.js';
 
 const FREIGHT_LAYERS = Object.freeze([
@@ -74,7 +75,8 @@ export const getCorridorRisk = defineTool({
     'scored 0–100 as R = 0.35·closures + 0.20·truck parking + 0.25·Rhine ' +
     'water at Kaub + 0.20·DWD weather warnings, with each part explained. ' +
     'Parts without data, and water on road-only corridors, are left out and ' +
-    'the rest rescaled. A heuristic, not a delay forecast. Returns a link that ' +
+    'the rest rescaled. A heuristic, not a delay forecast. `when` looks at ' +
+    'tonight or tomorrow instead of now. Returns a link that ' +
     'opens the map framed on the corridor.',
   inputSchema: {
     type: 'object',
@@ -83,6 +85,12 @@ export const getCorridorRisk = defineTool({
         type: 'string',
         enum: CORRIDORS.map((corridor) => corridor.id),
         description: 'One corridor; omit for all of them, riskiest first.',
+      },
+      when: {
+        type: 'string',
+        enum: [...HORIZONS],
+        description:
+          'now (default), tonight (18:00–06:00 Berlin) or tomorrow (06:00–22:00 Berlin): announced roadworks by their schedule, DWD warnings by their times and the official Kaub forecast.',
       },
     },
     additionalProperties: false,
@@ -100,11 +108,15 @@ export const getCorridorRisk = defineTool({
         'unavailable',
         'The Autobahn feed is unavailable, so no corridor can be scored.',
       );
+    const when = args.when || 'now';
+    const range = horizonRange(when);
+    const kaubForRange = gauges ? kaubRow(gauges) : null;
     const scored = scoreCorridors({
       events,
-      kaubLevelCm: gauges ? (kaubRow(gauges)?.levelCm ?? null) : null,
+      kaubLevelCm: kaubForRange ? levelDuring(kaubForRange, range) : null,
       warnings,
       restAreas,
+      range: when === 'now' ? null : range,
     }).filter((entry) => !args.corridor || entry.corridor.id === args.corridor);
     const kaub = gauges ? kaubRow(gauges) : null;
     const rows = scored.map((entry) => ({
@@ -144,13 +156,23 @@ export const getCorridorRisk = defineTool({
       (row) =>
         `${row.name} ${row.score ?? '–'}/100 (${row.level ?? 'unknown'})`,
     );
-    const kaubLine = kaub ? ` Kaub reads ${kaub.levelCm} cm.` : '';
+    const kaubLevel = kaub ? levelDuring(kaub, range) : null;
+    const kaubLine = !Number.isFinite(kaubLevel)
+      ? ''
+      : when === 'now'
+        ? ` Kaub reads ${kaubLevel} cm.`
+        : ` Kaub forecast low ${when}: ${kaubLevel} cm.`;
     return {
-      summary: `${args.corridor ? 'Corridor risk' : 'Corridor risk, riskiest first'}: ${lines.join('; ')}.${kaubLine}`,
+      summary: `${args.corridor ? 'Corridor risk' : 'Corridor risk, riskiest first'}${when === 'now' ? '' : ` ${when}`}: ${lines.join('; ')}.${kaubLine}`,
       data: {
         view,
         formula: 'R = 0.35·C + 0.20·P + 0.25·H + 0.20·W',
-        kaub_cm: kaub?.levelCm ?? null,
+        when,
+        range: {
+          from: new Date(range[0]).toISOString(),
+          to: new Date(range[1]).toISOString(),
+        },
+        kaub_cm: Number.isFinite(kaubLevel) ? kaubLevel : null,
         rows,
         sources: [
           'Die Autobahn GmbH des Bundes',

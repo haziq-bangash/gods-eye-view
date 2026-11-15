@@ -226,7 +226,10 @@
       "src/nadeloehr/warnings.js",
       "src/nadeloehr/components/WarningCard.vue",
       "src/nadeloehr/components/ParkingCard.vue",
-      "src/layers/truckParking/records.js"
+      "src/layers/truckParking/records.js",
+      "src/freight/horizon.js",
+      "src/nadeloehr/components/HorizonSwitch.vue",
+      "src/nadeloehr/components/RouteCheck.vue"
     ],
     "external": [
       "vue",
@@ -3910,7 +3913,8 @@
       "src/layers/truckParking/source.js",
       "src/layers/truckParking/records.js",
       "src/layers/truckParking/index.js",
-      "src/app/layers/truckParking.js"
+      "src/app/layers/truckParking.js",
+      "src/freight/horizon.js"
     ],
     "external": [
       "hls.js",
@@ -4646,7 +4650,8 @@
       "src/layers/truckParking/source.js",
       "src/layers/truckParking/records.js",
       "src/layers/truckParking/index.js",
-      "src/app/layers/truckParking.js"
+      "src/app/layers/truckParking.js",
+      "src/freight/horizon.js"
     ],
     "external": [
       "hls.js",
@@ -5794,7 +5799,8 @@
       "src/i18n/locales/sv.json",
       "src/i18n/locales/uk.json",
       "src/i18n/locales/zh-CN.json",
-      "src/i18n/locales/zh-Hant.json"
+      "src/i18n/locales/zh-Hant.json",
+      "src/freight/horizon.js"
     ],
     "external": ["cesium"]
   },
@@ -5903,7 +5909,8 @@
       "src/layers/truckParking/index.js",
       "src/layers/truckParking/records.js",
       "src/layers/truckParking/source.js",
-      "src/layers/autobahn/records.js"
+      "src/layers/autobahn/records.js",
+      "src/freight/horizon.js"
     ],
     "external": ["cesium"]
   },
@@ -5981,7 +5988,8 @@
       "src/layers/autobahn/records.js",
       "src/layers/truckParking/records.js",
       "src/freight/corridors.js",
-      "src/tools/queries/freight.js"
+      "src/tools/queries/freight.js",
+      "src/freight/horizon.js"
     ],
     "external": ["satellite.js"]
   },

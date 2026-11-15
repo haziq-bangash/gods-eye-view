@@ -19,8 +19,10 @@ defineEmits(['close']);
         <p class="nd-eyebrow">{{ t('Corridor risk') }}</p>
         <h2 class="mt-1 text-title">{{ corridor.title }}</h2>
         <p class="text-subhead text-muted-foreground">
-          {{ corridor.name }} · {{ corridor.roads.join(' · ')
-          }}<template v-if="corridor.river"> · {{ corridor.river }}</template>
+          {{ corridor.name
+          }}<template v-if="corridor.roads.length">
+            · {{ corridor.roads.join(' · ') }}</template
+          ><template v-if="corridor.river"> · {{ corridor.river }}</template>
         </p>
       </div>
       <Button

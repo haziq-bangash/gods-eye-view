@@ -15,6 +15,8 @@ const LEVEL_COLORS = Object.freeze({
 export function createCorridorOverlay(viewer) {
   const source = new Cesium.CustomDataSource('nadeloehr-corridors');
   viewer.dataSources.add(source);
+  const routeSource = new Cesium.CustomDataSource('nadeloehr-route');
+  viewer.dataSources.add(routeSource);
   let destroyed = false;
 
   return {
@@ -45,8 +47,45 @@ export function createCorridorOverlay(viewer) {
       }
       viewer.scene.requestRender?.();
     },
+    /**
+     * Draw a checked route like a navigation route: a blue line on a white
+     * casing, above the corridor bands. Null clears it. (The card shows its
+     * risk colour.)
+     */
+    setRoute(path) {
+      if (destroyed || viewer.isDestroyed?.()) return;
+      routeSource.entities.removeAll();
+      if (Array.isArray(path) && path.length >= 2) {
+        const positions = path.map(([lon, lat]) =>
+          Cesium.Cartesian3.fromDegrees(lon, lat),
+        );
+        // A white casing under the coloured line, like a navigation route.
+        routeSource.entities.add({
+          id: 'nadeloehr-route:casing',
+          polyline: {
+            positions,
+            width: 12,
+            clampToGround: true,
+            zIndex: 1,
+            material: Cesium.Color.WHITE,
+          },
+        });
+        routeSource.entities.add({
+          id: 'nadeloehr-route:line',
+          polyline: {
+            positions,
+            width: 7,
+            clampToGround: true,
+            zIndex: 2,
+            material: Cesium.Color.fromCssColorString('#007aff'),
+          },
+        });
+      }
+      viewer.scene.requestRender?.();
+    },
     destroy() {
       destroyed = true;
+      if (!viewer.isDestroyed?.()) viewer.dataSources.remove(routeSource, true);
       if (!viewer.isDestroyed?.()) viewer.dataSources.remove(source, true);
     },
   };

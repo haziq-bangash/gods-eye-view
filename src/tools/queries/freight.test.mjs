@@ -87,3 +87,22 @@ test('without the Autobahn feed no corridor is scored', async () => {
     (error) => error.code === 'invalid_arguments',
   );
 });
+
+test('tonight reads announced works, warnings by time and the Kaub forecast', async () => {
+  const now = Date.now();
+  const result = await catalog({
+    riverLevels: source([
+      {
+        shortname: 'KAUB',
+        levelCm: 59,
+        forecast: [
+          [now + 6 * 3_600_000, 50, false],
+          [now + 40 * 3_600_000, 80, false],
+        ],
+      },
+    ]),
+  }).call('get_corridor_risk', { when: 'tonight' });
+  assert.equal(result.data.when, 'tonight');
+  assert.match(result.summary, /^Corridor risk, riskiest first tonight: /);
+  assert.ok(result.data.range.from < result.data.range.to);
+});

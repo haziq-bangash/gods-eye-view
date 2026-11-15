@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { berlinTime } from '../../freight/horizon.js';
 import {
   AUTOBAHN_ROADS,
   MAX_LINE_POINTS,
@@ -78,6 +79,12 @@ test('a closure keeps its section, direction, line and stated length', () => {
       lengthKm: 1.2,
       blocked: false,
       startTime: null,
+      future: false,
+      // The notice's validity window, in Berlin time.
+      schedule: {
+        windows: [[berlinTime(2026, 11, 14, 3), berlinTime(2026, 11, 15, 23)]],
+        recurring: [],
+      },
       delayMinutes: null,
       averageSpeedKmh: null,
       trafficType: null,
@@ -103,8 +110,17 @@ test('a warning reads numeric strings, start time and a measured length', () => 
   assert.ok(row.lengthKm > 0.6 && row.lengthKm < 0.8, String(row.lengthKm));
 });
 
-test('future, unknown, unidentified and unplaceable items are skipped', () => {
-  assert.equal(normalizeAutobahnItem({ ...closure, future: true }, 'A1'), null);
+test('announced items are kept with their schedule; unknown, unidentified and unplaceable ones are skipped', () => {
+  const announced = normalizeAutobahnItem(
+    {
+      ...closure,
+      future: true,
+      description: ['17.11.26 von 06:00 bis 07:00 Uhr'],
+    },
+    'A1',
+  );
+  assert.equal(announced.future, true);
+  assert.equal(announced.schedule.windows.length, 1);
   assert.equal(
     normalizeAutobahnItem({ ...closure, display_type: 'PARKING' }, 'A1'),
     null,

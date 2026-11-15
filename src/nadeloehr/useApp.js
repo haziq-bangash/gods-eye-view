@@ -12,8 +12,9 @@ import { useGlobeActionsStore } from '../ui/stores/globeActions.js';
 import { useLocaleStore } from '../ui/stores/locale.js';
 import { useVoiceStore } from '../ui/stores/voice.js';
 import { useNadeloehrStore } from './store.js';
-import { CORRIDORS, scoreCorridors } from '../freight/corridors.js';
-import { kaubRow } from '../layers/riverLevels/records.js';
+import { CORRIDORS, scoreCorridors, scoreRoute } from '../freight/corridors.js';
+import { kaubRow, levelDuring } from '../layers/riverLevels/records.js';
+import { horizonRange } from '../freight/horizon.js';
 import { affectedParkingIds } from '../layers/truckParking/records.js';
 import { localResults, searchPlacesDE } from './search.js';
 import { todayHeadline, todayKpis } from './today.js';
@@ -218,22 +219,52 @@ export function useApp() {
       parkingModule()?.setAffected?.(affectedParkingIds(rows, events)),
     { immediate: true },
   );
+  // ── When: now, tonight or tomorrow (Berlin time) ─────────────────
+  const horizon = shallowRef('now');
+  const clock = shallowRef(Date.now());
+  const tick = setInterval(() => (clock.value = Date.now()), 60_000);
+  onBeforeUnmount(() => clearInterval(tick));
+  /** [from, to] of the chosen horizon; "now" is the current instant. */
+  const range = computed(() => horizonRange(horizon.value, clock.value));
+  function applyTimeRange() {
+    autobahnModule()?.setTimeRange?.(
+      horizon.value === 'now' ? null : range.value,
+    );
+    store.touchLayers();
+  }
+  function setHorizon(next) {
+    horizon.value = next;
+    applyTimeRange();
+  }
+  // A freshly loaded layer starts at "now"; give it the chosen range.
+  watch([services, range], applyTimeRange);
+  /** Kaub's level for the horizon: the reading now, else the forecast. */
+  const kaubLevel = computed(() => {
+    const kaub = kaubRow(gauges.value);
+    return kaub ? levelDuring(kaub, range.value) : null;
+  });
+
   const corridors = computed(() =>
     scoreCorridors({
       events: disruptions.value,
-      kaubLevelCm: kaubRow(gauges.value)?.levelCm ?? null,
+      kaubLevelCm: kaubLevel.value,
       warnings: weatherOn.value ? warnings.value : null,
       restAreas: parkingOn.value ? parking.value : null,
+      range: horizon.value === 'now' ? null : range.value,
     }),
   );
   const kpis = computed(() =>
     todayKpis(disruptions.value, gauges.value, {
       warnings: weatherOn.value ? warnings.value : null,
+      horizon: horizon.value,
+      range: range.value,
     }),
   );
   const headline = computed(() =>
     todayHeadline(gauges.value, corridors.value, {
       warnings: weatherOn.value ? warnings.value : [],
+      horizon: horizon.value,
+      range: range.value,
     }),
   );
   const selectedCorridorId = shallowRef(null);
@@ -258,6 +289,97 @@ export function useApp() {
     const corridor = CORRIDORS.find((entry) => entry.id === id);
     if (corridor) services.value?.flyToPoints?.(corridor.path);
   }
+
+  // ── Check a route ─────────────────────────────────────────────
+  /** { from, to, path, distanceM, durationS } once a route is found. */
+  const route = shallowRef(null);
+  /** 'idle' | 'loading' | 'error', and a plain message on error. */
+  const routeStatus = shallowRef('idle');
+  const routeError = shallowRef('');
+  let routeRequest = null;
+  async function findPlace(text, signal) {
+    const [first] = await searchPlacesDE(text, {
+      locale: getLocale(),
+      signal,
+    });
+    return first?.place || null;
+  }
+  async function checkRoute(fromText, toText) {
+    routeRequest?.abort();
+    const request = new AbortController();
+    routeRequest = request;
+    routeStatus.value = 'loading';
+    routeError.value = '';
+    try {
+      const [from, to] = await Promise.all([
+        findPlace(fromText, request.signal),
+        findPlace(toText, request.signal),
+      ]);
+      if (!from || !to) {
+        routeStatus.value = 'error';
+        routeError.value = t('Could not find {place}.', {
+          place: !from ? fromText : toText,
+        });
+        return;
+      }
+      const coords = [from, to]
+        .map((place) => `${place.lng.toFixed(5)},${place.lat.toFixed(5)}`)
+        .join(';');
+      const response = await fetch(
+        `/api/route?${new URLSearchParams({ profile: 'car', coords })}`,
+        { signal: request.signal },
+      );
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || payload?.ok === false || !payload?.geometry) {
+        routeStatus.value = 'error';
+        routeError.value = t('No driving route found between these places.');
+        return;
+      }
+      route.value = {
+        from: from.name || fromText,
+        to: to.name || toText,
+        path: payload.geometry,
+        distanceM: payload.distanceM,
+        durationS: payload.durationS,
+      };
+      routeStatus.value = 'idle';
+      select(null);
+      selectGauge(null);
+      selectCorridor(null);
+      services.value?.flyToPoints?.(payload.geometry);
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+      routeStatus.value = 'error';
+      routeError.value = t(
+        'The route service is not answering. Try again in a moment.',
+      );
+    } finally {
+      if (routeRequest === request) routeRequest = null;
+    }
+  }
+  function clearRoute() {
+    routeRequest?.abort();
+    route.value = null;
+    routeStatus.value = 'idle';
+    routeError.value = '';
+  }
+  const routeScore = computed(() =>
+    route.value
+      ? scoreRoute(route.value, {
+          events: disruptions.value,
+          warnings: weatherOn.value ? warnings.value : null,
+          restAreas: parkingOn.value ? parking.value : null,
+          range: horizon.value === 'now' ? null : range.value,
+        })
+      : null,
+  );
+  watch(
+    [routeScore, services],
+    ([scored, next]) =>
+      // The thinned line (~every 500 m) draws fast and looks the same.
+      next?.corridorOverlay?.setRoute?.(scored ? scored.corridor.path : null),
+    { immediate: true },
+  );
 
   /** Which severity the list (and, for minor, the map) is narrowed to. */
   const severity = shallowRef(null);
@@ -451,6 +573,15 @@ export function useApp() {
     selectParking,
     showParkingOnMap,
     parkingOn,
+    horizon,
+    range,
+    setHorizon,
+    route,
+    routeStatus,
+    routeError,
+    routeScore,
+    checkRoute,
+    clearRoute,
     corridors,
     kpis,
     headline,

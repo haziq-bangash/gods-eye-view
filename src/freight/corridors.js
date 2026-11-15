@@ -18,6 +18,7 @@ import { msg } from '../i18n/marker.js';
 import { kaubHydrologyScore } from '../layers/riverLevels/records.js';
 import { weatherScore } from '../layers/weatherWarnings/records.js';
 import { parkingScore } from '../layers/truckParking/records.js';
+import { appliesDuring } from './horizon.js';
 
 /** Rest areas further than this from the corridor line are not on it. */
 export const PARKING_BUFFER_KM = 15;
@@ -157,13 +158,48 @@ export function distanceToPathKm(point, path) {
 
 /** The Autobahn events that lie on a corridor. */
 export function corridorEvents(corridor, events) {
-  return (Array.isArray(events) ? events : []).filter(
-    (event) =>
-      corridor.roads.includes(event?.road) &&
-      Number.isFinite(event.lat) &&
-      Number.isFinite(event.lon) &&
-      distanceToPathKm([event.lon, event.lat], corridor.path) <=
-        CORRIDOR_BUFFER_KM,
+  return nearPath(corridor, events, corridor.bufferKm ?? CORRIDOR_BUFFER_KM);
+}
+
+/** [west, south, east, north] of a path, widened by `km`. */
+function pathBox(path, km) {
+  const lons = path.map(([lon]) => lon);
+  const lats = path.map(([, lat]) => lat);
+  const dLat = km / 111;
+  const dLon =
+    km /
+    (111 *
+      Math.cos(
+        (((Math.min(...lats) + Math.max(...lats)) / 2) * Math.PI) / 180,
+      ));
+  return [
+    Math.min(...lons) - dLon,
+    Math.min(...lats) - dLat,
+    Math.max(...lons) + dLon,
+    Math.max(...lats) + dLat,
+  ];
+}
+
+/**
+ * Rows on the corridor: on one of its roads (any road when it lists none,
+ * as a checked route does) and within `km` of its line.
+ */
+function nearPath(corridor, rows, km) {
+  const roads =
+    Array.isArray(corridor.roads) && corridor.roads.length
+      ? corridor.roads
+      : null;
+  const [w, s, e, n] = pathBox(corridor.path, km);
+  return (Array.isArray(rows) ? rows : []).filter(
+    (row) =>
+      (!roads || roads.includes(row?.road)) &&
+      Number.isFinite(row?.lat) &&
+      Number.isFinite(row?.lon) &&
+      row.lon >= w &&
+      row.lon <= e &&
+      row.lat >= s &&
+      row.lat <= n &&
+      distanceToPathKm([row.lon, row.lat], corridor.path) <= km,
   );
 }
 
@@ -211,24 +247,28 @@ export function scoreCorridor(
     warnings = null,
     weather = null,
     now = Date.now(),
+    range = null,
   } = {},
 ) {
+  // A time range ([from, to]: tonight, tomorrow) or now. Events apply by
+  // their schedule; the caller passes Kaub's level for the range.
+  const when = Array.isArray(range) ? range : [now, now];
+  events = (Array.isArray(events) ? events : []).filter((event) =>
+    appliesDuring(event, when),
+  );
   const onCorridor = corridorEvents(corridor, events);
   const closures = closureScore(onCorridor);
   const hydrology = corridor.river ? kaubHydrologyScore(kaubLevelCm) : null;
   const onPath = Array.isArray(warnings)
-    ? weatherScore(corridor.path, warnings, { now })
+    ? weatherScore(corridor.path, warnings, { now, range })
     : null;
   const parkingDetail = Array.isArray(restAreas)
     ? parkingScore(
         corridor,
-        restAreas.filter(
-          (row) =>
-            corridor.roads.includes(row?.road) &&
-            Number.isFinite(row.lat) &&
-            Number.isFinite(row.lon) &&
-            distanceToPathKm([row.lon, row.lat], corridor.path) <=
-              PARKING_BUFFER_KM,
+        nearPath(
+          corridor,
+          restAreas,
+          corridor.parkingBufferKm ?? PARKING_BUFFER_KM,
         ),
         events,
       )
@@ -288,4 +328,42 @@ export function scoreCorridors(inputs, corridors = CORRIDORS) {
   return corridors
     .map((corridor) => ({ corridor, ...scoreCorridor(corridor, inputs) }))
     .sort((a, b) => (b.score ?? -1) - (a.score ?? -1));
+}
+
+/** A checked route's events lie on it; rest areas sit right beside it. */
+export const ROUTE_EVENT_KM = 1.5;
+export const ROUTE_PARKING_KM = 1;
+
+/** Keep a point every ~`stepKm` of a detailed route line (and its ends). */
+export function thinPath(path, stepKm = 0.5) {
+  if (!Array.isArray(path) || path.length < 3) return path || [];
+  const out = [path[0]];
+  for (const point of path.slice(1, -1))
+    if (distanceKm(out.at(-1), point) >= stepKm) out.push(point);
+  out.push(path.at(-1));
+  return out;
+}
+
+/**
+ * Score a driven route like a corridor: events within ROUTE_EVENT_KM of its
+ * line on any road, rest areas within ROUTE_PARKING_KM, the DWD warnings it
+ * crosses; no water part (a road route).
+ * @param {{from: string, to: string, path: number[][]}} route
+ */
+export function scoreRoute(route, inputs = {}) {
+  const corridor = Object.freeze({
+    id: 'route',
+    from: route.from,
+    to: route.to,
+    name: msg('Your route'),
+    roads: null,
+    river: null,
+    path: thinPath(route.path),
+    bufferKm: ROUTE_EVENT_KM,
+    parkingBufferKm: ROUTE_PARKING_KM,
+  });
+  return {
+    corridor,
+    ...scoreCorridor(corridor, { ...inputs, kaubLevelCm: null }),
+  };
 }

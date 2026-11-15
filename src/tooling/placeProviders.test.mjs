@@ -231,6 +231,9 @@ test('OSRM routing preserves aliases, cache, span guards and upstream failure be
     ['?profile=plane&coords=0,0;1,1', 'invalid profile'],
     ['?coords=0,91;1,1', 'invalid coordinate'],
     ['?coords=0,0;100,0', 'route leg too long'],
+    // Driving legs may reach 1,000 km (freight across Germany), not more.
+    ['?profile=car&coords=0,0;10,0', 'route leg too long'],
+    ['?coords=0,0;6,0', 'route leg too long'],
     ['?coords=0,0', 'need 2-12 coordinates'],
   ])
     assert.equal((await request(route, url)).body.error, error);

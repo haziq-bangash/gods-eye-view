@@ -1,7 +1,9 @@
 import {
   KAUB,
   KEY_GAUGES,
+  forecastSeries,
   hourlySeries,
+  pegelForecastUrl,
   PEGELONLINE_STATIONS_URL,
   levelTrend,
   normalizePegelStations,
@@ -65,7 +67,17 @@ export function pegelonlineProxy({
             );
             row.trendCm = levelTrend(measurements);
             // Kaub carries its last day for the shell's chart.
-            if (row.shortname === KAUB) row.series = hourlySeries(measurements);
+            if (row.shortname === KAUB) {
+              row.series = hourlySeries(measurements);
+              // The official forecast, for "tonight" and "tomorrow".
+              try {
+                row.forecast = forecastSeries(
+                  await upstream(pegelForecastUrl(row.stableId)),
+                );
+              } catch {
+                row.forecast = [];
+              }
+            }
           } catch {
             row.trendCm = null;
           }

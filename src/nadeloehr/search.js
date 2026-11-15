@@ -69,6 +69,22 @@ export function placeSearchUrl(text, locale = 'de') {
   return url.toString();
 }
 
+/** Settlement size order; anything that is not a settlement comes after. */
+const PLACE_RANK = Object.freeze({
+  city: 0,
+  town: 1,
+  municipality: 2,
+  borough: 2,
+  suburb: 3,
+  village: 4,
+  quarter: 5,
+  hamlet: 6,
+});
+const placeRank = (feature) =>
+  feature?.properties?.osm_key === 'place'
+    ? (PLACE_RANK[feature.properties.osm_value] ?? 5)
+    : 5;
+
 /** Places for a query: German ones first, duplicates by name and area dropped. */
 export async function searchPlacesDE(
   text,
@@ -86,11 +102,14 @@ export async function searchPlacesDE(
   const features = Array.isArray(data?.features) ? data.features : [];
   const seen = new Set();
   const places = [];
-  // Stable sort: Germany first, Photon's own ranking within each group.
+  // Stable sort: Germany first, then bigger settlements (so "München"
+  // is Munich, not a hamlet near the middle of the map), then Photon's own
+  // ranking.
   const ordered = [...features].sort(
     (a, b) =>
       Number(b?.properties?.countrycode === 'DE') -
-      Number(a?.properties?.countrycode === 'DE'),
+        Number(a?.properties?.countrycode === 'DE') ||
+      placeRank(a) - placeRank(b),
   );
   for (const feature of ordered) {
     const place = normalizePhotonFeature(feature);

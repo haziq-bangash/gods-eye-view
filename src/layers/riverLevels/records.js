@@ -256,3 +256,36 @@ export function hourlySeries(measurements) {
   }
   return [...byHour.values()].sort((a, b) => a[0] - b[0]);
 }
+
+/** The official water-level forecast (BfG, published by PEGELONLINE as WV). */
+export const pegelForecastUrl = (uuid) =>
+  `${PEGELONLINE_BASE}/stations/${encodeURIComponent(uuid)}/WV/measurements.json?start=P0D&end=P4D`;
+
+/**
+ * Forecast points as [timeMs, levelCm, isEstimate], oldest first. Beyond the
+ * forecast the BfG publishes lower-confidence estimates, flagged here.
+ */
+export function forecastSeries(points) {
+  if (!Array.isArray(points)) return [];
+  return points
+    .map((entry) => [
+      Date.parse(entry?.timestamp),
+      finite(entry?.value),
+      entry?.type === 'estimate',
+    ])
+    .filter(([at, value]) => Number.isFinite(at) && value !== null)
+    .sort((a, b) => a[0] - b[0]);
+}
+
+/**
+ * A gauge's level for a time range: the current reading for "now" (an
+ * instant), else the lowest forecast value inside the range — the level
+ * that limits barges. Null when the forecast does not cover the range.
+ */
+export function levelDuring(row, [from, to]) {
+  if (from === to) return finite(row?.levelCm);
+  const inside = (Array.isArray(row?.forecast) ? row.forecast : []).filter(
+    ([at]) => at >= from && at <= to,
+  );
+  return inside.length ? Math.min(...inside.map(([, value]) => value)) : null;
+}

@@ -107,6 +107,11 @@ async function throughUpstreamGate(run) {
 
 /** Reject routes whose straight-line spans are obviously abusive (km). */
 const ROUTE_MAX_LEG_KM = 600;
+/**
+ * Driving legs may be longer: Nadelöhr checks freight trips across Germany
+ * (Hamburg–München is 612 km in a straight line, the country ~900 km).
+ */
+const ROUTE_MAX_CAR_LEG_KM = 1000;
 
 const ROUTE_MAX_TOTAL_KM = 2500;
 
@@ -313,7 +318,9 @@ export function installRouteMiddleware(
           pts[i][1],
           pts[i][0],
         );
-        if (legKm > ROUTE_MAX_LEG_KM) return fail('route leg too long');
+        const maxLegKm =
+          profile === 'car' ? ROUTE_MAX_CAR_LEG_KM : ROUTE_MAX_LEG_KM;
+        if (legKm > maxLegKm) return fail('route leg too long');
         totalKm += legKm;
       }
       if (totalKm > ROUTE_MAX_TOTAL_KM) return fail('route too long');
