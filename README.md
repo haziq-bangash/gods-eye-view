@@ -101,6 +101,29 @@ No key is needed for any freight layer. To use the corridor tool from an
 assistant, follow [docs/MCP_SETUP.md](docs/MCP_SETUP.md) and ask for
 `get_corridor_risk`.
 
+### Deploy
+
+Nadelöhr is one Node process: the server that serves the page also runs the
+data routes (`/api/autobahn`, `/api/pegel`, `/api/dwd`), so it needs a host
+that runs a container or a Node service, not static hosting. The repository's
+`Dockerfile` is the whole app:
+
+```bash
+docker build -t nadeloehr .
+docker run -d -p 4173:4173   -e GEV_ALLOWED_HOSTS=nadeloehr.example.com   nadeloehr
+```
+
+- **`GEV_ALLOWED_HOSTS`** must list the public domain (comma-separated, no
+  wildcards); the server refuses other Host headers.
+- Put it behind HTTPS (the host's proxy or a reverse proxy) on port 4173.
+- **Base map:** register the domain in a free
+  [Stadia Maps](https://client.stadiamaps.com/) account (non-commercial use;
+  commercial use needs a paid plan). Until then the map falls back to
+  OpenStreetMap tiles automatically.
+- Any host that runs the image works (Render, Fly.io, Railway, a VPS). No
+  key is needed for the freight layers; optional upstream features such as
+  the AI assistant need their own keys (see below).
+
 More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
 (sections marked "Nadelöhr").
 
@@ -175,6 +198,16 @@ Stadia Maps (Grundkarte). Einzelheiten in [DATA_SOURCES.md](DATA_SOURCES.md).
 Node.js 24 oder 26: `npm ci`, dann `npm run dev` und
 `http://localhost:4173` öffnen. Für die Güterverkehrs-Ebenen ist kein
 Schlüssel nötig.
+
+### Veröffentlichen
+
+Nadelöhr ist ein einziger Node-Prozess, der auch die Datenrouten bedient; es
+braucht also einen Container- oder Node-Host, kein statisches Hosting. Das
+`Dockerfile` im Repository ist die ganze Anwendung (`docker build`, dann
+`docker run -p 4173:4173 -e GEV_ALLOWED_HOSTS=ihre.domain`). Die Domain muss in
+`GEV_ALLOWED_HOSTS` stehen und für die Grundkarte in einem kostenlosen
+Stadia-Maps-Konto eingetragen werden; bis dahin weicht die Karte automatisch
+auf OpenStreetMap aus.
 
 ---
 
