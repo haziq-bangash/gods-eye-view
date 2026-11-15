@@ -16,6 +16,7 @@
  */
 import { msg } from '../i18n/marker.js';
 import { kaubHydrologyScore } from '../layers/riverLevels/records.js';
+import { weatherScore } from '../layers/weatherWarnings/records.js';
 
 export const RISK_WEIGHTS = Object.freeze({ C: 0.35, P: 0.2, H: 0.25, W: 0.2 });
 
@@ -188,18 +189,33 @@ export function closureScore(events) {
  * Score one corridor.
  * @param {object} corridor - One of CORRIDORS.
  * @param {{events?: object[], kaubLevelCm?: ?number, parking?: ?number,
- *   weather?: ?number}} inputs - Parking and weather are 0–100 sub-scores
- *   when their layers report them, null until then.
+ *   warnings?: ?object[], weather?: ?number, now?: number}} inputs -
+ *   Parking is a 0–100 sub-score once its layer exists (null until then).
+ *   W comes from the DWD warning rows crossing the corridor (null when the
+ *   warnings layer is off); `weather` overrides it with a fixed score.
  * @returns {{id: string, score: ?number, level: ?string, parts: object[],
  *   counts: object, events: object[]}}
  */
 export function scoreCorridor(
   corridor,
-  { events = [], kaubLevelCm = null, parking = null, weather = null } = {},
+  {
+    events = [],
+    kaubLevelCm = null,
+    parking = null,
+    warnings = null,
+    weather = null,
+    now = Date.now(),
+  } = {},
 ) {
   const onCorridor = corridorEvents(corridor, events);
   const closures = closureScore(onCorridor);
   const hydrology = corridor.river ? kaubHydrologyScore(kaubLevelCm) : null;
+  const onPath = Array.isArray(warnings)
+    ? weatherScore(corridor.path, warnings, { now })
+    : null;
+  const weatherValue = Number.isFinite(weather)
+    ? weather
+    : (onPath?.value ?? null);
   const raw = [
     { key: 'C', value: closures.value, applies: true },
     {
@@ -210,7 +226,7 @@ export function scoreCorridor(
     { key: 'H', value: hydrology, applies: Boolean(corridor.river) },
     {
       key: 'W',
-      value: Number.isFinite(weather) ? weather : null,
+      value: weatherValue,
       applies: true,
     },
   ];
@@ -238,6 +254,7 @@ export function scoreCorridor(
     parts,
     counts: closures.counts,
     points: closures.points,
+    warnings: onPath?.warnings ?? [],
     events: onCorridor,
   };
 }

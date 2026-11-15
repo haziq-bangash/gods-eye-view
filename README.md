@@ -4,8 +4,8 @@
 
 **Freight bottlenecks across Germany, on one live map.** Nadelöhr shows
 Autobahn closures, junction closures, warnings and roadworks from the Autobahn
-GmbH API, and Rhine and Elbe water levels from PEGELONLINE with Kaub, the
-Middle Rhine bottleneck, highlighted, in an Apple Maps-style interface that anyone can use: search a place,
+GmbH API, Rhine and Elbe water levels from PEGELONLINE with Kaub, the Middle Rhine
+bottleneck, highlighted, and DWD weather warnings, scored per freight corridor, in an Apple Maps-style interface that anyone can use: search a place,
 see what is closed right now, tap an event for a plain explanation and the
 official notice. Light and dark, phone and desktop, 13 languages.
 
@@ -19,7 +19,7 @@ verständliche Erklärung und den amtlichen Hinweis.
 Nadelöhr is a fork of [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view)
 (MIT). What this fork adds is described in
 [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md) under "Nadelöhr interface" and
-"Today layout and corridor risk", "Rhine & Elbe Water Levels" and "Autobahn Closures & Roadworks"; data sources and licences are in
+"DWD Weather Warnings", "Today layout and corridor risk", "Rhine & Elbe Water Levels" and "Autobahn Closures & Roadworks"; data sources and licences are in
 [DATA_SOURCES.md](DATA_SOURCES.md). Data is shown for information only — always
 follow road signs and official notices.
 

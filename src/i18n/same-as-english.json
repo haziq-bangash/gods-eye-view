@@ -257,7 +257,9 @@
     "Elbe",
     "cm",
     "Live · {time}",
-    "Autobahn {road}"
+    "Autobahn {road}",
+    "Tornado",
+    "UV"
   ],
   "es": [
     "1 min/s",
@@ -426,7 +428,9 @@
     "+{minutes} min",
     "{speed} km/h",
     "{level} cm",
-    "cm"
+    "cm",
+    "Tornado",
+    "UV"
   ],
   "fr": [
     "1 min/s",
@@ -662,7 +666,8 @@
     "Elbe",
     "Corridors",
     "cm",
-    "Corridor"
+    "Corridor",
+    "UV"
   ],
   "it": [
     "1 min/s",
@@ -875,7 +880,9 @@
     "{speed} km/h",
     "{level} cm",
     "{change} cm in 24 h",
-    "cm"
+    "cm",
+    "Tornado",
+    "UV"
   ],
   "ja": [
     "1090 MHz",
@@ -1113,7 +1120,9 @@
     "+{minutes} min",
     "{speed} km/h",
     "{level} cm",
-    "cm"
+    "cm",
+    "Tornado",
+    "UV"
   ],
   "ru": [
     "1900–1945",
@@ -1318,7 +1327,9 @@
     "{level} cm",
     "Elbe",
     "cm",
-    "Live · {time}"
+    "Live · {time}",
+    "Tornado",
+    "UV"
   ],
   "uk": [
     "1900–1945",
@@ -1591,6 +1602,7 @@
     "Ironbow",
     "ICAO: {id}",
     "MMSI: {id}",
-    "NORAD: {id}"
+    "NORAD: {id}",
+    "UV"
   ]
 }

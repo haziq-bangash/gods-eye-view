@@ -87,3 +87,32 @@ test('a corridor card names its driver and the parts still missing', () => {
     ],
   );
 });
+
+test('weather: a strip card once the layer is on, and severe warnings lead', () => {
+  const now = Date.now();
+  const warning = (level, group = 'WIND') => ({
+    stableId: `${level}-${group}`,
+    level,
+    group,
+    onset: now - 1000,
+    expires: now + 3_600_000,
+  });
+  assert.equal(
+    todayKpis([], [], { warnings: null }).some((k) => k.id === 'weather'),
+    false,
+  );
+  const card = todayKpis([], [], {
+    warnings: [warning('moderate'), warning('minor', 'FOG')],
+  }).find((k) => k.id === 'weather');
+  assert.equal(card.value, '2');
+  assert.equal(card.note, 'highest: strong weather warning');
+  const calm = todayKpis([], [], { warnings: [] }).find(
+    (k) => k.id === 'weather',
+  );
+  assert.equal(calm.note, 'none in force');
+  const headline = todayHeadline([kaub(250)], [], {
+    warnings: [warning('severe', 'GLAZE')],
+  });
+  assert.equal(headline.title, 'Severe weather warning: Freezing rain');
+  assert.equal(headline.warning.level, 'severe');
+});

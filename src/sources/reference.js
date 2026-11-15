@@ -4,6 +4,7 @@ import { createWfigsPerimeterSource } from '../layers/perimeters/source.js';
 import { createDroneAirspaceSource } from '../layers/droneAirspace/source.js';
 import { createAutobahnSource } from '../layers/autobahn/source.js';
 import { createRiverLevelSource } from '../layers/riverLevels/source.js';
+import { createWeatherWarningSource } from '../layers/weatherWarnings/source.js';
 import { createBundledCableSource } from '../layers/submarineCables/bundledSource.js';
 import { createAdsbGnssSource } from '../layers/gnss/source.js';
 import { createWildlifeSightingsSource } from '../layers/wildlifeSightings/source.js';
@@ -17,6 +18,7 @@ export function createReferenceSources() {
     'drone-airspace': createDroneAirspaceSource(),
     'autobahn-traffic': createAutobahnSource(),
     'river-levels': createRiverLevelSource(),
+    'weather-warnings': createWeatherWarningSource(),
     'wildlife-sightings': createWildlifeSightingsSource(),
     cables: createBundledCableSource(),
     'gnss-integrity': createAdsbGnssSource(),

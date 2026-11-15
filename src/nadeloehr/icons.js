@@ -83,6 +83,7 @@ export const KIND_ICONS = Object.freeze({
 const LAYER_ICONS = Object.freeze({
   'autobahn-traffic': { icon: PhBarricade, color: C.brand },
   'river-levels': { icon: PhWaves, color: C.blue },
+  'weather-warnings': { icon: PhWarning, color: C.orange },
   'weather-radar': { icon: PhCloudRain, color: C.blue },
   'weather-lightning': { icon: PhLightning, color: C.purple },
   wind: { icon: PhWind, color: C.teal },

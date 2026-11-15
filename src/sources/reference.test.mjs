@@ -19,6 +19,7 @@ test('reference factories retain compatibility without starting acquisition or s
     'drone-airspace',
     'autobahn-traffic',
     'river-levels',
+    'weather-warnings',
     'wildlife-sightings',
     'cables',
     'gnss-integrity',
@@ -29,6 +30,7 @@ test('reference factories retain compatibility without starting acquisition or s
   assert.notEqual(first['drone-airspace'], second['drone-airspace']);
   assert.notEqual(first['autobahn-traffic'], second['autobahn-traffic']);
   assert.notEqual(first['river-levels'], second['river-levels']);
+  assert.notEqual(first['weather-warnings'], second['weather-warnings']);
   assert.notEqual(first['wildlife-sightings'], second['wildlife-sightings']);
   assert.notEqual(first.cables, second.cables);
   assert.notEqual(first['gnss-integrity'], second['gnss-integrity']);
@@ -38,6 +40,7 @@ test('reference factories retain compatibility without starting acquisition or s
   assert.equal(typeof first['drone-airspace'].getSnapshot, 'function');
   assert.equal(typeof first['autobahn-traffic'].getSnapshot, 'function');
   assert.equal(typeof first['river-levels'].getSnapshot, 'function');
+  assert.equal(typeof first['weather-warnings'].getSnapshot, 'function');
   assert.equal(typeof first['wildlife-sightings'].getSnapshot, 'function');
   assert.equal(typeof first.cables.fetch, 'function');
   assert.equal(typeof first['gnss-integrity'].getSnapshot, 'function');

@@ -221,7 +221,10 @@
       "src/nadeloehr/components/DisruptionsSection.vue",
       "src/data/placeNames.js",
       "src/keylessGeocoder.js",
-      "src/nadeloehr/search.js"
+      "src/nadeloehr/search.js",
+      "src/layers/weatherWarnings/records.js",
+      "src/nadeloehr/warnings.js",
+      "src/nadeloehr/components/WarningCard.vue"
     ],
     "external": [
       "vue",
@@ -3897,7 +3900,11 @@
       "src/layers/riverLevels/records.js",
       "src/layers/riverLevels/index.js",
       "src/app/layers/riverLevels.js",
-      "src/nadeloehr/corridorOverlay.js"
+      "src/nadeloehr/corridorOverlay.js",
+      "src/layers/weatherWarnings/source.js",
+      "src/layers/weatherWarnings/records.js",
+      "src/layers/weatherWarnings/index.js",
+      "src/app/layers/weatherWarnings.js"
     ],
     "external": [
       "hls.js",
@@ -4625,7 +4632,11 @@
       "src/layers/riverLevels/records.js",
       "src/layers/riverLevels/source.js",
       "src/layers/riverLevels/index.js",
-      "src/app/layers/riverLevels.js"
+      "src/app/layers/riverLevels.js",
+      "src/layers/weatherWarnings/source.js",
+      "src/layers/weatherWarnings/records.js",
+      "src/layers/weatherWarnings/index.js",
+      "src/app/layers/weatherWarnings.js"
     ],
     "external": [
       "hls.js",
@@ -5221,7 +5232,8 @@
       "src/layers/wildlifeSightings/acartiaTaxa.js",
       "src/layers/wildlifeSightings/gridViewport.js",
       "src/layers/wildlifeSightings/performance.js",
-      "src/layers/riverLevels/source.js"
+      "src/layers/riverLevels/source.js",
+      "src/layers/weatherWarnings/source.js"
     ],
     "external": []
   },
@@ -5817,6 +5829,42 @@
       "src/layers/riverLevels/records.js",
       "src/sources/httpBody.js",
       "src/layers/riverLevels/source.js",
+      "src/i18n/marker.js"
+    ],
+    "external": []
+  },
+  "weather-warnings": {
+    "exports": ["./layers/weather-warnings"],
+    "modules": [
+      "src/sources/httpBody.js",
+      "src/i18n/marker.js",
+      "src/i18n/index.js",
+      "src/i18n/locale.js",
+      "src/i18n/locales/ar.json",
+      "src/i18n/locales/de.json",
+      "src/i18n/locales/es.json",
+      "src/i18n/locales/fr.json",
+      "src/i18n/locales/he.json",
+      "src/i18n/locales/it.json",
+      "src/i18n/locales/ja.json",
+      "src/i18n/locales/pt.json",
+      "src/i18n/locales/ru.json",
+      "src/i18n/locales/sv.json",
+      "src/i18n/locales/uk.json",
+      "src/i18n/locales/zh-CN.json",
+      "src/i18n/locales/zh-Hant.json",
+      "src/layers/weatherWarnings/index.js",
+      "src/layers/weatherWarnings/records.js",
+      "src/layers/weatherWarnings/source.js"
+    ],
+    "external": ["cesium"]
+  },
+  "weather-warnings-source": {
+    "exports": ["./layers/weather-warnings/source"],
+    "modules": [
+      "src/layers/weatherWarnings/records.js",
+      "src/sources/httpBody.js",
+      "src/layers/weatherWarnings/source.js",
       "src/i18n/marker.js"
     ],
     "external": []

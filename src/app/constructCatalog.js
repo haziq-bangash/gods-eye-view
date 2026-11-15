@@ -36,6 +36,7 @@ import { createApplicationShipwrecks } from './layers/shipwrecks.js';
 import { createApplicationDroneAirspace } from './layers/droneAirspace.js';
 import { createApplicationAutobahn } from './layers/autobahn.js';
 import { createApplicationRiverLevels } from './layers/riverLevels.js';
+import { createApplicationWeatherWarnings } from './layers/weatherWarnings.js';
 import { createApplicationNews } from './layers/news.js';
 import { createApplicationWildlifeSightings } from './layers/wildlifeSightings.js';
 import { createApplicationCables } from './layers/submarineCables.js';
@@ -154,6 +155,9 @@ export function createApplicationCatalog({
         }),
         createApplicationRiverLevels({
           source: sources['river-levels'],
+        }),
+        createApplicationWeatherWarnings({
+          source: sources['weather-warnings'],
         }),
         // Ages, the window and the counts read the world clock: a host that
         // follows it for the layer shows the news at the time on the timeline.

@@ -26,6 +26,11 @@ export const MAIN_LAYERS = Object.freeze([
     subtitle: msg('Rhine and Elbe gauges, Kaub highlighted'),
   }),
   Object.freeze({
+    id: 'weather-warnings',
+    title: msg('Weather warnings'),
+    subtitle: msg('Official DWD warnings for storms, ice, snow and fog'),
+  }),
+  Object.freeze({
     id: 'weather-radar',
     title: msg('Rain radar'),
     subtitle: msg('Where it is raining now'),

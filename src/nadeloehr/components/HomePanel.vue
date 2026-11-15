@@ -9,6 +9,12 @@ import { layerNameForId } from '../../ui/layerNames.js';
 import { MAIN_LAYERS, HIDDEN_FROM_MORE } from '../mapLayers.js';
 import { gaugeStatus, levelText, riverName, trendText } from '../rivers.js';
 import { gaugeColor } from '../../layers/riverLevels/records.js';
+import {
+  warningColor,
+  warningLevelLabel,
+  warningTitle,
+  warningWindow,
+} from '../warnings.js';
 import { KIND_ICONS, TOOL_ICONS, layerIcon } from '../icons.js';
 import IconBadge from './IconBadge.vue';
 import Switch from '../ui/Switch.vue';
@@ -22,6 +28,15 @@ const props = defineProps({
   toolsInBar: { type: Boolean, default: false },
 });
 const riversSection = useCollapsed('rivers');
+const weatherSection = useCollapsed('weather');
+const WEATHER_LIMIT = 6;
+const showAllWarnings = ref(false);
+const warningRows = computed(() => props.app.warnings.value);
+const shownWarnings = computed(() =>
+  showAllWarnings.value
+    ? warningRows.value
+    : warningRows.value.slice(0, WEATHER_LIMIT),
+);
 const mapSection = useCollapsed('map-layers');
 
 const moreOpen = ref(false);
@@ -129,6 +144,76 @@ const tools = computed(() => [
 
 <template>
   <div class="flex flex-col gap-5">
+    <!-- Weather -->
+    <section aria-labelledby="nd-weather">
+      <SectionHeader
+        id="nd-weather"
+        :title="t('Weather warnings')"
+        :collapsed="weatherSection.isCollapsed()"
+        @toggle="weatherSection.toggle"
+      />
+      <template v-if="!weatherSection.isCollapsed()">
+        <div
+          v-if="!app.weatherOn.value"
+          class="flex items-center justify-between gap-3 rounded-group bg-card p-3"
+        >
+          <p class="text-body">{{ t('Weather warnings are hidden.') }}</p>
+          <button
+            type="button"
+            class="cursor-pointer rounded-full bg-primary px-4 py-2 text-callout font-semibold text-primary-foreground"
+            @click="app.setLayer('weather-warnings', true)"
+          >
+            {{ t('Show') }}
+          </button>
+        </div>
+        <p
+          v-else-if="!warningRows.length"
+          class="rounded-group bg-card p-3 text-body text-muted-foreground"
+        >
+          {{ t('No DWD weather warnings right now.') }}
+        </p>
+        <template v-else>
+          <ul
+            class="overflow-hidden rounded-group bg-card"
+            :aria-label="t('Weather warnings')"
+          >
+            <li v-for="(row, index) in shownWarnings" :key="row.stableId">
+              <Separator v-if="index" class="ms-9 w-auto" />
+              <button
+                type="button"
+                class="press flex w-full cursor-pointer items-center gap-3 px-3 py-2 text-start outline-none hover:bg-accent focus-visible:bg-accent"
+                @click="app.showWarningOnMap(row)"
+              >
+                <span
+                  class="size-3 shrink-0 rounded-[4px]"
+                  :style="{ background: warningColor(row) }"
+                  aria-hidden="true"
+                />
+                <span class="min-w-0 flex-1">
+                  <span class="block truncate text-headline">{{
+                    warningTitle(row)
+                  }}</span>
+                  <span
+                    class="block truncate text-subhead text-muted-foreground"
+                    >{{ warningLevelLabel(row) }} ·
+                    {{ warningWindow(row) }}</span
+                  >
+                </span>
+              </button>
+            </li>
+          </ul>
+          <button
+            v-if="warningRows.length > shownWarnings.length"
+            type="button"
+            class="mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary hover:bg-accent"
+            @click="showAllWarnings = true"
+          >
+            {{ tn(warningRows.length, 'Show all {count}', 'Show all {count}') }}
+          </button>
+        </template>
+      </template>
+    </section>
+
     <!-- Rivers -->
     <section aria-labelledby="nd-rivers">
       <SectionHeader
