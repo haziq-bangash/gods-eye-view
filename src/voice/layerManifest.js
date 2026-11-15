@@ -481,6 +481,8 @@ export const VOICE_OFF_LAYERS = Object.freeze({
   // Nadelöhr: the corridor briefing is an MCP tool; voice waits for room.
   'autobahn-traffic':
     'German Autobahn events; no room in the prompt budget (MCP corridor tool)',
+  'river-levels':
+    'Rhine and Elbe gauges; no room in the prompt budget (MCP corridor tool)',
   // Same budget: a historical wreck archive waits for room too.
   shipwrecks: 'historical shipwreck archive; no room in the prompt budget',
   news: 'browsed in the News panel; voice tools are a later step',

@@ -2,7 +2,13 @@
 // The sheet's home: what is happening on the Autobahn right now, what is on
 // the map, and a few tools. Written for someone who has never used a GIS.
 import { computed, ref } from 'vue';
-import { PhCaretDown, PhCaretRight } from '@phosphor-icons/vue';
+import {
+  PhCaretDown,
+  PhCaretRight,
+  PhTrendDown,
+  PhTrendUp,
+  PhWaves,
+} from '@phosphor-icons/vue';
 import { t, tn } from '../../i18n/index.js';
 import { layerNameForId } from '../../ui/layerNames.js';
 import {
@@ -13,6 +19,15 @@ import {
   sortDisruptions,
 } from '../disruptions.js';
 import { MAIN_LAYERS, HIDDEN_FROM_MORE } from '../mapLayers.js';
+import {
+  gaugeStatus,
+  keyGauges,
+  kaubSummary,
+  levelText,
+  riverName,
+  trendText,
+} from '../rivers.js';
+import { gaugeColor } from '../../layers/riverLevels/records.js';
 import { KIND_ICONS, TOOL_ICONS, layerIcon } from '../icons.js';
 import IconBadge from './IconBadge.vue';
 import RoadShield from './RoadShield.vue';
@@ -48,6 +63,13 @@ function toggleKind(kind) {
   kindFilter.value = kindFilter.value === kind ? null : kind;
   showAll.value = false;
 }
+
+// Rivers: Kaub first, then the other gauges barge operators watch.
+const riversOn = computed(
+  () => props.app.layerById('river-levels')?.enabled === true,
+);
+const kaub = computed(() => kaubSummary(props.app.gauges.value));
+const gaugeRows = computed(() => keyGauges(props.app.gauges.value));
 
 // "Show on the map": plain names for the layers that matter for freight.
 const mainRows = computed(() =>
@@ -251,6 +273,111 @@ const tools = computed(() => [
         >
           {{ tn(sorted.length, 'Show all {count}', 'Show all {count}') }}
         </button>
+      </template>
+    </section>
+
+    <!-- Rivers -->
+    <section aria-labelledby="nd-rivers">
+      <div class="mb-2 px-1">
+        <h2 id="nd-rivers" class="text-title2">{{ t('Rhine and Elbe') }}</h2>
+        <p v-if="riversOn" class="text-caption text-muted-foreground">
+          {{ t('Water levels, updated every 15 min') }}
+        </p>
+      </div>
+
+      <div
+        v-if="!riversOn"
+        class="flex items-center justify-between gap-3 rounded-group bg-card p-3"
+      >
+        <p class="text-body">{{ t('Water levels are hidden.') }}</p>
+        <button
+          type="button"
+          class="cursor-pointer rounded-full bg-primary px-4 py-2 text-callout font-semibold text-primary-foreground"
+          @click="app.setLayer('river-levels', true)"
+        >
+          {{ t('Show') }}
+        </button>
+      </div>
+
+      <p
+        v-else-if="!app.gauges.value.length"
+        class="rounded-group bg-card p-3 text-body text-muted-foreground"
+      >
+        {{ t('Loading water levels…') }}
+      </p>
+
+      <template v-else>
+        <button
+          v-if="kaub"
+          type="button"
+          class="press flex w-full cursor-pointer items-start gap-3 rounded-group bg-card p-3 text-start outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
+          @click="app.showGaugeOnMap(kaub.row)"
+        >
+          <IconBadge :icon="PhWaves" :color="kaub.color" size="lg" />
+          <span class="min-w-0 flex-1">
+            <span class="block text-subhead text-muted-foreground">{{
+              t('Kaub · Middle Rhine bottleneck')
+            }}</span>
+            <span class="flex items-baseline gap-2">
+              <span class="text-title">{{ kaub.level }}</span>
+              <span class="text-headline" :style="{ color: kaub.color }">{{
+                kaub.status
+              }}</span>
+            </span>
+            <span
+              v-if="kaub.trend"
+              class="flex items-center gap-1 text-subhead text-muted-foreground"
+            >
+              <component
+                :is="kaub.direction === 'falling' ? PhTrendDown : PhTrendUp"
+                v-if="kaub.direction !== 'steady'"
+                weight="bold"
+                class="size-4"
+                aria-hidden="true"
+              />
+              {{ kaub.trend }}
+            </span>
+            <span class="mt-1 block text-callout">{{ kaub.hint }}</span>
+          </span>
+        </button>
+
+        <ul
+          v-if="gaugeRows.length"
+          class="mt-2 overflow-hidden rounded-group bg-card"
+          :aria-label="t('River gauges')"
+        >
+          <li v-for="(row, index) in gaugeRows" :key="row.stableId">
+            <Separator v-if="index" class="ms-9 w-auto" />
+            <button
+              type="button"
+              class="press flex w-full cursor-pointer items-center gap-3 px-3 py-2 text-start outline-none hover:bg-accent focus-visible:bg-accent"
+              @click="app.showGaugeOnMap(row)"
+            >
+              <span
+                class="size-3 shrink-0 rounded-full"
+                :style="{ background: gaugeColor(row) }"
+                aria-hidden="true"
+              />
+              <span class="min-w-0 flex-1">
+                <span class="block truncate text-headline">{{ row.name }}</span>
+                <span class="block truncate text-subhead text-muted-foreground"
+                  >{{ riverName(row.water) }} ·
+                  {{ gaugeStatus(row).label }}</span
+                >
+              </span>
+              <span class="shrink-0 text-end">
+                <span class="block text-headline">{{
+                  levelText(row.levelCm)
+                }}</span>
+                <span
+                  v-if="trendText(row.trendCm)"
+                  class="block text-caption text-muted-foreground"
+                  >{{ trendText(row.trendCm) }}</span
+                >
+              </span>
+            </button>
+          </li>
+        </ul>
       </template>
     </section>
 

@@ -199,7 +199,11 @@
       "src/nadeloehr/ui/utils.js",
       "src/nadeloehr/ui/Button.vue",
       "src/nadeloehr/Shell.vue",
-      "src/ui/views/NadeloehrShellView.vue"
+      "src/ui/views/NadeloehrShellView.vue",
+      "src/layers/riverLevels/records.js",
+      "src/nadeloehr/rivers.js",
+      "src/nadeloehr/components/GaugeCard.vue",
+      "src/nadeloehr/components/BrandMark.vue"
     ],
     "external": [
       "vue",
@@ -3870,7 +3874,11 @@
       "src/data/openVesselPhoto.js",
       "src/layers/vessels/photos.js",
       "src/nadeloehr/store.js",
-      "src/nadeloehr/camera.js"
+      "src/nadeloehr/camera.js",
+      "src/layers/riverLevels/source.js",
+      "src/layers/riverLevels/records.js",
+      "src/layers/riverLevels/index.js",
+      "src/app/layers/riverLevels.js"
     ],
     "external": [
       "hls.js",
@@ -4594,7 +4602,11 @@
       "src/data/planespottersPhoto.js",
       "src/layers/vessels/photos.js",
       "src/data/openVesselPhoto.js",
-      "src/nadeloehr/store.js"
+      "src/nadeloehr/store.js",
+      "src/layers/riverLevels/records.js",
+      "src/layers/riverLevels/source.js",
+      "src/layers/riverLevels/index.js",
+      "src/app/layers/riverLevels.js"
     ],
     "external": [
       "hls.js",
@@ -5189,7 +5201,8 @@
       "src/layers/wildlifeSightings/bounds.js",
       "src/layers/wildlifeSightings/acartiaTaxa.js",
       "src/layers/wildlifeSightings/gridViewport.js",
-      "src/layers/wildlifeSightings/performance.js"
+      "src/layers/wildlifeSightings/performance.js",
+      "src/layers/riverLevels/source.js"
     ],
     "external": []
   },
@@ -5749,6 +5762,42 @@
       "src/layers/autobahn/records.js",
       "src/sources/httpBody.js",
       "src/layers/autobahn/source.js",
+      "src/i18n/marker.js"
+    ],
+    "external": []
+  },
+  "river-levels": {
+    "exports": ["./layers/river-levels"],
+    "modules": [
+      "src/sources/httpBody.js",
+      "src/i18n/marker.js",
+      "src/i18n/index.js",
+      "src/i18n/locale.js",
+      "src/i18n/locales/ar.json",
+      "src/i18n/locales/de.json",
+      "src/i18n/locales/es.json",
+      "src/i18n/locales/fr.json",
+      "src/i18n/locales/he.json",
+      "src/i18n/locales/it.json",
+      "src/i18n/locales/ja.json",
+      "src/i18n/locales/pt.json",
+      "src/i18n/locales/ru.json",
+      "src/i18n/locales/sv.json",
+      "src/i18n/locales/uk.json",
+      "src/i18n/locales/zh-CN.json",
+      "src/i18n/locales/zh-Hant.json",
+      "src/layers/riverLevels/index.js",
+      "src/layers/riverLevels/records.js",
+      "src/layers/riverLevels/source.js"
+    ],
+    "external": ["cesium"]
+  },
+  "river-levels-source": {
+    "exports": ["./layers/river-levels/source"],
+    "modules": [
+      "src/layers/riverLevels/records.js",
+      "src/sources/httpBody.js",
+      "src/layers/riverLevels/source.js",
       "src/i18n/marker.js"
     ],
     "external": []

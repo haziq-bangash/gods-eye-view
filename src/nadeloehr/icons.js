@@ -17,6 +17,7 @@ import {
   PhCar,
   PhCloudRain,
   PhCloudSun,
+  PhDrop,
   PhDatabase,
   PhFire,
   PhGhost,
@@ -81,6 +82,7 @@ export const KIND_ICONS = Object.freeze({
 /** Layers by id; anything unlisted falls back to a grey stack glyph. */
 const LAYER_ICONS = Object.freeze({
   'autobahn-traffic': { icon: PhBarricade, color: C.brand },
+  'river-levels': { icon: PhWaves, color: C.blue },
   'weather-radar': { icon: PhCloudRain, color: C.blue },
   'weather-lightning': { icon: PhLightning, color: C.purple },
   wind: { icon: PhWind, color: C.teal },
@@ -109,7 +111,7 @@ const LAYER_ICONS = Object.freeze({
   'drone-airspace': { icon: PhAirplane, color: C.orange },
   'local-datacenters': { icon: PhHardDrives, color: C.blue },
   'telegeography-submarine-cables': { icon: PhPlugs, color: C.teal },
-  'local-dams': { icon: PhWaves, color: C.blue },
+  'local-dams': { icon: PhDrop, color: C.blue },
   'sea-marks': { icon: PhAnchor, color: C.cyan },
   'ski-pistes': { icon: PhMountains, color: C.cyan },
   radio: { icon: PhRadio, color: C.pink },

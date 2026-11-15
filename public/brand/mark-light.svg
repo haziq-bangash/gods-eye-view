@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="56 47 336 336" role="img" aria-label="Nadelöhr">
+  <!-- The mark for dark tiles (app icons): the wave in Morning Snow. -->
+  <path d="M92 304C92 178 134 122 172 122C214 122 230 182 246 234C259 278 272 298 298 298C324 298 334 264 334 222" fill="none" stroke="#f5f4ed" stroke-width="56" stroke-linecap="round"/>
+  <circle cx="300" cy="118" r="21" fill="#ff6037"/>
+  <circle cx="362" cy="118" r="21" fill="#ff6037"/>
+</svg>

@@ -349,6 +349,30 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Rhine & Elbe Water Levels — Nadelöhr
+
+The second **Freight** layer is **Rhine & Elbe Water Levels**
+(`river-levels`, share-link token `04`), on for first-time visitors with the
+Autobahn layer and outside voice for the prompt budget. `/api/pegel/gauges`
+reads every Rhine and Elbe gauge from PEGELONLINE with its current level and
+its state against mean low and mean high water, adds a 24-hour change for
+eleven key gauges, and caches the snapshot for 15 minutes.
+
+Gauges are rounded-square wave markers, so they never read as Autobahn
+events: orange below mean low water, blue between, purple above, grey where
+a gauge has no reference (the tidal Elbe). **Kaub**, the shallowest point of
+the Middle Rhine, is drawn larger with its level on the map and is coloured
+by freight reference bands — normal from 150 cm, reduced loads below 150,
+low water below 100, very low water below the equivalent water level (78),
+high water from mark I (460) and shipping stopped from mark II (640). The
+same level gives the corridor score's hydrology sub-score H: 0 between 150
+and 460 cm, rising linearly to 100 at 40 cm and at 640 cm.
+
+The Nadelöhr sheet adds a **Rhine and Elbe** section — Kaub's level, band,
+24-hour change and what it means for barges, then the key gauges — and the
+one-line summary ends with Kaub's level. Tapping a gauge on the map or in the
+list opens its card. The bands are reference values, not navigation advice.
+
 ## Autobahn Closures & Roadworks — Nadelöhr
 
 A new **Freight** panel group holds the German freight-disruption layers. The

@@ -231,6 +231,13 @@ export const DATA_CREDITS = [
       ' (closures, roadworks and warnings; informational only)',
   },
   {
+    key: 'pegelonline',
+    html:
+      'Water levels: ' +
+      '<a href="https://www.pegelonline.wsv.de/" target="_blank" rel="noopener">PEGELONLINE</a>' +
+      ', Wasserstraßen- und Schifffahrtsverwaltung des Bundes (WSV)',
+  },
+  {
     key: 'inaturalist',
     html: 'Wildlife sightings: <a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a> contributors (licences per record; photos credited on each card)',
   },

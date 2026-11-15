@@ -41,6 +41,7 @@ export const FREIGHT_TAGLINE = msg('Freight bottlenecks across Germany');
 /** Layers enabled on a first visit (no share link and no saved layer state). */
 export const FREIGHT_FIRST_VISIT_LAYER_IDS = Object.freeze([
   'autobahn-traffic',
+  'river-levels',
 ]);
 
 /**
@@ -51,7 +52,7 @@ export const FREIGHT_FIRST_VISIT_LAYER_IDS = Object.freeze([
 export const FREIGHT_PANEL_SECTIONS = Object.freeze([
   Object.freeze({
     label: msg('Freight'),
-    ids: Object.freeze(['autobahn-traffic']),
+    ids: Object.freeze(['autobahn-traffic', 'river-levels']),
   }),
   Object.freeze({
     label: msg('Weather'),

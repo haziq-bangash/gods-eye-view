@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Renders the home-screen and favicon rasters from `public/logo.svg`.
+// Renders the home-screen and favicon rasters from the Nadelöhr mark
+// (`public/brand/mark-light.svg`, the wave in Morning Snow).
 //
 // Re-run after changing the logo: `node scripts/generate-icons.mjs`. The output
 // is committed, because the install icons have to exist in a plain `vite build`
@@ -13,11 +14,11 @@ const REPO_ROOT = path.resolve(
   fileURLToPath(new URL('.', import.meta.url)),
   '..',
 );
-const LOGO = path.join(REPO_ROOT, 'public', 'logo.svg');
+const LOGO = path.join(REPO_ROOT, 'public', 'brand', 'mark-light.svg');
 const OUT_DIR = path.join(REPO_ROOT, 'public', 'icons');
 
-/** `--bg-dark` from src/ui/styles/foundation.css, so the tile matches the app. */
-const BACKGROUND = '#1c100f';
+/** Black Kite, the brand's darkest colour, behind the light mark. */
+const BACKGROUND = '#351e1c';
 
 /**
  * Fraction of the canvas the mark is allowed to occupy.

@@ -64,7 +64,7 @@ function submit() {
   <div class="flex flex-col gap-2">
     <form
       role="search"
-      class="flex h-11 items-center gap-2 rounded-full bg-input px-3.5"
+      class="flex h-11 items-center gap-2 rounded-full bg-input px-3.5 transition-shadow focus-within:ring-[3px] focus-within:ring-ring"
       @submit.prevent="submit"
     >
       <PhMagnifyingGlass
