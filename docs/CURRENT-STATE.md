@@ -349,6 +349,20 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Corridor risk for assistants — Nadelöhr
+
+`get_corridor_risk` (`src/tools/queries/freight.js`) gives assistants the
+same corridor briefing the app shows. It reads the Autobahn events, gauges,
+DWD warnings and rest areas through the app's own routes, scores the
+corridors with `src/freight/corridors.js`, and returns one line per corridor
+("Hamburg → Ulm 53/100 (elevated)"), Kaub's level, each part with its value,
+rescaled weight and plain reason, up to five closed sections, and a view
+link that opens Nadelöhr framed on the corridor (or on Germany) with the four
+freight layers on. An optional `corridor` argument picks one. A source that
+fails leaves its part out; without the Autobahn feed the tool reports
+`unavailable`. It is offered over MCP only: voice has no room for it in its
+prompt budget yet.
+
 ## Truck Parking — Nadelöhr
 
 The fourth **Freight** layer is **Truck Parking** (`truck-parking`, share-link

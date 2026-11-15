@@ -28,6 +28,10 @@ import { createTransitSource } from '../layers/transit/source.js';
 import { createWeatherSource } from '../layers/weather/source.js';
 import { createWindSource } from '../layers/wind/source.js';
 import { createApplicationRequestServices } from '../services/requests.js';
+import { createAutobahnSource } from '../layers/autobahn/source.js';
+import { createRiverLevelSource } from '../layers/riverLevels/source.js';
+import { createWeatherWarningSource } from '../layers/weatherWarnings/source.js';
+import { createTruckParkingSource } from '../layers/truckParking/source.js';
 import { createEventPackSource } from '../sources/eventPacks.js';
 import { createInfrastructureSource } from '../sources/infrastructureData.js';
 import {
@@ -87,6 +91,11 @@ export function createToolServices({ fetchImpl, appUrl, panelKey }) {
       tileFetchImpl: fetchImpl,
     }),
     places: createGeocodePlaceService({ fetchImpl }),
+    // Nadelöhr's freight sources, for get_corridor_risk.
+    autobahn: createAutobahnSource({ fetchImpl }),
+    riverLevels: createRiverLevelSource({ fetchImpl }),
+    weatherWarnings: createWeatherWarningSource({ fetchImpl }),
+    truckParking: createTruckParkingSource({ fetchImpl }),
   };
 }
 

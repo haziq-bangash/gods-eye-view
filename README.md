@@ -2,27 +2,179 @@
 
 # Nadelöhr
 
-**Freight bottlenecks across Germany, on one live map.** Nadelöhr shows
-Autobahn closures, junction closures, warnings and roadworks from the Autobahn
-GmbH API, Rhine and Elbe water levels from PEGELONLINE with Kaub, the Middle Rhine
-bottleneck, highlighted, DWD weather warnings and truck parking at rest areas, scored per freight
-corridor, in an Apple Maps-style interface that anyone can use: search a place,
-see what is closed right now, tap an event for a plain explanation and the
-official notice. Light and dark, phone and desktop, 13 languages.
+**Freight bottlenecks across Germany, on one live map.**
+**Engpässe im deutschen Güterverkehr auf einer Live-Karte.**
 
-**Engpässe im deutschen Güterverkehr auf einer Live-Karte.** Nadelöhr zeigt
-Sperrungen, gesperrte Anschlussstellen, Warnungen und Baustellen auf der
-Autobahn (Autobahn GmbH) und die Pegel an Rhein und Elbe (PEGELONLINE) mit
-Kaub, dem Engpass am Mittelrhein, in einer Oberfläche im Stil von Apple Karten: Ort
-suchen, sehen, was gerade gesperrt ist, und ein Ereignis antippen für eine
-verständliche Erklärung und den amtlichen Hinweis.
+[English](#english) · [Deutsch](#deutsch)
 
 Nadelöhr is a fork of [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view)
-(MIT). What this fork adds is described in
-[docs/CURRENT-STATE.md](docs/CURRENT-STATE.md) under "Nadelöhr interface" and
-"Truck Parking", "DWD Weather Warnings", "Today layout and corridor risk", "Rhine & Elbe Water Levels" and "Autobahn Closures & Roadworks"; data sources and licences are in
-[DATA_SOURCES.md](DATA_SOURCES.md). Data is shown for information only — always
-follow road signs and official notices.
+(MIT). It keeps the 3D globe, ship tracking, the voice assistant and the MCP
+server, and adds a German freight layer and an interface anyone can read.
+
+---
+
+## English
+
+### What is new in this fork
+
+- **Today, at a glance.** A strip of big numbers (roads closed, traffic
+  warnings, exits closed, Kaub's water level with its 24-hour line, river
+  gauges below normal, weather warnings in force) and one highlighted
+  "What matters today" message.
+- **Four live German freight layers**
+  - **Autobahn closures and roadworks** on the A1, A2, A3, A5, A7, A40 and
+    A61 (Autobahn GmbH), grouped by severity: closures critical, warnings
+    major, exit closures and roadworks minor. Nearby markers merge into
+    numbered rings.
+  - **Rhine and Elbe water levels** (PEGELONLINE, WSV), with **Kaub** — the
+    shallowest point of the Middle Rhine — labelled and rated in freight
+    bands from "normal" to "shipping stopped".
+  - **DWD weather warnings** (Deutscher Wetterdienst) as areas in DWD's
+    colours, with what each warning means for a truck.
+  - **Truck parking** at Autobahn rest areas, red where a closure may shut a
+    rest area or its access.
+- **Corridor risk score** for Hamburg → Dortmund (A1), Hamburg → Ulm (A7) and
+  the Rhine axis Duisburg → Karlsruhe, with a breakdown that explains every
+  part (see below).
+- **An Apple Maps-style interface**: search a city, an Autobahn ("A7") or a
+  gauge; tap anything for a plain card; minimise any card; light and dark,
+  phone and desktop, 13 languages.
+- **An assistant tool**, `get_corridor_risk`, so Claude or Codex can answer
+  "What is the risk on the Hamburg–Ruhr corridor tonight?" with the same
+  numbers and a link that opens the map on the corridor.
+
+### Corridor risk score
+
+```
+R = 0.35·C + 0.20·P + 0.25·H + 0.20·W        (each part 0–100)
+```
+
+| Part                                         | What it measures                                                 | How                                                                                                                                                        |
+| -------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **C** closures (0.35)                        | Autobahn events on the corridor's roads within 25 km of its line | Points per event — closure 15, warning 8, short roadworks or exit closure 1, long-term roadworks 0.2 — on a saturating curve, `100 · (1 − e^(−points/60))` |
+| **P** truck parking (0.20)                   | Usable truck spaces per 100 km                                   | `100 · (1 − usable spaces per 100 km ÷ 800)`; a rest area that is blocked, within 3 km of a closure or within 1 km of an exit closure is not usable        |
+| **H** hydrology (0.25, river corridors only) | Kaub water level                                                 | 0 between 150 and 460 cm; rises to 100 at 40 cm (low water) and at 640 cm (high-water mark II)                                                             |
+| **W** weather (0.20)                         | Highest DWD warning crossing the corridor now or within 12 hours | minor 25, moderate 50, severe 75, extreme 100                                                                                                              |
+
+Parts without data — and H on road-only corridors — are left out and the
+other weights rescaled to sum to 1. **R < 33 is low, 33–66 elevated, > 66
+high.** The weights and reference values are starting guesses, not calibrated
+against real delays: a reading aid, not a forecast. The formula is
+implemented in [`src/freight/corridors.js`](src/freight/corridors.js).
+
+### Data sources
+
+| Data                                         | Source                                                                                 | Licence / terms                                                             |
+| -------------------------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Closures, roadworks, warnings, truck parking | [Autobahn GmbH API](https://github.com/bundesAPI/autobahn-api) (`verkehr.autobahn.de`) | Public, community-documented, may change without notice; informational only |
+| Water levels                                 | [PEGELONLINE](https://www.pegelonline.wsv.de/) (WSV)                                   | [DL-DE Zero 2.0](https://www.govdata.de/dl-de/zero-2-0)                     |
+| Weather warnings                             | [Deutscher Wetterdienst](https://www.dwd.de/) open data (WFS)                          | CC BY 4.0                                                                   |
+| Places                                       | [Photon](https://photon.komoot.io/) (OpenStreetMap)                                    | ODbL                                                                        |
+| Base map                                     | [Stadia Maps](https://stadiamaps.com/) Alidade Smooth, OpenMapTiles, OpenStreetMap     | Stadia terms; a deployed site must register its domain                      |
+
+All requests go through the app's own bounded, cached server routes; the
+browser never chooses an upstream URL. Details are in
+[DATA_SOURCES.md](DATA_SOURCES.md).
+
+### Limits
+
+- The Autobahn data is informational; **drivers must follow official signs
+  and notices**.
+- Kaub's bands are reference values, **not navigation advice**.
+- Rest areas publish **no live occupancy**; parking pressure is estimated
+  from capacity and nearby closures.
+- The corridor score is a heuristic and is **not validated** against real
+  delays.
+
+### Run it
+
+Node.js 24 or 26.
+
+```bash
+git clone https://github.com/haziq-bangash/gods-eye-view.git nadeloehr
+cd nadeloehr
+npm ci
+npm run dev        # http://localhost:4173
+```
+
+No key is needed for any freight layer. To use the corridor tool from an
+assistant, follow [docs/MCP_SETUP.md](docs/MCP_SETUP.md) and ask for
+`get_corridor_risk`.
+
+More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
+(sections marked "Nadelöhr").
+
+---
+
+## Deutsch
+
+### Was dieser Fork neu macht
+
+- **Der Tag auf einen Blick.** Eine Leiste mit großen Zahlen (gesperrte
+  Strecken, Verkehrswarnungen, gesperrte Anschlussstellen, Pegel Kaub mit
+  24-Stunden-Verlauf, niedrige Flusspegel, aktive Wetterwarnungen) und eine
+  hervorgehobene Meldung „Was heute zählt“.
+- **Vier deutsche Live-Ebenen für den Güterverkehr**
+  - **Autobahn-Sperrungen und Baustellen** auf A1, A2, A3, A5, A7, A40 und
+    A61 (Autobahn GmbH), nach Schwere geordnet: Sperrungen kritisch,
+    Warnungen erheblich, gesperrte Anschlussstellen und Baustellen gering.
+  - **Wasserstände an Rhein und Elbe** (PEGELONLINE, WSV), mit **Kaub** —
+    der flachsten Stelle am Mittelrhein — beschriftet und in Frachtstufen von
+    „normal“ bis „Schifffahrt eingestellt“ eingeordnet.
+  - **DWD-Wetterwarnungen** als Gebiete in den Farben des DWD, mit dem, was
+    jede Warnung für einen Lkw bedeutet.
+  - **Lkw-Parkplätze** an Rastanlagen, rot, wenn eine Sperrung den Rastplatz
+    oder seine Zufahrt schließen kann.
+- **Korridor-Risikowert** für Hamburg → Dortmund (A1), Hamburg → Ulm (A7) und
+  die Rheinachse Duisburg → Karlsruhe, mit einer Aufschlüsselung, die jeden
+  Teil erklärt.
+- **Eine Oberfläche im Stil von Apple Karten**: Stadt, Autobahn („A7“) oder
+  Pegel suchen; alles antippen für eine verständliche Karte; jede Karte
+  einklappbar; hell und dunkel, Handy und Desktop, 13 Sprachen.
+- **Ein Assistenten-Werkzeug**, `get_corridor_risk`, damit Claude oder Codex
+  Fragen wie „Wie hoch ist das Risiko heute Nacht zwischen Hamburg und dem
+  Ruhrgebiet?“ mit denselben Zahlen und einem Kartenlink beantworten.
+
+### Korridor-Risikowert
+
+```
+R = 0,35·C + 0,20·P + 0,25·H + 0,20·W        (jeder Teil 0–100)
+```
+
+| Teil                                        | Was er misst                                                                        | Wie                                                                                                                                                                                            |
+| ------------------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **C** Sperrungen (0,35)                     | Autobahn-Ereignisse auf den Straßen des Korridors, höchstens 25 km von seiner Linie | Punkte je Ereignis — Sperrung 15, Warnung 8, Tagesbaustelle oder gesperrte Anschlussstelle 1, Dauerbaustelle 0,2 — auf einer Sättigungskurve, `100 · (1 − e^(−Punkte/60))`                     |
+| **P** Lkw-Parken (0,20)                     | Nutzbare Lkw-Stellplätze je 100 km                                                  | `100 · (1 − nutzbare Plätze je 100 km ÷ 800)`; ein Rastplatz, der gesperrt ist, höchstens 3 km von einer Sperrung oder 1 km von einer gesperrten Anschlussstelle liegt, gilt als nicht nutzbar |
+| **H** Hydrologie (0,25, nur Flusskorridore) | Pegel Kaub                                                                          | 0 zwischen 150 und 460 cm; steigt auf 100 bei 40 cm (Niedrigwasser) und bei 640 cm (Hochwassermarke II)                                                                                        |
+| **W** Wetter (0,20)                         | Höchste DWD-Warnung, die den Korridor jetzt oder in den nächsten 12 Stunden kreuzt  | gering 25, markant 50, Unwetter 75, extrem 100                                                                                                                                                 |
+
+Teile ohne Daten — und H auf reinen Straßenkorridoren — entfallen, die
+übrigen Gewichte werden auf 1 umgerechnet. **R < 33 niedrig, 33–66 erhöht,
+
+> 66 hoch.** Gewichte und Bezugswerte sind Startwerte, nicht an echten
+> Verspätungen kalibriert: eine Lesehilfe, keine Prognose.
+
+### Datenquellen
+
+Autobahn GmbH (Sperrungen, Baustellen, Warnungen, Lkw-Parkplätze;
+nur zur Information), PEGELONLINE der WSV (Datenlizenz Deutschland – Zero 2.0),
+Deutscher Wetterdienst (CC BY 4.0), Photon/OpenStreetMap (Ortssuche) und
+Stadia Maps (Grundkarte). Einzelheiten in [DATA_SOURCES.md](DATA_SOURCES.md).
+
+### Grenzen
+
+- Die Autobahn-Daten dienen nur der Information; **es gelten die
+  Verkehrszeichen und amtlichen Hinweise**.
+- Die Kaub-Stufen sind Richtwerte, **keine Navigationsempfehlung**.
+- Rastplätze veröffentlichen **keine aktuelle Belegung**; der Parkdruck wird
+  aus Kapazität und nahen Sperrungen geschätzt.
+- Der Korridor-Risikowert ist eine Heuristik und **nicht validiert**.
+
+### Starten
+
+Node.js 24 oder 26: `npm ci`, dann `npm run dev` und
+`http://localhost:4173` öffnen. Für die Güterverkehrs-Ebenen ist kein
+Schlüssel nötig.
 
 ---
 
