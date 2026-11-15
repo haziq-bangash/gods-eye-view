@@ -79,6 +79,14 @@ const corridor = computed(
     corridors.value.find((c) => c.id === app.selectedCorridorId.value) || null,
 );
 const kaub = computed(() => kaubRow(app.gauges.value));
+/** Street view opens its own panel on the right: the insight card makes room. */
+const streetOpen = computed(
+  () => app.layerById('street-level')?.enabled === true,
+);
+const showInsight = computed(
+  () =>
+    wider.value && Boolean(corridor.value || kaub.value) && !streetOpen.value,
+);
 const insight = useCollapsed('insight');
 const insightTitle = computed(() =>
   corridor.value
@@ -304,7 +312,7 @@ async function locate() {
 
       <!-- Right insight: the selected corridor, else Kaub (≥ 1280 px) -->
       <aside
-        v-if="wider && (corridor || kaub)"
+        v-if="showInsight"
         class="glass-strong nd-scroll pointer-events-auto absolute top-[184px] right-4 max-h-[calc(100%-264px)] w-[320px] overflow-y-auto rounded-[26px]"
         :class="insight.isCollapsed() ? 'px-4 py-2.5' : 'p-4'"
       >
@@ -350,7 +358,8 @@ async function locate() {
 
       <!-- Map controls: under the strip on phones, bottom right on desktop -->
       <div
-        class="pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] right-3 flex flex-col items-end gap-3 lg:top-auto lg:right-4 lg:bottom-14 xl:right-[352px] xl:bottom-14"
+        class="pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] right-3 flex flex-col items-end gap-3 lg:top-auto lg:right-4 lg:bottom-14 xl:bottom-14"
+        :class="showInsight ? 'xl:right-[352px]' : ''"
       >
         <MapControls
           :heading-deg="app.camera.value?.heading ?? 0"
@@ -366,7 +375,8 @@ async function locate() {
       </div>
       <div
         v-if="styleOpen"
-        class="pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] right-16 left-3 flex justify-end sm:left-auto lg:top-auto lg:right-20 lg:bottom-14 xl:right-[416px]"
+        class="pointer-events-auto absolute top-[calc(max(0.75rem,env(safe-area-inset-top))+150px)] right-16 left-3 flex justify-end sm:left-auto lg:top-auto lg:right-20 lg:bottom-14"
+        :class="showInsight ? 'xl:right-[416px]' : ''"
       >
         <MapStylePicker
           :styles="mapStyles"

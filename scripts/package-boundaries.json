@@ -245,7 +245,9 @@
       "src/nadeloehr/components/RhineShips.vue",
       "src/freight/drivingBans.js",
       "src/nadeloehr/bans.js",
-      "src/nadeloehr/components/Tip.vue"
+      "src/nadeloehr/components/Tip.vue",
+      "src/nadeloehr/alerts.js",
+      "src/nadeloehr/components/AlertsSwitch.vue"
     ],
     "external": [
       "vue",

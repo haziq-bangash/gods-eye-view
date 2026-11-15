@@ -4024,5 +4024,15 @@
   "{moving} ships under way, {stopped} stopped": "Unterwegs: {moving} · stehend: {stopped}",
   "About {name}": "Über: {name}",
   "Risk score": "Risikowert",
-  "Ship count": "Schiffszahl"
+  "Ship count": "Schiffszahl",
+  "A check runs every 15 minutes against the official Autobahn closures and the Kaub gauge, and sends a notification for anything new on your pins. Your pins and this browser’s push address are stored for that, with no name or account; turning alerts off deletes them.": "Alle 15 Minuten läuft eine Prüfung gegen die amtlichen Autobahn-Sperrungen und den Pegel Kaub und meldet alles Neue zu deinen angehefteten Strecken und Orten. Dafür werden deine Pins und die Push-Adresse dieses Browsers gespeichert, ohne Namen oder Konto; Ausschalten löscht sie.",
+  "Alerts could not be turned on. Try again.": "Benachrichtigungen konnten nicht eingeschaltet werden. Versuch es noch einmal.",
+  "Alerts": "Benachrichtigungen",
+  "Also when Kaub crosses a low-water line": "Auch wenn Kaub eine Niedrigwassermarke überschreitet",
+  "Checked every 15 minutes. New closures arrive as a notification.": "Alle 15 Minuten geprüft. Neue Sperrungen kommen als Benachrichtigung.",
+  "Get a notification when a pinned road or place gets a new closure.": "Erhalte eine Benachrichtigung, wenn eine angeheftete Strecke oder ein Ort neu gesperrt wird.",
+  "Notifications are blocked for this site. Allow them in the browser settings to turn alerts on.": "Benachrichtigungen sind für diese Seite blockiert. Erlaube sie in den Browsereinstellungen, um sie einzuschalten.",
+  "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "Auf iPhone und iPad zuerst Nadelöhr zum Home-Bildschirm hinzufügen („Teilen“, dann „Zum Home-Bildschirm“) und dort die Benachrichtigungen einschalten.",
+  "Pin a road or place to get alerts for it.": "Hefte eine Strecke oder einen Ort an, um dafür Benachrichtigungen zu bekommen.",
+  "This browser cannot show alerts.": "Dieser Browser kann keine Benachrichtigungen anzeigen."
 }

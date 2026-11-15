@@ -349,6 +349,45 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Push alerts for pinned roads and places — Nadelöhr
+
+- **Browser** (`src/nadeloehr/alerts.js`, `AlertsSwitch.vue` under "My roads
+  and places"). The switch registers `public/sw.js` (push and
+  notification-click only; it caches nothing) and subscribes with the Push API
+  using `VAPID_PUBLIC_KEY`. It then posts the subscription, the pins, the Kaub
+  opt-in and the locale to the server. Pin changes are re-sent after 1.5 s. A
+  push service that never answers times out after 20 s. On iPhone or iPad
+  outside the Home Screen app, the card explains how to install first.
+- **Server** (`server/providers/alerts.js`): `GET /api/alerts/config`,
+  `POST /api/alerts/subscribe` and `POST /api/alerts/unsubscribe`. Records
+  go to Upstash Redis over REST (`server/providers/alerts/store.js`; requires
+  `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`). Safeguards:
+  - only known push-service hosts are accepted;
+  - at most 20 pins and 5,000 browsers;
+  - 20 changes an hour per visitor;
+  - a same-site browser Origin is required.
+  The server never sends pushes and holds no private key.
+- **Sending** (`.github/workflows/alerts.yml`, every 15 minutes, running
+  `scripts/send-alerts.mjs` with `web-push` installed on the fly):
+  - It fetches full closures on every Autobahn, plus Kaub when anyone opted
+    in. `src/freight/alerts.js` turns them into keyed items per subscriber:
+    closures on pinned roads, closures within 30 km of pinned places, and the
+    Kaub band.
+  - It sends what is new: at most 3 notifications per check, more become one
+    summary.
+  - A new subscriber's first check only records the current state.
+  - Subscriptions that the push service reports gone are deleted.
+  - A run where most of the feed fails is skipped.
+  - It needs the `VAPID_PRIVATE_KEY` secret, and does nothing until the
+    secrets exist.
+
+**Street view under the Nadelöhr panels, fixed.** The original Street Level
+and camera panels open in `#right-context-rail`. On wide screens that rail
+now starts below the number strip (`src/ui/styles/nadeloehr.css`), and the
+right-hand insight card hides while Street Level is on. The Street Level
+browser gate (FIT/FILL) had been failing since the Today layout because the
+strip covered those controls.
+
 ## Tooltips and explanations — Nadelöhr
 
 Icon buttons (header tools, map controls, legend switches) use `Tip.vue`, a
