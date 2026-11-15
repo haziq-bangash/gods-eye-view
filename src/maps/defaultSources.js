@@ -4,6 +4,8 @@ import { keySetupRequirementEnvVars } from '../keySetupCore.mjs';
 import { t } from '../i18n/index.js';
 import {
   createOsmImagery,
+  createStreetsImagery,
+  STADIA_ATTRIBUTION_HTML,
   createEsriImagery,
   createIonImagery,
   ESRI_ATTRIBUTION_HTML,
@@ -55,11 +57,27 @@ export function createDefaultMapSources({
           ? () => createIonImagery(descriptor.style, ionToken)
           : descriptor.id === 'osm'
             ? createOsmImagery
-            : createEsriImagery;
+            : descriptor.kind === 'streets'
+              ? () => createStreetsImagery()
+              : createEsriImagery;
       return {
         ...common,
         imagery,
         terrain,
+        ...(descriptor.kind === 'streets'
+          ? {
+              credit: STADIA_ATTRIBUTION_HTML,
+              constructionFallback: {
+                id: 'osm',
+                message: 'The road map is unavailable; using OSM',
+              },
+              tileFailureFallback: {
+                id: 'osm',
+                threshold: 2,
+                message: 'Road map tile requests failed; using OSM',
+              },
+            }
+          : {}),
         ...(descriptor.id === 'esri-imagery'
           ? {
               credit: ESRI_ATTRIBUTION_HTML,

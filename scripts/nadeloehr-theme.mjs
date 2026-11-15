@@ -134,7 +134,13 @@ function themedFiles() {
     { cwd: ROOT, encoding: 'utf8' },
   )
     .split(/\r?\n/)
-    .filter((file) => file && !KEEP_UPSTREAM.has(file));
+    .filter(
+      (file) =>
+        file &&
+        !KEEP_UPSTREAM.has(file) &&
+        // The Nadelöhr shell is themed by its own tokens (styles.css).
+        !file.startsWith('src/nadeloehr/'),
+    );
 }
 
 async function main() {

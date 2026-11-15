@@ -1,0 +1,362 @@
+/* ═══════════════════════════════════════════════
+   NADELÖHR SHELL — Tailwind v4 + shadcn-vue theme.
+
+   Only the theme and utilities are imported: no preflight, so upstream's
+   stylesheets keep their own base. Utilities are unlayered on purpose, so
+   they outrank upstream's unlayered element rules inside the shell. Class
+   scanning is limited to the shell's own sources, so upstream class names
+   (e.g. "hidden", "visible") never get Tailwind rules.
+   ═══════════════════════════════════════════════ */
+
+@import 'tailwindcss/theme.css' layer(theme) source(none);
+@import 'tailwindcss/utilities.css' source(none);
+@source '../nadeloehr';
+
+/* shadcn's role tokens live on the shell root, not :root: upstream already
+   uses --accent for its accent colour. */
+.nadeloehr {
+  --radius: 1.25rem;
+  /* Light: Apple Maps' frosted white. */
+  --background: oklch(0.985 0.002 270);
+  --foreground: oklch(0.21 0.006 286);
+  --card: oklch(1 0 0 / 0.72);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0 / 0.9);
+  --popover-foreground: var(--foreground);
+  /* Toxic Orange #FF6037 */
+  --primary: oklch(0.68 0.2 36);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.21 0.006 286 / 0.06);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.21 0.006 286 / 0.05);
+  --muted-foreground: oklch(0.5 0.01 286);
+  --accent: oklch(0.21 0.006 286 / 0.07);
+  --accent-foreground: var(--foreground);
+  --destructive: oklch(0.6 0.22 27);
+  --border: oklch(0.21 0.006 286 / 0.1);
+  --input: oklch(0.21 0.006 286 / 0.08);
+  --ring: oklch(0.68 0.2 36 / 0.6);
+  /* Liquid Glass material for floating surfaces. */
+  --glass: oklch(1 0 0 / 0.66);
+  --glass-strong: oklch(1 0 0 / 0.86);
+  --glass-edge: oklch(1 0 0 / 0.7);
+  --glass-shadow-lg: 0 18px 50px rgb(0 0 0 / 0.16), 0 2px 6px rgb(0 0 0 / 0.08);
+  /* Status colours for disruptions (shared with the map markers). */
+  --status-closure: #ff3b30;
+  --status-ramp: #ff6b9a;
+  --status-warning: #ffd60a;
+  --status-shortwork: #ff9500;
+  --status-roadworks: #64d2ff;
+  color: var(--foreground);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter',
+    'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  .nadeloehr {
+    --background: oklch(0.2 0.004 286);
+    --foreground: oklch(0.97 0.002 286);
+    --card: oklch(0.24 0.005 286 / 0.7);
+    --popover: oklch(0.24 0.005 286 / 0.92);
+    --secondary: oklch(1 0 0 / 0.08);
+    --muted: oklch(1 0 0 / 0.06);
+    --muted-foreground: oklch(0.72 0.01 286);
+    --accent: oklch(1 0 0 / 0.1);
+    --border: oklch(1 0 0 / 0.12);
+    --input: oklch(1 0 0 / 0.1);
+    --glass: oklch(0.22 0.005 286 / 0.62);
+    --glass-strong: oklch(0.22 0.005 286 / 0.86);
+    --glass-edge: oklch(1 0 0 / 0.16);
+    --glass-shadow-lg:
+      0 18px 50px rgb(0 0 0 / 0.45), 0 2px 6px rgb(0 0 0 / 0.3);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-glass: var(--glass);
+  --color-glass-strong: var(--glass-strong);
+  --color-closure: var(--status-closure);
+  --color-ramp: var(--status-ramp);
+  --color-warning: var(--status-warning);
+  --color-shortwork: var(--status-shortwork);
+  --color-roadworks: var(--status-roadworks);
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 6px);
+  --radius-lg: calc(var(--radius) - 4px);
+  --radius-xl: var(--radius);
+  --radius-2xl: calc(var(--radius) + 6px);
+}
+
+/* Liquid Glass: blur, lifted saturation, a bright rim and a soft shadow. */
+@utility glass {
+  background: var(--glass);
+  backdrop-filter: blur(30px) saturate(1.8);
+  -webkit-backdrop-filter: blur(30px) saturate(1.8);
+  border: 0.5px solid var(--glass-edge);
+  box-shadow:
+    var(--glass-shadow-lg),
+    inset 0 0.5px 0 var(--glass-edge);
+}
+
+@utility glass-strong {
+  background: var(--glass-strong);
+  backdrop-filter: blur(30px) saturate(1.8);
+  -webkit-backdrop-filter: blur(30px) saturate(1.8);
+  border: 0.5px solid var(--glass-edge);
+  box-shadow:
+    var(--glass-shadow-lg),
+    inset 0 0.5px 0 var(--glass-edge);
+}
+
+/* Controls in the shell start from a clean slate (there is no preflight):
+   zero specificity, so every Tailwind utility still wins. */
+:where(.nadeloehr) :where(button, input, select, textarea) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  appearance: none;
+}
+
+:where(.nadeloehr) :where(h1, h2, h3, p, ul, dl, dd) {
+  margin: 0;
+}
+
+:where(.nadeloehr) :where(ul) {
+  padding: 0;
+  list-style: none;
+}
+
+:where(.nadeloehr) :where(input[type='search'])::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* Liquid Glass icon badge: a glossy, colour-filled lens with a white glyph.
+   The colour comes from --icon-color; a top highlight and a soft inner
+   shade give it depth, a tinted glow lifts it off the sheet. */
+@utility icon-glass {
+  position: relative;
+  isolation: isolate;
+  color: white;
+  background:
+    radial-gradient(
+      120% 90% at 50% 0%,
+      color-mix(in oklch, var(--icon-color) 55%, white) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--icon-color) 88%, white),
+      var(--icon-color) 55%,
+      color-mix(in oklch, var(--icon-color) 82%, black)
+    );
+  border: 0.5px solid color-mix(in oklch, white 45%, transparent);
+  box-shadow:
+    inset 0 1px 0.5px rgb(255 255 255 / 0.65),
+    inset 0 -1.5px 3px color-mix(in oklch, var(--icon-color) 60%, black),
+    0 3px 10px color-mix(in oklch, var(--icon-color) 38%, transparent);
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 1px 3px auto;
+    height: 46%;
+    border-radius: 999px 999px 60% 60% / 999px 999px 40% 40%;
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.55),
+      rgb(255 255 255 / 0)
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+  & svg {
+    filter: drop-shadow(0 0.5px 0.5px rgb(0 0 0 / 0.25));
+  }
+}
+
+/* ── Typography: San Francisco's scale, tracking tightening with size.
+   Desktop uses macOS sizes; phones step up to iOS sizes. ───────────── */
+@utility text-title {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  @media (max-width: 639px) {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
+@utility text-title2 {
+  font-size: 20px;
+  line-height: 25px;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  @media (max-width: 639px) {
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+@utility text-headline {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  @media (max-width: 639px) {
+    font-size: 17px;
+    line-height: 22px;
+  }
+}
+@utility text-body {
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+  @media (max-width: 639px) {
+    font-size: 17px;
+    line-height: 22px;
+  }
+}
+@utility text-callout {
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: -0.006em;
+  @media (max-width: 639px) {
+    font-size: 16px;
+    line-height: 21px;
+  }
+}
+@utility text-subhead {
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.003em;
+  @media (max-width: 639px) {
+    font-size: 15px;
+    line-height: 20px;
+  }
+}
+@utility text-caption {
+  font-size: 12px;
+  line-height: 16px;
+  @media (max-width: 639px) {
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+
+/* ── Concentric corners: an inset group's radius is the sheet's radius
+   minus the padding between them. ──────────────────────────────────── */
+.nadeloehr {
+  --sheet-radius: 28px;
+  --sheet-padding: 16px;
+  --group-radius: calc(var(--sheet-radius) - var(--sheet-padding));
+}
+@utility rounded-group {
+  border-radius: var(--group-radius);
+}
+@utility rounded-sheet {
+  border-radius: var(--sheet-radius);
+}
+
+/* ── Scrolling: thin overlay scrollbars that appear only while the pointer
+   is over the content, and a soft edge where content slides under the
+   sheet's header (Liquid Glass' scroll edge effect). ────────────────── */
+@utility nd-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s;
+  -webkit-overflow-scrolling: touch;
+  &:hover,
+  &:focus-within {
+    scrollbar-color: color-mix(in oklch, var(--foreground) 28%, transparent)
+      transparent;
+  }
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+    background-color: transparent;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: color-mix(in oklch, var(--foreground) 28%, transparent);
+  }
+}
+@utility scroll-edge {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black 18px,
+    black calc(100% - 12px),
+    transparent 100%
+  );
+}
+
+/* ── Touch feedback: controls give way slightly when pressed. ──────── */
+@utility press {
+  transition:
+    transform 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.2),
+    background-color 0.15s;
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+/* ── Accessibility: the material steps back when the system asks. ──── */
+@media (prefers-reduced-transparency: reduce) {
+  .nadeloehr {
+    --glass: var(--background);
+    --glass-strong: var(--background);
+    --card: color-mix(in oklch, var(--foreground) 5%, var(--background));
+  }
+  .nadeloehr .glass,
+  .nadeloehr .glass-strong {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+@media (prefers-contrast: more) {
+  .nadeloehr {
+    --glass-edge: color-mix(in oklch, var(--foreground) 45%, transparent);
+    --border: color-mix(in oklch, var(--foreground) 35%, transparent);
+    --muted-foreground: color-mix(in oklch, var(--foreground) 78%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nadeloehr *,
+  .nadeloehr *::before,
+  .nadeloehr *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

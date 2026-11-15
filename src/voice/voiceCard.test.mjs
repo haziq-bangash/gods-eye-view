@@ -168,8 +168,7 @@ test('markup: the card nests inside the voice control with every element and a p
       'the card is part of the voice control',
     );
     assert.equal(document.querySelectorAll('#gev-voice-card').length, 1);
-    if (panel)
-      assert.equal(card.parentElement.id, 'gev-voice-preview-panel');
+    if (panel) assert.equal(card.parentElement.id, 'gev-voice-preview-panel');
     for (const id of [
       'gev-voice-card-phase',
       'gev-voice-card-dismiss',
@@ -531,7 +530,12 @@ test('additive presentation gates retain the current localized reducer labels', 
     const steps = card.state.steps;
     const result = card.state.result;
     const who = () => ui.state.card.user.label;
-    card.handle({ type: 'transcript', role: 'user', text: 'Same words', attribution: 'unverified' });
+    card.handle({
+      type: 'transcript',
+      role: 'user',
+      text: 'Same words',
+      attribution: 'unverified',
+    });
     assert.equal(card.state.userAttribution, 'unverified');
     assert.equal(card.snapshot().user.label, 'Habla reciente');
     assert.equal(who(), 'Habla reciente');

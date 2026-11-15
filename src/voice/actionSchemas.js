@@ -391,6 +391,7 @@ const schemas = [
             'bing-labels',
             'esri-imagery',
             'osm',
+            'streets',
           ],
         },
       },

@@ -50,6 +50,12 @@ export function createAutobahnLayer({
   screenSpaceEventHandlerFactory = null,
   picking = null,
   pointer = null,
+  // A host shell (Nadelöhr) that shows the selection in its own sheet: it
+  // hears every selection and every refreshed row list, and can turn the
+  // on-map card off.
+  onSelect = null,
+  onRows = null,
+  showCard = true,
 } = {}) {
   if (typeof source?.getSnapshot !== 'function')
     throw new TypeError('Autobahn layer requires a snapshot source');
@@ -85,6 +91,13 @@ export function createAutobahnLayer({
     const row = _selectedId ? _rowById.get(_selectedId) : null;
     if (!row || !isVisible(row)) {
       _selectedId = null;
+      _selectedCardId = null;
+      overlayHost.setEntries(AUTOBAHN_OVERLAY_SOURCE_ID, [], CARD_HOST_OPTIONS);
+      onSelect?.(null);
+      return;
+    }
+    onSelect?.(row);
+    if (!showCard) {
       _selectedCardId = null;
       overlayHost.setEntries(AUTOBAHN_OVERLAY_SOURCE_ID, [], CARD_HOST_OPTIONS);
       return;
@@ -148,6 +161,7 @@ export function createAutobahnLayer({
   }
 
   function clearSelection() {
+    if (_selectedId) onSelect?.(null);
     _selectedId = null;
     _selectedCardId = null;
     if (overlayHost) {
@@ -164,6 +178,12 @@ export function createAutobahnLayer({
     }
     if (_selectedId) publishSelectedCard();
     notifyRowControls();
+    publishRows();
+  }
+
+  /** Tell a host shell the rows it can list (filters applied). */
+  function publishRows() {
+    onRows?.(_enabled ? visibleRows() : []);
   }
 
   function entitiesFor(row) {
@@ -235,6 +255,7 @@ export function createAutobahnLayer({
       if (_dataSource) _dataSource.show = false;
       removeClickHandler();
       clearSelection();
+      publishRows();
     },
 
     async update() {
@@ -277,6 +298,7 @@ export function createAutobahnLayer({
           console.log(`[Data:Autobahn] Updated: ${_rowById.size} events`);
         }
         if (_selectedId) publishSelectedCard();
+        publishRows();
         _lastUpdate = updatedAt;
         _lastError = null;
         notifyRowControls();
@@ -326,6 +348,40 @@ export function createAutobahnLayer({
           id: stableId,
           ...facts,
         }));
+    },
+
+    /**
+     * Select one event by id (a host's list), as a click on its marker does;
+     * null clears the selection.
+     */
+    select(id) {
+      if (!canSelect()) return false;
+      if (id == null) {
+        if (_selectedId) {
+          _selectedId = null;
+          publishSelectedCard();
+        }
+        return true;
+      }
+      const row = _rowById.get(String(id));
+      if (!row || !isVisible(row)) return false;
+      _selectedId = row.stableId;
+      publishSelectedCard();
+      return true;
+    },
+
+    /** Whether an event kind is listed and drawn (long-term roadworks start hidden). */
+    isKindVisible(kind) {
+      return !_hiddenKinds.has(kind);
+    },
+
+    /** Show or hide one event kind, as the row chips do. */
+    setKindVisible(kind, visible) {
+      if (!AUTOBAHN_KINDS.includes(kind)) return false;
+      if (visible) _hiddenKinds.delete(kind);
+      else _hiddenKinds.add(kind);
+      applyFilters();
+      return true;
     },
 
     setRowControlsListener(listener) {

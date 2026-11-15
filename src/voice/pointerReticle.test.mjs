@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readStylesheet } from '../testSupport/readStylesheet.mjs';
-import { PointerReticle, RETICLE_LINGER_MS, RETICLE_MAX_MS } from './pointerReticle.js';
+import {
+  PointerReticle,
+  RETICLE_LINGER_MS,
+  RETICLE_MAX_MS,
+} from './pointerReticle.js';
 
 const css = readStylesheet(new URL('../../style.css', import.meta.url));
 
@@ -48,10 +52,20 @@ test('reticle: shows at the pointed pixel and caps its lifetime', () => {
   const { store, timers, reticle, fire } = harness();
   assert.equal(store.reticle, null);
   reticle.handle({ type: 'pointer', pointer });
-  assert.deepEqual(store.reticle, { visible: true, left: 610, top: 220, target: 'entity' });
+  assert.deepEqual(store.reticle, {
+    visible: true,
+    left: 610,
+    top: 220,
+    target: 'entity',
+  });
   assert.equal([...timers.values()][0].ms, RETICLE_MAX_MS);
   fire();
-  assert.deepEqual(store.reticle, { visible: false, left: 610, top: 220, target: 'entity' });
+  assert.deepEqual(store.reticle, {
+    visible: false,
+    left: 610,
+    top: 220,
+    target: 'entity',
+  });
 });
 
 test('reticle: leaves when a tool moves the camera, lingers after a reply', () => {
@@ -61,10 +75,22 @@ test('reticle: leaves when a tool moves the camera, lingers after a reply', () =
   assert.equal(store.reticle.target, 'ground');
   reticle.handle({ type: 'action-call', name: 'analyst_query', callId: 'c1' });
   reticle.handle({ type: 'action-call', name: 'analyst_query', callId: 'c2' });
-  reticle.handle({ type: 'action-result', name: 'analyst_query', callId: 'c1' });
+  reticle.handle({
+    type: 'action-result',
+    name: 'analyst_query',
+    callId: 'c1',
+  });
   reticle.handle({ type: 'completion' });
-  assert.equal([...timers.values()][0].ms, RETICLE_MAX_MS, 'a sibling call still running keeps it');
-  reticle.handle({ type: 'action-result', name: 'analyst_query', callId: 'c2' });
+  assert.equal(
+    [...timers.values()][0].ms,
+    RETICLE_MAX_MS,
+    'a sibling call still running keeps it',
+  );
+  reticle.handle({
+    type: 'action-result',
+    name: 'analyst_query',
+    callId: 'c2',
+  });
   reticle.handle({ type: 'completion' });
   assert.equal([...timers.values()][0].ms, RETICLE_LINGER_MS);
   fire();
@@ -87,12 +113,29 @@ test('reticle: leaves when a tool moves the camera, lingers after a reply', () =
 test('reticle: each reticle keeps its own point', () => {
   const store = fakeStore();
   const rectOf = () => ({ left: 0, top: 0 });
-  const older = new PointerReticle({ store, rectOf, setTimer: () => 1, clearTimer() {} });
-  const newer = new PointerReticle({ store, rectOf, setTimer: () => 2, clearTimer() {} });
+  const older = new PointerReticle({
+    store,
+    rectOf,
+    setTimer: () => 1,
+    clearTimer() {},
+  });
+  const newer = new PointerReticle({
+    store,
+    rectOf,
+    setTimer: () => 2,
+    clearTimer() {},
+  });
   older.handle({ type: 'pointer', pointer });
-  newer.handle({ type: 'pointer', pointer: { ...pointer, screenPx: { x: 5, y: 6 } } });
+  newer.handle({
+    type: 'pointer',
+    pointer: { ...pointer, screenPx: { x: 5, y: 6 } },
+  });
   newer.handle({ type: 'state', state: 'idle' });
-  assert.equal(store.reticles.get(older).visible, true, 'hiding the newer one leaves the older one');
+  assert.equal(
+    store.reticles.get(older).visible,
+    true,
+    'hiding the newer one leaves the older one',
+  );
   newer.destroy();
   assert.deepEqual([...store.reticles.keys()], [older]);
   assert.notEqual(older.key, newer.key);

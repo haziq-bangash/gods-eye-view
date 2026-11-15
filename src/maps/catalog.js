@@ -1,6 +1,14 @@
 import * as Cesium from 'cesium';
 export const MAP_STACKS = [
   {
+    // Nadelöhr's default: a clean road map, light or dark with the system.
+    id: 'streets',
+    label: 'Map', // i18n-ignore: map style name
+    shortLabel: 'Map',
+    kind: 'streets',
+    requiresIon: false,
+  },
+  {
     id: 'photoreal',
     label: 'Google 3D', // i18n-ignore: imagery product name
     shortLabel: '3D',

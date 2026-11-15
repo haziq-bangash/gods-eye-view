@@ -179,9 +179,38 @@
       "src/ui/kit/UiIcon.vue",
       "src/ui/stores/worldTime.js",
       "src/ui/views/panels/WorldTimeline.vue",
-      "src/ui/surfaceKeyboard.js"
+      "src/ui/surfaceKeyboard.js",
+      "src/nadeloehr/disruptions.js",
+      "src/nadeloehr/components/IconBadge.vue",
+      "src/nadeloehr/store.js",
+      "src/nadeloehr/mapLayers.js",
+      "src/nadeloehr/components/RoadShield.vue",
+      "src/ui/layerNames.js",
+      "src/nadeloehr/components/SearchField.vue",
+      "src/nadeloehr/components/MapControls.vue",
+      "src/nadeloehr/icons.js",
+      "src/nadeloehr/components/MapStylePicker.vue",
+      "src/nadeloehr/ui/Separator.vue",
+      "src/nadeloehr/ui/Switch.vue",
+      "src/nadeloehr/components/PlaceCard.vue",
+      "src/nadeloehr/components/HomePanel.vue",
+      "src/nadeloehr/useApp.js",
+      "src/nadeloehr/ui/button.js",
+      "src/nadeloehr/ui/utils.js",
+      "src/nadeloehr/ui/Button.vue",
+      "src/nadeloehr/Shell.vue",
+      "src/ui/views/NadeloehrShellView.vue"
     ],
-    "external": ["vue", "pinia", "vue-i18n"]
+    "external": [
+      "vue",
+      "pinia",
+      "vue-i18n",
+      "@phosphor-icons/vue",
+      "clsx",
+      "reka-ui",
+      "class-variance-authority",
+      "tailwind-merge"
+    ]
   },
   "i18n": {
     "exports": ["./i18n"],
@@ -235,7 +264,12 @@
       "build/registerVue.js",
       "build/vueLoader.js"
     ],
-    "external": ["vite-plugin-cesium", "@vitejs/plugin-vue", "vue"]
+    "external": [
+      "vite-plugin-cesium",
+      "@vitejs/plugin-vue",
+      "vue",
+      "@tailwindcss/vite"
+    ]
   },
   "live-providers": {
     "runtime": "node",
@@ -3834,7 +3868,9 @@
       "src/data/planespottersPhoto.js",
       "src/ui/stores/dataLibrary.js",
       "src/data/openVesselPhoto.js",
-      "src/layers/vessels/photos.js"
+      "src/layers/vessels/photos.js",
+      "src/nadeloehr/store.js",
+      "src/nadeloehr/camera.js"
     ],
     "external": [
       "hls.js",
@@ -4557,7 +4593,8 @@
       "src/data/imagingSensors.js",
       "src/data/planespottersPhoto.js",
       "src/layers/vessels/photos.js",
-      "src/data/openVesselPhoto.js"
+      "src/data/openVesselPhoto.js",
+      "src/nadeloehr/store.js"
     ],
     "external": [
       "hls.js",

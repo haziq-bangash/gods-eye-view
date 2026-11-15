@@ -113,6 +113,8 @@ export const SHARE_VIEW_ENUMS = Object.freeze({
     'bing-labels',
     'esri-imagery',
     'osm',
+    // Appended (codes are positions): Nadelöhr's road map.
+    'streets',
   ]),
   hudVariant: Object.freeze(['tactical', 'operator', 'minimal', 'cyber']),
   detectionMode: Object.freeze(['OFF', 'SPARSE', 'BALANCED', 'DENSE']),

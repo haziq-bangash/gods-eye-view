@@ -113,8 +113,9 @@ test('autocomplete ignores Arabic short vowels and shadda', (t) => {
     prefs.render();
     return ui.state.chat.suggestions.flatMap((group) => group.items);
   };
-  // The quick command is written "تتبّع", with a shadda.
-  assert.deepEqual(suggested('تتبع'), ['اعرض تتبّع الرحلات المباشر']);
+  // Remembered with a shadda ("تتبّع"), typed without one.
+  prefs.remember('اعرض تتبّع السفن');
+  assert.deepEqual(suggested('تتبع'), ['اعرض تتبّع السفن']);
   prefs.remember('انتقل إلى طوكيو');
   assert.deepEqual(suggested('طُوكيو'), ['انتقل إلى طوكيو']);
 });

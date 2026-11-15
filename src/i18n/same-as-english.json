@@ -251,7 +251,8 @@
     "{minutes} min",
     "1 min/s",
     "{length} km",
-    "Transport"
+    "Transport",
+    "{speed} km/h"
   ],
   "es": [
     "1 min/s",
@@ -416,7 +417,9 @@
     "Regional",
     "{datasets} · {tiles} · {packs}",
     "VIRTUAL",
-    "{length} km"
+    "{length} km",
+    "+{minutes} min",
+    "{speed} km/h"
   ],
   "fr": [
     "1 min/s",
@@ -642,7 +645,12 @@
     "Type",
     "{range} NM",
     "{length} km",
-    "Transport"
+    "Transport",
+    "Satellite",
+    "+{minutes} min",
+    "Direction",
+    "{speed} km/h",
+    "Trains"
   ],
   "it": [
     "1 min/s",
@@ -849,7 +857,10 @@
     "DATASET",
     "{count} datasets",
     "ZOOM",
-    "{length} km"
+    "{length} km",
+    "Satellite",
+    "+{minutes} min",
+    "{speed} km/h"
   ],
   "ja": [
     "1090 MHz",
@@ -1081,7 +1092,9 @@
     "NORAD: {id}",
     "Regional",
     "VIRTUAL",
-    "{length} km"
+    "{length} km",
+    "+{minutes} min",
+    "{speed} km/h"
   ],
   "ru": [
     "1900–1945",
@@ -1280,7 +1293,9 @@
     "NORAD: {id}",
     "MMSI: {id}",
     "{length} km",
-    "Transport"
+    "Transport",
+    "+{minutes} min",
+    "{speed} km/h"
   ],
   "uk": [
     "1900–1945",

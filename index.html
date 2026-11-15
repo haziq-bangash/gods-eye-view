@@ -19,6 +19,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="Nadelöhr" />
   <link rel="stylesheet" href="/style.css" />
+  <!-- Nadelöhr skin over the upstream chrome, then the shell theme -->
+  <link rel="stylesheet" href="/src/ui/styles/nadeloehr.css" />
+  <link rel="stylesheet" href="/src/nadeloehr/styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+Arabic:wght@400;500;600;700&family=Noto+Sans+Hebrew:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -39,6 +42,8 @@
   <div class="gev-view" data-gev-view="provider-settings"></div>
   <!-- Intelligence HUD Overlay -->
   <div class="gev-view" data-gev-view="intel-hud"></div>
+  <!-- Nadelöhr: the Apple Maps-style interface over everything above -->
+  <div class="gev-view" data-gev-view="nadeloehr-shell"></div>
 
   <!-- Loading screen -->
   <div id="loading-screen">
