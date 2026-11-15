@@ -349,6 +349,30 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Truck driving bans and Middle Rhine ships — Nadelöhr
+
+**Driving bans** (`src/freight/drivingBans.js`, portable). § 30 (3) StVO:
+Sundays and public holidays 00:00–22:00 for lorries over 7.5 t and lorries
+with a trailer. Holidays are computed per year (Easter via the Gregorian
+computus) with the states each applies in; local holidays (Corpus Christi in
+parts of Saxony and Thuringia, the Assumption in parts of Bavaria, Augsburg)
+are left out. The Ferienreiseverordnung's summer Saturdays (1 July – 31
+August, 07:00–20:00, main holiday routes) are included without the route
+list. Corridors carry the states they cross (`states` in
+`src/freight/corridors.js`). `src/nadeloehr/bans.js` turns them into the
+Today-tab notice (`BanNotice.vue`): the ban in force for Now, Tonight or
+Tomorrow, else one line with the next one (regional ones name their states);
+the corridor breakdown shows the same for its states. Bans do not change the
+risk score. `get_corridor_risk` returns `truck_bans` per corridor.
+
+**Middle Rhine ships** (`src/nadeloehr/rhineShips.js`). `/api/vessels`
+accepts `?bbox=west,south,east,north`; the app asks every two minutes for
+Bingen–Koblenz (east of the Moselle) and counts ships under way (≥ 0.5 kn)
+and stopped, from positions of the last 30 minutes (unknown speeds are left
+out). The Kaub card and Kaub's gauge card show it for Now; "Show ships" turns
+on the Ships layer over the valley. Stopped includes moored and anchored
+ships. Without an AIS key the line is simply absent.
+
 ## Phone polish: strip, swipes, touch targets, placeholders, install — Nadelöhr
 
 - **Strip.** On phones (< 640 px) the Today strip starts minimised: a time

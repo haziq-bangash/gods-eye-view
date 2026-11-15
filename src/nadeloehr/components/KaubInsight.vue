@@ -10,6 +10,7 @@ import {
 import { gaugeCard } from '../rivers.js';
 import LevelChart from './LevelChart.vue';
 import InfoTip from './InfoTip.vue';
+import RhineShips from './RhineShips.vue';
 import { WATER_SCORE_EXPLAIN } from '../today.js';
 
 const props = defineProps({
@@ -17,8 +18,10 @@ const props = defineProps({
   /** 'now', 'tonight' or 'tomorrow', and its [from, to] range. */
   horizon: { type: String, default: 'now' },
   range: { type: Array, default: null },
+  /** Live ships between Bingen and Koblenz ({ total, moving, stopped }), if known. */
+  ships: { type: Object, default: null },
 });
-defineEmits(['open']);
+defineEmits(['open', 'ships']);
 
 const later = computed(() => props.horizon !== 'now' && props.range);
 /** The level shown: now the reading, later the lowest forecast value. */
@@ -124,6 +127,12 @@ const facts = computed(() =>
       <InfoTip :label="t('Water score')" :text="t(WATER_SCORE_EXPLAIN)" />
     </p>
     <p class="mt-3 text-callout">{{ card.hint }}</p>
+    <RhineShips
+      v-if="horizon === 'now'"
+      :ships="ships"
+      class="mt-3"
+      @show="$emit('ships')"
+    />
     <button
       type="button"
       class="mt-2 self-start cursor-pointer text-callout font-semibold text-primary-ink hover:underline"

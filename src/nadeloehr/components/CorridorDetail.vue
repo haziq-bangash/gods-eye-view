@@ -7,6 +7,7 @@ import { t } from '../../i18n/index.js';
 import { comparedToUsual, corridorSeries } from '../history.js';
 import Sparkline from './Sparkline.vue';
 import InfoTip from './InfoTip.vue';
+import BanNotice from './BanNotice.vue';
 import { LEVEL_EXPLAIN } from '../today.js';
 import Button from '../ui/Button.vue';
 
@@ -15,6 +16,9 @@ const props = defineProps({
   closable: { type: Boolean, default: true },
   /** The hourly history file (see src/nadeloehr/history.js), if loaded. */
   history: { type: Object, default: null },
+  /** Truck bans for this corridor's states (banNotice()), if any. */
+  bans: { type: Object, default: null },
+  horizon: { type: String, default: 'now' },
 });
 const series = computed(() =>
   props.history ? corridorSeries(props.history, props.corridor.id) : [],
@@ -65,6 +69,8 @@ defineEmits(['close']);
       >
       <InfoTip :label="t('the score')" :text="t(LEVEL_EXPLAIN)" />
     </span>
+
+    <BanNotice v-if="bans" :bans="bans" :horizon="horizon" />
 
     <section
       v-if="history && corridor.id !== 'route'"

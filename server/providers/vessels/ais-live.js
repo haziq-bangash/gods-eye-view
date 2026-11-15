@@ -71,6 +71,23 @@ let _aisWebSocketImpl;
  * the Vite server keeps one backend websocket open and exposes a same-origin
  * JSON snapshot to the Cesium layer.
  */
+/** "w,s,e,n" in degrees → [w, s, e, n], or null when absent or invalid. */
+export function parseVesselBbox(value) {
+  if (!value) return null;
+  const parts = String(value).split(',').map(Number);
+  if (parts.length !== 4 || !parts.every(Number.isFinite)) return null;
+  const [w, s, e, n] = parts;
+  if (w < -180 || e > 180 || s < -90 || n > 90 || w >= e || s >= n) return null;
+  return [w, s, e, n];
+}
+
+/** Whether a vessel row lies inside a parsed bbox. */
+export function inVesselBbox(row, [w, s, e, n]) {
+  const lat = Number(row?.lat);
+  const lon = Number(row?.lon);
+  return lat >= s && lat <= n && lon >= w && lon <= e;
+}
+
 export function aisLiveProxy() {
   function install(middlewares) {
     middlewares.use('/api/vessels', async (req, res) => {
@@ -116,7 +133,14 @@ export function aisLiveProxy() {
           AISSTREAM_CACHE_MAX,
           AISSTREAM_CACHE_MAX,
         );
-        const rows = aisStreamRows(maxRows);
+        // Optional area: ?bbox=west,south,east,north (degrees), so a small
+        // view (a river stretch) need not download every ship.
+        const box = parseVesselBbox(incoming.searchParams.get('bbox'));
+        const rows = box
+          ? aisStreamRows(AISSTREAM_CACHE_MAX)
+              .filter((row) => inVesselBbox(row, box))
+              .slice(0, maxRows)
+          : aisStreamRows(maxRows);
 
         const feed = aisStreamStatusSnapshot();
 

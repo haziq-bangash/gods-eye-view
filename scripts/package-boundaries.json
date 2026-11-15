@@ -239,7 +239,12 @@
       "src/nadeloehr/swipe.js",
       "src/nadeloehr/components/TodaySkeleton.vue",
       "src/nadeloehr/install.js",
-      "src/nadeloehr/components/InstallPrompt.vue"
+      "src/nadeloehr/components/InstallPrompt.vue",
+      "src/nadeloehr/rhineShips.js",
+      "src/nadeloehr/components/BanNotice.vue",
+      "src/nadeloehr/components/RhineShips.vue",
+      "src/freight/drivingBans.js",
+      "src/nadeloehr/bans.js"
     ],
     "external": [
       "vue",
@@ -6000,7 +6005,8 @@
       "src/layers/truckParking/records.js",
       "src/freight/corridors.js",
       "src/tools/queries/freight.js",
-      "src/freight/horizon.js"
+      "src/freight/horizon.js",
+      "src/freight/drivingBans.js"
     ],
     "external": ["satellite.js"]
   },

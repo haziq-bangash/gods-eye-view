@@ -31,6 +31,7 @@ import MapStylePicker from './components/MapStylePicker.vue';
 import PlaceCard from './components/PlaceCard.vue';
 import RouteCheck from './components/RouteCheck.vue';
 import MyPins from './components/MyPins.vue';
+import BanNotice from './components/BanNotice.vue';
 import PanelTabs from './components/PanelTabs.vue';
 import IntroTour from './components/IntroTour.vue';
 import SearchField from './components/SearchField.vue';
@@ -327,6 +328,8 @@ async function locate() {
           v-if="corridor"
           :corridor="corridor"
           :history="app.corridorHistory.value"
+          :bans="corridor.states?.length ? app.bansFor(corridor.states) : null"
+          :horizon="app.horizon.value"
           @close="app.selectCorridor(null)"
         />
         <KaubInsight
@@ -334,7 +337,9 @@ async function locate() {
           :gauge="kaub"
           :horizon="app.horizon.value"
           :range="app.range.value"
+          :ships="app.rhineShips.value"
           @open="app.showGaugeOnMap"
+          @ships="app.showRhineShips"
         />
       </template>
     </aside>
@@ -448,7 +453,9 @@ async function locate() {
           v-else-if="gauge"
           :card="gauge"
           :series="app.selectedGauge.value?.series || []"
+          :ships="app.rhineShips.value"
           @close="closeCard"
+          @ships="app.showRhineShips"
           @focus="app.showGaugeOnMap(app.selectedGauge.value, { close: true })"
           @share="app.share()"
         />
@@ -471,6 +478,8 @@ async function locate() {
           v-else-if="corridor && !wider"
           :corridor="corridor"
           :history="app.corridorHistory.value"
+          :bans="corridor.states?.length ? app.bansFor(corridor.states) : null"
+          :horizon="app.horizon.value"
           @close="app.selectCorridor(null)"
         />
         <div v-else class="flex flex-col gap-4">
@@ -498,6 +507,7 @@ async function locate() {
                 :horizon="app.horizon.value"
                 @open="openHeadline"
               />
+              <BanNotice :bans="app.bans.value" :horizon="app.horizon.value" />
               <MyPins :app="app" />
               <CorridorCards
                 :corridors="corridors"

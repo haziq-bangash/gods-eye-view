@@ -4,6 +4,8 @@
  * (src/app/tools.js) and upstream's own stores, so the hidden upstream
  * panels and the shell always agree.
  */
+import { banNotice } from './bans.js';
+import { fetchMiddleRhineShips } from './rhineShips.js';
 import { computed, onBeforeUnmount, shallowRef, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { getLocale, t } from '../i18n/index.js';
@@ -227,6 +229,18 @@ export function useApp() {
   onBeforeUnmount(() => clearInterval(tick));
   /** [from, to] of the chosen horizon; "now" is the current instant. */
   const range = computed(() => horizonRange(horizon.value, clock.value));
+  /** Truck driving bans for the chosen time, anywhere in Germany. */
+  const bans = computed(() =>
+    banNotice({ horizon: horizon.value, range: range.value, now: clock.value }),
+  );
+  /** The same for a set of states (a corridor's). */
+  const bansFor = (states) =>
+    banNotice({
+      horizon: horizon.value,
+      range: range.value,
+      now: clock.value,
+      states,
+    });
   function applyTimeRange() {
     const timed = horizon.value === 'now' ? null : range.value;
     autobahnModule()?.setTimeRange?.(timed);
@@ -334,6 +348,20 @@ export function useApp() {
   loadHistory();
   const historyTimer = setInterval(loadHistory, 3_600_000);
   onBeforeUnmount(() => clearInterval(historyTimer));
+
+  // ── Ships on the Middle Rhine (live AIS, when the server has a key) ──
+  const rhineShips = shallowRef(null);
+  async function loadRhineShips() {
+    rhineShips.value = await fetchMiddleRhineShips();
+  }
+  loadRhineShips();
+  const shipsTimer = setInterval(loadRhineShips, 120_000);
+  onBeforeUnmount(() => clearInterval(shipsTimer));
+  /** Ships layer on, and the camera over the valley between Bingen and Koblenz. */
+  function showRhineShips() {
+    setLayer('ais-live-vessels', true);
+    flyFlat(50.12, 7.74, 60_000);
+  }
 
   // ── Check a route ─────────────────────────────────────────────
   /** { from, to, path, distanceM, durationS } once a route is found. */
@@ -645,6 +673,10 @@ export function useApp() {
     clearRoute,
     corridors,
     loaded,
+    rhineShips,
+    showRhineShips,
+    bans,
+    bansFor,
     kpis,
     headline,
     selectedCorridorId,
