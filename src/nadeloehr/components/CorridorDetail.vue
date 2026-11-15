@@ -2,13 +2,24 @@
 // One corridor's score taken apart: each part, its weight after rescaling,
 // why it is what it is, and the formula, so a reader can challenge it.
 import { PhX } from '@phosphor-icons/vue';
+import { computed } from 'vue';
 import { t } from '../../i18n/index.js';
+import { comparedToUsual, corridorSeries } from '../history.js';
+import Sparkline from './Sparkline.vue';
 import Button from '../ui/Button.vue';
 
-defineProps({
+const props = defineProps({
   corridor: { type: Object, required: true },
   closable: { type: Boolean, default: true },
+  /** The hourly history file (see src/nadeloehr/history.js), if loaded. */
+  history: { type: Object, default: null },
 });
+const series = computed(() =>
+  props.history ? corridorSeries(props.history, props.corridor.id) : [],
+);
+const compared = computed(() =>
+  comparedToUsual(props.corridor.score, series.value),
+);
 defineEmits(['close']);
 </script>
 
@@ -49,6 +60,25 @@ defineEmits(['close']);
       }"
       >● {{ corridor.levelLabel }}</span
     >
+
+    <section
+      v-if="history && corridor.id !== 'route'"
+      class="rounded-[14px] bg-muted px-3 py-2.5"
+    >
+      <p class="flex items-center justify-between gap-2">
+        <span class="text-caption font-semibold text-muted-foreground">{{
+          t('Last 7 days')
+        }}</span>
+        <Sparkline
+          v-if="series.length > 1"
+          :values="series.map(([, score]) => score)"
+          :color="corridor.color"
+          :width="140"
+          :height="28"
+        />
+      </p>
+      <p class="mt-1 text-callout">{{ compared.text }}</p>
+    </section>
 
     <ul class="mt-1 flex flex-col gap-3">
       <li

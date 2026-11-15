@@ -4037,5 +4037,26 @@
   "To, e.g. München": "Arrivée, p. ex. Munich",
   "Your route": "Votre trajet",
   "the route": "le trajet",
-  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min en voiture"
+  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min en voiture",
+  "About usual (typically {usual})": "Comme d’habitude (en général {usual})",
+  "Forecast low tomorrow": "Minimum prévu demain",
+  "Forecast low tonight": "Minimum prévu cette nuit",
+  "Higher than usual (typically {usual})": "Plus élevé que d’habitude (en général {usual})",
+  "History builds up hourly; a comparison follows after a day.": "L’historique se remplit chaque heure ; une comparaison suivra après un jour.",
+  "Last 7 days": "7 derniers jours",
+  "Lower than usual (typically {usual})": "Plus bas que d’habitude (en général {usual})",
+  "My roads and places": "Mes routes et lieux",
+  "No closures or warnings": "Aucune fermeture ni alerte",
+  "Nothing nearby": "Rien à proximité",
+  "Pin {name}": "Épingler {name}",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "Cherchez une autoroute (A7) ou un lieu et touchez l’épingle pour le suivre ici.",
+  "Unpin {name}": "Désépingler {name}",
+  "evening": "soir",
+  "morning": "matin",
+  "{events} within {km} km": "{events} dans un rayon de {km} km",
+  "{count} closures": {
+    "one": "{count} fermeture",
+    "other": "{count} fermetures",
+    "many": "{count} fermetures"
+  }
 }

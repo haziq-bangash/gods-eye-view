@@ -4135,5 +4135,27 @@
   "To, e.g. München": "Куди, напр. Мюнхен",
   "Your route": "Ваш маршрут",
   "the route": "маршруті",
-  "{distance} km · {hours} h {minutes} min by car": "{distance} км · {hours} год {minutes} хв автомобілем"
+  "{distance} km · {hours} h {minutes} min by car": "{distance} км · {hours} год {minutes} хв автомобілем",
+  "About usual (typically {usual})": "Як зазвичай (зазвичай {usual})",
+  "Forecast low tomorrow": "Прогнозний мінімум завтра",
+  "Forecast low tonight": "Прогнозний мінімум цієї ночі",
+  "Higher than usual (typically {usual})": "Вище за звичайне (зазвичай {usual})",
+  "History builds up hourly; a comparison follows after a day.": "Історія поповнюється щогодини; порівняння з’явиться за добу.",
+  "Last 7 days": "Останні 7 днів",
+  "Lower than usual (typically {usual})": "Нижче за звичайне (зазвичай {usual})",
+  "My roads and places": "Мої дороги та місця",
+  "No closures or warnings": "Немає перекриттів і попереджень",
+  "Nothing nearby": "Поруч нічого",
+  "Pin {name}": "Закріпити {name}",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "Знайдіть автобан (A7) або місце й натисніть шпильку, щоб стежити за ним тут.",
+  "Unpin {name}": "Відкріпити {name}",
+  "evening": "вечір",
+  "morning": "ранок",
+  "{events} within {km} km": "{events} у радіусі {km} км",
+  "{count} closures": {
+    "one": "{count} перекриття",
+    "few": "{count} перекриття",
+    "many": "{count} перекриттів",
+    "other": "{count} перекриттів"
+  }
 }

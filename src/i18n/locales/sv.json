@@ -3939,5 +3939,25 @@
   "To, e.g. München": "Till, t.ex. München",
   "Your route": "Din rutt",
   "the route": "rutten",
-  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min med bil"
+  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min med bil",
+  "About usual (typically {usual})": "Som vanligt (normalt {usual})",
+  "Forecast low tomorrow": "Prognostiserad lägsta nivå i morgon",
+  "Forecast low tonight": "Prognostiserad lägsta nivå i natt",
+  "Higher than usual (typically {usual})": "Högre än vanligt (normalt {usual})",
+  "History builds up hourly; a comparison follows after a day.": "Historiken byggs upp varje timme; en jämförelse kommer efter ett dygn.",
+  "Last 7 days": "Senaste 7 dagarna",
+  "Lower than usual (typically {usual})": "Lägre än vanligt (normalt {usual})",
+  "My roads and places": "Mina vägar och platser",
+  "No closures or warnings": "Inga avstängningar eller varningar",
+  "Nothing nearby": "Inget i närheten",
+  "Pin {name}": "Fäst {name}",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "Sök en motorväg (A7) eller en plats och tryck på nålen för att följa den här.",
+  "Unpin {name}": "Lossa {name}",
+  "evening": "kväll",
+  "morning": "morgon",
+  "{events} within {km} km": "{events} inom {km} km",
+  "{count} closures": {
+    "one": "{count} avstängning",
+    "other": "{count} avstängningar"
+  }
 }

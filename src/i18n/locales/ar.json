@@ -4331,5 +4331,29 @@
   "To, e.g. München": "إلى، مثل ميونخ",
   "Your route": "مسارك",
   "the route": "المسار",
-  "{distance} km · {hours} h {minutes} min by car": "{distance} كم · {hours} س {minutes} د بالسيارة"
+  "{distance} km · {hours} h {minutes} min by car": "{distance} كم · {hours} س {minutes} د بالسيارة",
+  "About usual (typically {usual})": "كالمعتاد (عادةً {usual})",
+  "Forecast low tomorrow": "أدنى منسوب متوقع غدًا",
+  "Forecast low tonight": "أدنى منسوب متوقع الليلة",
+  "Higher than usual (typically {usual})": "أعلى من المعتاد (عادةً {usual})",
+  "History builds up hourly; a comparison follows after a day.": "يُبنى السجل كل ساعة؛ تأتي المقارنة بعد يوم.",
+  "Last 7 days": "آخر 7 أيام",
+  "Lower than usual (typically {usual})": "أقل من المعتاد (عادةً {usual})",
+  "My roads and places": "طرقي وأماكني",
+  "No closures or warnings": "لا إغلاقات أو تحذيرات",
+  "Nothing nearby": "لا شيء قريب",
+  "Pin {name}": "تثبيت {name}",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "ابحث عن طريق سريع (A7) أو مكان واضغط على الدبوس لمتابعته هنا.",
+  "Unpin {name}": "إلغاء تثبيت {name}",
+  "evening": "المساء",
+  "morning": "الصباح",
+  "{events} within {km} km": "{events} ضمن {km} كم",
+  "{count} closures": {
+    "zero": "{count} إغلاق",
+    "one": "{count} إغلاق",
+    "two": "{count} إغلاق",
+    "few": "{count} إغلاق",
+    "many": "{count} إغلاق",
+    "other": "{count} إغلاق"
+  }
 }

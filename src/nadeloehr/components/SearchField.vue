@@ -2,13 +2,14 @@
 // Apple Maps' search field: an Autobahn ("A7"), a gauge, a corridor or a
 // place; pick a suggestion and the map follows.
 import { computed, ref, watch, onBeforeUnmount } from 'vue';
-import { PhMagnifyingGlass, PhX } from '@phosphor-icons/vue';
+import { PhMagnifyingGlass, PhPushPinSimple, PhX } from '@phosphor-icons/vue';
 import { KIND_ICONS, TOOL_ICONS, layerIcon } from '../icons.js';
 import { gaugeStatus, levelText } from '../rivers.js';
 import { corridorTitle } from '../today.js';
 import RoadShield from './RoadShield.vue';
 import IconBadge from './IconBadge.vue';
 import { t, tn } from '../../i18n/index.js';
+import { placeId, usePins } from '../pins.js';
 
 const props = defineProps({
   search: { type: Function, required: true },
@@ -16,6 +17,24 @@ const props = defineProps({
   floating: { type: Boolean, default: false },
 });
 const emit = defineEmits(['pick', 'focus']);
+
+// Pins: follow a road or place under "My roads and places".
+const pins = usePins();
+const pinnable = (result) => result.type === 'road' || result.type === 'place';
+const pinned = (result) =>
+  result.type === 'road'
+    ? pins.isRoadPinned(result.road)
+    : result.type === 'place'
+      ? pins.isPlacePinned(result.place)
+      : false;
+function togglePin(result) {
+  if (result.type === 'road')
+    pinned(result) ? pins.unpinRoad(result.road) : pins.pinRoad(result.road);
+  else if (result.type === 'place') {
+    if (pinned(result)) pins.unpinPlace(placeId(result.place));
+    else pins.pinPlace(result.place);
+  }
+}
 
 // The field's prompt, also its accessible name.
 const prompt = computed(() => t('Search a city, an Autobahn (A7) or a river'));
@@ -143,10 +162,14 @@ function submit() {
       "
       :aria-label="t('Search results')"
     >
-      <li v-for="result in results" :key="result.id || label(result)">
+      <li
+        v-for="result in results"
+        :key="result.id || label(result)"
+        class="flex items-center pe-1.5"
+      >
         <button
           type="button"
-          class="flex w-full cursor-pointer items-center gap-3 px-3 py-2.5 text-start hover:bg-accent focus-visible:bg-accent outline-none"
+          class="flex min-w-0 flex-1 cursor-pointer items-center gap-3 px-3 py-2.5 text-start hover:bg-accent focus-visible:bg-accent outline-none"
           @click="pick(result)"
         >
           <span
@@ -170,6 +193,25 @@ function submit() {
               >{{ sublabel(result) }}</span
             >
           </span>
+        </button>
+        <!-- Follow this road or place under "My roads and places". -->
+        <button
+          v-if="pinnable(result)"
+          type="button"
+          class="grid size-8 shrink-0 cursor-pointer place-items-center rounded-full outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
+          :class="pinned(result) ? 'text-primary-ink' : 'text-muted-foreground'"
+          :aria-label="
+            pinned(result)
+              ? t('Unpin {name}', { name: label(result) })
+              : t('Pin {name}', { name: label(result) })
+          "
+          :aria-pressed="String(pinned(result))"
+          @click="togglePin(result)"
+        >
+          <PhPushPinSimple
+            :weight="pinned(result) ? 'fill' : 'bold'"
+            class="size-4"
+          />
         </button>
       </li>
     </ul>

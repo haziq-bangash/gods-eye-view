@@ -349,6 +349,31 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## My roads and places, and corridor history — Nadelöhr
+
+**My roads and places.** Search results for an Autobahn or a place carry a
+pin; pinned ones are kept in the browser (`src/nadeloehr/pins.js`, no
+account) and listed under "My roads and places" near the top of the panel,
+each with what applies for the chosen time: a road's closures and traffic
+warnings, a place's closures and warnings within 30 km and any DWD warning
+over it. Tapping a pin narrows the list to the road or flies to the place.
+
+**Corridor history.** A scheduled GitHub Action
+(`.github/workflows/corridor-history.yml`) runs
+`scripts/record-corridor-history.mjs` every hour: it fetches the Autobahn
+events and rest areas, the gauges and the DWD warnings from their open
+sources, scores the corridors with `src/freight/corridors.js`, and appends
+the scores and parts to `corridor-history.json` on the `history` branch
+(90 days kept). It runs whether or not anyone visits the site. The corridor
+breakdown reads that file and shows the last 7 days and whether the score is
+higher than, about or lower than the corridor's usual (the 7-day median,
+once a day of readings exists). The same data is what the weights can later
+be calibrated against.
+
+**Time switch, finished.** The DWD warning areas on the map and the
+right-hand Kaub card now follow Now · Tonight · Tomorrow too; later, the
+card shows the forecast low, its band and the forecast curve.
+
 ## Check a route — Nadelöhr
 
 **Check a route** (in the panel, below the headline) takes two places, finds
@@ -383,8 +408,7 @@ tomorrow 06:00–22:00, Berlin time. The data behind it:
   value in the range.
 - **DWD.** Warnings count when their onset–expiry overlaps the range.
 
-`get_corridor_risk` takes the same `when` argument. The weather areas on the
-map and the right-hand Kaub card still show the present.
+`get_corridor_risk` takes the same `when` argument.
 
 ## Corridor risk for assistants — Nadelöhr
 

@@ -3841,5 +3841,24 @@
   "To, e.g. München": "目的地，例如慕尼黑",
   "Your route": "您的路線",
   "the route": "路線",
-  "{distance} km · {hours} h {minutes} min by car": "駕車 {distance} 公里 · {hours} 小時 {minutes} 分鐘"
+  "{distance} km · {hours} h {minutes} min by car": "駕車 {distance} 公里 · {hours} 小時 {minutes} 分鐘",
+  "About usual (typically {usual})": "與平時相當（通常 {usual}）",
+  "Forecast low tomorrow": "明日預報最低",
+  "Forecast low tonight": "今晚預報最低",
+  "Higher than usual (typically {usual})": "高於平時（通常 {usual}）",
+  "History builds up hourly; a comparison follows after a day.": "歷史每小時累積；一天後可比較。",
+  "Last 7 days": "過去 7 天",
+  "Lower than usual (typically {usual})": "低於平時（通常 {usual}）",
+  "My roads and places": "我的道路和地點",
+  "No closures or warnings": "無封閉或警告",
+  "Nothing nearby": "附近無情況",
+  "Pin {name}": "釘選 {name}",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "搜尋高速公路 (A7) 或地點，點擊圖釘即可在此關注。",
+  "Unpin {name}": "取消釘選 {name}",
+  "evening": "晚上",
+  "morning": "早上",
+  "{events} within {km} km": "{km} 公里內：{events}",
+  "{count} closures": {
+    "other": "{count} 處封閉"
+  }
 }

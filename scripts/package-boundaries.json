@@ -229,7 +229,10 @@
       "src/layers/truckParking/records.js",
       "src/freight/horizon.js",
       "src/nadeloehr/components/HorizonSwitch.vue",
-      "src/nadeloehr/components/RouteCheck.vue"
+      "src/nadeloehr/components/RouteCheck.vue",
+      "src/nadeloehr/history.js",
+      "src/nadeloehr/pins.js",
+      "src/nadeloehr/components/MyPins.vue"
     ],
     "external": [
       "vue",
