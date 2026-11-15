@@ -5975,7 +5975,13 @@
       "src/tools/globePanel.js",
       "src/tools/queries/panelRequest.js",
       "src/geoDistance.js",
-      "src/visualStylePolicy.js"
+      "src/visualStylePolicy.js",
+      "src/layers/riverLevels/records.js",
+      "src/layers/weatherWarnings/records.js",
+      "src/layers/autobahn/records.js",
+      "src/layers/truckParking/records.js",
+      "src/freight/corridors.js",
+      "src/tools/queries/freight.js"
     ],
     "external": ["satellite.js"]
   },
@@ -6075,7 +6081,11 @@
       "src/data/ucsSatellites.js",
       "src/data/imagingSensors.js",
       "src/data/planespottersPhoto.js",
-      "src/data/openVesselPhoto.js"
+      "src/data/openVesselPhoto.js",
+      "src/layers/autobahn/source.js",
+      "src/layers/riverLevels/source.js",
+      "src/layers/weatherWarnings/source.js",
+      "src/layers/truckParking/source.js"
     ],
     "external": ["@mapbox/vector-tile", "pbf"]
   },

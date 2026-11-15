@@ -46,6 +46,9 @@ export const TOOL_SURFACES = Object.freeze({
   find_radio_stations: mcpOff,
   get_bike_share: mcpOff,
   get_transit_vehicles: mcpOff,
+  // Nadelöhr: the corridor briefing is for assistants; voice waits for room
+  // in its prompt budget.
+  get_corridor_risk: voiceOff,
 });
 
 /**

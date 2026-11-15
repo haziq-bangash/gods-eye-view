@@ -27,6 +27,7 @@ import {
 } from './queries/environment.js';
 import { getBhoteKoshiFlood } from './queries/events.js';
 import { getActiveFires, getEarthquakes } from './queries/hazards.js';
+import { getCorridorRisk } from './queries/freight.js';
 import { getRecentImagery } from './queries/imagery.js';
 import { findInfrastructure } from './queries/infrastructure.js';
 import {
@@ -106,6 +107,7 @@ export const coreTools = Object.freeze([
   getBikeShare,
   getTransitVehicles,
   getTrafficFlow,
+  getCorridorRisk,
   getWeather,
   getWeatherMap,
   getWind,
