@@ -5,10 +5,13 @@
  *
  * The feed is per road and per service. Each item carries a point, a
  * LineString and German description lines. Items flagged `future` are
- * announced but not yet in force, so they are left out.
+ * announced but not yet in force; they are kept, flagged, with the validity
+ * schedule read from their notice (src/freight/horizon.js), so a host can
+ * show what applies tonight or tomorrow.
  */
 
 import { msg } from '../../i18n/marker.js';
+import { parseSchedule } from '../../freight/horizon.js';
 
 /**
  * The roads fetched, in display order. A fixed corridor set rather than all
@@ -201,12 +204,11 @@ function timeOrNull(value) {
 }
 
 /**
- * Normalize one item, or return null when it is not a current, placeable
- * event of a known kind.
+ * Normalize one item, or return null when it is not a placeable event of a
+ * known kind. Announced (`future`) items are kept with their schedule.
  */
 export function normalizeAutobahnItem(item, road) {
   if (!item || typeof item !== 'object' || Array.isArray(item)) return null;
-  if (item.future === true || item.future === 'true') return null;
   const kind = KIND_BY_DISPLAY_TYPE[item.display_type];
   if (!kind) return null;
   const stableId = textOrNull(item.identifier);
@@ -237,6 +239,11 @@ export function normalizeAutobahnItem(item, road) {
     lengthKm,
     blocked: item.isBlocked === true || item.isBlocked === 'true',
     startTime: timeOrNull(item.startTimestamp),
+    // Announced, not yet in force: shown for tonight or tomorrow by schedule.
+    future: item.future === true || item.future === 'true',
+    schedule: parseSchedule(
+      Array.isArray(item.description) ? item.description : [],
+    ),
     delayMinutes: numberOrNull(item.delayTimeValue),
     averageSpeedKmh: numberOrNull(item.averageSpeed),
     trafficType: textOrNull(item.abnormalTrafficType),

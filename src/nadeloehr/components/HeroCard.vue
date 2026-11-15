@@ -8,7 +8,9 @@ const card = useCollapsed('headline');
 
 defineProps({
   headline: { type: Object, required: true },
+  horizon: { type: String, default: 'now' },
 });
+
 defineEmits(['open']);
 </script>
 
@@ -40,7 +42,13 @@ defineEmits(['open']);
         "
       >
         <span class="size-1.5 rounded-full bg-current" aria-hidden="true" />
-        {{ t('What matters today') }}
+        {{
+          horizon === 'tonight'
+            ? t('What matters tonight')
+            : horizon === 'tomorrow'
+              ? t('What matters tomorrow')
+              : t('What matters today')
+        }}
       </span>
       <span class="relative mt-1.5 block text-title2">{{
         headline.title

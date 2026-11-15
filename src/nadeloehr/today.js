@@ -11,6 +11,7 @@ import {
   gaugeColor,
   kaubBand,
   kaubRow,
+  levelDuring,
 } from '../layers/riverLevels/records.js';
 import { SEVERITY_COLORS } from './disruptions.js';
 import {
@@ -40,7 +41,27 @@ const signed = (cm) =>
  * The strip's cards, left to right. Each may be tapped (see `action`).
  * `warnings` is null while the warnings layer is off.
  */
-export function todayKpis(events = [], gauges = [], { warnings = null } = {}) {
+/** Does a warning apply during [from, to] (or at the instant when equal)? */
+function warningIn(row, range) {
+  if (!Array.isArray(range) || range[0] === range[1])
+    return warningActive(row, range?.[0]);
+  const [from, to] = range;
+  return (
+    (!Number.isFinite(row?.onset) || row.onset < to) &&
+    (!Number.isFinite(row?.expires) || row.expires > from)
+  );
+}
+
+/** Kaub's level for the horizon: the reading now, else the forecast low. */
+function kaubLevelFor(kaub, range) {
+  return kaub ? levelDuring(kaub, range || [Date.now(), Date.now()]) : null;
+}
+
+export function todayKpis(
+  events = [],
+  gauges = [],
+  { warnings = null, horizon = 'now', range = null } = {},
+) {
   const count = (kind) => events.filter((row) => row.kind === kind).length;
   const closures = events.filter((row) => row.kind === 'closure');
   const roads = new Set(closures.map((row) => row.road)).size;
@@ -71,19 +92,34 @@ export function todayKpis(events = [], gauges = [], { warnings = null } = {}) {
     },
   ];
   const kaub = kaubRow(gauges);
-  if (kaub)
+  if (kaub) {
+    const later = horizon !== 'now';
+    const level = later ? kaubLevelFor(kaub, range) : kaub.levelCm;
     kpis.push({
       id: 'kaub',
-      label: t('Kaub · Rhine'),
-      value: formatNumber(kaub.levelCm),
+      label: later ? t('Kaub · forecast') : t('Kaub · Rhine'),
+      value: Number.isFinite(level) ? formatNumber(level) : '–',
       unit: t('cm'),
-      note: Number.isFinite(kaub.trendCm)
-        ? t('{change} cm in 24 h', { change: signed(kaub.trendCm) })
-        : t(KAUB_BANDS[kaubBand(kaub.levelCm)]?.label || msg('Water level')),
-      color: gaugeColor(kaub),
-      series: Array.isArray(kaub.series) ? kaub.series.map(([, v]) => v) : [],
+      note: later
+        ? Number.isFinite(level)
+          ? t('lowest forecast level')
+          : t('no forecast for this time')
+        : Number.isFinite(kaub.trendCm)
+          ? t('{change} cm in 24 h', { change: signed(kaub.trendCm) })
+          : t(KAUB_BANDS[kaubBand(kaub.levelCm)]?.label || msg('Water level')),
+      color: Number.isFinite(level)
+        ? gaugeColor({ ...kaub, levelCm: level })
+        : GAUGE_COLORS.unknown,
+      series: later
+        ? (kaub.forecast || [])
+            .filter(([at]) => !range || (at >= range[0] && at <= range[1]))
+            .map(([, v]) => v)
+        : Array.isArray(kaub.series)
+          ? kaub.series.map(([, v]) => v)
+          : [],
       action: { gauge: kaub },
     });
+  }
   if (gauges.length) {
     const low = gauges.filter((row) => row.state === 'low').length;
     kpis.push({
@@ -97,7 +133,7 @@ export function todayKpis(events = [], gauges = [], { warnings = null } = {}) {
     });
   }
   if (Array.isArray(warnings)) {
-    const now = warnings.filter((row) => warningActive(row));
+    const now = warnings.filter((row) => warningIn(row, range));
     const worst = worstLevel(now);
     kpis.push({
       id: 'weather',
@@ -107,7 +143,9 @@ export function todayKpis(events = [], gauges = [], { warnings = null } = {}) {
         ? t('highest: {level}', {
             level: warningLevelLabel({ level: worst }).toLowerCase(),
           })
-        : t('none in force'),
+        : horizon === 'now'
+          ? t('none in force')
+          : t('none expected'),
       color: worst ? WARNING_COLORS[worst] : '#34c759',
       action: { warnings: true },
     });
@@ -122,10 +160,12 @@ export function todayKpis(events = [], gauges = [], { warnings = null } = {}) {
 export function todayHeadline(
   gauges = [],
   scored = [],
-  { warnings = [] } = {},
+  { warnings = [], horizon = 'now', range = null } = {},
 ) {
   const kaub = kaubRow(gauges);
-  const band = kaub ? kaubBand(kaub.levelCm) : null;
+  const kaubLevel =
+    horizon === 'now' ? (kaub?.levelCm ?? null) : kaubLevelFor(kaub, range);
+  const band = Number.isFinite(kaubLevel) ? kaubBand(kaubLevel) : null;
   const top = scored.find((entry) => Number.isFinite(entry.score));
   const corridorLine = top
     ? t('{corridor} is {level} ({score}/100).', {
@@ -143,10 +183,10 @@ export function todayHeadline(
       tone: 'alert',
       title: high
         ? t('Rhine high water at Kaub: {level} cm', {
-            level: formatNumber(kaub.levelCm),
+            level: formatNumber(kaubLevel),
           })
         : t('Rhine low water at Kaub: {level} cm', {
-            level: formatNumber(kaub.levelCm),
+            level: formatNumber(kaubLevel),
           }),
       body: [t(KAUB_BANDS[band].hint), corridorLine].filter(Boolean).join(' '),
       gauge: kaub,
@@ -155,7 +195,8 @@ export function todayHeadline(
   // Severe or extreme weather on a corridor (or anywhere) comes next.
   const severe = (Array.isArray(warnings) ? warnings : []).filter(
     (row) =>
-      (row.level === 'severe' || row.level === 'extreme') && warningActive(row),
+      (row.level === 'severe' || row.level === 'extreme') &&
+      warningIn(row, range),
   );
   if (severe.length) {
     const first = severe[0];
@@ -222,7 +263,9 @@ export function partWhy(entry, part) {
         closed: formatNumber(c.closure || 0),
         warnings: formatNumber(c.warning || 0),
         exits: formatNumber(c['ramp-closure'] || 0),
-        roads: entry.corridor.roads.join(', '),
+        roads: entry.corridor.roads?.length
+          ? entry.corridor.roads.join(', ')
+          : t('the route'),
       },
     );
   }
@@ -259,7 +302,7 @@ export function corridorView(entry) {
     id: entry.corridor.id,
     title: corridorTitle(entry.corridor),
     name: t(entry.corridor.name),
-    roads: entry.corridor.roads,
+    roads: entry.corridor.roads || [],
     river: entry.corridor.river ? t('Rhine') : null,
     score: entry.score,
     level: entry.level,

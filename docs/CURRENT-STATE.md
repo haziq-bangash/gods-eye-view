@@ -349,6 +349,43 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Check a route — Nadelöhr
+
+**Check a route** (in the panel, below the headline) takes two places, finds
+each with the Germany-biased place search (bigger settlements first, so
+"München" is Munich rather than a hamlet of that name), asks `/api/route`
+for a driving route and scores it like a corridor with
+`scoreRoute` (`src/freight/corridors.js`): Autobahn events within 1.5 km of
+the route line on any road, rest areas within 1 km, the DWD warnings it
+crosses, no water part. The card shows distance and driving time, the score
+with its breakdown, and the critical and major events on the route; the map
+draws the route as a blue line on a white casing. It follows the
+Now · Tonight · Tomorrow switch. Driving legs may now reach 1,000 km in a
+straight line (walking and cycling stay at 600), so trips across Germany
+route in one leg.
+
+## Now, tonight and tomorrow — Nadelöhr
+
+A **Now · Tonight · Tomorrow** switch at the start of the number strip sets
+the time the strip, the Autobahn map and list, the headline and the corridor
+scores describe (`src/freight/horizon.js`). Tonight is 18:00–06:00 and
+tomorrow 06:00–22:00, Berlin time. The data behind it:
+
+- **Autobahn.** Announced (`future`) items are no longer dropped; each row
+  carries the validity schedule read from its German notice — one window
+  ("17.11.26 von 06:00 bis 07:00 Uhr"), a span ("… bis zum …"), start and
+  end lines, or a weekly rule ("Jeden Montag … zwischen dem … und dem … von
+  20:00 bis 05:00 Uhr"). An event counts when its schedule overlaps the
+  range; one without a schedule counts while it is current. Live traffic
+  warnings (jams, accidents) count only now.
+- **Kaub.** The proxy adds the official water-level forecast (BfG, series
+  `WV` on PEGELONLINE, four days); tonight and tomorrow use its lowest
+  value in the range.
+- **DWD.** Warnings count when their onset–expiry overlaps the range.
+
+`get_corridor_risk` takes the same `when` argument. The weather areas on the
+map and the right-hand Kaub card still show the present.
+
 ## Corridor risk for assistants — Nadelöhr
 
 `get_corridor_risk` (`src/tools/queries/freight.js`) gives assistants the

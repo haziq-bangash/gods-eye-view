@@ -69,6 +69,15 @@ function upstream({ stations = true, trends = true } = {}) {
       return stations
         ? Response.json([station('KAUB', 'k'), station('BINGEN', 'b')])
         : new Response('down', { status: 503 });
+    if (url.includes('/WV/'))
+      return Response.json([
+        { timestamp: '2026-11-15T17:00:00+01:00', value: 57, type: 'forecast' },
+        {
+          timestamp: '2026-11-19T07:00:00+01:00',
+          value: 100,
+          type: 'estimate',
+        },
+      ]);
     return trends
       ? Response.json(series)
       : new Response('down', { status: 503 });
@@ -83,8 +92,9 @@ for (const hook of ['configureServer', 'configurePreviewServer']) {
     const res = await request('/gauges?url=https://invalid.example');
     assert.equal(res.status, 200);
     assert.equal(res.headers['Cache-Control'], 'no-store');
-    assert.equal(calls.length, 2);
+    assert.equal(calls.length, 3);
     assert.match(calls[1], /stations\/k\/W\/measurements\.json/);
+    assert.match(calls[2], /stations\/k\/WV\/measurements\.json/);
     assert.equal(res.body.fetchedAt, 7);
     const byName = Object.fromEntries(
       res.body.rows.map((row) => [row.shortname, row]),
@@ -92,6 +102,13 @@ for (const hook of ['configureServer', 'configurePreviewServer']) {
     assert.equal(byName.KAUB.trendCm, -12);
     assert.equal(byName.KAUB.series.length, 2);
     assert.equal(byName.KAUB.series[1][1], 59);
+    assert.deepEqual(
+      byName.KAUB.forecast.map(([, value, estimate]) => [value, estimate]),
+      [
+        [57, false],
+        [100, true],
+      ],
+    );
     assert.equal(byName.BINGEN.series, undefined);
     assert.equal(byName.BINGEN.trendCm, null);
   });

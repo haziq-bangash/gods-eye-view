@@ -12,6 +12,7 @@ import {
   autobahnKindLabel,
   autobahnSeverity,
 } from './records.js';
+import { appliesDuring } from '../../freight/horizon.js';
 export {
   AUTOBAHN_ROADS,
   AUTOBAHN_KINDS,
@@ -109,7 +110,11 @@ export function createAutobahnLayer({
 
   // Listed: on a shown road. Drawn: listed, of a shown kind — or selected,
   // so an event picked from a host's list appears even when its kind is off.
-  const isListed = (row) => !_hiddenRoads.has(row.road);
+  // A host's time range ([from, to]); null means "now", re-read each time.
+  let _range = null;
+  const currentRange = () => _range || [Date.now(), Date.now()];
+  const isListed = (row) =>
+    !_hiddenRoads.has(row.road) && appliesDuring(row, currentRange());
   const isVisible = (row) =>
     isListed(row) &&
     (!_hiddenKinds.has(row.kind) || row.stableId === _selectedId);
@@ -475,6 +480,16 @@ export function createAutobahnLayer({
       _selectedId = row.stableId;
       publishSelectedCard();
       return true;
+    },
+
+    /**
+     * Show the events in force during [from, to] (tonight, tomorrow), or
+     * now when null; announced events appear only in their windows.
+     */
+    setTimeRange(range) {
+      _range =
+        Array.isArray(range) && range.every(Number.isFinite) ? range : null;
+      applyFilters();
     },
 
     /** Whether an event kind is listed and drawn (long-term roadworks start hidden). */

@@ -12,6 +12,8 @@ import {
   normalizePegelStations,
   pegelMeasurementsUrl,
   trendDirection,
+  forecastSeries,
+  levelDuring,
 } from './records.js';
 
 const station = (shortname, water, extra = {}) => ({
@@ -139,4 +141,32 @@ test('Kaub is coloured by its band, other gauges by their state', () => {
   assert.equal(gaugeColor({ shortname: 'KAUB', levelCm: 200 }), '#007aff');
   assert.equal(gaugeColor({ shortname: 'MAXAU', state: 'low' }), '#ff9500');
   assert.equal(gaugeColor({ shortname: 'X', state: 'weird' }), '#8e8e93');
+});
+
+test('the forecast gives the lowest level in a range; now reads the gauge', () => {
+  const at = (h) => Date.UTC(2026, 10, 15, h);
+  const row = {
+    levelCm: 59,
+    forecast: forecastSeries([
+      {
+        timestamp: new Date(at(18)).toISOString(),
+        value: 57,
+        type: 'forecast',
+      },
+      {
+        timestamp: new Date(at(22)).toISOString(),
+        value: 55,
+        type: 'forecast',
+      },
+      {
+        timestamp: new Date(at(30)).toISOString(),
+        value: 60,
+        type: 'estimate',
+      },
+    ]),
+  };
+  assert.equal(row.forecast[2][2], true);
+  assert.equal(levelDuring(row, [at(12), at(12)]), 59);
+  assert.equal(levelDuring(row, [at(17), at(30)]), 55);
+  assert.equal(levelDuring(row, [at(40), at(50)]), null);
 });

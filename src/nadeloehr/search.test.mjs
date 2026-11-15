@@ -76,3 +76,21 @@ test('German places come first and duplicates are dropped', async () => {
   );
   assert.deepEqual(await searchPlacesDE('A7', { fetchImpl }), []);
 });
+
+test('a city outranks hamlets of the same name', async () => {
+  const feature = (name, value, lon) => ({
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [lon, 50] },
+    properties: { name, countrycode: 'DE', osm_key: 'place', osm_value: value },
+  });
+  const fetchImpl = async () =>
+    Response.json({
+      features: [
+        feature('München', 'hamlet', 11.25),
+        feature('Munich', 'city', 11.57),
+        feature('Münchenbernsdorf', 'village', 11.93),
+      ],
+    });
+  const places = await searchPlacesDE('München', { fetchImpl });
+  assert.equal(places[0].place.name, 'Munich');
+});

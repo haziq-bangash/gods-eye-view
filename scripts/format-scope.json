@@ -1531,5 +1531,9 @@
   "src/tools/queries/freight.js",
   "src/tools/queries/freight.test.mjs",
   "scripts/render-start.mjs",
-  "src/tooling/renderStart.test.mjs"
+  "src/tooling/renderStart.test.mjs",
+  "src/freight/horizon.js",
+  "src/freight/horizon.test.mjs",
+  "src/nadeloehr/components/HorizonSwitch.vue",
+  "src/nadeloehr/components/RouteCheck.vue"
 ]

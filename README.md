@@ -17,6 +17,12 @@ server, and adds a German freight layer and an interface anyone can read.
 
 ### What is new in this fork
 
+- **Check your route.** Type "Hamburg" and "München" to get the driving
+  route scored like a corridor: closures on the route itself, truck parking
+  beside it and the weather it crosses, drawn on the map.
+- **Now, tonight or tomorrow.** One switch shows the closures announced for
+  the night or the next day, the official Kaub water-level forecast and the
+  DWD warnings for that time, with the corridor scores to match.
 - **Today, at a glance.** A strip of big numbers (roads closed, traffic
   warnings, exits closed, Kaub's water level with its 24-hour line, river
   gauges below normal, weather warnings in force) and one highlighted
@@ -144,6 +150,13 @@ More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
 
 ### Was dieser Fork neu macht
 
+- **Route prüfen.** „Hamburg“ und „München“ eingeben und die Fahrtroute wie
+  einen Korridor bewerten lassen: Sperrungen auf der Route, Lkw-Parkplätze
+  daneben und das Wetter unterwegs, auf der Karte eingezeichnet.
+- **Jetzt, heute Nacht oder morgen.** Ein Schalter zeigt die für die Nacht
+  oder den nächsten Tag angekündigten Sperrungen, die amtliche Pegelvorhersage
+  für Kaub und die DWD-Warnungen für diese Zeit, samt passenden
+  Korridorwerten.
 - **Der Tag auf einen Blick.** Eine Leiste mit großen Zahlen (gesperrte
   Strecken, Verkehrswarnungen, gesperrte Anschlussstellen, Pegel Kaub mit
   24-Stunden-Verlauf, niedrige Flusspegel, aktive Wetterwarnungen) und eine

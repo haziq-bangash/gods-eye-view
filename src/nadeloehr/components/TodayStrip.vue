@@ -5,14 +5,16 @@ import { PhCaretDown } from '@phosphor-icons/vue';
 import { t } from '../../i18n/index.js';
 import { useCollapsed } from '../collapse.js';
 import Sparkline from './Sparkline.vue';
+import HorizonSwitch from './HorizonSwitch.vue';
 
 const strip = useCollapsed('today');
 
 defineProps({
   kpis: { type: Array, required: true },
   active: { type: String, default: null },
+  horizon: { type: String, default: 'now' },
 });
-defineEmits(['pick']);
+defineEmits(['pick', 'update:horizon']);
 </script>
 
 <template>
@@ -20,6 +22,11 @@ defineEmits(['pick']);
     class="glass flex items-stretch gap-1 rounded-[24px] p-1.5"
     :aria-label="t('Today')"
   >
+    <HorizonSwitch
+      v-if="!strip.isCollapsed()"
+      :model-value="horizon"
+      @update:model-value="$emit('update:horizon', $event)"
+    />
     <!-- Minimised: one line of small chips -->
     <div
       v-if="strip.isCollapsed()"
