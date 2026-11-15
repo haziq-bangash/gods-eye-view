@@ -127,7 +127,8 @@ export async function createApplicationScene({
     ...mapOptions,
     googleTileset: tileset,
     cesiumToken,
-    initialStack: tileset ? 'photoreal' : 'esri-imagery',
+    // Nadelöhr opens on the road map (src/maps/catalog.js 'streets').
+    initialStack: 'streets',
     // Task 5 (height-datum fix): rebroadcast stack changes as a window
     // CustomEvent so data layers (CCTV per-regime ground resolution) can
     // react without coupling MapStackController to layer modules. Fires on
@@ -141,7 +142,7 @@ export async function createApplicationScene({
     onError: (message) => console.warn('[MapStack]', message),
   });
   defer(() => mapStackController.destroy());
-  await mapStackController.setStack(tileset ? 'photoreal' : 'esri-imagery', {
+  await mapStackController.setStack('streets', {
     silent: true,
   });
 

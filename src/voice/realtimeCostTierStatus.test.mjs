@@ -44,10 +44,7 @@ for (const locale of Object.keys(EXPECTED)) {
       const { cost, ui, statusCalls } = harness();
       assert.equal(cost.setVoiceTier(tier), tier, 'stored tier stays English');
       assert.equal(statusCalls.at(-1), EXPECTED[locale][tier]);
-      assert.equal(
-        ui.state.tier.text,
-        tier === 'mini' ? t('MINI') : t('STD'),
-      );
+      assert.equal(ui.state.tier.text, tier === 'mini' ? t('MINI') : t('STD'));
     }
   });
 }

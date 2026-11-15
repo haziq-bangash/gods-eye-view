@@ -35,7 +35,8 @@ test('the complete Realtime tool payload pins the manifest-generated layer relea
     .digest('hex');
   assert.equal(
     digest,
-    // Re-derived for Provider Settings and explicit Visual Presets/Scenes routing,
+    // Re-derived for Nadelöhr's road map ('streets' in set_map_stack), and for
+    // Provider Settings and explicit Visual Presets/Scenes routing,
     // plus the deliberate direct Panel tool/target additions and voice layer manifest (generated layer enums and
     // aliases), point-and-ask (pointer sentinels, referent args) and the
     // consolidated tool wording (each policy stated once); model-facing tools
@@ -59,7 +60,7 @@ test('the complete Realtime tool payload pins the manifest-generated layer relea
     // move_camera tilt takes an optional pitchDeg angle, described as
     // absolute with its -45 default, with steps sent as a direction.
     // show_street_level (map, source, photo) adds one tool.
-    '0c27f62062001e6a07241cd301c3d357f55e9b74f66cd2904d16590510337468',
+    '73eb677eac56d4e0961095ec8a36f0c1319a8c605003c833693a6e5d34bf565c',
   );
 });
 
@@ -229,6 +230,10 @@ test('all legacy action arguments are byte-identical after removing the delibera
   const hud = property('set_hud').layout;
   assert.deepEqual(hud.enum, ['tactical', 'minimal', 'cyber']);
   hud.enum = ['tactical', 'operator', 'minimal'];
+  // Nadelöhr appends its road map ('streets') to set_map_stack.
+  const mapStack = property('set_map_stack').stack;
+  assert.equal(mapStack.enum.at(-1), 'streets');
+  mapStack.enum = mapStack.enum.filter((id) => id !== 'streets');
   // Snow is retired from set_visual_style; restore it to keep the legacy pin.
   const visualStyle = legacy.find((tool) => tool.name === 'set_visual_style')
     .parameters.properties.style;

@@ -17,9 +17,10 @@ export const FREIGHT_START_VIEW = Object.freeze({
   lon: 10.45,
   lat: 51.1,
   overviewAltitudeM: 3_200_000,
-  altitudeM: 1_150_000,
+  altitudeM: 1_300_000,
   headingDeg: 0,
-  pitchDeg: -78,
+  // Straight down, like Apple Maps' flat map; the 3D button tilts it.
+  pitchDeg: -90,
 });
 
 /**

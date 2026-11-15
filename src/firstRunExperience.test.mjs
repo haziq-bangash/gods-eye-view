@@ -386,8 +386,13 @@ test('one ESC does one thing — a Cockpit utility disclosure stops later docume
   // they own the same contract: their capture handler is the only one that can
   // keep a later document listener (Cockpit exit, the launcher) off the key, and
   // only the immediate form does it.
-  const utilityEsc = ui.slice(ui.indexOf('if (!displayOpen && !radioOpen) return;'));
-  const claim = utilityEsc.slice(0, utilityEsc.indexOf('setCockpitDisclosure(kind, false'));
+  const utilityEsc = ui.slice(
+    ui.indexOf('if (!displayOpen && !radioOpen) return;'),
+  );
+  const claim = utilityEsc.slice(
+    0,
+    utilityEsc.indexOf('setCockpitDisclosure(kind, false'),
+  );
   assert.match(claim, /event\.preventDefault\(\);/);
   assert.match(claim, /event\.stopImmediatePropagation\(\);/);
   assert.doesNotMatch(
@@ -1050,10 +1055,11 @@ test('the voice TOOL SCHEMA matches the pinned contract — the mission mapping 
   // Pistes extend the generated layer enums and alias hint; voice geometry
   // adds the analyst area scopes and the osm-places layer.
   // control_cockpit states the own-layer entry rule (Contacts not required).
-  assert.equal(block.length, 31372, 'serialized tool schema length drifted');
+  // Nadelöhr appends its road map ('streets') to set_map_stack.
+  assert.equal(block.length, 31382, 'serialized tool schema length drifted');
   assert.equal(
     crypto.createHash('sha256').update(block).digest('hex'),
-    '7f593e78c232db972b04441f830b6a60f93916a6e5bc5a68eca7422cd1035508',
+    'f535235ce3f743e39c0160989069373871bbd82a66c847caa11762daddf176df',
     'the first-run missions must ride EXISTING tools: no schema edit, no cache bust',
   );
   const instructions = fs.readFileSync(

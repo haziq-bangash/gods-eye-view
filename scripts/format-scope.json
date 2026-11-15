@@ -1471,5 +1471,15 @@
   "src/freightProfile.js",
   "scripts/nadeloehr-theme.mjs",
   "src/nadeloehrTheme.test.mjs",
-  "src/ui/styles/nadeloehr.css"
+  "src/ui/styles/nadeloehr.css",
+  "src/nadeloehr/disruptions.js",
+  "src/nadeloehr/disruptions.test.mjs",
+  "src/nadeloehr/mapLayers.js",
+  "src/nadeloehr/icons.js",
+  "src/nadeloehr/store.js",
+  "src/nadeloehr/useApp.js",
+  "src/nadeloehr/ui/utils.js",
+  "src/nadeloehr/ui/button.js",
+  "src/nadeloehr/styles.css",
+  "src/nadeloehr/camera.js"
 ]

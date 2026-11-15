@@ -309,7 +309,47 @@ style listeners. Synthetic fixtures cover privacy, acquisition, rendering,
 selection and card placement. Deterministic operation checks run in `npm test`;
 wall-clock budgets run in `npm run test:perf`. All 11 locales are supported.
 
-## Autobahn Closures & Roadworks — Freight Pulse DE
+## Nadelöhr interface — November 15, 2026
+
+This fork ships as **Nadelöhr**, an Apple Maps-style interface for German
+freight disruptions, written for people who have never used a GIS. A new
+`nadeloehr-shell` view (`src/nadeloehr/`, Vue + Tailwind CSS v4 +
+shadcn-vue components ported to JavaScript on reka-ui) sits over the globe.
+Upstream's views stay mounted, because their controllers look up their
+elements, but `src/ui/styles/nadeloehr.css` hides their chrome; panels a shell
+tool opens (assistant, traffic cameras, street view) show while open.
+
+- **Map.** It opens flat over Germany on the `streets` map stack, Stadia Maps'
+  Alidade Smooth (light or dark with the system appearance). Satellite and,
+  with a Google key, 3D city are in the map-style card. Autobahn disruptions
+  are on for a first visit; saved layer choices and share links win.
+- **Sheet.** Bottom-left on wide screens, a bottom sheet with peek, half and
+  full detents on phones (drag, flick or tap the grabber). It holds place
+  search with suggestions, "Autobahn right now" (counts per kind as filter
+  chips, then the events most disruptive first with a blue Autobahn shield),
+  "Show on the map" switches for the freight-relevant layers, every other
+  layer under "More on the map", tools (Ask Nadelöhr, traffic cameras, street
+  view, share this view), language and data-source settings.
+- **Place card.** Choosing an event on the map or in the list opens it in the
+  sheet: plain title and explanation, road shield and section, facts (delay,
+  length, speed, since) with icons, the official German notice, and Show on
+  map / Share. The Autobahn layer hands its selection and rows to the shell
+  (`onSelect`, `onRows`, `showCard: false`) instead of drawing a canvas card.
+- **Controls.** A round button stack on the right: map style, 3D tilt, my
+  location, zoom (wide screens only) and a compass once the map turns.
+- **Look.** Liquid Glass surfaces with concentric corners, colour icons on
+  glass lenses (one glyph and Apple system colour per layer, kind and tool),
+  San Francisco's type scale (iOS sizes on phones), thin overlay scrollbars and
+  a soft scroll edge under the sheet's header. Reduce Transparency, Increase
+  Contrast and Reduce Motion each have a fallback.
+- **Theme.** `scripts/nadeloehr-theme.mjs` rewrites upstream colours into
+  surface, ink and accent role variables for light and dark; re-run it after
+  merging upstream (`--check` reports anything unthemed).
+- **Assistant.** The chat panel reads "Ask Nadelöhr" with freight starter
+  prompts. Street view and cameras say in plain words when nothing is near
+  the middle of the map.
+
+## Autobahn Closures & Roadworks — Nadelöhr
 
 A new **Freight** panel group holds the German freight-disruption layers. The
 first is **Autobahn Closures & Roadworks** (`autobahn-traffic`, share-link
@@ -5361,7 +5401,7 @@ its criteria cannot be silently ignored.
 | Ski Pistes ⛷ (`ski-pistes`)          | OpenSnowMap piste raster tiles (keyless; CC BY-SA tiles, OSM data ODbL; no bulk download)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | `src/data/osmOverlays.js`                                                                                                                                 | — (browser-direct tiles)                                                                                                     | on view (Cesium tile requests; no polling)                                                                                  |
 | Fire Perimeters 🔥                   | NIFC WFIGS current interagency perimeters (keyless, paged past the 2000-record cap); InciWeb catalog + incident page origin and update time checks for verified incident-page links                                                                                                                                                                                                                                                                                                                                                                                                                        | `src/layers/perimeters/` via `src/app/layers/perimeters.js`                                                                                               | `/api/fire-perimeters` + `/api/fire-perimeters/inciweb/*`                                                                    | 5 min (server caches: catalog 1 h; publication 30 min)                                                                      |
 | Prohibited & Restricted Airspace 🚫  | FAA Special Use Airspace prohibited (P) and restricted (R) zones (keyless FeatureServer, simplified geometry)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `src/layers/droneAirspace/` via `src/app/layers/droneAirspace.js`                                                                                         | `/api/drone-airspace`                                                                                                        | 1 h (server cache 1 h; stale-on-error)                                                                                      |
-| Autobahn Closures & Roadworks 🚧 | Autobahn GmbH closures, junction closures, warnings and roadworks on seven corridor Autobahns (keyless, community-documented API) | `src/layers/autobahn/` via `src/app/layers/autobahn.js` | `/api/autobahn/events` | 5 min (server cache 5 min; partial and stale-on-error) |
+| Autobahn Closures & Roadworks 🚧     | Autobahn GmbH closures, junction closures, warnings and roadworks on seven corridor Autobahns (keyless, community-documented API)                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | `src/layers/autobahn/` via `src/app/layers/autobahn.js`                                                                                                   | `/api/autobahn/events`                                                                                                       | 5 min (server cache 5 min; partial and stale-on-error)                                                                      |
 | Shipwrecks ⚓ (`shipwrecks`)         | EMODnet Human Activities heritage shipwrecks (European waters, keyless WFS, CC BY 4.0) and Wikidata (notable wrecks worldwide, keyless, CC0)                                                                                                                                                                                                                                                                                                                                                                                                                                                               | `src/layers/shipwrecks/` via `src/app/layers/shipwrecks.js`                                                                                               | `/api/shipwrecks`                                                                                                            | 6 h page check; server refresh once a day (stale-on-error up to 7 days)                                                     |
 | News ◆ (`news`)                      | The last 24 h of reports in two sections, Conflicts and Local, with hotspots, outlines and disputed areas: from a news server (`GEV_NEWS_ORIGIN`), else Core's own reading of GDELT 2.0 events (no key), Liveuamap (`LIVEUAMAP_API_KEY`) and World News API (`WORLDNEWSAPI_KEY`)                                                                                                                                                                                                                                                                                                                           | `src/layers/news/` via `src/app/layers/news.js`; panel `src/ui/newsPanel.js`, `src/ui/news/`; server `server/providers/news.js`, `server/providers/news/` | `/api/news/hotspots`, `/api/news/feed`, `/api/news/outline` (forwarded to `GEV_NEWS_ORIGIN` when set, else answered by Core) | 2 min map refresh; Local re-read when the camera settles 0.8 s in a new half-degree cell below 3,000 km                     |
 | Wildlife Sightings 🦉                | iNaturalist wildlife observed within 48 h (whales 7 d), per view; Acartia Salish Sea marine mammal coverage (keyless)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `src/layers/wildlifeSightings/` via `src/app/layers/wildlifeSightings.js`                                                                                 | `/api/inaturalist/observations`, `/api/inaturalist/grid`, `/api/acartia/sightings`                                           | camera moveEnd (600 ms debounce; enable settles 300 ms) + 5 min (observations 5 / 10 min; tiles 15 min; stale ≤ 1 h / 24 h) |

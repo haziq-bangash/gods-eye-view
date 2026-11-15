@@ -10,6 +10,7 @@ import CockpitView from './CockpitView.vue';
 import SceneChromeView from './SceneChromeView.vue';
 import ProviderSettingsView from './ProviderSettingsView.vue';
 import IntelHudView from './IntelHudView.vue';
+import NadeloehrShellView from './NadeloehrShellView.vue';
 
 /**
  * Application views by name. A page places each one with a host element,
@@ -26,6 +27,7 @@ export const APPLICATION_VIEWS = Object.freeze({
   context: ContextView,
   welcome: WelcomeView,
   'intel-hud': IntelHudView,
+  'nadeloehr-shell': NadeloehrShellView,
 });
 
 const mounted = new WeakMap();

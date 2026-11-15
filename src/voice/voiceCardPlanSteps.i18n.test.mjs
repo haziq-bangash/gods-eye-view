@@ -294,11 +294,18 @@ test('area, imagery and OSM card lines are shown in the UI language', () => {
     },
     notDrawn: 'the map was cleared while looking it up',
   };
-  const areaLines = inLocale('de', () => presentResult('resolve_area', area).display.lines);
+  const areaLines = inLocale(
+    'de',
+    () => presentResult('resolve_area', area).display.lines,
+  );
   assert.ok(areaLines.includes('250 m um den Ort'), areaLines.join(' | '));
   assert.ok(areaLines.includes('3 Teile'));
   assert.ok(areaLines.includes('2 von 3 Teilen gezeichnet'));
-  assert.ok(areaLines.some((line) => line.includes('die Zeichenfläche wurde während der Suche geleert')));
+  assert.ok(
+    areaLines.some((line) =>
+      line.includes('die Zeichenfläche wurde während der Suche geleert'),
+    ),
+  );
   const osm = {
     ok: true,
     kind: 'hospitals',
@@ -314,18 +321,34 @@ test('area, imagery and OSM card lines are shown in the UI language', () => {
   };
   const osmCard = inLocale('de', () => presentResult('osm_query', osm).display);
   assert.match(osmCard.title, /\bhospital\b/);
-  assert.doesNotMatch(osmCard.title, /hospitals/, 'one place takes the singular');
-  assert.equal(presentResult('osm_query', { ...osm, complete: true }).display.title, '1 hospital');
+  assert.doesNotMatch(
+    osmCard.title,
+    /hospitals/,
+    'one place takes the singular',
+  );
+  assert.equal(
+    presentResult('osm_query', { ...osm, complete: true }).display.title,
+    '1 hospital',
+  );
   assert.ok(osmCard.lines.includes('2 Duplikate zusammengeführt'));
-  assert.deepEqual(osmCard.notes, ['die ersten 500 aufgelistet', 'es gibt weitere']);
+  assert.deepEqual(osmCard.notes, [
+    'die ersten 500 aufgelistet',
+    'es gibt weitere',
+  ]);
   const imagery = {
     ok: true,
     total: 4,
     count: 0,
     display: { window: 'the catalog covers the last 30 days' },
   };
-  const imageryLines = inLocale('de', () => presentResult('find_imagery', imagery).display.lines);
-  assert.ok(imageryLines.includes('Der Katalog umfasst die letzten 30 Tage'), imageryLines.join(' | '));
+  const imageryLines = inLocale(
+    'de',
+    () => presentResult('find_imagery', imagery).display.lines,
+  );
+  assert.ok(
+    imageryLines.includes('Der Katalog umfasst die letzten 30 Tage'),
+    imageryLines.join(' | '),
+  );
 });
 
 test('same-named clarification choices show their region code', () => {
@@ -334,11 +357,24 @@ test('same-named clarification choices show their region code', () => {
     needsClarification: true,
     code: 'AMBIGUOUS_AREA',
     candidates: [
-      { candidateId: 'ne:state:united-states-of-america-washington-wa', name: 'Washington', level: 'admin1', region: 'WA', country: 'United States of America' },
-      { candidateId: 'ne:state:united-states-of-america-washington-dc', name: 'Washington', level: 'admin1', region: 'DC', country: 'United States of America' },
+      {
+        candidateId: 'ne:state:united-states-of-america-washington-wa',
+        name: 'Washington',
+        level: 'admin1',
+        region: 'WA',
+        country: 'United States of America',
+      },
+      {
+        candidateId: 'ne:state:united-states-of-america-washington-dc',
+        name: 'Washington',
+        level: 'admin1',
+        region: 'DC',
+        country: 'United States of America',
+      },
     ],
   };
-  const lines = presentResult('resolve_area', asked, { query: 'Washington' }).display.lines;
+  const lines = presentResult('resolve_area', asked, { query: 'Washington' })
+    .display.lines;
   assert.match(lines[0], /\bWA\b/);
   assert.match(lines[1], /\bDC\b/);
   assert.notEqual(lines[0], lines[1]);

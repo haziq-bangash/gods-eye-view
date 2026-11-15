@@ -1,4 +1,6 @@
 import { SceneDirector } from '../scenes/director.js';
+import { useNadeloehrStore } from '../nadeloehr/store.js';
+import { flyFlat, viewCenter } from '../nadeloehr/camera.js';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
 import {
@@ -291,6 +293,24 @@ export function createApplicationTools({
       delete window.__gevVoiceCommands;
   });
   debug.voiceCommands = voiceCommands;
+  // The Nadelöhr shell drives the app through these services.
+  const nadeloehr = useNadeloehrStore(applicationPinia());
+  nadeloehr.connect({
+    viewer,
+    styleManager,
+    dataManager,
+    mapStackController,
+    placeSearch,
+    flyFlat: (lat, lon, altitudeM) => flyFlat(viewer, lat, lon, altitudeM),
+    viewCenter: () => viewCenter(viewer),
+    run: (name, args, options = {}) =>
+      voiceCommands.runner(name, args, {
+        origin: 'programmatic',
+        ...options,
+        signal,
+      }),
+  });
+  defer(() => nadeloehr.connect(null));
   defer(
     installViews({
       shell: styleManager,

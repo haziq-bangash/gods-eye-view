@@ -11,6 +11,32 @@ export function createOsmImagery() {
   });
 }
 
+/** Stadia Maps' required attribution for its OpenMapTiles-based styles. */
+export const STADIA_ATTRIBUTION_HTML =
+  '© <a href="https://stadiamaps.com/" target="_blank" rel="noopener">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
+
+/**
+ * Nadelöhr's road map: Stadia Maps' Alidade Smooth, light or dark with the
+ * system appearance (read when the map is created), at double resolution.
+ * Keyless on localhost; a deployed site registers its domain with Stadia
+ * (see DATA_SOURCES.md).
+ */
+export function createStreetsImagery({
+  dark = globalThis.matchMedia?.('(prefers-color-scheme: dark)')?.matches ===
+    true,
+} = {}) {
+  const style = dark ? 'alidade_smooth_dark' : 'alidade_smooth';
+  return new Cesium.UrlTemplateImageryProvider({
+    url: `https://tiles.stadiamaps.com/tiles/${style}/{z}/{x}/{y}@2x.png`,
+    // The @2x images are 512 px, but levels are chosen as for 256 px tiles,
+    // so labels keep their designed size and stay sharp on dense screens.
+    tileWidth: 256,
+    tileHeight: 256,
+    maximumLevel: 20,
+    credit: '© Stadia Maps © OpenMapTiles © OpenStreetMap contributors',
+  });
+}
+
 export function createEsriImagery() {
   return Cesium.ArcGisMapServerImageryProvider.fromUrl(
     'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',

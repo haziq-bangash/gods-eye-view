@@ -9,7 +9,11 @@ import { resolveVoiceModel } from './voiceCost.js';
 function installGlobals(t, values) {
   for (const [name, value] of Object.entries(values)) {
     const previous = Object.getOwnPropertyDescriptor(globalThis, name);
-    Object.defineProperty(globalThis, name, { configurable: true, writable: true, value });
+    Object.defineProperty(globalThis, name, {
+      configurable: true,
+      writable: true,
+      value,
+    });
     t.after(() => {
       if (previous) Object.defineProperty(globalThis, name, previous);
       else delete globalThis[name];
@@ -21,32 +25,66 @@ function browser(t) {
   const peers = [];
   const streams = [];
   class Peer {
-    constructor() { this.connectionState = 'connected'; peers.push(this); }
+    constructor() {
+      this.connectionState = 'connected';
+      peers.push(this);
+    }
     addTrack() {}
     createDataChannel() {
       this.channel = {
-        readyState: 'open', handlers: new Map(), sent: [],
-        addEventListener(type, handler) { this.handlers.set(type, handler); },
-        send(message) { this.sent.push(JSON.parse(message)); }, close() { this.readyState = 'closed'; },
+        readyState: 'open',
+        handlers: new Map(),
+        sent: [],
+        addEventListener(type, handler) {
+          this.handlers.set(type, handler);
+        },
+        send(message) {
+          this.sent.push(JSON.parse(message));
+        },
+        close() {
+          this.readyState = 'closed';
+        },
       };
       return this.channel;
     }
-    async createOffer() { return { sdp: 'offer' }; }
-    async setLocalDescription(offer) { this.localDescription = offer; }
+    async createOffer() {
+      return { sdp: 'offer' };
+    }
+    async setLocalDescription(offer) {
+      this.localDescription = offer;
+    }
     async setRemoteDescription() {}
-    close() { this.connectionState = 'closed'; }
+    close() {
+      this.connectionState = 'closed';
+    }
   }
   installGlobals(t, {
-    window: { RTCPeerConnection: Peer }, RTCPeerConnection: Peer,
+    window: { RTCPeerConnection: Peer },
+    RTCPeerConnection: Peer,
     document: {
-      querySelectorAll: () => [], body: { appendChild() {} },
+      querySelectorAll: () => [],
+      body: { appendChild() {} },
       createElement: () => ({ dataset: {}, style: {}, remove() {} }),
     },
-    navigator: { mediaDevices: { async getUserMedia() {
-      const track = { stops: 0, stop() { this.stops++; } };
-      const stream = { getTracks: () => [track], getAudioTracks: () => [track], track };
-      streams.push(stream); return stream;
-    } } },
+    navigator: {
+      mediaDevices: {
+        async getUserMedia() {
+          const track = {
+            stops: 0,
+            stop() {
+              this.stops++;
+            },
+          };
+          const stream = {
+            getTracks: () => [track],
+            getAudioTracks: () => [track],
+            track,
+          };
+          streams.push(stream);
+          return stream;
+        },
+      },
+    },
   });
   return { peers, streams, Peer };
 }
@@ -55,14 +93,28 @@ test('retained peer and channel callbacks cannot act after stop or enter a repla
   const { peers, streams } = browser(t);
   const actions = [];
   const remote = () => {
-    const track = { stops: 0, readyState: 'live', stop() { this.stops++; this.readyState = 'ended'; } };
+    const track = {
+      stops: 0,
+      readyState: 'live',
+      stop() {
+        this.stops++;
+        this.readyState = 'ended';
+      },
+    };
     return { getTracks: () => [track], track };
   };
   const controller = new GevRealtimeController({
-    runner: async (name) => { actions.push(name); return { ok: true }; },
+    runner: async (name) => {
+      actions.push(name);
+      return { ok: true };
+    },
     backend: {
-      async requestToken() { return { token: 'synthetic', model: resolveVoiceModel('mini').id }; },
-      async negotiate() { return 'answer'; },
+      async requestToken() {
+        return { token: 'synthetic', model: resolveVoiceModel('mini').id };
+      },
+      async negotiate() {
+        return 'answer';
+      },
     },
     debugSink: null,
     ui: createTestVoiceUi(),
@@ -74,9 +126,20 @@ test('retained peer and channel callbacks cannot act after stop or enter a repla
   const oldAudio = controller.audioEl;
   const oldRemote = remote();
   old.ontrack({ streams: [oldRemote] });
-  const message = { data: JSON.stringify({ type: 'response.function_call_arguments.done', name: 'get_entity_context', call_id: 'stale', arguments: '{}' }) };
+  const message = {
+    data: JSON.stringify({
+      type: 'response.function_call_arguments.done',
+      name: 'get_entity_context',
+      call_id: 'stale',
+      arguments: '{}',
+    }),
+  };
   controller.stop();
-  assert.equal(oldRemote.track.stops, 1, 'Stop releases its owned remote track');
+  assert.equal(
+    oldRemote.track.stops,
+    1,
+    'Stop releases its owned remote track',
+  );
   assert.equal(oldRemote.track.readyState, 'ended');
   assert.equal(oldAudio.srcObject, null);
   assert.doesNotThrow(() => old.ontrack({ streams: [{}] }));
@@ -95,15 +158,30 @@ test('retained peer and channel callbacks cannot act after stop or enter a repla
   assert.equal(controller.status, 'listening');
   assert.equal(controller.pc, current);
   assert.equal(controller.audioEl, audio);
-  assert.equal(audio.srcObject, incoming, 'a stale track cannot replace the current remote stream');
-  assert.equal(incoming.track.stops, 0, 'a stale callback cannot stop the current remote track');
+  assert.equal(
+    audio.srcObject,
+    incoming,
+    'a stale track cannot replace the current remote stream',
+  );
+  assert.equal(
+    incoming.track.stops,
+    0,
+    'a stale callback cannot stop the current remote track',
+  );
   assert.deepEqual(actions, []);
   controller.stop();
   controller.stop();
   assert.equal(audio.srcObject, null);
-  assert.deepEqual([oldRemote, incoming].map(s => s.track.stops), [1, 1], 'repeated Stop does not restop remote tracks');
+  assert.deepEqual(
+    [oldRemote, incoming].map((s) => s.track.stops),
+    [1, 1],
+    'repeated Stop does not restop remote tracks',
+  );
   assert.equal(incoming.track.readyState, 'ended');
-  assert.deepEqual(streams.map(s => s.track.stops), [1, 1]);
+  assert.deepEqual(
+    streams.map((s) => s.track.stops),
+    [1, 1],
+  );
 });
 
 test('an offer resolved after restart cannot change the replacement peer description', async (t) => {
@@ -111,20 +189,27 @@ test('an offer resolved after restart cannot change the replacement peer descrip
   let finishOldOffer;
   const originalOffer = Peer.prototype.createOffer;
   Peer.prototype.createOffer = function () {
-    if (peers.indexOf(this) === 0) return new Promise(resolve => { finishOldOffer = resolve; });
+    if (peers.indexOf(this) === 0)
+      return new Promise((resolve) => {
+        finishOldOffer = resolve;
+      });
     return originalOffer.call(this);
   };
   const controller = new GevRealtimeController({
     runner: async () => ({ ok: true }),
     backend: {
-      async requestToken() { return { token: 'synthetic', model: resolveVoiceModel('mini').id }; },
-      async negotiate() { return 'answer'; },
+      async requestToken() {
+        return { token: 'synthetic', model: resolveVoiceModel('mini').id };
+      },
+      async negotiate() {
+        return 'answer';
+      },
     },
     debugSink: null,
     ui: createTestVoiceUi(),
   });
   const firstStart = controller.start();
-  while (!finishOldOffer) await new Promise(resolve => setImmediate(resolve));
+  while (!finishOldOffer) await new Promise((resolve) => setImmediate(resolve));
   controller.stop();
   await controller.start();
   const current = peers[1];
@@ -136,7 +221,10 @@ test('an offer resolved after restart cannot change the replacement peer descrip
   controller.stop();
 });
 
-const localContext = { action: 'get_entity_context', scene: { basemap: { viewScale: 'local' } } };
+const localContext = {
+  action: 'get_entity_context',
+  scene: { basemap: { viewScale: 'local' } },
+};
 
 test('a late viewport capture cannot publish into a replacement or reset conversation', async () => {
   for (const reset of [false, true]) {
@@ -145,8 +233,16 @@ test('a late viewport capture cannot publish into a replacement or reset convers
     const sent = [];
     const owner = new RealtimeViewport({
       readChannel: () => channel,
-      capture: () => new Promise(resolve => { finish = resolve; }),
-      operations: { sendRealtimeEvent(message) { sent.push(message); return true; } },
+      capture: () =>
+        new Promise((resolve) => {
+          finish = resolve;
+        }),
+      operations: {
+        sendRealtimeEvent(message) {
+          sent.push(message);
+          return true;
+        },
+      },
     });
     const pending = owner.sendVisualContextIfUseful(localContext);
     if (reset) owner.reset();
@@ -162,8 +258,14 @@ test('a current viewport capture retains one image and replaces it through the p
   const channel = { readyState: 'open' };
   const sent = [];
   const owner = new RealtimeViewport({
-    readChannel: () => channel, capture: async () => 'data:image/jpeg;base64,abc',
-    operations: { sendRealtimeEvent(message) { sent.push(message); return true; } },
+    readChannel: () => channel,
+    capture: async () => 'data:image/jpeg;base64,abc',
+    operations: {
+      sendRealtimeEvent(message) {
+        sent.push(message);
+        return true;
+      },
+    },
   });
   assert.equal(await owner.sendVisualContextIfUseful(localContext), true);
   const first = owner.lastViewportItemId;
@@ -179,16 +281,27 @@ test('a current viewport capture retains one image and replaces it through the p
 test('audio meter initialization failure releases its newly acquired AudioContext', (t) => {
   let closes = 0;
   class AudioContext {
-    resume() { return Promise.resolve(); }
-    createAnalyser() { return {}; }
-    createMediaStreamSource() { throw new Error('analysis unavailable'); }
-    close() { closes++; return Promise.resolve(); }
+    resume() {
+      return Promise.resolve();
+    }
+    createAnalyser() {
+      return {};
+    }
+    createMediaStreamSource() {
+      throw new Error('analysis unavailable');
+    }
+    close() {
+      closes++;
+      return Promise.resolve();
+    }
   }
   installGlobals(t, { window: { AudioContext } });
   const ui = createTestVoiceUi();
   const owner = new RealtimeInput({
     readUi: () => ui,
-    readStatus: () => 'listening', readStream: () => null, operations: {},
+    readStatus: () => 'listening',
+    readStream: () => null,
+    operations: {},
   });
   owner.startVoiceVisualizer({});
   assert.equal(closes, 1);
@@ -201,30 +314,52 @@ test('stopping one audio meter revokes retained frames without stopping another 
   const frames = [];
   const contexts = [];
   class AudioContext {
-    constructor() { this.reads = 0; this.closes = 0; contexts.push(this); }
-    resume() { return Promise.resolve(); }
-    createAnalyser() { return {
-      frequencyBinCount: 32,
-      getByteFrequencyData: data => { this.reads++; data.fill(30); },
-    }; }
-    createMediaStreamSource() { return { connect() {}, disconnect() {} }; }
-    close() { this.closes++; return Promise.resolve(); }
+    constructor() {
+      this.reads = 0;
+      this.closes = 0;
+      contexts.push(this);
+    }
+    resume() {
+      return Promise.resolve();
+    }
+    createAnalyser() {
+      return {
+        frequencyBinCount: 32,
+        getByteFrequencyData: (data) => {
+          this.reads++;
+          data.fill(30);
+        },
+      };
+    }
+    createMediaStreamSource() {
+      return { connect() {}, disconnect() {} };
+    }
+    close() {
+      this.closes++;
+      return Promise.resolve();
+    }
   }
   installGlobals(t, {
     window: { AudioContext },
-    requestAnimationFrame: callback => { frames.push(callback); return frames.length; },
+    requestAnimationFrame: (callback) => {
+      frames.push(callback);
+      return frames.length;
+    },
     cancelAnimationFrame() {},
   });
   const create = () => {
     const ui = createTestVoiceUi();
     return new RealtimeInput({
       readUi: () => ui,
-      readStatus: () => 'listening', readStream: () => null, operations: {},
+      readStatus: () => 'listening',
+      readStream: () => null,
+      operations: {},
     });
   };
   const first = create();
   const second = create();
-  first.startVoiceVisualizer({}); second.startVoiceVisualizer({});
+  first.startVoiceVisualizer({});
+  second.startVoiceVisualizer({});
   first.stopVoiceVisualizer();
   const reads = contexts[0].reads;
   frames[0]();
@@ -232,9 +367,16 @@ test('stopping one audio meter revokes retained frames without stopping another 
   assert.equal(frames.length, 2, 'a revoked frame cannot rearm itself');
   frames[1]();
   assert.equal(contexts[1].reads, 2);
-  assert.equal(frames.length, 3, 'the other meter retains its own render lifetime');
+  assert.equal(
+    frames.length,
+    3,
+    'the other meter retains its own render lifetime',
+  );
   second.stopVoiceVisualizer();
-  assert.deepEqual(contexts.map(c => c.closes), [1, 1]);
+  assert.deepEqual(
+    contexts.map((c) => c.closes),
+    [1, 1],
+  );
 });
 
 test('late action or viewport completion cannot resume a stopped or replacement conversation', async (t) => {
@@ -243,30 +385,44 @@ test('late action or viewport completion cannot resume a stopped or replacement 
     for (const restart of [false, true]) {
       let finish;
       const controller = new GevRealtimeController({
-        runner: phase === 'viewport'
-          ? async () => ({ ok: true, ...localContext })
-          : () => new Promise((resolve, reject) => {
-              finish = phase === 'tool-error'
-                ? () => reject(new Error('superseded action failed'))
-                : () => resolve({ ok: true, action: 'get_entity_context' });
-            }),
+        runner:
+          phase === 'viewport'
+            ? async () => ({ ok: true, ...localContext })
+            : () =>
+                new Promise((resolve, reject) => {
+                  finish =
+                    phase === 'tool-error'
+                      ? () => reject(new Error('superseded action failed'))
+                      : () =>
+                          resolve({ ok: true, action: 'get_entity_context' });
+                }),
         backend: {
-          async requestToken() { return { token: 'synthetic', model: resolveVoiceModel('mini').id }; },
-          async negotiate() { return 'answer'; },
+          async requestToken() {
+            return { token: 'synthetic', model: resolveVoiceModel('mini').id };
+          },
+          async negotiate() {
+            return 'answer';
+          },
         },
         debugSink: null,
         ui: createTestVoiceUi(),
       });
-      if (phase === 'viewport') controller._viewport.capture = () => new Promise(resolve => {
-        finish = () => resolve('data:image/jpeg;base64,abc');
-      });
+      if (phase === 'viewport')
+        controller._viewport.capture = () =>
+          new Promise((resolve) => {
+            finish = () => resolve('data:image/jpeg;base64,abc');
+          });
       await controller.start();
       controller.dc.handlers.get('open')();
-      const pending = controller.handleRealtimeEvent({ data: JSON.stringify({
-        type: 'response.function_call_arguments.done', name: 'get_entity_context',
-        call_id: 'delayed', arguments: '{}',
-      }) });
-      while (!finish) await new Promise(resolve => setImmediate(resolve));
+      const pending = controller.handleRealtimeEvent({
+        data: JSON.stringify({
+          type: 'response.function_call_arguments.done',
+          name: 'get_entity_context',
+          call_id: 'delayed',
+          arguments: '{}',
+        }),
+      });
+      while (!finish) await new Promise((resolve) => setImmediate(resolve));
       controller.stop();
       if (restart) {
         await controller.start();
@@ -275,8 +431,16 @@ test('late action or viewport completion cannot resume a stopped or replacement 
       const status = controller.status;
       finish();
       await pending;
-      assert.equal(controller.status, status, `${phase}: stopped status stays owned by the new lifetime`);
-      assert.deepEqual(controller.dc?.sent || [], [], `${phase}: no old result or response reaches the replacement`);
+      assert.equal(
+        controller.status,
+        status,
+        `${phase}: stopped status stays owned by the new lifetime`,
+      );
+      assert.deepEqual(
+        controller.dc?.sent || [],
+        [],
+        `${phase}: no old result or response reaches the replacement`,
+      );
       assert.equal(controller.pendingResponseInstructions, null);
       controller.stop();
     }

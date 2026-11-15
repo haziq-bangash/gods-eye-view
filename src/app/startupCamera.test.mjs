@@ -24,7 +24,7 @@ test('teardown before the initial camera delay prevents a late flight', (t) => {
   assert.equal(cancelled, 1);
 });
 
-test('the start view opens over Germany and descends to a tilted overview', async (t) => {
+test('the start view opens over Germany and descends to a flat, north-up overview', async (t) => {
   const { flyToStartView } = await import('../camera.js');
   const { FREIGHT_START_VIEW } = await import('../freightProfile.js');
   const Cesium = await import('cesium');
@@ -54,11 +54,11 @@ test('the start view opens over Germany and descends to a tilted overview', asyn
   t.mock.timers.tick(500);
   assert.equal(flights.length, 1);
   const [, flightLat] = degrees(flights[0].destination);
-  // Tilted, so the camera sits south of Germany's centre, still over Europe.
-  assert.ok(flightLat < 51.1 && flightLat > 45, String(flightLat));
+  // Straight down, so the camera sits right over Germany's centre.
+  assert.ok(Math.abs(flightLat - 51.1) < 1e-6, String(flightLat));
   assert.equal(
     Cesium.Math.toDegrees(flights[0].orientation.pitch).toFixed(0),
-    '-78',
+    '-90',
   );
   stop();
 });

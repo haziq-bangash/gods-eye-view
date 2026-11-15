@@ -97,3 +97,104 @@
   font-weight: 700;
   letter-spacing: -0.01em;
 }
+
+/* ── Nadelöhr shell (src/nadeloehr) replaces upstream's chrome ──────────
+   The upstream views stay mounted, because their controllers look up their
+   elements, but they are invisible and take no pointer or keyboard input.
+   Panels a shell tool opens (assistant, cameras, street view) are shown
+   again while open. */
+#title-bar,
+#style-indicator,
+#top-center-actions,
+#command-dock,
+#left-panel-stack,
+#right-context-rail,
+#corner-actions,
+#intel-hud,
+#mobile-tab-bar,
+#view-switcher,
+#mobile-sheet-backdrop,
+:is(
+    #title-bar,
+    #style-indicator,
+    #top-center-actions,
+    #command-dock,
+    #left-panel-stack,
+    #right-context-rail,
+    #corner-actions,
+    #intel-hud,
+    #mobile-tab-bar,
+    #view-switcher
+  )
+  * {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Map attribution moves to the bottom right, clear of the shell's sheet,
+   as a small glass chip. It must stay visible (provider terms). */
+html body #cesium-credits {
+  right: 16px !important;
+  bottom: 16px !important;
+  left: auto !important;
+  width: auto !important;
+  max-width: min(560px, calc(100vw - 460px));
+  text-align: right;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
+  font-family: var(--font-sans);
+  font-size: 11px;
+}
+
+/* Phones: the sheet spans the bottom, so the credit sits under the brand
+   chip, clear of the right-hand buttons. Doubled id: upstream's phone shell
+   pins the credit to the bottom with !important. */
+@media (max-width: 639px) {
+  html body #cesium-credits#cesium-credits {
+    top: calc(max(1rem, env(safe-area-inset-top)) + 48px) !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: 16px !important;
+    width: auto !important;
+    max-width: calc(100vw - 92px) !important;
+    scale: 1;
+    white-space: normal;
+    text-align: left;
+    border-radius: 12px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+}
+
+/* Cesium positions its credit row absolutely; in flow, the chip sizes to it
+   and its right edge stays on screen. */
+html body #cesium-credits .cesium-widget-credits {
+  position: static !important;
+  text-shadow: none;
+}
+
+/* Upstream's technical status chips (feed counts, camera sync) are not
+   shown; the shell's sheet says what is loading in plain words. */
+#global-loading-status,
+#cctv-sync-chip {
+  display: none !important;
+}
+
+/* Panels a shell tool opens stay visible and usable while they are open. */
+#command-dock #gev-chat-panel:not([hidden]),
+#command-dock #gev-chat-panel:not([hidden]) *,
+#right-context-rail #cctv-panel:not(.collapsed),
+#right-context-rail #cctv-panel:not(.collapsed) *,
+#right-context-rail #street-level-panel:not(.collapsed),
+#right-context-rail #street-level-panel:not(.collapsed) * {
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Keep the opened panels clear of the shell's right-hand button stack. */
+#right-context-rail {
+  inset-inline-end: 76px !important;
+}

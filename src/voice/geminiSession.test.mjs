@@ -3240,7 +3240,9 @@ async function completedPttTurn() {
   await h.c.start({ pushToTalk: true });
   const ws = h.sockets[0];
   establishToolInput(h);
-  ws.message({ serverContent: { ...replyAudio('answer'), turnComplete: true } });
+  ws.message({
+    serverContent: { ...replyAudio('answer'), turnComplete: true },
+  });
   h.captures[0].drain();
   await tick();
   return { h, ws };
@@ -3295,7 +3297,9 @@ test('a refusal does not hold back the completion of the reply still playing', a
   await h.c.start({ pushToTalk: true });
   const ws = h.sockets[0];
   establishToolInput(h);
-  ws.message({ serverContent: { ...replyAudio('answer'), turnComplete: true } });
+  ws.message({
+    serverContent: { ...replyAudio('answer'), turnComplete: true },
+  });
   ws.message(zoomCall('unrequested'));
   h.captures[0].drain();
   await tick();
@@ -3336,7 +3340,9 @@ test('an open-mic reply that starts with a caption is retired by newer typed inp
   await h.c.start();
   const ws = h.sockets[0];
   establishToolInput(h);
-  ws.message({ serverContent: { ...replyAudio('answer'), turnComplete: true } });
+  ws.message({
+    serverContent: { ...replyAudio('answer'), turnComplete: true },
+  });
   h.captures[0].drain();
   await tick();
   ws.message({ serverContent: { outputTranscription: { text: 'Zooming' } } });
@@ -3479,10 +3485,7 @@ for (const reply of ['typed', 'push-to-talk', 'open-mic']) {
       assert.equal(repeated.ok, false);
       assert.equal(repeated.skipped, true);
       assert.match(repeated.responseGuidance, /did not run/i);
-      assert.doesNotMatch(
-        repeated.responseGuidance,
-        /confirm.*completed/i,
-      );
+      assert.doesNotMatch(repeated.responseGuidance, /confirm.*completed/i);
 
       if (reply === 'typed') {
         const stimuli = [
