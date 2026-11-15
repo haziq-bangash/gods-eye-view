@@ -203,7 +203,25 @@
       "src/layers/riverLevels/records.js",
       "src/nadeloehr/rivers.js",
       "src/nadeloehr/components/GaugeCard.vue",
-      "src/nadeloehr/components/BrandMark.vue"
+      "src/nadeloehr/components/BrandMark.vue",
+      "src/nadeloehr/components/MapLegend.vue",
+      "src/nadeloehr/collapse.js",
+      "src/nadeloehr/components/HeroCard.vue",
+      "src/layers/autobahn/records.js",
+      "src/nadeloehr/components/SectionHeader.vue",
+      "src/nadeloehr/today.js",
+      "src/freight/corridors.js",
+      "src/nadeloehr/components/CorridorCards.vue",
+      "src/nadeloehr/components/HeaderTools.vue",
+      "src/nadeloehr/components/KaubInsight.vue",
+      "src/nadeloehr/components/LevelChart.vue",
+      "src/nadeloehr/components/Sparkline.vue",
+      "src/nadeloehr/components/TodayStrip.vue",
+      "src/nadeloehr/components/CorridorDetail.vue",
+      "src/nadeloehr/components/DisruptionsSection.vue",
+      "src/data/placeNames.js",
+      "src/keylessGeocoder.js",
+      "src/nadeloehr/search.js"
     ],
     "external": [
       "vue",
@@ -3878,7 +3896,8 @@
       "src/layers/riverLevels/source.js",
       "src/layers/riverLevels/records.js",
       "src/layers/riverLevels/index.js",
-      "src/app/layers/riverLevels.js"
+      "src/app/layers/riverLevels.js",
+      "src/nadeloehr/corridorOverlay.js"
     ],
     "external": [
       "hls.js",

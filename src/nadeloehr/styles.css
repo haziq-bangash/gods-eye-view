@@ -512,3 +512,42 @@
     display: none;
   }
 }
+
+/* ── Today ──────────────────────────────────────────────────────────────
+   Big figures are light and tabular, as in the dashboards they echo; small
+   section titles are uppercase eyebrows; the number strip scrolls sideways
+   without a scrollbar. */
+.nadeloehr .nd-figure {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+    'Segoe UI Variable Display', system-ui, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.nadeloehr .nd-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.nadeloehr .nd-strip {
+  scrollbar-width: none;
+}
+.nadeloehr .nd-strip::-webkit-scrollbar {
+  display: none;
+}
+
+/* Wide screens: the whole interface at 80%, the density people choose by
+   zooming the browser out. The layer is enlarged by the inverse so it still
+   covers the window; phones keep full size for touch. */
+@media (min-width: 1024px) {
+  .nadeloehr.nd-compact {
+    zoom: 0.8;
+    right: auto;
+    bottom: auto;
+    width: 125vw;
+    height: 125vh;
+  }
+}

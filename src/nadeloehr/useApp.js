@@ -12,6 +12,16 @@ import { useGlobeActionsStore } from '../ui/stores/globeActions.js';
 import { useLocaleStore } from '../ui/stores/locale.js';
 import { useVoiceStore } from '../ui/stores/voice.js';
 import { useNadeloehrStore } from './store.js';
+import { CORRIDORS, scoreCorridors } from '../freight/corridors.js';
+import { kaubRow } from '../layers/riverLevels/records.js';
+import { localResults, searchPlacesDE } from './search.js';
+import { todayHeadline, todayKpis } from './today.js';
+
+const MINOR_KINDS = Object.freeze([
+  'ramp-closure',
+  'short-roadworks',
+  'roadworks',
+]);
 
 const AUTOBAHN = 'autobahn-traffic';
 const RIVERS = 'river-levels';
@@ -153,6 +163,98 @@ export function useApp() {
     store.touchLayers();
   }
 
+  // ── Today: corridors, filters and the map overlay ──────────────
+  const corridors = computed(() =>
+    scoreCorridors({
+      events: disruptions.value,
+      kaubLevelCm: kaubRow(gauges.value)?.levelCm ?? null,
+    }),
+  );
+  const kpis = computed(() => todayKpis(disruptions.value, gauges.value));
+  const headline = computed(() => todayHeadline(gauges.value, corridors.value));
+  const selectedCorridorId = shallowRef(null);
+  const selectedCorridor = computed(
+    () =>
+      corridors.value.find(
+        (entry) => entry.corridor.id === selectedCorridorId.value,
+      ) || null,
+  );
+  watch(
+    [corridors, selectedCorridorId, services],
+    ([scored, id, next]) => next?.corridorOverlay?.update(scored, id),
+    { immediate: true },
+  );
+  function selectCorridor(id) {
+    selectedCorridorId.value = id || null;
+    if (!id) return;
+    select(null);
+    selectGauge(null);
+    const corridor = CORRIDORS.find((entry) => entry.id === id);
+    if (corridor) services.value?.flyToPoints?.(corridor.path);
+  }
+
+  /** Which severity the list (and, for minor, the map) is narrowed to. */
+  const severity = shallowRef(null);
+  /** An Autobahn the list is narrowed to ("A7"), from search. */
+  const roadFilter = shallowRef(null);
+  const minorOnMap = computed(() => {
+    void layerRevision.value;
+    void disruptions.value;
+    return MINOR_KINDS.some((kind) => autobahnModule()?.isKindVisible?.(kind));
+  });
+  function setMinorOnMap(on) {
+    for (const kind of MINOR_KINDS)
+      autobahnModule()?.setKindVisible?.(kind, on);
+    store.touchLayers();
+  }
+  let minorShownBySeverity = false;
+  function setSeverity(next) {
+    const value = severity.value === next ? null : next;
+    severity.value = value;
+    // Picking "minor" shows those markers; leaving it hides them again
+    // unless the switch had them on already.
+    if (value === 'minor' && !minorOnMap.value) {
+      setMinorOnMap(true);
+      minorShownBySeverity = true;
+    } else if (value !== 'minor' && minorShownBySeverity) {
+      setMinorOnMap(false);
+      minorShownBySeverity = false;
+    }
+  }
+  function showRoad(road) {
+    roadFilter.value = road || null;
+    if (!road) return;
+    selectCorridor(null);
+    const points = disruptions.value
+      .filter((row) => row.road === road)
+      .map((row) => [row.lon, row.lat]);
+    if (points.length) services.value?.flyToPoints?.(points);
+  }
+
+  /** Search: roads, gauges and corridors first, then places in Germany. */
+  async function search(text, { signal } = {}) {
+    const local = localResults(text, {
+      events: disruptions.value,
+      gauges: gauges.value,
+    });
+    let places = [];
+    try {
+      places = await searchPlacesDE(text, { locale: getLocale(), signal });
+    } catch (error) {
+      if (error?.name !== 'AbortError')
+        console.warn('[Nadelöhr] place search failed:', error);
+    }
+    return [...local, ...places];
+  }
+  function pickResult(result) {
+    if (!result) return;
+    if (result.type === 'road') return showRoad(result.road);
+    if (result.type === 'gauge') return showGaugeOnMap(result.gauge);
+    if (result.type === 'corridor') return selectCorridor(result.corridor.id);
+    if (result.type === 'place') return flyToPlace(result.place);
+    return flyToPlace(result);
+  }
+
   function locate() {
     return new Promise((resolve) => {
       if (!globalThis.navigator?.geolocation) return resolve(false);
@@ -272,6 +374,20 @@ export function useApp() {
     selectedGauge,
     selectGauge,
     showGaugeOnMap,
+    corridors,
+    kpis,
+    headline,
+    selectedCorridorId,
+    selectedCorridor,
+    selectCorridor,
+    severity,
+    setSeverity,
+    roadFilter,
+    showRoad,
+    minorOnMap,
+    setMinorOnMap,
+    search,
+    pickResult,
     kindVisible,
     setKindVisible,
     mapStyle,

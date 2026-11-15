@@ -240,3 +240,19 @@ export function gaugeColor(row) {
   if (band) return GAUGE_COLORS[band];
   return GAUGE_COLORS[row?.state] || GAUGE_COLORS.unknown;
 }
+
+/**
+ * Hourly [timeMs, levelCm] points from a measurement series, oldest first:
+ * enough for a 24-hour chart without sending all 96 readings.
+ */
+export function hourlySeries(measurements) {
+  if (!Array.isArray(measurements)) return [];
+  const byHour = new Map();
+  for (const entry of measurements) {
+    const at = Date.parse(entry?.timestamp);
+    const value = finite(entry?.value);
+    if (!Number.isFinite(at) || value === null) continue;
+    byHour.set(Math.floor(at / 3_600_000), [at, value]);
+  }
+  return [...byHour.values()].sort((a, b) => a[0] - b[0]);
+}

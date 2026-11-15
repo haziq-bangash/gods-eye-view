@@ -1,0 +1,250 @@
+/**
+ * Corridor risk score for named German freight corridors.
+ *
+ *   R = 0.35·C + 0.20·P + 0.25·H + 0.20·W
+ *
+ * C closures (Autobahn events on the corridor's roads), P truck parking,
+ * H hydrology (Kaub level, river corridors only), W weather (DWD warnings).
+ * A part with no data yet (parking and weather until their layers exist) or
+ * that does not apply (H on a road-only corridor) is left out and the
+ * remaining weights are rescaled to sum to 1. Each part is 0–100; R maps to
+ * low (< 33), elevated (33–66) and high (> 66). Weights are starting
+ * guesses, not calibrated values, and R is not a delay forecast.
+ *
+ * Portable: no Cesium, DOM or catalogs, so the shell, voice and MCP tools
+ * can all score the same way.
+ */
+import { msg } from '../i18n/marker.js';
+import { kaubHydrologyScore } from '../layers/riverLevels/records.js';
+
+export const RISK_WEIGHTS = Object.freeze({ C: 0.35, P: 0.2, H: 0.25, W: 0.2 });
+
+export const RISK_PARTS = Object.freeze({
+  C: msg('Closures'),
+  P: msg('Truck parking'),
+  H: msg('Water level'),
+  W: msg('Weather'),
+});
+
+/**
+ * Points each event adds before C is scaled: a closed road weighs most,
+ * routine exit closures and long-term roadworks almost nothing.
+ */
+export const CLOSURE_POINTS = Object.freeze({
+  closure: 15,
+  warning: 8,
+  'short-roadworks': 1,
+  'ramp-closure': 1,
+  roadworks: 0.2,
+});
+
+/** Events further than this from the corridor line are not on it. */
+export const CORRIDOR_BUFFER_KM = 25;
+
+/**
+ * The corridors, each a line through the cities it links ([lon, lat]) and the
+ * Autobahns that carry it. River corridors also read the Kaub gauge.
+ */
+export const CORRIDORS = Object.freeze([
+  Object.freeze({
+    id: 'hamburg-ruhr',
+    from: 'Hamburg',
+    to: 'Dortmund',
+    name: msg('Hamburg to the Ruhr'),
+    roads: Object.freeze(['A1']),
+    river: null,
+    path: Object.freeze([
+      [10.0, 53.55],
+      [9.4, 53.3],
+      [8.8, 53.08],
+      [8.05, 52.28],
+      [7.63, 51.96],
+      [7.47, 51.51],
+    ]),
+  }),
+  Object.freeze({
+    id: 'north-south-a7',
+    from: 'Hamburg',
+    to: 'Ulm',
+    name: msg('North–South on the A7'),
+    roads: Object.freeze(['A7']),
+    river: null,
+    path: Object.freeze([
+      [10.0, 53.55],
+      [9.73, 52.37],
+      [9.48, 51.31],
+      [9.93, 49.79],
+      [9.99, 48.4],
+      [10.18, 47.98],
+    ]),
+  }),
+  Object.freeze({
+    id: 'rhine-axis',
+    from: 'Duisburg',
+    to: 'Karlsruhe',
+    name: msg('Rhine axis'),
+    roads: Object.freeze(['A61', 'A3', 'A5']),
+    river: 'RHEIN',
+    path: Object.freeze([
+      [6.76, 51.43],
+      [6.96, 50.94],
+      [7.25, 50.6],
+      [7.59, 50.36],
+      [7.76, 50.09],
+      [8.27, 50.0],
+      [8.47, 49.49],
+      [8.4, 49.0],
+    ]),
+  }),
+]);
+
+/** Low, elevated or high for a score. */
+export function riskLevel(score) {
+  if (!Number.isFinite(score)) return null;
+  if (score > 66) return 'high';
+  if (score >= 33) return 'elevated';
+  return 'low';
+}
+
+export const RISK_LEVEL_LABELS = Object.freeze({
+  low: msg('Low'),
+  elevated: msg('Elevated'),
+  high: msg('High'),
+});
+
+/** Great-circle distance in km (equirectangular; fine at corridor scale). */
+function distanceKm([lon1, lat1], [lon2, lat2]) {
+  const k = Math.PI / 180;
+  const x = (lon2 - lon1) * k * Math.cos(((lat1 + lat2) / 2) * k);
+  const y = (lat2 - lat1) * k;
+  return Math.hypot(x, y) * 6371;
+}
+
+/** Shortest distance in km from a point to a polyline. */
+export function distanceToPathKm(point, path) {
+  let best = Infinity;
+  for (let i = 0; i < path.length - 1; i += 1) {
+    const [a, b] = [path[i], path[i + 1]];
+    // Project in a local flat frame around the segment.
+    const k = Math.cos((((a[1] + b[1]) / 2) * Math.PI) / 180);
+    const ax = a[0] * k;
+    const bx = b[0] * k;
+    const px = point[0] * k;
+    const dx = bx - ax;
+    const dy = b[1] - a[1];
+    const t =
+      dx || dy
+        ? Math.max(
+            0,
+            Math.min(
+              1,
+              ((px - ax) * dx + (point[1] - a[1]) * dy) / (dx * dx + dy * dy),
+            ),
+          )
+        : 0;
+    best = Math.min(
+      best,
+      distanceKm(point, [a[0] + (b[0] - a[0]) * t, a[1] + dy * t]),
+    );
+  }
+  return best;
+}
+
+/** The Autobahn events that lie on a corridor. */
+export function corridorEvents(corridor, events) {
+  return (Array.isArray(events) ? events : []).filter(
+    (event) =>
+      corridor.roads.includes(event?.road) &&
+      Number.isFinite(event.lat) &&
+      Number.isFinite(event.lon) &&
+      distanceToPathKm([event.lon, event.lat], corridor.path) <=
+        CORRIDOR_BUFFER_KM,
+  );
+}
+
+/**
+ * Points at which C reaches about 63: one closure gives ~22, two ~39,
+ * four ~63, eight ~86. The curve saturates, so a bad day is high without
+ * every busy corridor pinning at 100.
+ */
+export const CLOSURE_SCALE = 60;
+
+/** C: 0–100 from the events on the corridor, with counts by kind. */
+export function closureScore(events) {
+  const counts = {};
+  let points = 0;
+  for (const event of events) {
+    counts[event.kind] = (counts[event.kind] || 0) + 1;
+    points += CLOSURE_POINTS[event.kind] || 0;
+  }
+  return {
+    value: Math.round(100 * (1 - Math.exp(-points / CLOSURE_SCALE))),
+    counts,
+    points,
+  };
+}
+
+/**
+ * Score one corridor.
+ * @param {object} corridor - One of CORRIDORS.
+ * @param {{events?: object[], kaubLevelCm?: ?number, parking?: ?number,
+ *   weather?: ?number}} inputs - Parking and weather are 0–100 sub-scores
+ *   when their layers report them, null until then.
+ * @returns {{id: string, score: ?number, level: ?string, parts: object[],
+ *   counts: object, events: object[]}}
+ */
+export function scoreCorridor(
+  corridor,
+  { events = [], kaubLevelCm = null, parking = null, weather = null } = {},
+) {
+  const onCorridor = corridorEvents(corridor, events);
+  const closures = closureScore(onCorridor);
+  const hydrology = corridor.river ? kaubHydrologyScore(kaubLevelCm) : null;
+  const raw = [
+    { key: 'C', value: closures.value, applies: true },
+    {
+      key: 'P',
+      value: Number.isFinite(parking) ? parking : null,
+      applies: true,
+    },
+    { key: 'H', value: hydrology, applies: Boolean(corridor.river) },
+    {
+      key: 'W',
+      value: Number.isFinite(weather) ? weather : null,
+      applies: true,
+    },
+  ];
+  const used = raw.filter((part) => part.applies && part.value !== null);
+  const total = used.reduce((sum, part) => sum + RISK_WEIGHTS[part.key], 0);
+  const parts = raw
+    .filter((part) => part.applies)
+    .map((part) => ({
+      key: part.key,
+      value: part.value,
+      available: part.value !== null,
+      // The weight this part actually carries after rescaling.
+      weight:
+        part.value !== null && total > 0 ? RISK_WEIGHTS[part.key] / total : 0,
+    }));
+  const score = total
+    ? Math.round(
+        parts.reduce((sum, part) => sum + (part.value ?? 0) * part.weight, 0),
+      )
+    : null;
+  return {
+    id: corridor.id,
+    score,
+    level: riskLevel(score),
+    parts,
+    counts: closures.counts,
+    points: closures.points,
+    events: onCorridor,
+  };
+}
+
+/** Score every corridor, highest risk first. */
+export function scoreCorridors(inputs, corridors = CORRIDORS) {
+  return corridors
+    .map((corridor) => ({ corridor, ...scoreCorridor(corridor, inputs) }))
+    .sort((a, b) => (b.score ?? -1) - (a.score ?? -1));
+}

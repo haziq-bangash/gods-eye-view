@@ -1,5 +1,7 @@
 import {
+  KAUB,
   KEY_GAUGES,
+  hourlySeries,
   PEGELONLINE_STATIONS_URL,
   levelTrend,
   normalizePegelStations,
@@ -58,9 +60,12 @@ export function pegelonlineProxy({
         .filter((row) => KEY_GAUGES.includes(row.shortname))
         .map(async (row) => {
           try {
-            row.trendCm = levelTrend(
-              await upstream(pegelMeasurementsUrl(row.stableId)),
+            const measurements = await upstream(
+              pegelMeasurementsUrl(row.stableId),
             );
+            row.trendCm = levelTrend(measurements);
+            // Kaub carries its last day for the shell's chart.
+            if (row.shortname === KAUB) row.series = hourlySeries(measurements);
           } catch {
             row.trendCm = null;
           }

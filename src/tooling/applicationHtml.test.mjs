@@ -38,9 +38,6 @@ test('the loading screen is static markup, so it paints before any script runs',
   const loading = source.indexOf('id="loading-screen"');
   assert.ok(loading > 0);
   assert.ok(loading < source.indexOf('type="module" src="/src/main.js"'));
-  assert.match(
-    source,
-    /class="loader-status" data-i18n>Initializing photorealistic world\.\.\.</,
-  );
+  assert.match(source, /class="loader-status" data-i18n>Loading the map…</);
   assert.doesNotMatch(source, /gev:template/);
 });

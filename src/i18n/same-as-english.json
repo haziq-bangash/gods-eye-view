@@ -254,7 +254,10 @@
     "Transport",
     "{speed} km/h",
     "{level} cm",
-    "Elbe"
+    "Elbe",
+    "cm",
+    "Live · {time}",
+    "Autobahn {road}"
   ],
   "es": [
     "1 min/s",
@@ -422,7 +425,8 @@
     "{length} km",
     "+{minutes} min",
     "{speed} km/h",
-    "{level} cm"
+    "{level} cm",
+    "cm"
   ],
   "fr": [
     "1 min/s",
@@ -655,7 +659,10 @@
     "{speed} km/h",
     "Trains",
     "{level} cm",
-    "Elbe"
+    "Elbe",
+    "Corridors",
+    "cm",
+    "Corridor"
   ],
   "it": [
     "1 min/s",
@@ -867,7 +874,8 @@
     "+{minutes} min",
     "{speed} km/h",
     "{level} cm",
-    "{change} cm in 24 h"
+    "{change} cm in 24 h",
+    "cm"
   ],
   "ja": [
     "1090 MHz",
@@ -935,7 +943,8 @@
     "MMSI: {id}",
     "NORAD: {id}",
     "{length} km",
-    "{level} cm"
+    "{level} cm",
+    "cm"
   ],
   "pt": [
     "1 min/s",
@@ -1103,7 +1112,8 @@
     "{length} km",
     "+{minutes} min",
     "{speed} km/h",
-    "{level} cm"
+    "{level} cm",
+    "cm"
   ],
   "ru": [
     "1900–1945",
@@ -1306,7 +1316,9 @@
     "+{minutes} min",
     "{speed} km/h",
     "{level} cm",
-    "Elbe"
+    "Elbe",
+    "cm",
+    "Live · {time}"
   ],
   "uk": [
     "1900–1945",
