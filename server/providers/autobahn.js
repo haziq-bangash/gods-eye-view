@@ -4,6 +4,11 @@ import {
   mergeAutobahnRows,
   normalizeAutobahnServicePayload,
 } from '../../src/layers/autobahn/records.js';
+import {
+  mergeTruckParkingRows,
+  normalizeTruckParkingPayload,
+  truckParkingUrl,
+} from '../../src/layers/truckParking/records.js';
 import { readResponseJsonCapped, coalesceProxyRequest } from './common/http.js';
 import { makeRateLimiter, clientKey } from './common/rate-limit.js';
 import { admitSameSiteKeyless } from './common/same-site.js';
@@ -17,6 +22,8 @@ const API_BASE = 'https://verkehr.autobahn.de/o/autobahn';
 const MIB = 1024 * 1024;
 /** Closures and warnings change within minutes; roadworks rarely. */
 const SNAPSHOT_TTL_MS = 5 * 60 * 1000;
+/** Rest areas and their spaces change rarely. */
+const PARKING_TTL_MS = 6 * 60 * 60 * 1000;
 /** Longest a failed refresh keeps serving the last snapshot, marked stale. */
 const STALE_MAX_MS = 6 * 60 * 60 * 1000;
 const REQUEST_TIMEOUT_MS = 20_000;
@@ -106,6 +113,35 @@ export function autobahnProxy({
     };
   }
 
+  // Truck parking: one `parking_lorry` request per road; at least half must
+  // answer, and the ones that failed are listed.
+  async function fetchParking() {
+    const outcomes = await mapLimited(
+      roads,
+      UPSTREAM_CONCURRENCY,
+      async (road) => {
+        try {
+          return normalizeTruckParkingPayload(
+            road,
+            await upstream(truckParkingUrl(road)),
+          );
+        } catch {
+          return null;
+        }
+      },
+    );
+    const failed = roads.filter((_, index) => outcomes[index] === null);
+    const lists = outcomes.filter(Boolean);
+    if (lists.length * 2 < roads.length)
+      throw new Error('upstream_unavailable');
+    return {
+      fetchedAt: now(),
+      roads: [...roads],
+      failed,
+      rows: mergeTruckParkingRows(lists),
+    };
+  }
+
   async function acquire(key, ttl, load) {
     const previous = cache.get(key);
     if (previous && now() - previous.savedAt < ttl)
@@ -143,14 +179,16 @@ export function autobahnProxy({
     if (admitSameSiteKeyless(req, res)) return;
     if (req.method !== 'GET') return json(405, { error: 'method_not_allowed' });
     const path = (req.url || '/').split('?')[0];
-    if (path !== '/events') return json(404, { error: 'unknown_route' });
+    const route =
+      path === '/events'
+        ? ['events', SNAPSHOT_TTL_MS, fetchEvents]
+        : path === '/parking'
+          ? ['parking', PARKING_TTL_MS, fetchParking]
+          : null;
+    if (!route) return json(404, { error: 'unknown_route' });
     if (!allow(clientKey(req))) return json(429, { error: 'rate_limited' });
     try {
-      const { value, stale } = await acquire(
-        'events',
-        SNAPSHOT_TTL_MS,
-        fetchEvents,
-      );
+      const { value, stale } = await acquire(...route);
       json(200, stale ? { ...value, stale: true } : value, stale);
     } catch (error) {
       json(error.status === 429 ? 429 : 502, {

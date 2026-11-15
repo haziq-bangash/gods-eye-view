@@ -173,3 +173,36 @@ test('only GET /events is served', async () => {
   assert.equal((await request('/A1/services/closure')).status, 404);
   assert.equal(calls.length, 0);
 });
+
+test('GET /parking reads every road’s truck parking once and caches it', async () => {
+  const calls = [];
+  const fetchImpl = async (url, options) => {
+    calls.push(url);
+    assert.equal(options.redirect, 'error');
+    const [, road] = /\/autobahn\/([^/]+)\/services\/parking_lorry$/.exec(url);
+    return Response.json({
+      parking_lorry: [
+        {
+          identifier: `${road}-p`,
+          coordinate: { lat: '52', long: '9' },
+          description: ['LKW Stellplätze: 20'],
+        },
+      ],
+    });
+  };
+  let clock = 0;
+  const request = install({ fetchImpl, now: () => clock, roads: ['A1', 'A7'] });
+  const res = await request('/parking');
+  assert.equal(res.status, 200);
+  assert.deepEqual(
+    res.body.rows.map(({ stableId, lorrySpaces }) => [stableId, lorrySpaces]),
+    [
+      ['A1-p', 20],
+      ['A7-p', 20],
+    ],
+  );
+  assert.deepEqual(res.body.failed, []);
+  clock = 5 * 3_600_000;
+  await request('/parking');
+  assert.equal(calls.length, 2);
+});

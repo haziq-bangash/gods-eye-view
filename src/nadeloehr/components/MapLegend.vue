@@ -29,6 +29,13 @@ import { SEVERITY_COLORS, severityCopy } from '../disruptions.js';
     </span>
     <span class="flex items-center gap-1.5">
       <span
+        class="grid size-3 place-items-center rounded-[3px] border border-white bg-[#007aff] text-[8px] leading-none font-extrabold text-white shadow-[0_0_0_1px_rgb(0_0_0/0.12)]"
+        >P</span
+      >
+      {{ t('Truck parking') }}
+    </span>
+    <span class="flex items-center gap-1.5">
+      <span
         class="size-3 rounded-[3px] border border-[#ff9500] bg-[linear-gradient(135deg,#ffcc00aa,#ff3b30aa)]"
       />
       {{ t('Weather warning') }}

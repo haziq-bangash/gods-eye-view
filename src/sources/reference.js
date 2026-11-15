@@ -5,6 +5,7 @@ import { createDroneAirspaceSource } from '../layers/droneAirspace/source.js';
 import { createAutobahnSource } from '../layers/autobahn/source.js';
 import { createRiverLevelSource } from '../layers/riverLevels/source.js';
 import { createWeatherWarningSource } from '../layers/weatherWarnings/source.js';
+import { createTruckParkingSource } from '../layers/truckParking/source.js';
 import { createBundledCableSource } from '../layers/submarineCables/bundledSource.js';
 import { createAdsbGnssSource } from '../layers/gnss/source.js';
 import { createWildlifeSightingsSource } from '../layers/wildlifeSightings/source.js';
@@ -19,6 +20,7 @@ export function createReferenceSources() {
     'autobahn-traffic': createAutobahnSource(),
     'river-levels': createRiverLevelSource(),
     'weather-warnings': createWeatherWarningSource(),
+    'truck-parking': createTruckParkingSource(),
     'wildlife-sightings': createWildlifeSightingsSource(),
     cables: createBundledCableSource(),
     'gnss-integrity': createAdsbGnssSource(),

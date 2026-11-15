@@ -14,6 +14,7 @@ import { useVoiceStore } from '../ui/stores/voice.js';
 import { useNadeloehrStore } from './store.js';
 import { CORRIDORS, scoreCorridors } from '../freight/corridors.js';
 import { kaubRow } from '../layers/riverLevels/records.js';
+import { affectedParkingIds } from '../layers/truckParking/records.js';
 import { localResults, searchPlacesDE } from './search.js';
 import { todayHeadline, todayKpis } from './today.js';
 
@@ -26,6 +27,7 @@ const MINOR_KINDS = Object.freeze([
 const AUTOBAHN = 'autobahn-traffic';
 const RIVERS = 'river-levels';
 const WEATHER = 'weather-warnings';
+const PARKING = 'truck-parking';
 
 export function useApp() {
   const store = useNadeloehrStore();
@@ -39,6 +41,8 @@ export function useApp() {
     selectedGauge,
     warnings,
     selectedWarning,
+    parking,
+    selectedParking,
     layerRevision,
   } = storeToRefs(store);
   const camera = computed(() => globe.camera);
@@ -70,6 +74,17 @@ export function useApp() {
   const autobahnModule = () => layerModule(AUTOBAHN);
   const riverModule = () => layerModule(RIVERS);
   const weatherModule = () => layerModule(WEATHER);
+  const parkingModule = () => layerModule(PARKING);
+  /** Clear every layer's selection but one, so one card shows at a time. */
+  function clearLayerSelections(keep) {
+    for (const [id, module] of [
+      [AUTOBAHN, autobahnModule],
+      [RIVERS, riverModule],
+      [WEATHER, weatherModule],
+      [PARKING, parkingModule],
+    ])
+      if (id !== keep) module()?.select?.(null);
+  }
 
   async function run(name, args = {}) {
     const runner = services.value?.run;
@@ -132,17 +147,21 @@ export function useApp() {
 
   // One card at a time: picking an event or a gauge clears the other.
   function select(row) {
-    if (row) {
-      riverModule()?.select?.(null);
-      weatherModule()?.select?.(null);
-    }
+    if (row) clearLayerSelections(AUTOBAHN);
     autobahnModule()?.select?.(row ? row.stableId : null);
   }
+  function selectParking(row) {
+    if (row) clearLayerSelections(PARKING);
+    if (!parkingModule()?.select?.(row ? row.stableId : null))
+      store.publishSelectedParking(row || null);
+  }
+  function showParkingOnMap(row) {
+    if (!row) return;
+    selectParking(row);
+    flyFlat(row.lat, row.lon, 12_000);
+  }
   function selectWarning(row) {
-    if (row) {
-      autobahnModule()?.select?.(null);
-      riverModule()?.select?.(null);
-    }
+    if (row) clearLayerSelections(WEATHER);
     if (!weatherModule()?.select?.(row ? row.stableId : null))
       store.publishSelectedWarning(row || null);
   }
@@ -157,10 +176,7 @@ export function useApp() {
       ]);
   }
   function selectGauge(row) {
-    if (row) {
-      autobahnModule()?.select?.(null);
-      weatherModule()?.select?.(null);
-    }
+    if (row) clearLayerSelections(RIVERS);
     const module = riverModule();
     if (!module?.select?.(row ? row.stableId : null))
       store.publishSelectedGauge(row || null);
@@ -194,11 +210,20 @@ export function useApp() {
   // ── Today: corridors, filters and the map overlay ──────────────
   // Off means "no weather data", not "no warnings".
   const weatherOn = computed(() => layerById(WEATHER)?.enabled === true);
+  const parkingOn = computed(() => layerById(PARKING)?.enabled === true);
+  // Rest areas next to active closures turn red on the map.
+  watch(
+    [parking, disruptions],
+    ([rows, events]) =>
+      parkingModule()?.setAffected?.(affectedParkingIds(rows, events)),
+    { immediate: true },
+  );
   const corridors = computed(() =>
     scoreCorridors({
       events: disruptions.value,
       kaubLevelCm: kaubRow(gauges.value)?.levelCm ?? null,
       warnings: weatherOn.value ? warnings.value : null,
+      restAreas: parkingOn.value ? parking.value : null,
     }),
   );
   const kpis = computed(() =>
@@ -229,6 +254,7 @@ export function useApp() {
     select(null);
     selectGauge(null);
     selectWarning(null);
+    selectParking(null);
     const corridor = CORRIDORS.find((entry) => entry.id === id);
     if (corridor) services.value?.flyToPoints?.(corridor.path);
   }
@@ -420,6 +446,11 @@ export function useApp() {
     selectWarning,
     showWarningOnMap,
     weatherOn,
+    parking,
+    selectedParking,
+    selectParking,
+    showParkingOnMap,
+    parkingOn,
     corridors,
     kpis,
     headline,

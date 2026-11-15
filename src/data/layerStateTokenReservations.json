@@ -34,6 +34,7 @@
   ["telegeography-submarine-cables", "u"],
   ["traffic", "t"],
   ["transit", "j"],
+  ["truck-parking", "06"],
   ["weather-cyclones", "y"],
   ["weather-lightning", "l"],
   ["weather-radar", "v"],

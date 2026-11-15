@@ -224,7 +224,9 @@
       "src/nadeloehr/search.js",
       "src/layers/weatherWarnings/records.js",
       "src/nadeloehr/warnings.js",
-      "src/nadeloehr/components/WarningCard.vue"
+      "src/nadeloehr/components/WarningCard.vue",
+      "src/nadeloehr/components/ParkingCard.vue",
+      "src/layers/truckParking/records.js"
     ],
     "external": [
       "vue",
@@ -3904,7 +3906,11 @@
       "src/layers/weatherWarnings/source.js",
       "src/layers/weatherWarnings/records.js",
       "src/layers/weatherWarnings/index.js",
-      "src/app/layers/weatherWarnings.js"
+      "src/app/layers/weatherWarnings.js",
+      "src/layers/truckParking/source.js",
+      "src/layers/truckParking/records.js",
+      "src/layers/truckParking/index.js",
+      "src/app/layers/truckParking.js"
     ],
     "external": [
       "hls.js",
@@ -4636,7 +4642,11 @@
       "src/layers/weatherWarnings/source.js",
       "src/layers/weatherWarnings/records.js",
       "src/layers/weatherWarnings/index.js",
-      "src/app/layers/weatherWarnings.js"
+      "src/app/layers/weatherWarnings.js",
+      "src/layers/truckParking/source.js",
+      "src/layers/truckParking/records.js",
+      "src/layers/truckParking/index.js",
+      "src/app/layers/truckParking.js"
     ],
     "external": [
       "hls.js",
@@ -5233,7 +5243,8 @@
       "src/layers/wildlifeSightings/gridViewport.js",
       "src/layers/wildlifeSightings/performance.js",
       "src/layers/riverLevels/source.js",
-      "src/layers/weatherWarnings/source.js"
+      "src/layers/weatherWarnings/source.js",
+      "src/layers/truckParking/source.js"
     ],
     "external": []
   },
@@ -5865,6 +5876,44 @@
       "src/layers/weatherWarnings/records.js",
       "src/sources/httpBody.js",
       "src/layers/weatherWarnings/source.js",
+      "src/i18n/marker.js"
+    ],
+    "external": []
+  },
+  "truck-parking": {
+    "exports": ["./layers/truck-parking"],
+    "modules": [
+      "src/sources/httpBody.js",
+      "src/i18n/marker.js",
+      "src/i18n/index.js",
+      "src/i18n/locale.js",
+      "src/i18n/locales/ar.json",
+      "src/i18n/locales/de.json",
+      "src/i18n/locales/es.json",
+      "src/i18n/locales/fr.json",
+      "src/i18n/locales/he.json",
+      "src/i18n/locales/it.json",
+      "src/i18n/locales/ja.json",
+      "src/i18n/locales/pt.json",
+      "src/i18n/locales/ru.json",
+      "src/i18n/locales/sv.json",
+      "src/i18n/locales/uk.json",
+      "src/i18n/locales/zh-CN.json",
+      "src/i18n/locales/zh-Hant.json",
+      "src/layers/truckParking/index.js",
+      "src/layers/truckParking/records.js",
+      "src/layers/truckParking/source.js",
+      "src/layers/autobahn/records.js"
+    ],
+    "external": ["cesium"]
+  },
+  "truck-parking-source": {
+    "exports": ["./layers/truck-parking/source"],
+    "modules": [
+      "src/layers/truckParking/records.js",
+      "src/layers/autobahn/records.js",
+      "src/sources/httpBody.js",
+      "src/layers/truckParking/source.js",
       "src/i18n/marker.js"
     ],
     "external": []
