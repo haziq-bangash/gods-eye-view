@@ -1512,5 +1512,14 @@
   "src/nadeloehr/components/MapLegend.vue",
   "src/nadeloehr/collapse.js",
   "src/nadeloehr/components/SectionHeader.vue",
-  "src/nadeloehr/components/HeaderTools.vue"
+  "src/nadeloehr/components/HeaderTools.vue",
+  "src/layers/weatherWarnings/index.js",
+  "src/layers/weatherWarnings/records.js",
+  "src/layers/weatherWarnings/source.js",
+  "src/layers/weatherWarnings/records.test.mjs",
+  "src/app/layers/weatherWarnings.js",
+  "server/providers/dwdWarnings.js",
+  "src/data/dwdWarningsProxy.test.mjs",
+  "src/nadeloehr/warnings.js",
+  "src/nadeloehr/components/WarningCard.vue"
 ]

@@ -8,6 +8,8 @@ import { formatDate, t } from '../i18n/index.js';
 import { useApp } from './useApp.js';
 import { disruptionCard } from './disruptions.js';
 import { gaugeCard } from './rivers.js';
+import { warningCard } from './warnings.js';
+import WarningCard from './components/WarningCard.vue';
 import { corridorView } from './today.js';
 import { kaubRow } from '../layers/riverLevels/records.js';
 import { useCollapsed } from './collapse.js';
@@ -51,6 +53,9 @@ const card = computed(() =>
 const gauge = computed(() =>
   app.selectedGauge.value ? gaugeCard(app.selectedGauge.value) : null,
 );
+const warning = computed(() =>
+  app.selectedWarning.value ? warningCard(app.selectedWarning.value) : null,
+);
 const corridors = computed(() => app.corridors.value.map(corridorView));
 const corridor = computed(
   () =>
@@ -68,6 +73,7 @@ const insightTitle = computed(() =>
 function closeCard() {
   app.select(null);
   app.selectGauge(null);
+  app.selectWarning(null);
 }
 
 // ── The sheet (below 1024 px): peek, half and full, as in Apple Maps ──
@@ -77,7 +83,7 @@ const expanded = computed(() => wide.value || sheet.value !== 'peek');
 function open() {
   if (!wide.value && sheet.value === 'peek') sheet.value = 'half';
 }
-watch([card, gauge], ([a, b]) => (a || b) && open());
+watch([card, gauge, warning], ([a, b, c]) => (a || b || c) && open());
 watch(corridor, (next) => next && !wider.value && open());
 function step(direction) {
   const order = narrow.value ? DETENTS : ['peek', 'full'];
@@ -131,10 +137,15 @@ function pickKpi(kpi) {
   else if (action.rivers) {
     app.setLayer('river-levels', true);
     open();
+  } else if (action.warnings) {
+    const [first] = app.warnings.value;
+    if (first) app.showWarningOnMap(first);
+    else open();
   }
 }
 function openHeadline(headline) {
   if (headline.gauge) app.showGaugeOnMap(headline.gauge);
+  else if (headline.warning) app.showWarningOnMap(headline.warning);
   else if (headline.corridorId) app.selectCorridor(headline.corridorId);
 }
 const peekLine = computed(() =>
@@ -364,6 +375,13 @@ async function locate() {
           :series="app.selectedGauge.value?.series || []"
           @close="closeCard"
           @focus="app.showGaugeOnMap(app.selectedGauge.value, { close: true })"
+          @share="app.share()"
+        />
+        <WarningCard
+          v-else-if="warning"
+          :card="warning"
+          @close="closeCard"
+          @focus="app.showWarningOnMap(app.selectedWarning.value)"
           @share="app.share()"
         />
         <CorridorDetail

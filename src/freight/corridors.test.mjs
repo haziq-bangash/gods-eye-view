@@ -100,3 +100,40 @@ test('C saturates below 100 and corridors sort by risk', () => {
   assert.equal(ranked[0].level, 'high');
   assert.equal(ranked.at(-1).score, 0);
 });
+
+test('W comes from the DWD warnings crossing the corridor line', () => {
+  const a7 = byId['north-south-a7'];
+  const now = Date.UTC(2026, 10, 15, 12);
+  const around = (lon, lat, level) => ({
+    stableId: `${level}-${lon}`,
+    level,
+    onset: now - 3_600_000,
+    expires: now + 3_600_000,
+    bbox: [lon - 0.2, lat - 0.2, lon + 0.2, lat + 0.2],
+    polygons: [
+      [
+        [
+          [lon - 0.2, lat - 0.2],
+          [lon + 0.2, lat - 0.2],
+          [lon + 0.2, lat + 0.2],
+          [lon - 0.2, lat + 0.2],
+          [lon - 0.2, lat - 0.2],
+        ],
+      ],
+    ],
+  });
+  const result = scoreCorridor(a7, {
+    warnings: [around(9.73, 52.37, 'severe'), around(13.4, 52.5, 'extreme')],
+    now,
+  });
+  const w = result.parts.find((part) => part.key === 'W');
+  assert.equal(w.available, true);
+  assert.equal(w.value, 75);
+  assert.equal(result.warnings.length, 1);
+  // An empty list is data too: no warning on the corridor scores 0.
+  assert.equal(
+    scoreCorridor(a7, { warnings: [], now }).parts.find((p) => p.key === 'W')
+      .value,
+    0,
+  );
+});

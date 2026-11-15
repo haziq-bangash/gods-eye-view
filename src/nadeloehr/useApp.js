@@ -25,6 +25,7 @@ const MINOR_KINDS = Object.freeze([
 
 const AUTOBAHN = 'autobahn-traffic';
 const RIVERS = 'river-levels';
+const WEATHER = 'weather-warnings';
 
 export function useApp() {
   const store = useNadeloehrStore();
@@ -36,6 +37,8 @@ export function useApp() {
     selected,
     gauges,
     selectedGauge,
+    warnings,
+    selectedWarning,
     layerRevision,
   } = storeToRefs(store);
   const camera = computed(() => globe.camera);
@@ -66,6 +69,7 @@ export function useApp() {
     services.value?.dataManager?.layers?.get?.(id)?.module || null;
   const autobahnModule = () => layerModule(AUTOBAHN);
   const riverModule = () => layerModule(RIVERS);
+  const weatherModule = () => layerModule(WEATHER);
 
   async function run(name, args = {}) {
     const runner = services.value?.run;
@@ -128,11 +132,35 @@ export function useApp() {
 
   // One card at a time: picking an event or a gauge clears the other.
   function select(row) {
-    if (row) riverModule()?.select?.(null);
+    if (row) {
+      riverModule()?.select?.(null);
+      weatherModule()?.select?.(null);
+    }
     autobahnModule()?.select?.(row ? row.stableId : null);
   }
+  function selectWarning(row) {
+    if (row) {
+      autobahnModule()?.select?.(null);
+      riverModule()?.select?.(null);
+    }
+    if (!weatherModule()?.select?.(row ? row.stableId : null))
+      store.publishSelectedWarning(row || null);
+  }
+  function showWarningOnMap(row) {
+    if (!row) return;
+    selectWarning(row);
+    const [w, s, e, n] = row.bbox || [];
+    if ([w, s, e, n].every(Number.isFinite))
+      services.value?.flyToPoints?.([
+        [w, s],
+        [e, n],
+      ]);
+  }
   function selectGauge(row) {
-    if (row) autobahnModule()?.select?.(null);
+    if (row) {
+      autobahnModule()?.select?.(null);
+      weatherModule()?.select?.(null);
+    }
     const module = riverModule();
     if (!module?.select?.(row ? row.stableId : null))
       store.publishSelectedGauge(row || null);
@@ -164,14 +192,25 @@ export function useApp() {
   }
 
   // ── Today: corridors, filters and the map overlay ──────────────
+  // Off means "no weather data", not "no warnings".
+  const weatherOn = computed(() => layerById(WEATHER)?.enabled === true);
   const corridors = computed(() =>
     scoreCorridors({
       events: disruptions.value,
       kaubLevelCm: kaubRow(gauges.value)?.levelCm ?? null,
+      warnings: weatherOn.value ? warnings.value : null,
     }),
   );
-  const kpis = computed(() => todayKpis(disruptions.value, gauges.value));
-  const headline = computed(() => todayHeadline(gauges.value, corridors.value));
+  const kpis = computed(() =>
+    todayKpis(disruptions.value, gauges.value, {
+      warnings: weatherOn.value ? warnings.value : null,
+    }),
+  );
+  const headline = computed(() =>
+    todayHeadline(gauges.value, corridors.value, {
+      warnings: weatherOn.value ? warnings.value : [],
+    }),
+  );
   const selectedCorridorId = shallowRef(null);
   const selectedCorridor = computed(
     () =>
@@ -189,6 +228,7 @@ export function useApp() {
     if (!id) return;
     select(null);
     selectGauge(null);
+    selectWarning(null);
     const corridor = CORRIDORS.find((entry) => entry.id === id);
     if (corridor) services.value?.flyToPoints?.(corridor.path);
   }
@@ -250,6 +290,7 @@ export function useApp() {
     if (!result) return;
     if (result.type === 'road') return showRoad(result.road);
     if (result.type === 'gauge') return showGaugeOnMap(result.gauge);
+    if (result.type === 'warning') return showWarningOnMap(result.warning);
     if (result.type === 'corridor') return selectCorridor(result.corridor.id);
     if (result.type === 'place') return flyToPlace(result.place);
     return flyToPlace(result);
@@ -374,6 +415,11 @@ export function useApp() {
     selectedGauge,
     selectGauge,
     showGaugeOnMap,
+    warnings,
+    selectedWarning,
+    selectWarning,
+    showWarningOnMap,
+    weatherOn,
     corridors,
     kpis,
     headline,

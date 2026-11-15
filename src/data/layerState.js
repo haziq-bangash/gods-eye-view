@@ -790,6 +790,11 @@ export const LAYER_STATE_REGISTRY = Object.freeze([
     optionOwner: 'weather-satellite',
   }),
   Object.freeze({
+    id: 'weather-warnings',
+    token: '05',
+    disposition: 'enabled-only',
+  }),
+  Object.freeze({
     id: 'wildlife-sightings',
     token: '9',
     disposition: 'enabled+options',

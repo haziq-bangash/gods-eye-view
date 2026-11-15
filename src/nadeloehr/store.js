@@ -25,6 +25,9 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
   const gauges = shallowRef([]);
   /** The gauge the user picked; one card shows at a time. */
   const selectedGauge = shallowRef(null);
+  /** DWD warnings as the warnings layer last drew them, and the picked one. */
+  const warnings = shallowRef([]);
+  const selectedWarning = shallowRef(null);
   /** Bumped when layer state changes, so computed reads re-run. */
   const layerRevision = shallowRef(0);
 
@@ -43,7 +46,26 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
 
   function publishSelected(row) {
     selected.value = row || null;
-    if (row) selectedGauge.value = null;
+    if (row) {
+      selectedGauge.value = null;
+      selectedWarning.value = null;
+    }
+  }
+
+  function publishWarnings(rows) {
+    warnings.value = Array.isArray(rows) ? rows : [];
+    const picked = selectedWarning.value;
+    if (picked)
+      selectedWarning.value =
+        warnings.value.find((row) => row.stableId === picked.stableId) || null;
+  }
+
+  function publishSelectedWarning(row) {
+    selectedWarning.value = row || null;
+    if (row) {
+      selected.value = null;
+      selectedGauge.value = null;
+    }
   }
 
   function publishGauges(rows) {
@@ -56,7 +78,10 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
 
   function publishSelectedGauge(row) {
     selectedGauge.value = row || null;
-    if (row) selected.value = null;
+    if (row) {
+      selected.value = null;
+      selectedWarning.value = null;
+    }
   }
 
   function touchLayers() {
@@ -70,12 +95,16 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
     selected,
     gauges,
     selectedGauge,
+    warnings,
+    selectedWarning,
     layerRevision,
     connect,
     publishDisruptions,
     publishSelected,
     publishGauges,
     publishSelectedGauge,
+    publishWarnings,
+    publishSelectedWarning,
     touchLayers,
   };
 });

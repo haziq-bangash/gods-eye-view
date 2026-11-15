@@ -283,6 +283,8 @@
     "./layers/autobahn/source": "./src/layers/autobahn/source.js",
     "./layers/river-levels": "./src/layers/riverLevels/index.js",
     "./layers/river-levels/source": "./src/layers/riverLevels/source.js",
+    "./layers/weather-warnings": "./src/layers/weatherWarnings/index.js",
+    "./layers/weather-warnings/source": "./src/layers/weatherWarnings/source.js",
     "./layers/news/source": "./src/layers/news/source.js",
     "./layers/firms/source": "./src/layers/firms/source.js",
     "./layers/installations/source": "./src/layers/installations/source.js",

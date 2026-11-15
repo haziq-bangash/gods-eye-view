@@ -28,6 +28,12 @@ import { SEVERITY_COLORS, severityCopy } from '../disruptions.js';
       {{ t('River gauge') }}
     </span>
     <span class="flex items-center gap-1.5">
+      <span
+        class="size-3 rounded-[3px] border border-[#ff9500] bg-[linear-gradient(135deg,#ffcc00aa,#ff3b30aa)]"
+      />
+      {{ t('Weather warning') }}
+    </span>
+    <span class="flex items-center gap-1.5">
       <span class="h-1.5 w-4 rounded-full bg-[#ff9500]/40" />
       {{ t('Corridor') }}
     </span>

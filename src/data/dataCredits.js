@@ -238,6 +238,13 @@ export const DATA_CREDITS = [
       ', Wasserstraßen- und Schifffahrtsverwaltung des Bundes (WSV)',
   },
   {
+    key: 'dwd-warnings',
+    html:
+      'Weather warnings: ' +
+      '<a href="https://www.dwd.de/" target="_blank" rel="noopener">Deutscher Wetterdienst</a>' +
+      ' (CC BY 4.0)',
+  },
+  {
     key: 'inaturalist',
     html: 'Wildlife sightings: <a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a> contributors (licences per record; photos credited on each card)',
   },

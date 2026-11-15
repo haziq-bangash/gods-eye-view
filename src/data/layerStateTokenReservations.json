@@ -38,6 +38,7 @@
   ["weather-lightning", "l"],
   ["weather-radar", "v"],
   ["weather-satellite", "o"],
+  ["weather-warnings", "05"],
   ["wildlife-sightings", "9"],
   ["wind", "k"]
 ]

@@ -18,6 +18,7 @@ test('data providers have both hooks; credential editing stays development-only'
   assert.ok(plugins.some(({ name }) => name === 'drone-airspace'));
   assert.ok(plugins.some(({ name }) => name === 'autobahn'));
   assert.ok(plugins.some(({ name }) => name === 'pegelonline'));
+  assert.ok(plugins.some(({ name }) => name === 'dwd-warnings'));
   assert.ok(plugins.some(({ name }) => name === 'inaturalist'));
   assert.ok(plugins.some(({ name }) => name === 'acartia'));
   for (const plugin of plugins) {

@@ -13,6 +13,13 @@ import {
   kaubRow,
 } from '../layers/riverLevels/records.js';
 import { SEVERITY_COLORS } from './disruptions.js';
+import {
+  warningActive,
+  warningLevelLabel,
+  warningTitle,
+  worstLevel,
+} from './warnings.js';
+import { WARNING_COLORS } from '../layers/weatherWarnings/records.js';
 
 export const RISK_COLORS = Object.freeze({
   low: '#34c759',
@@ -29,8 +36,11 @@ const PART_COLORS = Object.freeze({
 const signed = (cm) =>
   `${cm > 0 ? '+' : cm < 0 ? '−' : '±'}${formatNumber(Math.abs(cm))}`;
 
-/** The strip's cards, left to right. Each may be tapped (see `action`). */
-export function todayKpis(events = [], gauges = []) {
+/**
+ * The strip's cards, left to right. Each may be tapped (see `action`).
+ * `warnings` is null while the warnings layer is off.
+ */
+export function todayKpis(events = [], gauges = [], { warnings = null } = {}) {
   const count = (kind) => events.filter((row) => row.kind === kind).length;
   const closures = events.filter((row) => row.kind === 'closure');
   const roads = new Set(closures.map((row) => row.road)).size;
@@ -86,6 +96,22 @@ export function todayKpis(events = [], gauges = []) {
       action: { rivers: true },
     });
   }
+  if (Array.isArray(warnings)) {
+    const now = warnings.filter((row) => warningActive(row));
+    const worst = worstLevel(now);
+    kpis.push({
+      id: 'weather',
+      label: t('Weather warnings'),
+      value: formatNumber(now.length),
+      note: worst
+        ? t('highest: {level}', {
+            level: warningLevelLabel({ level: worst }).toLowerCase(),
+          })
+        : t('none in force'),
+      color: worst ? WARNING_COLORS[worst] : '#34c759',
+      action: { warnings: true },
+    });
+  }
   return kpis;
 }
 
@@ -93,7 +119,11 @@ export function todayKpis(events = [], gauges = []) {
  * The one message that matters most today: very low or high water at Kaub,
  * else the riskiest corridor, else a calm line.
  */
-export function todayHeadline(gauges = [], scored = []) {
+export function todayHeadline(
+  gauges = [],
+  scored = [],
+  { warnings = [] } = {},
+) {
   const kaub = kaubRow(gauges);
   const band = kaub ? kaubBand(kaub.levelCm) : null;
   const top = scored.find((entry) => Number.isFinite(entry.score));
@@ -120,6 +150,30 @@ export function todayHeadline(gauges = [], scored = []) {
           }),
       body: [t(KAUB_BANDS[band].hint), corridorLine].filter(Boolean).join(' '),
       gauge: kaub,
+    };
+  }
+  // Severe or extreme weather on a corridor (or anywhere) comes next.
+  const severe = (Array.isArray(warnings) ? warnings : []).filter(
+    (row) =>
+      (row.level === 'severe' || row.level === 'extreme') && warningActive(row),
+  );
+  if (severe.length) {
+    const first = severe[0];
+    const onCorridor = scored.find((entry) =>
+      entry.warnings?.some((row) => row.stableId === first.stableId),
+    );
+    return {
+      tone: 'alert',
+      title: t('{level}: {event}', {
+        level: warningLevelLabel(first),
+        event: warningTitle(first),
+      }),
+      body: onCorridor
+        ? t('It crosses the {corridor} corridor.', {
+            corridor: corridorTitle(onCorridor.corridor),
+          })
+        : t('Check the warning areas on the map before you set off.'),
+      warning: first,
     };
   }
   if (top && top.level !== 'low')
@@ -161,6 +215,15 @@ export function partWhy(entry, part) {
     );
   }
   if (part.key === 'H') return t('Kaub gauge on the Middle Rhine');
+  if (part.key === 'W') {
+    const [worst] = entry.warnings || [];
+    return worst
+      ? t('{event}: {level} along the corridor', {
+          event: warningTitle(worst),
+          level: warningLevelLabel(worst).toLowerCase(),
+        })
+      : t('No DWD warnings along the corridor');
+  }
   return '';
 }
 

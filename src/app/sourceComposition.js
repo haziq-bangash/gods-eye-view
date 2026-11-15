@@ -53,6 +53,7 @@ export const CATALOG_SOURCE_CONTRACTS = Object.freeze({
   'drone-airspace': contract(['drone-airspace'], ['getSnapshot']),
   'autobahn-traffic': contract(['autobahn-traffic'], ['getSnapshot']),
   'river-levels': contract(['river-levels'], ['getSnapshot']),
+  'weather-warnings': contract(['weather-warnings'], ['getSnapshot']),
   news: contract(['news'], ['getHotspots', 'getFeed', 'getOutline']),
   'wildlife-sightings': contract(['wildlife-sightings'], ['getSnapshot']),
   cables: contract(['telegeography-submarine-cables'], ['fetch']),

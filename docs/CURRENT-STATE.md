@@ -349,6 +349,25 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## DWD Weather Warnings — Nadelöhr
+
+The third **Freight** layer is **DWD Weather Warnings** (`weather-warnings`,
+share-link token `05`), on for first-time visitors and outside voice for the
+prompt budget. `/api/dwd/warnings` reads the official warning areas from the
+DWD GeoServer (`dwd:Warnungen_Gemeinden_vereinigt`) every five minutes. The
+map fills each area in DWD's colours — yellow, orange, red and dark red for
+minor to extreme — with the worst drawn on top; clicking an area opens its
+card: the event in plain words (wind, ice, snow, fog…), its level, when it
+applies, what it means for a truck, and the official German text.
+
+The weather part W of the corridor score is the highest level among warnings
+in force now or within 12 hours whose area the corridor line crosses (minor
+25, moderate 50, severe 75, extreme 100), checked every 5 km along the line.
+With the layer off, W counts as missing rather than zero. The number strip
+shows the warnings in force and the highest level; a severe or extreme
+warning becomes the "What matters today" headline after very low or high
+water at Kaub, and a "Weather warnings" section lists them.
+
 ## Today layout and corridor risk — Nadelöhr
 
 The shell leads with today. A strip of big numbers (roads closed, traffic
@@ -367,8 +386,8 @@ Duisburg → Karlsruhe (A61, A3, A5 and the Rhine) — as
 R = 0.35·C + 0.20·P + 0.25·H + 0.20·W. C counts the events on the corridor's
 roads within 25 km of its line (closure 15 points, warning 8, others 1 or
 less) on a saturating curve, 100·(1 − e^(−points/60)); H is the Kaub score.
-Parts without data (parking and weather until those layers exist) and H on
-road-only corridors are left out and the rest rescaled. The panel lists the
+Parts without data (parking until that layer exists, weather while its layer
+is off) and H on road-only corridors are left out and the rest rescaled. The panel lists the
 corridors with score, level and main driver; selecting one draws its band on
 the map and opens the breakdown with each part, its weight and the formula.
 
