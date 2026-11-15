@@ -577,3 +577,56 @@
     font-size: 14px;
   }
 }
+
+/* ── Touch targets ──────────────────────────────────────────────────────
+   On touch screens every control answers to at least 44 × 44 px (Apple's
+   minimum). Small buttons keep their look and get an invisible larger hit
+   area; .nd-tap grows the button itself; .nd-no-hit opts out where
+   neighbours sit too close for an overlapping area. */
+@media (pointer: coarse) {
+  .nadeloehr
+    button:not(.nd-no-hit):not([class*='absolute']):not([class*='fixed']) {
+    position: relative;
+  }
+  .nadeloehr button:not(.nd-no-hit)::after {
+    content: '';
+    position: absolute;
+    inset: min(0px, calc((100% - 44px) / 2));
+  }
+  .nadeloehr .nd-tap {
+    min-height: 44px;
+  }
+  /* A row that scrolls sideways clips what sticks out of it, so it gets
+     room above and below for its chips' hit areas. */
+  .nadeloehr .nd-strip {
+    padding-block: 8px;
+    margin-block: -8px;
+  }
+  /* Taller section titles: less gap below them. */
+  .nadeloehr .nd-section-head {
+    margin-bottom: 0;
+  }
+}
+
+/* ── Loading placeholders ───────────────────────────────────────────────
+   Grey shapes where numbers and cards will be, with a slow sheen, so the
+   layout does not jump and zeros never pose as real counts. */
+.nadeloehr .nd-skeleton {
+  background: linear-gradient(
+      100deg,
+      transparent 30%,
+      color-mix(in oklch, var(--card) 70%, transparent) 50%,
+      transparent 70%
+    )
+    var(--muted);
+  background-size: 200% 100%;
+  animation: nd-sheen 1.4s ease-in-out infinite;
+}
+@keyframes nd-sheen {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}

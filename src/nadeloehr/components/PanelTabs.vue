@@ -27,7 +27,7 @@ const TABS = [
       :key="tab.id"
       type="button"
       role="tab"
-      class="cursor-pointer rounded-[10px] py-1.5 text-callout font-semibold outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-ring"
+      class="nd-tap cursor-pointer rounded-[10px] py-1.5 text-callout font-semibold outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-ring"
       :class="
         modelValue === tab.id
           ? 'bg-card text-foreground shadow-sm'

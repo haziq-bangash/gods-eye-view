@@ -12,10 +12,10 @@ defineEmits(['toggle']);
 </script>
 
 <template>
-  <div class="mb-2 flex items-center gap-2 px-1">
+  <div class="nd-section-head mb-2 flex items-center gap-2 px-1">
     <button
       type="button"
-      class="group flex min-w-0 flex-1 cursor-pointer items-center gap-1.5 text-start outline-none focus-visible:underline"
+      class="group nd-tap nd-no-hit flex min-w-0 flex-1 cursor-pointer items-center gap-1.5 text-start outline-none focus-visible:underline"
       :aria-expanded="String(!collapsed)"
       :aria-controls="`${id}-body`"
       :title="collapsed ? t('Expand') : t('Collapse')"

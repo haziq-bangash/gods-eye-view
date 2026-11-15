@@ -235,7 +235,11 @@
       "src/nadeloehr/components/MyPins.vue",
       "src/nadeloehr/components/PanelTabs.vue",
       "src/nadeloehr/components/IntroTour.vue",
-      "src/nadeloehr/components/InfoTip.vue"
+      "src/nadeloehr/components/InfoTip.vue",
+      "src/nadeloehr/swipe.js",
+      "src/nadeloehr/components/TodaySkeleton.vue",
+      "src/nadeloehr/install.js",
+      "src/nadeloehr/components/InstallPrompt.vue"
     ],
     "external": [
       "vue",

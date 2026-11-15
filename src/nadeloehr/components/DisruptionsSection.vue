@@ -183,7 +183,7 @@ watch(
         <button
           v-if="filtered.length > shown.length"
           type="button"
-          class="mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary-ink hover:bg-accent"
+          class="nd-tap mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary-ink hover:bg-accent"
           @click="showAll = true"
         >
           {{ tn(filtered.length, 'Show all {count}', 'Show all {count}') }}
@@ -191,7 +191,7 @@ watch(
         <button
           v-else-if="!app.severity.value && minorCount"
           type="button"
-          class="mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary-ink hover:bg-accent"
+          class="nd-tap mt-2 w-full cursor-pointer rounded-full py-2 text-callout font-semibold text-primary-ink hover:bg-accent"
           @click="app.setSeverity('minor')"
         >
           {{

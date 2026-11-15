@@ -105,14 +105,14 @@ function next() {
         </span>
         <button
           type="button"
-          class="ms-auto cursor-pointer rounded-full px-3 py-2 text-callout font-semibold text-muted-foreground outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
+          class="nd-tap ms-auto cursor-pointer rounded-full px-3 py-2 text-callout font-semibold text-muted-foreground outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
           @click="finish"
         >
           {{ t('Skip') }}
         </button>
         <button
           type="button"
-          class="cursor-pointer rounded-full bg-primary-fill px-4 py-2 text-callout font-semibold text-primary-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
+          class="nd-tap cursor-pointer rounded-full bg-primary-fill px-4 py-2 text-callout font-semibold text-primary-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
           autofocus
           @click="next"
         >

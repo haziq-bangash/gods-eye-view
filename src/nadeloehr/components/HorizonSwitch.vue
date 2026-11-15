@@ -11,7 +11,7 @@ defineEmits(['update:modelValue']);
 
 <template>
   <div
-    class="flex shrink-0 flex-col justify-center gap-0.5 rounded-[18px] bg-card p-1"
+    class="flex shrink-0 flex-col justify-center gap-0.5 rounded-[18px] bg-card p-1 max-sm:w-full max-sm:flex-row"
     role="radiogroup"
     :aria-label="t('When')"
   >
@@ -20,7 +20,7 @@ defineEmits(['update:modelValue']);
       :key="horizon"
       type="button"
       role="radio"
-      class="cursor-pointer rounded-[14px] px-3 py-1 text-start text-caption font-semibold whitespace-nowrap outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
+      class="nd-no-hit cursor-pointer rounded-[14px] px-3 py-1 text-start text-caption font-semibold max-sm:min-h-11 max-sm:flex-1 max-sm:text-center whitespace-nowrap outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
       :class="
         modelValue === horizon
           ? 'bg-primary-fill text-primary-foreground shadow-sm'

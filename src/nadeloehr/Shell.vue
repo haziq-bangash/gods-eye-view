@@ -35,6 +35,9 @@ import PanelTabs from './components/PanelTabs.vue';
 import IntroTour from './components/IntroTour.vue';
 import SearchField from './components/SearchField.vue';
 import TodayStrip from './components/TodayStrip.vue';
+import TodaySkeleton from './components/TodaySkeleton.vue';
+import InstallPrompt from './components/InstallPrompt.vue';
+import { useSwipe } from './swipe.js';
 
 const app = useApp();
 
@@ -136,6 +139,43 @@ function onDragEnd(event) {
   if (dy < -40 || velocity < -0.5) step(1);
   else if (dy > 40 || velocity > 0.5) step(-1);
 }
+
+// ── Swipes in the panel (touch) ──────────────────────────────
+// On the tabs: left and right move between Today, Routes and Map. On a
+// corridor: to the next or previous corridor (right on the first goes
+// back). On any other card: right goes back to the list.
+const TAB_ORDER = ['today', 'routes', 'map'];
+const hasCard = computed(() =>
+  Boolean(card.value || gauge.value || warning.value || parkingRow.value),
+);
+const corridorIndex = computed(() =>
+  corridors.value.findIndex((c) => c.id === corridor.value?.id),
+);
+const showsCorridor = computed(
+  () => !hasCard.value && Boolean(corridor.value) && !wider.value,
+);
+function canSwipe(direction) {
+  if (hasCard.value) return direction === 'right';
+  if (showsCorridor.value)
+    return (
+      direction === 'right' || corridorIndex.value < corridors.value.length - 1
+    );
+  const index = TAB_ORDER.indexOf(app.tab.value);
+  return direction === 'left' ? index < TAB_ORDER.length - 1 : index > 0;
+}
+const swipe = useSwipe({
+  canSwipe,
+  onSwipe(direction) {
+    const step = direction === 'left' ? 1 : -1;
+    if (hasCard.value) return closeCard();
+    if (showsCorridor.value) {
+      const next = corridors.value[corridorIndex.value + step];
+      return app.selectCorridor(next ? next.id : null);
+    }
+    const index = TAB_ORDER.indexOf(app.tab.value) + step;
+    if (TAB_ORDER[index]) app.setTab(TAB_ORDER[index]);
+  },
+});
 
 // ── Today strip and headline ─────────────────────────────────
 const activeKpi = computed(
@@ -254,6 +294,7 @@ async function locate() {
       :kpis="app.kpis.value"
       :active="activeKpi"
       :horizon="app.horizon.value"
+      :loading="!app.loaded.value"
       @pick="pickKpi"
       @update:horizon="app.setHorizon"
     />
@@ -367,7 +408,7 @@ async function locate() {
         <button
           type="button"
           data-grabber
-          class="mx-auto mt-2 mb-1 block h-5 w-12 cursor-grab"
+          class="nd-no-hit mx-auto block h-11 w-20 cursor-grab"
           :aria-label="expanded ? t('Collapse') : t('Expand')"
           :aria-expanded="String(expanded)"
           @click="toggleSheet"
@@ -379,7 +420,7 @@ async function locate() {
         <button
           v-if="!expanded"
           type="button"
-          class="block w-full cursor-pointer truncate px-5 pt-1 pb-4 text-start text-headline"
+          class="block min-h-11 w-full cursor-pointer truncate px-5 pb-3 text-start text-headline"
           @click="toggleSheet"
         >
           {{ peekLine }}
@@ -388,7 +429,13 @@ async function locate() {
 
       <div
         v-if="expanded"
-        class="nd-scroll scroll-edge min-h-0 flex-1 px-4 pt-1 pb-4 lg:pt-4"
+        class="nd-scroll scroll-edge min-h-0 flex-1 touch-pan-y px-4 pt-1 pb-4 lg:pt-4"
+        :style="
+          swipe.offset.value
+            ? { transform: `translateX(${swipe.offset.value}px)` }
+            : { transition: 'transform 200ms ease-out' }
+        "
+        v-bind="swipe.handlers"
       >
         <PlaceCard
           v-if="card"
@@ -439,18 +486,21 @@ async function locate() {
             aria-labelledby="nd-tab-today"
             class="flex flex-col gap-5"
           >
-            <HeroCard
-              :headline="app.headline.value"
-              :horizon="app.horizon.value"
-              @open="openHeadline"
-            />
-            <MyPins :app="app" />
-            <CorridorCards
-              :corridors="corridors"
-              :selected-id="app.selectedCorridorId.value"
-              @select="app.selectCorridor"
-            />
-            <DisruptionsSection :app="app" />
+            <TodaySkeleton v-if="!app.loaded.value" />
+            <template v-else>
+              <HeroCard
+                :headline="app.headline.value"
+                :horizon="app.horizon.value"
+                @open="openHeadline"
+              />
+              <MyPins :app="app" />
+              <CorridorCards
+                :corridors="corridors"
+                :selected-id="app.selectedCorridorId.value"
+                @select="app.selectCorridor"
+              />
+              <DisruptionsSection :app="app" />
+            </template>
           </div>
           <div
             v-else-if="app.tab.value === 'routes'"
@@ -475,5 +525,7 @@ async function locate() {
 
     <!-- First visit: a short welcome (once per browser). -->
     <IntroTour v-if="app.kpis.value.length" />
+    <!-- Later visits: offer to add the app to the home screen. -->
+    <InstallPrompt />
   </div>
 </template>

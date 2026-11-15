@@ -4080,5 +4080,11 @@
   "The Rhine water level at Kaub. Below 150 cm barges must leave cargo behind, so more freight moves to road; very high water stops shipping.": "Il livello del Reno a Kaub. Sotto i 150 cm le chiatte devono lasciare parte del carico, quindi più merci passano su strada; acqua molto alta ferma la navigazione.",
   "The strongest official DWD weather warning along the corridor: yellow 25, orange 50, red 75, dark red 100.": "L’allerta meteo ufficiale DWD più forte lungo il corridoio: giallo 25, arancione 50, rosso 75, rosso scuro 100.",
   "Each part is scored 0–100 and weighted: closures 35%, truck parking 20%, water level 25%, weather 20%. Under 33 is low, 33 to 66 elevated, over 66 high. A rough guide, not a delay forecast.": "Ogni parte ha un punteggio da 0 a 100 ed è pesata: chiusure 35%, parcheggi camion 20%, livello dell’acqua 25%, meteo 20%. Sotto 33 è basso, da 33 a 66 elevato, oltre 66 alto. Un’indicazione di massima, non una previsione dei ritardi.",
-  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Quanto pesa il livello di Kaub sulle merci, da 0 (normale, 150–460 cm) a 100 (40 cm o meno, o navigazione ferma). È la parte acqua del punteggio del corridoio del Reno."
+  "How much the Kaub water level weighs on freight, from 0 (normal, 150–460 cm) up to 100 (40 cm or less, or shipping stopped). It is the water part of the Rhine corridor score.": "Quanto pesa il livello di Kaub sulle merci, da 0 (normale, 150–460 cm) a 100 (40 cm o meno, o navigazione ferma). È la parte acqua del punteggio del corridoio del Reno.",
+  "Add Nadelöhr to your home screen": "Aggiungi Nadelöhr alla schermata Home",
+  "In Safari, tap Share, then “Add to Home Screen”.": "In Safari tocca Condividi, poi «Aggiungi alla schermata Home».",
+  "Install": "Installa",
+  "Not now": "Non ora",
+  "Opens full screen in one tap, like an app. No store, no account.": "Si apre a schermo intero con un tocco, come un’app. Nessuno store, nessun account.",
+  "When: {time}. Tap for {next}.": "Quando: {time}. Tocca per {next}."
 }
