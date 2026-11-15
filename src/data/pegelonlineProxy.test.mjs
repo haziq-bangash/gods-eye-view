@@ -90,6 +90,9 @@ for (const hook of ['configureServer', 'configurePreviewServer']) {
       res.body.rows.map((row) => [row.shortname, row]),
     );
     assert.equal(byName.KAUB.trendCm, -12);
+    assert.equal(byName.KAUB.series.length, 2);
+    assert.equal(byName.KAUB.series[1][1], 59);
+    assert.equal(byName.BINGEN.series, undefined);
     assert.equal(byName.BINGEN.trendCm, null);
   });
 }

@@ -15,6 +15,7 @@ import { t } from '../../i18n/index.js';
 import Button from '../ui/Button.vue';
 import { SYSTEM_COLORS } from '../icons.js';
 import IconBadge from './IconBadge.vue';
+import LevelChart from './LevelChart.vue';
 
 const FACT_ICONS = {
   level: { icon: PhWaves, color: SYSTEM_COLORS.blue },
@@ -26,6 +27,8 @@ const FACT_ICONS = {
 
 defineProps({
   card: { type: Object, required: true },
+  /** [timeMs, levelCm] for the last day, when the gauge has it (Kaub). */
+  series: { type: Array, default: () => [] },
 });
 defineEmits(['close', 'focus', 'share']);
 </script>
@@ -85,6 +88,12 @@ defineEmits(['close', 'focus', 'share']);
         </dd>
       </div>
     </dl>
+
+    <LevelChart
+      v-if="series.length > 1"
+      :series="series"
+      :references="card.isKaub"
+    />
 
     <section class="rounded-group bg-card p-3">
       <p class="flex items-center gap-2 text-headline">

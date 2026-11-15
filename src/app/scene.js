@@ -14,7 +14,6 @@ import {
   uninstallRenderGovernor,
   governorRequestRender,
 } from '../renderGovernor.js';
-import { describeError } from './errors.js';
 import { isEmbeddedInline } from './embed.js';
 import { installRenderFailureNotice } from '../ui/renderFailure.js';
 import { worldClock, worldTimeFor } from '../time/worldClock.js';
@@ -48,7 +47,7 @@ export async function createApplicationScene({
       else window.__GOOGLE_MAPS_API_KEY__ = previousKey;
     });
   }
-  loaderStatus.textContent = t('Configuring viewer...');
+  loaderStatus.textContent = t('Preparing the map…');
   // Provider attribution stays visible, including clean-view and recording.
   const creditContainer = document.createElement('div');
   creditContainer.id = 'cesium-credits';
@@ -79,10 +78,8 @@ export async function createApplicationScene({
   registerDataCredits(viewer, credits);
   configureCreditKeyboardAccess(document);
   defer(onLocaleChange(() => configureCreditKeyboardAccess(document)));
-  loaderStatus.textContent =
-    googleApiKey || googleTokens || cesiumToken
-      ? t('Loading Google 3D Tiles...')
-      : t('Loading the keyless globe...');
+  // Nadelöhr's loading screen speaks plainly; the technical route is logged.
+  loaderStatus.textContent = t('Loading the map…');
   const photoreal = await loadPhotorealisticTileset(Cesium, {
     googleApiKey,
     googleTokens,
@@ -109,18 +106,12 @@ export async function createApplicationScene({
         '[Init] Google 3D Tiles unavailable, using the keyless globe:',
         tileError,
       );
-      const tileErrorDetail = describeError(tileError);
-      loaderStatus.textContent = t(
-        'Google 3D Tiles unavailable ({detail}). Loading the keyless globe...',
-        {
-          detail: tileErrorDetail,
-        },
-      );
+      loaderStatus.textContent = t('Loading the map…');
     }
     viewer.scene.globe.show = true;
   }
 
-  loaderStatus.textContent = t('Initializing systems...');
+  loaderStatus.textContent = t('Loading live traffic…');
 
   const mapStackController = new MapController(viewer, {
     requestRender: governorRequestRender,

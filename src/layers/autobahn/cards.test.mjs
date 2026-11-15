@@ -38,7 +38,7 @@ test('the card names road and kind, lists facts and at most four feed lines', ()
   assert.equal('position' in card, false);
 });
 
-test('missing facts are left out and each kind has its own colour', () => {
+test('missing facts are left out and each kind takes the colour of its severity', () => {
   const card = buildAutobahnCard({
     ...row,
     kind: 'closure',
@@ -53,10 +53,11 @@ test('missing facts are left out and each kind has its own colour', () => {
   assert.deepEqual(card.details, [
     'Informational only · follow official signs',
   ]);
-  const accents = new Set(
-    ['closure', 'ramp-closure', 'warning', 'short-roadworks', 'roadworks'].map(
+  // Colours follow severity: closures, warnings, then everything minor.
+  assert.deepEqual(
+    ['closure', 'warning', 'ramp-closure', 'short-roadworks', 'roadworks'].map(
       autobahnAccent,
     ),
+    ['#ff3b30', '#ff9500', '#a2845e', '#a2845e', '#a2845e'],
   );
-  assert.equal(accents.size, 5);
 });

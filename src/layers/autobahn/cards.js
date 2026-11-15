@@ -1,21 +1,17 @@
 /** Card model and colours for one selected Autobahn event. Pure — no Cesium types. */
 
 import { t, formatNumber, formatDate } from '../../i18n/index.js';
-import { autobahnKindLabel } from './records.js';
+import {
+  AUTOBAHN_SEVERITY_COLORS,
+  autobahnKindLabel,
+  autobahnSeverity,
+} from './records.js';
 
 export const AUTOBAHN_OVERLAY_SOURCE_ID = 'autobahn-traffic';
 
-const KIND_ACCENTS = Object.freeze({
-  closure: '#ff3b30',
-  'ramp-closure': '#ff6b9a',
-  warning: '#ffd60a',
-  'short-roadworks': '#ff9500',
-  roadworks: '#64d2ff',
-});
-
-/** Marker/line CSS colour for a row kind. */
+/** Marker/line CSS colour for a row kind: its severity's colour. */
 export function autobahnAccent(kind) {
-  return KIND_ACCENTS[kind] || '#c7c7cc';
+  return AUTOBAHN_SEVERITY_COLORS[autobahnSeverity(kind)];
 }
 
 /** Feed description lines shown on the card (German, as published). */

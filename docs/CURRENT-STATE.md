@@ -349,6 +349,37 @@ tool opens (assistant, traffic cameras, street view) show while open.
   prompts. Street view and cameras say in plain words when nothing is near
   the middle of the map.
 
+## Today layout and corridor risk — Nadelöhr
+
+The shell leads with today. A strip of big numbers (roads closed, traffic
+warnings, exits closed, Kaub with its 24-hour line, gauges below mean low
+water) sits under the top bar; each card filters the list or opens the
+gauge. A "What matters today" card names the one thing to know — very low or
+high water at Kaub, else the riskiest corridor. Disruptions are grouped by
+severity: closures critical, warnings major, exit closures and roadworks
+minor. Minor events are counted and listed on request but hidden on the map
+until asked, and nearby markers merge into numbered rings in their worst
+severity's colour; a ring zooms in when clicked.
+
+**Corridor risk** (`src/freight/corridors.js`, portable for voice and MCP)
+scores three corridors — Hamburg → Dortmund (A1), Hamburg → Ulm (A7) and
+Duisburg → Karlsruhe (A61, A3, A5 and the Rhine) — as
+R = 0.35·C + 0.20·P + 0.25·H + 0.20·W. C counts the events on the corridor's
+roads within 25 km of its line (closure 15 points, warning 8, others 1 or
+less) on a saturating curve, 100·(1 − e^(−points/60)); H is the Kaub score.
+Parts without data (parking and weather until those layers exist) and H on
+road-only corridors are left out and the rest rescaled. The panel lists the
+corridors with score, level and main driver; selecting one draws its band on
+the map and opens the breakdown with each part, its weight and the formula.
+
+Wide screens show a left panel, the strip, a right card (Kaub's level and
+chart, or the selected corridor) and a legend, with the tools as icons
+beside the search, at 80% scale. Phones keep the strip under the search and
+the sheet below. Every card and section can be minimised; the choice is kept
+in the browser. Search reads "A7" as the Autobahn (and filters the list to
+it), finds gauges and corridors by name, and asks Photon for places with a
+Germany bias and German names, so "Köln" finds Cologne.
+
 ## Rhine & Elbe Water Levels — Nadelöhr
 
 The second **Freight** layer is **Rhine & Elbe Water Levels**

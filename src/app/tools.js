@@ -1,6 +1,7 @@
 import { SceneDirector } from '../scenes/director.js';
 import { useNadeloehrStore } from '../nadeloehr/store.js';
-import { flyFlat, viewCenter } from '../nadeloehr/camera.js';
+import { flyFlat, flyToPoints, viewCenter } from '../nadeloehr/camera.js';
+import { createCorridorOverlay } from '../nadeloehr/corridorOverlay.js';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
 import {
@@ -295,6 +296,8 @@ export function createApplicationTools({
   debug.voiceCommands = voiceCommands;
   // The Nadelöhr shell drives the app through these services.
   const nadeloehr = useNadeloehrStore(applicationPinia());
+  const corridorOverlay = createCorridorOverlay(viewer);
+  defer(() => corridorOverlay.destroy());
   nadeloehr.connect({
     viewer,
     styleManager,
@@ -303,6 +306,8 @@ export function createApplicationTools({
     placeSearch,
     flyFlat: (lat, lon, altitudeM) => flyFlat(viewer, lat, lon, altitudeM),
     viewCenter: () => viewCenter(viewer),
+    flyToPoints: (points) => flyToPoints(viewer, points),
+    corridorOverlay,
     run: (name, args, options = {}) =>
       voiceCommands.runner(name, args, {
         origin: 'programmatic',

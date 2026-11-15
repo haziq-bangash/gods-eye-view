@@ -70,13 +70,13 @@ export const SYSTEM_COLORS = Object.freeze({
 });
 const C = SYSTEM_COLORS;
 
-/** Disruption kinds: the same colours as their map markers. */
+/** Disruption kinds: their severity's colour, as on the map. */
 export const KIND_ICONS = Object.freeze({
   closure: { icon: PhProhibit, color: C.red },
-  'ramp-closure': { icon: PhSignpost, color: C.pink },
-  warning: { icon: PhWarning, color: C.yellow },
-  'short-roadworks': { icon: PhBarricade, color: C.orange },
-  roadworks: { icon: PhTrafficCone, color: C.cyan },
+  'ramp-closure': { icon: PhSignpost, color: C.brown },
+  warning: { icon: PhWarning, color: C.orange },
+  'short-roadworks': { icon: PhBarricade, color: C.brown },
+  roadworks: { icon: PhTrafficCone, color: C.brown },
 });
 
 /** Layers by id; anything unlisted falls back to a grey stack glyph. */

@@ -32,3 +32,27 @@ export function viewCenter(viewer) {
     lon: Cesium.Math.toDegrees(point.longitude),
   };
 }
+
+/** Fit the view to a set of [lon, lat] points, north up, with some margin. */
+export function flyToPoints(viewer, points, { padding = 0.35 } = {}) {
+  if (!viewer?.camera || viewer.isDestroyed?.()) return;
+  const valid = (Array.isArray(points) ? points : []).filter(
+    ([lon, lat]) => Number.isFinite(lon) && Number.isFinite(lat),
+  );
+  if (!valid.length) return;
+  const rect = Cesium.Rectangle.fromCartographicArray(
+    valid.map(([lon, lat]) => Cesium.Cartographic.fromDegrees(lon, lat)),
+  );
+  // A single point (or a tight group) still gets a city-sized view.
+  const pad = Math.max(rect.width, rect.height, 0.02) * padding;
+  viewer.camera.flyTo({
+    destination: new Cesium.Rectangle(
+      rect.west - pad,
+      rect.south - pad,
+      rect.east + pad,
+      rect.north + pad,
+    ),
+    orientation: { heading: 0, pitch: -Math.PI / 2, roll: 0 },
+    duration: 1.4,
+  });
+}

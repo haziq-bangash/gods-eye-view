@@ -8,7 +8,9 @@ import {
 import {
   AUTOBAHN_KINDS,
   AUTOBAHN_ROADS,
+  AUTOBAHN_SEVERITY_COLORS,
   autobahnKindLabel,
+  autobahnSeverity,
 } from './records.js';
 export {
   AUTOBAHN_ROADS,
@@ -40,8 +42,34 @@ const POINT_SIZE = Object.freeze({
   'short-roadworks': 8,
   roadworks: 6,
 });
-/** Long-term roadworks are hundreds of low-urgency markers: hidden until asked. */
-const DEFAULT_HIDDEN_KINDS = Object.freeze(['roadworks']);
+/**
+ * Minor events (exit closures and roadworks) are hundreds of low-urgency
+ * markers: hidden on the map until asked, though still listed and counted.
+ */
+const DEFAULT_HIDDEN_KINDS = Object.freeze([
+  'roadworks',
+  'ramp-closure',
+  'short-roadworks',
+]);
+
+/** Nearby markers merge into one numbered ring, coloured by the worst. */
+const CLUSTER_PIXEL_RANGE = 34;
+const _clusterImages = new Map();
+function clusterImage(count, color) {
+  const key = `${count}|${color}`;
+  if (!_clusterImages.has(key)) {
+    const label = count > 99 ? '99+' : String(count);
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
+      `<circle cx="32" cy="32" r="30" fill="${color}" fill-opacity="0.16"/>` +
+      `<circle cx="32" cy="32" r="22" fill="${color}" fill-opacity="0.24"/>` +
+      `<circle cx="32" cy="32" r="15" fill="${color}" stroke="#fff" stroke-width="3"/>` +
+      `<text x="32" y="37" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" font-size="${label.length > 2 ? 11 : 14}" font-weight="700" fill="#fff">${label}</text>` +
+      '</svg>';
+    _clusterImages.set(key, `data:image/svg+xml,${encodeURIComponent(svg)}`);
+  }
+  return _clusterImages.get(key);
+}
 
 /** Own one Autobahn event display, its refresh lifecycle, filters and click selection. */
 export function createAutobahnLayer({
@@ -79,17 +107,31 @@ export function createAutobahnLayer({
   /** @type {Map<string, Cesium.Entity[]>} */
   const _entitiesById = new Map();
 
+  // Listed: on a shown road. Drawn: listed, of a shown kind — or selected,
+  // so an event picked from a host's list appears even when its kind is off.
+  const isListed = (row) => !_hiddenRoads.has(row.road);
   const isVisible = (row) =>
-    !_hiddenRoads.has(row.road) && !_hiddenKinds.has(row.kind);
+    isListed(row) &&
+    (!_hiddenKinds.has(row.kind) || row.stableId === _selectedId);
   const visibleRows = () => [..._rowById.values()].filter(isVisible);
   const canSelect = () =>
     overlayHost && screenSpaceEventHandlerFactory && picking;
   const notifyRowControls = () => _rowControlsListener?.();
 
+  /** Show or hide each event's markers for the filters and selection. */
+  function syncShown() {
+    for (const [id, entities] of _entitiesById) {
+      const row = _rowById.get(id);
+      const show = Boolean(row && isVisible(row));
+      for (const entity of entities) entity.show = show;
+    }
+  }
+
   function publishSelectedCard() {
+    syncShown();
     if (!canSelect()) return;
     const row = _selectedId ? _rowById.get(_selectedId) : null;
-    if (!row || !isVisible(row)) {
+    if (!row || !isListed(row)) {
       _selectedId = null;
       _selectedCardId = null;
       overlayHost.setEntries(AUTOBAHN_OVERLAY_SOURCE_ID, [], CARD_HOST_OPTIONS);
@@ -136,6 +178,11 @@ export function createAutobahnLayer({
       );
       if (cardHit && cardHit.entryId === _selectedCardId) return;
       const picked = _viewer.scene.pick(click.position);
+      // A numbered ring: zoom in until its events separate.
+      if (Array.isArray(picked?.id)) {
+        zoomToCluster(picked.id);
+        return;
+      }
       const id = picked ? pickedEventId(picked) : null;
       if (id) {
         _selectedId = id;
@@ -151,6 +198,32 @@ export function createAutobahnLayer({
         publishSelectedCard();
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+  }
+
+  function zoomToCluster(entities) {
+    const points = entities
+      .map((entity) =>
+        _rowById.get(
+          String(entity?.id || '')
+            .slice(PICK_PREFIX.length)
+            .replace(/:(point|line)$/, ''),
+        ),
+      )
+      .filter(Boolean)
+      .map((row) => Cesium.Cartographic.fromDegrees(row.lon, row.lat));
+    if (!points.length) return;
+    const rect = Cesium.Rectangle.fromCartographicArray(points);
+    const pad = Math.max(rect.width, rect.height, 0.004) * 0.6;
+    _viewer.camera.flyTo({
+      destination: new Cesium.Rectangle(
+        rect.west - pad,
+        rect.south - pad,
+        rect.east + pad,
+        rect.north + pad,
+      ),
+      orientation: { heading: 0, pitch: -Math.PI / 2, roll: 0 },
+      duration: 1.2,
+    });
   }
 
   function removeClickHandler() {
@@ -171,19 +244,52 @@ export function createAutobahnLayer({
   }
 
   function applyFilters() {
-    for (const [id, entities] of _entitiesById) {
-      const row = _rowById.get(id);
-      const show = Boolean(row && isVisible(row));
-      for (const entity of entities) entity.show = show;
-    }
+    syncShown();
     if (_selectedId) publishSelectedCard();
     notifyRowControls();
     publishRows();
   }
 
-  /** Tell a host shell the rows it can list (filters applied). */
+  /** Tell a host shell every row on a shown road, whatever its kind. */
   function publishRows() {
-    onRows?.(_enabled ? visibleRows() : []);
+    onRows?.(_enabled ? [..._rowById.values()].filter(isListed) : []);
+  }
+
+  function installClustering() {
+    const clustering = _dataSource.clustering;
+    clustering.pixelRange = CLUSTER_PIXEL_RANGE;
+    clustering.minimumClusterSize = 2;
+    clustering.clusterBillboards = false;
+    clustering.clusterLabels = false;
+    clustering.clusterPoints = true;
+    clustering.enabled = true;
+    clustering.clusterEvent.addEventListener((entities, cluster) => {
+      let worst = 'minor';
+      for (const entity of entities) {
+        const id = String(entity.id || '')
+          .slice(PICK_PREFIX.length)
+          .replace(/:(point|line)$/, '');
+        const severity = autobahnSeverity(_rowById.get(id)?.kind);
+        if (severity === 'critical') {
+          worst = severity;
+          break;
+        }
+        if (severity === 'major') worst = severity;
+      }
+      cluster.label.show = false;
+      cluster.point.show = false;
+      cluster.billboard.show = true;
+      cluster.billboard.id = cluster.label.id;
+      cluster.billboard.image = clusterImage(
+        entities.length,
+        AUTOBAHN_SEVERITY_COLORS[worst],
+      );
+      const size = Math.min(56, 34 + Math.sqrt(entities.length) * 4);
+      cluster.billboard.width = size;
+      cluster.billboard.height = size;
+      cluster.billboard.verticalOrigin = Cesium.VerticalOrigin.CENTER;
+      cluster.billboard.disableDepthTestDistance = Number.POSITIVE_INFINITY;
+    });
   }
 
   function entitiesFor(row) {
@@ -232,6 +338,7 @@ export function createAutobahnLayer({
       _viewer = viewer;
       _dataSource = new Cesium.CustomDataSource('autobahn-traffic');
       _dataSource.show = false;
+      installClustering();
       viewer.dataSources.add(_dataSource);
       _lastUpdate = null;
       _lastError = null;
@@ -364,7 +471,7 @@ export function createAutobahnLayer({
         return true;
       }
       const row = _rowById.get(String(id));
-      if (!row || !isVisible(row)) return false;
+      if (!row || !isListed(row)) return false;
       _selectedId = row.stableId;
       publishSelectedCard();
       return true;

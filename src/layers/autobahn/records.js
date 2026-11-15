@@ -51,6 +51,34 @@ export const AUTOBAHN_KINDS = Object.freeze([
   'roadworks',
 ]);
 
+/**
+ * How much each kind matters to someone moving freight: a closed road is
+ * critical, a warning (jam, accident, hazard) major, and routine exit
+ * closures and roadworks minor.
+ */
+export const AUTOBAHN_SEVERITIES = Object.freeze([
+  'critical',
+  'major',
+  'minor',
+]);
+export const AUTOBAHN_SEVERITY_OF_KIND = Object.freeze({
+  closure: 'critical',
+  warning: 'major',
+  'short-roadworks': 'minor',
+  'ramp-closure': 'minor',
+  roadworks: 'minor',
+});
+/** Apple system red, orange and brown: the same on the map and in lists. */
+export const AUTOBAHN_SEVERITY_COLORS = Object.freeze({
+  critical: '#ff3b30',
+  major: '#ff9500',
+  minor: '#a2845e',
+});
+/** The severity of a kind ('minor' for anything unknown). */
+export function autobahnSeverity(kind) {
+  return AUTOBAHN_SEVERITY_OF_KIND[kind] || 'minor';
+}
+
 const KIND_LABELS = Object.freeze({
   closure: msg('Closure'),
   'ramp-closure': msg('Junction closure'),

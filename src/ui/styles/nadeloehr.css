@@ -149,17 +149,26 @@ html body #cesium-credits {
   font-size: 11px;
 }
 
-/* Phones: the sheet spans the bottom, so the credit sits under the brand
-   chip, clear of the right-hand buttons. Doubled id: upstream's phone shell
-   pins the credit to the bottom with !important. */
+/* Desktop: the map legend sits beside the left panel, so the credit keeps
+   to the right of it. */
+@media (min-width: 1024px) {
+  html body #cesium-credits {
+    max-width: min(560px, calc(100vw - 880px));
+  }
+}
+
+/* Phones: the search bar and the number strip fill the top and the sheet
+   the bottom, so the credit sits just above the sheet's resting height,
+   clear of the right-hand buttons. Doubled id: upstream's phone shell pins
+   the credit to the bottom with !important. */
 @media (max-width: 639px) {
   html body #cesium-credits#cesium-credits {
-    top: calc(max(1rem, env(safe-area-inset-top)) + 48px) !important;
+    top: auto !important;
     right: auto !important;
-    bottom: auto !important;
-    left: 16px !important;
+    bottom: calc(env(safe-area-inset-bottom) + 76px) !important;
+    left: 12px !important;
     width: auto !important;
-    max-width: calc(100vw - 92px) !important;
+    max-width: calc(100vw - 24px) !important;
     scale: 1;
     white-space: normal;
     text-align: left;

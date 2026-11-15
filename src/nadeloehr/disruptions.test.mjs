@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import {
   DISRUPTION_KINDS,
   disruptionCard,
+  disruptionColor,
+  SEVERITY_COLORS,
+  severityCopy,
+  severityCounts,
+  severityOf,
   disruptionCountLabel,
   disruptionPlace,
   disruptionSummary,
@@ -23,7 +28,7 @@ const row = (stableId, kind, extra = {}) => ({
   ...extra,
 });
 
-test('lists put the most disruptive first, then the biggest delay', () => {
+test('lists put the most severe first, then the biggest delay', () => {
   const rows = [
     row('w', 'warning', { delayMinutes: 5 }),
     row('r', 'roadworks'),
@@ -33,7 +38,7 @@ test('lists put the most disruptive first, then the biggest delay', () => {
   ];
   assert.deepEqual(
     sortDisruptions(rows).map((r) => r.stableId),
-    ['c2', 'c1', 'x', 'w', 'r'],
+    ['c2', 'c1', 'w', 'x', 'r'],
   );
   // The input is left alone.
   assert.equal(rows[0].stableId, 'w');
@@ -100,8 +105,8 @@ test('a card carries only the facts the feed gave, each with a key for its icon'
 
 test('every listed layer and kind has an icon; tools stay out of "More on the map"', () => {
   for (const entry of MAIN_LAYERS) {
-    const badge = entry.kind ? KIND_ICONS[entry.kind] : layerIcon(entry.id);
-    assert.ok(badge?.icon, `${entry.id || entry.kind} has an icon`);
+    const badge = entry.group ? KIND_ICONS.roadworks : layerIcon(entry.id);
+    assert.ok(badge?.icon, `${entry.id || entry.group} has an icon`);
     assert.match(badge.color, /^#[0-9a-f]{6}$/);
   }
   for (const kind of DISRUPTION_KINDS) assert.ok(KIND_ICONS[kind]);
@@ -111,4 +116,25 @@ test('every listed layer and kind has an icon; tools stay out of "More on the ma
   );
   for (const tool of ['cctv', 'street-level', 'directions'])
     assert.ok(HIDDEN_FROM_MORE.has(tool));
+});
+
+test('severity groups: closures critical, warnings major, the rest minor', () => {
+  assert.deepEqual(
+    severityCounts([
+      row('a', 'closure'),
+      row('b', 'warning'),
+      row('c', 'ramp-closure'),
+      row('d', 'short-roadworks'),
+      row('e', 'roadworks'),
+      row('f', 'mystery'),
+    ]),
+    [
+      { severity: 'critical', count: 1 },
+      { severity: 'major', count: 1 },
+      { severity: 'minor', count: 4 },
+    ],
+  );
+  assert.equal(severityOf('warning'), 'major');
+  assert.equal(disruptionColor('closure'), SEVERITY_COLORS.critical);
+  assert.equal(severityCopy('minor').label, 'Minor');
 });

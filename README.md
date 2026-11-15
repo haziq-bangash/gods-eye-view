@@ -19,7 +19,7 @@ verständliche Erklärung und den amtlichen Hinweis.
 Nadelöhr is a fork of [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view)
 (MIT). What this fork adds is described in
 [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md) under "Nadelöhr interface" and
-"Rhine & Elbe Water Levels" and "Autobahn Closures & Roadworks"; data sources and licences are in
+"Today layout and corridor risk", "Rhine & Elbe Water Levels" and "Autobahn Closures & Roadworks"; data sources and licences are in
 [DATA_SOURCES.md](DATA_SOURCES.md). Data is shown for information only — always
 follow road signs and official notices.
 

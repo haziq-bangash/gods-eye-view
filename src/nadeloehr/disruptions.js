@@ -3,33 +3,61 @@
  * Pure: rows in (see src/layers/autobahn/records.js), display models out.
  */
 import { formatDate, formatNumber, msg, t, tn } from '../i18n/index.js';
+import {
+  AUTOBAHN_SEVERITIES,
+  AUTOBAHN_SEVERITY_COLORS,
+  autobahnSeverity,
+} from '../layers/autobahn/records.js';
+
+export {
+  AUTOBAHN_SEVERITIES as SEVERITIES,
+  AUTOBAHN_SEVERITY_COLORS as SEVERITY_COLORS,
+  autobahnSeverity as severityOf,
+};
+
+const SEVERITY_COPY = Object.freeze({
+  critical: { label: msg('Critical'), hint: msg('Roads closed') },
+  major: { label: msg('Major'), hint: msg('Jams, accidents, hazards') },
+  minor: { label: msg('Minor'), hint: msg('Exits and roadworks') },
+});
+
+/** "Critical" and its plain hint, translated. */
+export function severityCopy(severity) {
+  const copy = SEVERITY_COPY[severity] || SEVERITY_COPY.minor;
+  return { label: t(copy.label), hint: t(copy.hint) };
+}
+
+/** Counts per severity, in severity order. */
+export function severityCounts(rows = []) {
+  const counts = Object.fromEntries(AUTOBAHN_SEVERITIES.map((s) => [s, 0]));
+  for (const row of rows) counts[autobahnSeverity(row?.kind)] += 1;
+  return AUTOBAHN_SEVERITIES.map((severity) => ({
+    severity,
+    count: counts[severity],
+  }));
+}
 
 /** What each kind means to someone who just wants to drive. */
 const KIND_COPY = Object.freeze({
   closure: {
     title: msg('Road closed'),
     hint: msg('The motorway is closed here. Plan a detour.'),
-    color: 'var(--status-closure)',
   },
   'ramp-closure': {
     title: msg('Exit or entry closed'),
     hint: msg('A junction ramp is closed. The motorway itself stays open.'),
-    color: 'var(--status-ramp)',
   },
   warning: {
     title: msg('Traffic warning'),
     hint: msg('Slow or stopped traffic, an accident or a hazard ahead.'),
-    color: 'var(--status-warning)',
   },
   'short-roadworks': {
     title: msg('Short roadworks'),
     hint: msg('Roadworks for hours or days. Expect lane closures.'),
-    color: 'var(--status-shortwork)',
   },
   roadworks: {
     title: msg('Roadworks'),
     hint: msg('Long-term roadworks. Usually fewer or narrower lanes.'),
-    color: 'var(--status-roadworks)',
   },
 });
 
@@ -47,9 +75,9 @@ export function disruptionTitle(kind) {
   return t(KIND_COPY[kind]?.title || msg('Disruption'));
 }
 
-/** CSS colour for a kind, matching the map markers. */
+/** CSS colour for a kind: its severity's, as on the map. */
 export function disruptionColor(kind) {
-  return KIND_COPY[kind]?.color || 'var(--muted-foreground)';
+  return AUTOBAHN_SEVERITY_COLORS[autobahnSeverity(kind)];
 }
 
 /** Plural label for the summary chips: "10 closures". */
@@ -76,7 +104,7 @@ export function disruptionSummary(rows = []) {
   return DISRUPTION_KINDS.map((kind) => ({ kind, count: counts.get(kind) }));
 }
 
-/** Most disruptive first, then the biggest delay, then the road. */
+/** Most severe first, then by kind, the biggest delay, then the road. */
 export function sortDisruptions(rows = []) {
   const rank = (kind) => {
     const index = DISRUPTION_KINDS.indexOf(kind);
@@ -84,6 +112,8 @@ export function sortDisruptions(rows = []) {
   };
   return [...rows].sort(
     (a, b) =>
+      AUTOBAHN_SEVERITIES.indexOf(autobahnSeverity(a.kind)) -
+        AUTOBAHN_SEVERITIES.indexOf(autobahnSeverity(b.kind)) ||
       rank(a.kind) - rank(b.kind) ||
       (b.delayMinutes || 0) - (a.delayMinutes || 0) ||
       String(a.road).localeCompare(String(b.road), 'en', { numeric: true }) ||

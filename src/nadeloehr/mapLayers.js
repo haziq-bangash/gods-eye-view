@@ -6,8 +6,8 @@ import { msg } from '../i18n/marker.js';
 
 /**
  * "Show on the map": the freight-relevant layers, in the order a driver or
- * dispatcher cares about them. An entry with `kind` toggles one Autobahn
- * event kind instead of a whole layer.
+ * dispatcher cares about them. The `minor` group toggles the minor Autobahn
+ * events (exit closures and roadworks) on the map instead of a whole layer.
  */
 export const MAIN_LAYERS = Object.freeze([
   Object.freeze({
@@ -16,9 +16,9 @@ export const MAIN_LAYERS = Object.freeze([
     subtitle: msg('Closures, warnings and short roadworks'),
   }),
   Object.freeze({
-    kind: 'roadworks',
-    title: msg('Long-term roadworks'),
-    subtitle: msg('Hundreds of building sites, off by default'),
+    group: 'minor',
+    title: msg('Exits and roadworks'),
+    subtitle: msg('Routine closures and building sites, off by default'),
   }),
   Object.freeze({
     id: 'river-levels',
