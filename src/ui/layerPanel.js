@@ -23,6 +23,7 @@ import {
   msg,
   onLocaleChange,
   t,
+  tn,
 } from '../i18n/index.js';
 
 // Feed-state values are machine ids (QA hooks, CSS feed-* classes); only the
@@ -102,6 +103,11 @@ const PANEL_GROUPS = [
       'weather-cyclones',
     ],
   },
+  // Nadelöhr: German road and river freight disruption layers.
+  {
+    label: msg('Freight'),
+    ids: ['autobahn-traffic'],
+  },
   // Directions renders in the Utilities panel, beside Draw and Import, and
   // needs no heading there.
   {
@@ -131,6 +137,21 @@ const panelGroup = (layer) =>
     ? LIBRARY_GROUP
     : (PANEL_ORDER[PANEL_POSITIONS.get(layer.id)]?.label ??
       msg('Other layers'));
+
+/**
+ * Primary sections shown first and always open, from a product profile (see
+ * src/freightProfile.js): id -> { rank, label }. Every other layer goes under
+ * a collapsible "More layers" disclosure, in upstream order.
+ * @param {ReadonlyArray<{label: string, ids: ReadonlyArray<string>}>|null} sections
+ */
+function primarySectionIndex(sections) {
+  const index = new Map();
+  if (!Array.isArray(sections)) return index;
+  for (const { label, ids } of sections)
+    for (const id of ids || [])
+      if (!index.has(id)) index.set(id, { rank: index.size, label });
+  return index;
+}
 
 function englishPanelLabel(layer) {
   return PANEL_LABELS[layer.id] || LAYER_NAME_KEYS[layer.id] || layer.name;
@@ -283,8 +304,12 @@ export class LayerPanel {
     subscribeRowControls,
     onHiddenRefresh = () => {},
     weatherClock,
+    sections = null,
   }) {
     this.weatherClock = weatherClock;
+    // With primary sections, the rest of the layers fold under "More layers".
+    this._primary = primarySectionIndex(sections);
+    this._moreOpen = false;
     this.getAll = getLayers;
     this.isEnabled = isEnabled;
     this.setEnabled = setEnabled;
@@ -393,23 +418,44 @@ export class LayerPanel {
     // The rows are fixed here, in panel order under their group headings;
     // refreshes repaint them. A layer whose row is a rail readout keeps only
     // its toggle and metadata.
+    const primary = this._primary;
+    const rank = (layer) =>
+      primary.has(layer.id)
+        ? primary.get(layer.id).rank - primary.size
+        : panelPosition(layer);
     const layers = this.getAll()
       .slice()
-      .sort((a, b) => panelPosition(a) - panelPosition(b));
+      .sort((a, b) => rank(a) - rank(b));
     this._rows = [];
     this._rowViews = new Map();
     let previousGroup = '';
+    let disclosed = primary.size === 0;
     for (const layer of layers) {
       if (!layer.showInTogglePanel) continue;
-      const group = panelGroup(layer);
-      const containerId =
-        PANEL_ORDER[PANEL_POSITIONS.get(layer.id)]?.containerId;
+      const section = primary.get(layer.id);
+      const group = section ? section.label : panelGroup(layer);
+      const containerId = section
+        ? null
+        : PANEL_ORDER[PANEL_POSITIONS.get(layer.id)]?.containerId;
       const container = this._groupContainers.has(containerId)
         ? containerId
         : null;
-      // A group in a list of its own needs no heading there.
+      // The first layer outside the primary sections opens "More layers";
+      // it and every later row in Data Layers fold under it.
+      const secondary = !section && !container && primary.size > 0;
+      if (secondary && !disclosed) {
+        disclosed = true;
+        previousGroup = '';
+        this._rows.push({ key: 'more-layers', disclosure: true });
+      }
+      // A group in a list of its own needs no heading there. A group can
+      // appear both as a primary section and under "More layers" (Weather).
       if (!container && group && group !== previousGroup)
-        this._rows.push({ key: `group:${group}`, heading: group });
+        this._rows.push({
+          key: `group:${secondary ? 'more:' : ''}${group}`,
+          heading: group,
+          secondary,
+        });
       previousGroup = container ? '' : group;
       const readout = Boolean(this._rowControlsFor(layer.id)?.readout);
       const controls = this.hasRowControls(layer.id);
@@ -429,6 +475,7 @@ export class LayerPanel {
         count: !readout,
         controls: controls && !readout,
         info: false,
+        secondary,
       });
     }
     // The rows carry text this panel translates; show it in a new locale.
@@ -451,13 +498,22 @@ export class LayerPanel {
     // Each list renders its own rows: Data Layers, and any group's own list.
     const lists = new Map([[null, []]]);
     for (const id of this._groupContainers.keys()) lists.set(id, []);
+    const folded = !this._moreOpen;
     for (const row of this._rows) {
       let item;
-      if (row.heading) item = { key: row.key, heading: t(row.heading) };
+      if (row.disclosure) item = this._presentDisclosure(row, layers);
+      else if (row.heading)
+        item = {
+          key: row.key,
+          heading: t(row.heading),
+          folded: row.secondary && folded,
+        };
       else {
         const layer = layers.get(row.id);
         if (layer) this._rowViews.set(row.id, this._presentRow(row, layer));
-        item = this._rowViews.get(row.id);
+        const view = this._rowViews.get(row.id);
+        // Folded rows stay in the document (voice and tests find them by id).
+        item = view && { ...view, folded: row.secondary && folded };
       }
       if (item) lists.get(row.container ?? null).push(item);
     }
@@ -467,6 +523,7 @@ export class LayerPanel {
         h(LayerRows, {
           items,
           onToggle: (layerId) => this._toggle(layerId, generation),
+          onDisclosure: () => this._toggleMoreLayers(generation),
           onChip: (layerId, chipId) =>
             this._selectChip(layerId, chipId, generation),
           onListItem: (layerId, itemId) =>
@@ -478,6 +535,37 @@ export class LayerPanel {
         }),
         id === null ? this._toggleContainer : this._groupContainers.get(id),
       );
+  }
+
+  /** The "More layers" disclosure: open state and how many folded layers are on. */
+  _presentDisclosure(row, layers) {
+    let active = 0;
+    for (const other of this._rows)
+      if (other.secondary && other.id && layers.get(other.id)?.enabled)
+        active++;
+    return {
+      key: row.key,
+      disclosure: {
+        open: this._moreOpen,
+        label: t('More layers'),
+        active: active ? tn(active, '{count} on', '{count} on') : '',
+      },
+    };
+  }
+
+  /** Open or fold "More layers"; a released generation's click is dropped. */
+  _toggleMoreLayers(generation = this._generation) {
+    if (this._destroyed || this._generation !== generation) return;
+    this._moreOpen = !this._moreOpen;
+    this._paint();
+  }
+
+  /** Unfold "More layers" when it hides `layerId` (voice reveals a row). */
+  revealLayer(layerId) {
+    const row = this._rows.find((entry) => entry.id === layerId);
+    if (!row?.secondary || this._moreOpen) return;
+    this._moreOpen = true;
+    this._paint();
   }
 
   _presentRow(row, layer) {

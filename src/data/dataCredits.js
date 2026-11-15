@@ -224,6 +224,13 @@ export const DATA_CREDITS = [
       ' (prohibited and restricted zones; informational only)',
   },
   {
+    key: 'autobahn',
+    html:
+      'Autobahn traffic: ' +
+      '<a href="https://www.autobahn.de/" target="_blank" rel="noopener">Die Autobahn GmbH des Bundes</a>' +
+      ' (closures, roadworks and warnings; informational only)',
+  },
+  {
     key: 'inaturalist',
     html: 'Wildlife sightings: <a href="https://www.inaturalist.org" target="_blank" rel="noopener">iNaturalist</a> contributors (licences per record; photos credited on each card)',
   },

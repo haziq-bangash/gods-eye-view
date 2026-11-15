@@ -8,9 +8,9 @@
   width: 22px;
   height: 22px;
   padding: 0;
-  color: rgba(206, 232, 239, 0.6);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgb(var(--ink-rgb) / 0.6);
+  background: rgb(var(--ink-rgb) / 0.03);
+  border: 1px solid rgb(var(--ink-rgb) / 0.12);
   border-radius: 6px;
   cursor: pointer;
 }
@@ -21,14 +21,14 @@
 
 .ui-panel-edge:hover,
 .ui-panel-edge:focus-visible {
-  color: var(--text-primary, #e8eaed);
-  border-color: rgba(255, 255, 255, 0.24);
+  color: var(--text-primary, rgb(var(--ink-rgb)));
+  border-color: rgb(var(--ink-rgb) / 0.24);
 }
 
 .ui-panel-edge[aria-pressed='true'] {
-  color: #36dcff;
-  background: rgba(54, 220, 255, 0.12);
-  border-color: rgba(54, 220, 255, 0.45);
+  color: rgb(var(--accent-rgb));
+  background: rgb(var(--accent-rgb) / 0.12);
+  border-color: rgb(var(--accent-rgb) / 0.45);
 }
 
 /* Collapsed panels hide the switch; it only means something once open. */

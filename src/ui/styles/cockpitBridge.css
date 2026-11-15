@@ -87,7 +87,11 @@
 #cockpit-hud[data-subject='vessel']
   .cockpit-speed-rim
   .cockpit-altitude-rim-rail {
-  background: linear-gradient(90deg, rgba(0, 7, 12, 0.3), transparent 70%);
+  background: linear-gradient(
+    90deg,
+    rgb(var(--surface-rgb) / 0.3),
+    transparent 70%
+  );
 }
 #cockpit-hud[data-subject='vessel']
   .cockpit-speed-rim
@@ -125,7 +129,7 @@
   padding: 2px 5px;
   border: 1px solid var(--cockpit-accent);
   border-radius: 2px;
-  background: rgba(0, 7, 12, 0.78);
+  background: rgb(var(--surface-rgb) / 0.78);
 }
 
 /* Heading: a straight horizontal tape under flat readouts. */
@@ -168,7 +172,7 @@
         transparent calc(50% + 0.5px)
       )
       50% 0 / calc(14% / 3) 6px repeat-x,
-    rgba(0, 7, 12, 0.34);
+    rgb(var(--surface-rgb) / 0.34);
   /* Scrolled with the divisions (--tape-shift slots of 14% each). */
   background-position:
     calc(50% + var(--tape-shift, 0) * 14cqw) 0,
@@ -284,12 +288,12 @@ body.cockpit-bridge #view-switcher button {
   border: 1px solid color-mix(in srgb, var(--cockpit-accent) 30%, transparent);
   border-top-color: color-mix(in srgb, var(--cockpit-accent) 64%, transparent);
   border-radius: 2px;
-  background: rgba(0, 7, 12, 0.68);
+  background: rgb(var(--surface-rgb) / 0.68);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgb(var(--ink-rgb) / 0.04),
     0 0 28px rgba(0, 0, 0, 0.26);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   pointer-events: auto;
 }
 #cockpit-hud[data-subject='vessel']
@@ -299,11 +303,11 @@ body.cockpit-bridge #view-switcher button {
 :root[data-ui-theme='cyber']
   #cockpit-hud[data-subject='vessel']
   .cockpit-radar-console {
-  border-color: rgba(105, 203, 209, 0.34);
+  border-color: rgb(var(--ink-rgb) / 0.211);
   border-top-color: rgba(196, 84, 84, 0.82);
   background:
-    linear-gradient(135deg, rgba(105, 203, 209, 0.07), transparent 38%),
-    rgba(8, 23, 27, 0.78);
+    linear-gradient(135deg, rgb(var(--ink-rgb) / 0.043), transparent 38%),
+    rgb(var(--surface-rgb) / 0.78);
 }
 
 @media (min-width: 761px) {
@@ -389,7 +393,7 @@ body.cockpit-bridge #view-switcher button {
   padding: 2px 6px;
   border: 1px solid color-mix(in srgb, var(--cockpit-accent) 46%, transparent);
   border-radius: 2px;
-  background: rgba(0, 7, 12, 0.62);
+  background: rgb(var(--surface-rgb) / 0.62);
   color: var(--cockpit-accent);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -403,8 +407,8 @@ body.cockpit-bridge #view-switcher button {
   padding: 3px 8px;
   border: 1px solid color-mix(in srgb, var(--cockpit-accent) 64%, transparent);
   border-radius: 2px;
-  background: rgba(0, 7, 12, 0.78);
-  color: #f4fbff;
+  background: rgb(var(--surface-rgb) / 0.78);
+  color: rgb(var(--ink-rgb));
   font: inherit;
   font-size: 10px;
   letter-spacing: 0.14em;

@@ -16,7 +16,7 @@
   inset: -18px;
   background: radial-gradient(
     ellipse at center,
-    rgba(0, 212, 255, 0.16) 0%,
+    rgb(var(--accent-rgb) / 0.16) 0%,
     transparent 65%
   );
   filter: blur(16px);
@@ -35,12 +35,12 @@
   gap: 8px;
   max-height: calc(100vh - 24px);
   overflow-y: auto;
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+    0 0 0 1px rgb(var(--ink-rgb) / 0.03) inset,
+    0 1px 0 rgb(var(--ink-rgb) / 0.06) inset;
 }
 
 .cctv-controls {
@@ -62,10 +62,10 @@ html:not([lang='en']) .cctv-controls .scene-btn {
 }
 
 .cctv-calibration-block {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(var(--ink-rgb) / 0.1);
   border-radius: 9px;
   padding: 8px 9px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgb(var(--ink-rgb) / 0.02);
 }
 
 .cctv-calibration-header {
@@ -96,9 +96,9 @@ html:not([lang='en']) .cctv-controls .scene-btn {
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.7px;
-  color: #91edff;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgb(var(--accent-hi-rgb));
+  background: rgb(var(--ink-rgb) / 0.04);
+  border: 1px solid rgb(var(--ink-rgb) / 0.12);
   border-radius: 7px;
   padding: 4px 7px;
   cursor: text;
@@ -108,8 +108,8 @@ html:not([lang='en']) .cctv-controls .scene-btn {
 }
 
 .cctv-cal-value:hover:not(:disabled) {
-  border-color: rgba(0, 212, 255, 0.45);
-  background: rgba(0, 212, 255, 0.08);
+  border-color: rgb(var(--accent-rgb) / 0.45);
+  background: rgb(var(--accent-rgb) / 0.08);
 }
 
 .cctv-calibration-actions {
@@ -136,14 +136,14 @@ html:not([lang='en']) .cctv-controls .scene-btn {
 #cctv-projection-btn.active {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(0, 212, 255, 0.14);
+  background: rgb(var(--accent-rgb) / 0.14);
 }
 
 #cctv-quality-chip {
   min-width: 90px;
-  --status-badge-border: rgba(0, 212, 255, 0.2);
-  --status-badge-color: #8fe7ff;
-  --status-badge-background: rgba(0, 212, 255, 0.08);
+  --status-badge-border: rgb(var(--accent-rgb) / 0.2);
+  --status-badge-color: rgb(var(--accent-hi-rgb));
+  --status-badge-background: rgb(var(--accent-rgb) / 0.08);
 }
 
 /* CAL badge states (cctv-v2 §3b, amended by LOCKED §9.2 — panel-only, no
@@ -172,14 +172,18 @@ html:not([lang='en']) .cctv-controls .scene-btn {
   position: relative;
   border-radius: 10px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgb(var(--ink-rgb) / 0.12);
   background:
     radial-gradient(
       circle at 20% 20%,
-      rgba(0, 244, 255, 0.09),
+      rgb(var(--accent-rgb) / 0.09),
       transparent 44%
     ),
-    linear-gradient(180deg, rgba(8, 14, 19, 0.88), rgba(4, 7, 11, 0.96));
+    linear-gradient(
+      180deg,
+      rgb(var(--surface-rgb) / 0.88),
+      rgb(var(--surface-rgb) / 0.96)
+    );
   min-height: 150px;
   /* .cctv-panel-inner is a scrolling column flex container, so the default
      flex-shrink:1 squeezed this wrap down to its 150px floor while the 16:9
@@ -196,9 +200,9 @@ html:not([lang='en']) .cctv-controls .scene-btn {
   background: linear-gradient(
     100deg,
     transparent 24%,
-    rgba(0, 212, 255, 0.08) 44%,
-    rgba(170, 244, 255, 0.14) 50%,
-    rgba(0, 212, 255, 0.08) 56%,
+    rgb(var(--accent-rgb) / 0.08) 44%,
+    rgb(var(--ink-rgb) / 0.14) 50%,
+    rgb(var(--accent-rgb) / 0.08) 56%,
     transparent 76%
   );
   transform: translateX(-100%);
@@ -223,7 +227,7 @@ html:not([lang='en']) .cctv-controls .scene-btn {
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 2.2px;
-  color: rgba(145, 237, 255, 0.62);
+  color: rgb(var(--accent-hi-rgb) / 0.62);
   pointer-events: none;
 }
 
@@ -313,8 +317,8 @@ html:not([lang='en']) .cctv-controls .scene-btn {
   font-size: 10px;
   letter-spacing: 0.8px;
   line-height: 1.45;
-  color: #a8f7ff;
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.18);
+  color: rgb(var(--ink-rgb));
+  text-shadow: 0 0 10px rgb(var(--accent-rgb) / 0.18);
 }
 
 /* Tighter calibration chips keep the seven values to two rows, so

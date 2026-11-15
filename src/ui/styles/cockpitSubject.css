@@ -3,7 +3,7 @@
    sources, banner, darkening veil and progress line. Every rule is scoped to
    the generic view, so the built-in views keep their own looks. */
 #cockpit-hud[data-generic] {
-  --cockpit-subject-panel: rgba(0, 7, 12, 0.66);
+  --cockpit-subject-panel: rgb(var(--surface-rgb) / 0.66);
   --cockpit-subject-live: var(--cockpit-accent);
   --cockpit-subject-estimate: #c9b6ff;
   --cockpit-subject-warning: #ffb800;
@@ -139,7 +139,7 @@
   gap: 3px;
   margin: 0;
   padding: 6px 10px;
-  background: rgba(0, 7, 12, 0.5);
+  background: rgb(var(--surface-rgb) / 0.5);
   font-size: 10px;
   letter-spacing: 0.06em;
 }
@@ -190,7 +190,7 @@
   padding: 2px 6px;
   border: 1px solid color-mix(in srgb, var(--cockpit-accent) 46%, transparent);
   border-radius: 2px;
-  background: rgba(0, 7, 12, 0.62);
+  background: rgb(var(--surface-rgb) / 0.62);
   color: var(--cockpit-accent);
   font-family: var(--font-mono);
   font-size: 11px;
@@ -204,8 +204,8 @@
   padding: 3px 8px;
   border: 1px solid color-mix(in srgb, var(--cockpit-accent) 64%, transparent);
   border-radius: 2px;
-  background: rgba(0, 7, 12, 0.78);
-  color: #f4fbff;
+  background: rgb(var(--surface-rgb) / 0.78);
+  color: rgb(var(--ink-rgb));
   font: inherit;
   font-size: 10px;
   letter-spacing: 0.14em;
@@ -249,7 +249,7 @@
 #cockpit-hud[data-generic] .cockpit-progress-travelled {
   position: absolute;
   inset: 0 auto 0 0;
-  background: rgba(0, 7, 12, 0.72);
+  background: rgb(var(--surface-rgb) / 0.72);
 }
 #cockpit-hud[data-generic] .cockpit-progress-tick {
   position: absolute;

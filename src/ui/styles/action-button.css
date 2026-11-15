@@ -2,8 +2,8 @@
  * Legacy scene-btn hooks keep untouched toggles/Street Level controls stable. */
 .gev-action-button,
 .scene-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgb(var(--ink-rgb) / 0.05);
+  border: 1px solid rgb(var(--ink-rgb) / 0.14);
   border-radius: 7px;
   color: var(--text-secondary);
   font-family: var(--font-mono);
@@ -23,7 +23,7 @@
 .scene-btn:hover:not(:disabled) {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(0, 212, 255, 0.14);
+  background: rgb(var(--accent-rgb) / 0.14);
 }
 
 .gev-action-button:disabled,
@@ -50,7 +50,7 @@
 .gev-action-button--compact:hover:not(:disabled) {
   color: var(--text-primary);
   border-color: var(--glass-border-hover);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(var(--ink-rgb) / 0.05);
 }
 
 .gev-action-button--compact.gev-action-button--danger:hover:not(:disabled) {

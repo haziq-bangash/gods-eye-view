@@ -8,6 +8,7 @@ import {
   UNIT_TEST_ROOTS,
   allocationTestArgs,
   assertCalibratedAllocationRuntime,
+  batchTestFiles,
   buildUnitTestPlan,
   discoverUnitTestFiles,
   isCalibratedAllocationRuntime,
@@ -111,4 +112,19 @@ test('npm test calibrates both supported engines while retaining off-range warni
   const runner = readFileSync(new URL('../scripts/run-unit-tests.mjs', import.meta.url), 'utf8');
   assert.match(runner, /GEV_REQUIRE_ALLOCATION_GATE/);
   assert.match(runner, /SKIPPED .*allocation microbenchmarks/);
+});
+
+test("Windows batches keep order and stay under the argument budget", () => {
+  const files = Array.from({ length: 50 }, (_, i) => `src/layer${i}.test.mjs`);
+  const batches = batchTestFiles(files, 100);
+  assert.deepEqual(batches.flat(), files);
+  assert.ok(batches.length > 1);
+  for (const batch of batches) {
+    assert.ok(batch.join(" ").length + 1 <= 100);
+  }
+  assert.deepEqual(batchTestFiles(files), [files]);
+  assert.deepEqual(batchTestFiles(["a-very-long-path.test.mjs", "b.test.mjs"], 5), [
+    ["a-very-long-path.test.mjs"],
+    ["b.test.mjs"],
+  ]);
 });

@@ -100,7 +100,6 @@
   "Board cleared.": "画板已清除。",
   "{owner} is using the pointer — close it first.": "{owner} 正在使用指针——请先关闭它。",
   "{label} · Detailed outline unavailable": "{label} · 无法获取详细轮廓",
-  "Flying to Austin, TX...": "正在飞往德克萨斯州奥斯汀…",
   "Restoring shared view...": "正在恢复分享视图…",
   "Configuring viewer...": "正在配置视图…",
   "Loading Google 3D Tiles...": "正在加载 Google 3D Tiles…",
@@ -2901,7 +2900,6 @@
   "SAVE KEYS": "保存密钥",
   "ESC to close": "按 ESC 关闭",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "Google Maps 密钥提供照片级逼真 3D 地球，其余数据源都叠加在其上。",
-  "NO PLACE LEFT BEHIND": "不遗漏任何地方",
   "ACTIVE STYLE": "当前样式",
   "Globe actions": "地球操作",
   "Turn off all selected data layers": "关闭所有已选数据图层",
@@ -3534,5 +3532,34 @@
   "Funicular": "缆索铁路",
   "Gondola": "缆车",
   "Move panels back beside the rail": "将面板移回侧栏旁",
-  "Move panels over the rail, to the edge": "将面板移到侧栏上方，贴靠边缘"
+  "Move panels over the rail, to the edge": "将面板移到侧栏上方，贴靠边缘",
+  "{length} km": "{length} 公里",
+  "+{minutes} min delay": "+{minutes} 分钟延误",
+  "avg {speed} km/h": "平均 {speed} 公里/小时",
+  "since {time}": "自 {time}",
+  "Informational only · follow official signs": "仅供参考 · 请遵守官方标志",
+  "Autobahn traffic source unavailable": "高速公路交通数据源不可用",
+  "Show events on the {road}": "显示 {road} 上的事件",
+  "Hide events on the {road}": "隐藏 {road} 上的事件",
+  "LONG-TERM ROADWORKS": "长期施工",
+  "Show long-term roadworks": "显示长期施工",
+  "Hide long-term roadworks": "隐藏长期施工",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "other": "部分更新：{count} 个道路数据源未响应。仅供参考——请遵守官方标志和通告。"
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "来自 Autobahn GmbH 的 A1、A2、A3、A5、A7、A40 和 A61 当前封闭、警告和施工信息。仅供参考——请遵守官方标志和通告。",
+  "Closure": "封闭",
+  "Junction closure": "出入口封闭",
+  "Traffic warning": "交通警告",
+  "Short-term roadworks": "短期施工",
+  "Roadworks": "施工",
+  "Autobahn Closures & Roadworks": "德国高速公路封闭与施工",
+  "Freight": "货运",
+  "Transport": "运输",
+  "Flying to Germany...": "正在飞往德国...",
+  "More layers": "更多图层",
+  "{count} on": {
+    "other": "{count} 个已开启"
+  },
+  "Freight bottlenecks across Germany": "德国货运瓶颈"
 }

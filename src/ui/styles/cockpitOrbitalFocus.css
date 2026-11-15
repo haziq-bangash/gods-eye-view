@@ -3,7 +3,7 @@
 .cockpit-orbital-focus:not(:empty) {
   margin-top: 4px;
   overflow: hidden;
-  color: #f4fbff;
+  color: rgb(var(--ink-rgb));
   font-weight: 700;
   letter-spacing: 0.1em;
   text-overflow: ellipsis;

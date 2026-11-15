@@ -203,8 +203,8 @@ function encode(state) {
 
 test('production registry is exact, canonical, and rejects incomplete contracts', async () => {
   assert.equal(validateLayerStateRegistry(), true);
-  assert.equal(REGISTERED_LAYER_IDS.length, 39);
-  assert.equal(new Set(REGISTERED_LAYER_IDS).size, 39);
+  assert.equal(REGISTERED_LAYER_IDS.length, 40);
+  assert.equal(new Set(REGISTERED_LAYER_IDS).size, 40);
   assert.ok(REGISTERED_LAYER_IDS.includes('transit'));
   assert.deepEqual(REGISTERED_LAYER_IDS, [...REGISTERED_LAYER_IDS].sort());
   assert.deepEqual(LEGACY_LAYER_STATE_TOKENS, {
@@ -243,14 +243,15 @@ test('production registry is exact, canonical, and rejects incomplete contracts'
   for (const [id, token] of Object.entries(LEGACY_LAYER_STATE_TOKENS)) {
     assert.equal(LAYER_STATE_TOKEN_RESERVATIONS[id], token);
   }
-  // News holds 00, Shipwrecks 01 and Rail 02, the first pairs: the next token
-  // is 03.
-  assert.equal(nextLayerStateToken(), '03');
+  // News holds 00, Shipwrecks 01, Rail 02 and Autobahn 03, the first pairs:
+  // the next token is 04.
+  assert.equal(nextLayerStateToken(), '04');
   // The allocation rules below read the ledger before any of them took a pair.
   const beforeNews = { ...LAYER_STATE_TOKEN_RESERVATIONS };
   delete beforeNews.news;
   delete beforeNews.shipwrecks;
   delete beforeNews.rail;
+  delete beforeNews['autobahn-traffic'];
   assert.equal(nextLayerStateToken(beforeNews), '00');
   assert.equal(
     nextLayerStateToken({
@@ -3230,4 +3231,43 @@ test('an application with every layer registered keeps every requested layer', a
     'traffic',
   ]);
   coordinator.destroy();
+});
+
+test('a first visit opens the profile layers; saved state and shares still win', async () => {
+  const firstVisit = new LayerStateCoordinator(
+    productionManager(),
+    shareSink(),
+    {
+      storage: memoryStorage(),
+      firstVisitLayerIds: ['autobahn-traffic', 'not-a-layer'],
+    },
+  );
+  await firstVisit.start();
+  assert.equal(firstVisit.source, 'first-visit');
+  assert.deepEqual(firstVisit.getDurableState().enabledLayerIds, [
+    'autobahn-traffic',
+  ]);
+  assert.ok(firstVisit.dataManager.isEnabled('autobahn-traffic'));
+  firstVisit.destroy();
+
+  // Saved state, even an empty one, is the operator's own choice.
+  const saved = new LayerStateCoordinator(productionManager(), shareSink(), {
+    storage: memoryStorage(
+      JSON.stringify({ v: createDefaultLayerState().version, l: [], o: {} }),
+    ),
+    firstVisitLayerIds: ['autobahn-traffic'],
+  });
+  await saved.start();
+  assert.equal(saved.source, 'local');
+  assert.equal(saved.dataManager.isEnabled('autobahn-traffic'), false);
+  saved.destroy();
+
+  // A share link without layers keeps its legacy defaults.
+  const shared = new LayerStateCoordinator(productionManager(), shareSink(), {
+    storage: memoryStorage(),
+    firstVisitLayerIds: ['autobahn-traffic'],
+  });
+  await shared.start({ allowLocalState: false });
+  assert.equal(shared.dataManager.isEnabled('autobahn-traffic'), false);
+  shared.destroy();
 });

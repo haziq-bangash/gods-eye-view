@@ -1,34 +1,61 @@
 /* ═══════════════════════════════════════════════
-   GOD'S EYE VIEW — Dark Sci-Fi UI
-   Apple meets Blade Runner
+   NADELÖHR — Liquid Glass UI (light and dark)
+   Role colours come from scripts/nadeloehr-theme.mjs, which rewrites the
+   upstream God's Eye View stylesheets to these variables.
    ═══════════════════════════════════════════════ */
 
 :root {
-  --bg-dark: #0a0a0f;
-  --glass-bg: rgba(12, 12, 20, 0.72);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-hover: rgba(255, 255, 255, 0.15);
-  --accent: #00d4ff;
+  color-scheme: light dark;
+  /* Dark appearance (also the fallback). Space-separated channels so any
+     rule can add its own alpha: rgb(var(--ink-rgb) / 0.5). */
+  --surface-rgb: 28 28 30;
+  --ink-rgb: 245 245 247;
+  --accent-rgb: 255 96 55;
+  --accent-hi-rgb: 255 138 106;
+  --accent-lo-rgb: 196 64 30;
+  /* Liquid Glass: a strong blur with lifted saturation, a bright rim and a
+     soft, wide shadow. */
+  --glass-filter: blur(30px) saturate(1.8);
+  --glass-rim: hsl(0 0% 100% / 0.14);
+  --glass-shadow: 0 12px 40px rgb(0 0 0 / 0.34), 0 1px 2px rgb(0 0 0 / 0.2);
+  /* Brand palette, for rules that name a brand colour directly. */
+  --brand-black-kite: #351e1c;
+  --brand-toxic-orange: #ff6037;
+  --brand-morning-snow: #f5f4ed;
+  --brand-amazon-mist: #ececdc;
+  --brand-garnet: #733635;
+  --brand-aqua-mist: #a0c9cb;
+  --bg-dark: rgb(var(--surface-rgb));
+  --glass-bg: rgb(var(--surface-rgb) / 0.72);
+  --glass-border: rgb(var(--ink-rgb) / 0.08);
+  --glass-border-hover: rgb(var(--ink-rgb) / 0.15);
+  --accent: rgb(var(--accent-rgb));
   /* Every scrolling surface's scrollbar (the kit's .ui-scroll). */
-  --scroll-thumb: rgba(0, 212, 255, 0.46);
-  --scroll-track: rgba(255, 255, 255, 0.06);
-  --accent-dim: rgba(0, 212, 255, 0.15);
-  --accent-glow: rgba(0, 212, 255, 0.4);
-  --text-primary: #e8eaed;
-  --text-secondary: rgba(232, 234, 237, 0.5);
-  --text-dim: rgba(232, 234, 237, 0.3);
+  --scroll-thumb: rgb(var(--accent-rgb) / 0.46);
+  --scroll-track: rgb(var(--ink-rgb) / 0.06);
+  --accent-dim: rgb(var(--accent-rgb) / 0.15);
+  --accent-glow: rgb(var(--accent-rgb) / 0.4);
+  --text-primary: rgb(var(--ink-rgb));
+  --text-secondary: rgb(var(--ink-rgb) / 0.5);
+  --text-dim: rgb(var(--ink-rgb) / 0.3);
   /* Opaque surface for browser-painted menus, which cannot use --glass-bg. */
-  --menu-bg: #12121c;
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --panel-radius: 16px;
-  --btn-radius: 10px;
+  --menu-bg: rgb(var(--surface-rgb));
+  /* San Francisco on Apple systems (it cannot be bundled), then the closest
+     system faces elsewhere. Upstream's monospace readouts take the same face
+     with tabular figures, as Apple's apps do; --font-code stays monospace. */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter',
+    'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: var(--font-sans);
+  --font-code: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+  --panel-radius: 22px;
+  --btn-radius: 12px;
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   /* Label type shared by the command dock and the side panel titles. */
-  --dock-label-color: rgba(206, 232, 239, 0.72);
+  --dock-label-color: rgb(var(--ink-rgb) / 0.72);
   --dock-label-font-size: 0.58rem;
   --dock-label-font-weight: 500;
-  --dock-label-letter-spacing: 0.13rem;
+  --dock-label-letter-spacing: 0.02rem;
   --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   /* The side stacks clear the 52px edge gutter that holds the vertical HUD
      readout, plus the floating panel rail (42px) and its 6px gap. */
@@ -41,6 +68,18 @@
   --display-panel-expanded-width: 272px;
   --cockpit-radio-collapsed-width: 148px;
   --cockpit-radio-expanded-width: 232px;
+}
+
+/* Light appearance: Apple Maps' frosted white glass and near-black labels. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --surface-rgb: 250 250 252;
+    --ink-rgb: 29 29 31;
+    --accent-hi-rgb: 226 72 32;
+    --accent-lo-rgb: 186 52 18;
+    --glass-rim: hsl(0 0% 100% / 0.7);
+    --glass-shadow: 0 12px 40px rgb(0 0 0 / 0.14), 0 1px 2px rgb(0 0 0 / 0.08);
+  }
 }
 
 * {
@@ -89,7 +128,7 @@
    scrollbar and input skins, and set the option colors explicitly because the
    popup surface is not themed on every platform. */
 select {
-  color-scheme: dark;
+  color-scheme: light dark;
 }
 
 select option,
@@ -111,6 +150,7 @@ body {
   font-family: var(--font-sans);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── Cesium Container ─────────────────────────── */
@@ -244,7 +284,7 @@ body.cockpit-mode #cockpit-cloud-effects.active {
 .celestial-ring-outline {
   position: absolute;
   box-sizing: border-box;
-  border: 0.8px solid rgba(151, 218, 232, 0.095);
+  border: 0.8px solid rgb(var(--accent-hi-rgb) / 0.095);
   border-radius: 50%;
   will-change: width, height;
 }
@@ -275,10 +315,10 @@ body.cockpit-mode #cockpit-cloud-effects.active {
 }
 
 .celestial-moon {
-  color: rgba(55, 211, 239, 0.84);
+  color: rgb(var(--accent-rgb) / 0.84);
   text-shadow:
-    0 0 7px rgba(55, 211, 239, 0.65),
-    0 0 17px rgba(55, 211, 239, 0.25);
+    0 0 7px rgb(var(--accent-rgb) / 0.65),
+    0 0 17px rgb(var(--accent-rgb) / 0.25);
 }
 
 #celestial-toggle:disabled {
@@ -318,7 +358,7 @@ body.cockpit-mode #cockpit-cloud-effects.active {
   pointer-events: auto;
   font-family: var(--font-mono);
   font-size: 10px;
-  color: rgba(232, 234, 237, 0.55);
+  color: rgb(var(--ink-rgb) / 0.55);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
 }
 #cesium-credits .cesium-credit-logoContainer,
@@ -329,7 +369,7 @@ body.cockpit-mode #cockpit-cloud-effects.active {
 }
 #cesium-credits a,
 #cesium-credits .cesium-credit-expand-link {
-  color: rgba(232, 234, 237, 0.7);
+  color: rgb(var(--ink-rgb) / 0.7);
 }
 
 /* Cesium's stock attribution lightbox grows with every registered data source.
@@ -405,11 +445,11 @@ body.cockpit-mode #cockpit-cloud-effects.active {
   border-radius: 999px;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-    0 1px 0 rgba(255, 255, 255, 0.06) inset,
-    0 0 20px rgba(0, 212, 255, 0.08);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    0 0 0 1px rgb(var(--ink-rgb) / 0.03) inset,
+    0 1px 0 rgb(var(--ink-rgb) / 0.06) inset,
+    0 0 20px rgb(var(--accent-rgb) / 0.08);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   font-family: var(--font-mono);
   pointer-events: auto;
 }
@@ -419,8 +459,8 @@ body.cockpit-mode #cockpit-cloud-effects.active {
   height: 34px;
   flex: 0 0 auto;
   color: var(--accent);
-  background: rgba(0, 212, 255, 0.06);
-  border: 1px solid rgba(0, 212, 255, 0.28);
+  background: rgb(var(--accent-rgb) / 0.06);
+  border: 1px solid rgb(var(--accent-rgb) / 0.28);
   border-radius: var(--btn-radius);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -429,9 +469,9 @@ body.cockpit-mode #cockpit-cloud-effects.active {
 }
 
 #gev-voice-button:hover {
-  color: #ffffff;
+  color: rgb(var(--ink-rgb));
   border-color: var(--accent);
-  box-shadow: 0 0 12px rgba(0, 212, 255, 0.22);
+  box-shadow: 0 0 12px rgb(var(--accent-rgb) / 0.22);
 }
 
 .gev-voice-readout {
@@ -538,7 +578,7 @@ body.cockpit-mode #cockpit-cloud-effects.active {
   display: block;
   width: 52px;
   height: auto;
-  filter: drop-shadow(0 0 12px rgba(0, 246, 255, 0.5));
+  filter: drop-shadow(0 0 12px rgb(var(--accent-rgb) / 0.5));
 }
 
 #title-bar .title-logo::before,

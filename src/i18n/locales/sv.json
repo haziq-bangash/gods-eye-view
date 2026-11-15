@@ -86,7 +86,6 @@
   "Larger: more sources · fainter: older. Picture card: a major or fast-growing event with two or more sources.": "Större: fler källor · blekare: äldre. Bildkort: en allvarlig eller snabbt växande händelse med två eller fler källor.",
   "Side labels describe the source, not whether a report is true.": "Etiketter för sidtillhörighet beskriver källan, inte om en rapport är sann.",
   "News items in the feed": "Nyheter i flödet",
-  "Flying to Austin, TX...": "Flyger till Austin, TX …",
   "Restoring shared view...": "Återställer delad vy …",
   "Configuring viewer...": "Konfigurerar vyn …",
   "Loading Google 3D Tiles...": "Laddar Google 3D Tiles …",
@@ -936,7 +935,6 @@
   "SAVE KEYS": "SPARA NYCKLAR",
   "ESC to close": "ESC för att stänga",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "Google Maps-nyckeln ger den fotorealistiska planeten – allt annat läggs ovanpå.",
-  "NO PLACE LEFT BEHIND": "INGEN PLATS LÄMNAS KVAR",
   "ACTIVE STYLE": "AKTIV STIL",
   "Globe actions": "Globåtgärder",
   "Turn off all selected data layers": "Stäng av alla valda datalager",
@@ -3621,5 +3619,36 @@
   "Funicular": "Bergbana",
   "Gondola": "Kabinbana",
   "Move panels back beside the rail": "Flytta tillbaka panelerna bredvid listen",
-  "Move panels over the rail, to the edge": "Flytta panelerna över listen, till kanten"
+  "Move panels over the rail, to the edge": "Flytta panelerna över listen, till kanten",
+  "{length} km": "{length} km",
+  "+{minutes} min delay": "+{minutes} min försening",
+  "avg {speed} km/h": "snitt {speed} km/h",
+  "since {time}": "sedan {time}",
+  "Informational only · follow official signs": "Endast information · följ officiell skyltning",
+  "Autobahn traffic source unavailable": "Autobahn-trafikkällan är inte tillgänglig",
+  "Show events on the {road}": "Visa händelser på {road}",
+  "Hide events on the {road}": "Dölj händelser på {road}",
+  "LONG-TERM ROADWORKS": "LÅNGVARIGA VÄGARBETEN",
+  "Show long-term roadworks": "Visa långvariga vägarbeten",
+  "Hide long-term roadworks": "Dölj långvariga vägarbeten",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "one": "Delvis uppdatering: {count} vägflöde svarade inte. Endast information – följ officiell skyltning och meddelanden.",
+    "other": "Delvis uppdatering: {count} vägflöden svarade inte. Endast information – följ officiell skyltning och meddelanden."
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "Aktuella avstängningar, varningar och vägarbeten på A1, A2, A3, A5, A7, A40 och A61 från Autobahn GmbH. Endast information – följ officiell skyltning och meddelanden.",
+  "Closure": "Avstängning",
+  "Junction closure": "Avstängd trafikplats",
+  "Traffic warning": "Trafikvarning",
+  "Short-term roadworks": "Kortvariga vägarbeten",
+  "Roadworks": "Vägarbeten",
+  "Autobahn Closures & Roadworks": "Autobahn: avstängningar och vägarbeten",
+  "Freight": "Gods",
+  "Transport": "Transport",
+  "Flying to Germany...": "Flyger till Tyskland...",
+  "More layers": "Fler lager",
+  "{count} on": {
+    "one": "{count} på",
+    "other": "{count} på"
+  },
+  "Freight bottlenecks across Germany": "Flaskhalsar i godstrafiken i Tyskland"
 }

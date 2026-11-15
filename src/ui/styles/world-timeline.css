@@ -41,8 +41,8 @@ body.cockpit-mode #world-timeline {
   border: 1px solid var(--glass-border);
   border-radius: 10px;
   background: var(--glass-bg);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
   transform: translateX(-50%);
 }
@@ -55,9 +55,9 @@ body.cockpit-mode #world-timeline {
   min-width: 32px;
   height: 32px;
   padding: 0 8px;
-  border: 1px solid rgba(123, 189, 211, 0.28);
+  border: 1px solid rgb(var(--ink-rgb) / 0.174);
   border-radius: 8px;
-  background: rgba(0, 212, 255, 0.08);
+  background: rgb(var(--accent-rgb) / 0.08);
   color: var(--text-primary);
   font: inherit;
   cursor: pointer;
@@ -65,12 +65,12 @@ body.cockpit-mode #world-timeline {
 
 #world-timeline .world-timeline-play:hover,
 #world-timeline .world-timeline-live:hover {
-  background: rgba(0, 212, 255, 0.18);
+  background: rgb(var(--accent-rgb) / 0.18);
 }
 
 #world-timeline .world-timeline-live.is-live {
-  border-color: rgba(0, 212, 255, 0.6);
-  background: rgba(0, 212, 255, 0.2);
+  border-color: rgb(var(--accent-rgb) / 0.6);
+  background: rgb(var(--accent-rgb) / 0.2);
   color: var(--accent);
   cursor: default;
 }
@@ -94,7 +94,7 @@ body.cockpit-mode #world-timeline {
   bottom: calc(100% + 6px);
   left: calc(var(--inset) + (100% - var(--inset)) * var(--at));
   padding: 2px 8px;
-  border: 1px solid rgba(0, 212, 255, 0.4);
+  border: 1px solid rgb(var(--accent-rgb) / 0.4);
   border-radius: 6px;
   background: var(--glass-bg);
   color: var(--text-primary);
@@ -116,7 +116,7 @@ body.cockpit-mode #world-timeline {
 #world-timeline .world-timeline-spinner {
   width: 10px;
   height: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgb(var(--ink-rgb) / 0.2);
   border-top-color: var(--accent);
   border-radius: 50%;
   animation: world-timeline-spin 0.9s linear infinite;
@@ -152,8 +152,8 @@ body.cockpit-mode #world-timeline {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(123, 189, 211, 0.22) 12px,
-    rgba(123, 189, 211, 0.22) calc(100% - 12px),
+    rgb(var(--ink-rgb) / 0.136) 12px,
+    rgb(var(--ink-rgb) / 0.136) calc(100% - 12px),
     transparent
   );
 }
@@ -165,7 +165,7 @@ body.cockpit-mode #world-timeline {
   left: 0;
   height: 4px;
   border-radius: 2px;
-  background: rgba(123, 189, 211, 0.22);
+  background: rgb(var(--ink-rgb) / 0.136);
   content: '';
   transform: translateY(-50%);
 }
@@ -189,7 +189,7 @@ body.cockpit-mode #world-timeline {
   height: 12px;
   margin-left: -1px;
   border-radius: 1px;
-  background: rgba(0, 212, 255, 0.75);
+  background: rgb(var(--accent-rgb) / 0.75);
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -252,8 +252,8 @@ body.cockpit-mode #world-timeline {
   margin-top: 5px;
   border: 2px solid var(--accent);
   border-radius: 50%;
-  background: #031018;
-  box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+  background: rgb(var(--surface-rgb));
+  box-shadow: 0 0 8px rgb(var(--accent-rgb) / 0.6);
   appearance: none;
 }
 
@@ -262,7 +262,7 @@ body.cockpit-mode #world-timeline {
   height: 12px;
   border: 2px solid var(--accent);
   border-radius: 50%;
-  background: #031018;
+  background: rgb(var(--surface-rgb));
 }
 
 /* A finger needs a bigger handle. */

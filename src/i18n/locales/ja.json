@@ -100,7 +100,6 @@
   "Board cleared.": "ボードを消去しました。",
   "{owner} is using the pointer — close it first.": "{owner}がポインターを使用中です。先に閉じてください。",
   "{label} · Detailed outline unavailable": "{label} · 詳細な輪郭を取得できません",
-  "Flying to Austin, TX...": "テキサス州オースティンへ移動中…",
   "Restoring shared view...": "共有ビューを復元中…",
   "Configuring viewer...": "ビューアーを設定中…",
   "Loading Google 3D Tiles...": "Google 3D Tilesを読み込み中…",
@@ -2998,7 +2997,6 @@
   "SAVE KEYS": "キーを保存",
   "ESC to close": "Escで閉じる",
   "The Google Maps key buys the photorealistic planet — everything else stacks on top.": "Google Mapsのキーでフォトリアルな地球が使えるようになり、他のすべてはその上に重なります。",
-  "NO PLACE LEFT BEHIND": "取り残される場所はない",
   "ACTIVE STYLE": "現在のスタイル",
   "Globe actions": "地球儀の操作",
   "Turn off all selected data layers": "選択中のデータレイヤーをすべてオフにする",
@@ -3534,5 +3532,34 @@
   "Funicular": "ケーブルカー",
   "Gondola": "ゴンドラ",
   "Move panels back beside the rail": "パネルをレールの横に戻す",
-  "Move panels over the rail, to the edge": "パネルをレールの上、画面端へ移動"
+  "Move panels over the rail, to the edge": "パネルをレールの上、画面端へ移動",
+  "{length} km": "{length} km",
+  "+{minutes} min delay": "+{minutes}分の遅延",
+  "avg {speed} km/h": "平均 {speed} km/h",
+  "since {time}": "{time}から",
+  "Informational only · follow official signs": "情報提供のみ · 公式の標識に従ってください",
+  "Autobahn traffic source unavailable": "アウトバーン交通情報を取得できません",
+  "Show events on the {road}": "{road} のイベントを表示",
+  "Hide events on the {road}": "{road} のイベントを非表示",
+  "LONG-TERM ROADWORKS": "長期工事",
+  "Show long-term roadworks": "長期工事を表示",
+  "Hide long-term roadworks": "長期工事を非表示",
+  "Partial update: {count} road feeds did not answer. Informational only — follow official signs and notices.": {
+    "other": "一部のみ更新：{count}件の道路フィードが応答しませんでした。情報提供のみです。公式の標識と告知に従ってください。"
+  },
+  "Current closures, warnings and roadworks on the A1, A2, A3, A5, A7, A40 and A61 from Autobahn GmbH. Informational only — follow official signs and notices.": "Autobahn GmbH による A1・A2・A3・A5・A7・A40・A61 の現在の通行止め、警告、工事。情報提供のみです。公式の標識と告知に従ってください。",
+  "Closure": "通行止め",
+  "Junction closure": "IC閉鎖",
+  "Traffic warning": "交通警報",
+  "Short-term roadworks": "短期工事",
+  "Roadworks": "工事",
+  "Autobahn Closures & Roadworks": "アウトバーン通行止め・工事",
+  "Freight": "貨物",
+  "Transport": "輸送",
+  "Flying to Germany...": "ドイツへ移動中...",
+  "More layers": "その他のレイヤー",
+  "{count} on": {
+    "other": "{count} 件オン"
+  },
+  "Freight bottlenecks across Germany": "ドイツ貨物輸送のボトルネック"
 }

@@ -509,3 +509,154 @@ test('a layer with no feed in view says why instead of "never"', async () => {
     setLocale('en');
   }
 });
+
+test('primary sections lead the panel and the other layers fold under More layers', async () => {
+  const { LayerPanel } = await import('./layerPanel.js');
+  document.body.replaceChildren();
+  const container = document.body.appendChild(document.createElement('div'));
+  const layer = (id, enabled = false) => ({
+    id,
+    name: id,
+    icon: '*',
+    source: 'Source',
+    enabled,
+    showInTogglePanel: true,
+    stats: {},
+  });
+  // Registration order differs from the panel order on purpose.
+  const layers = [
+    layer('flights', true),
+    layer('weather-radar'),
+    layer('earthquakes'),
+    layer('autobahn-traffic', true),
+  ];
+  const panel = new LayerPanel({
+    getLayers: () => layers,
+    isEnabled: (id) => layers.find((entry) => entry.id === id).enabled,
+    setEnabled: () => {},
+    setLayerParams: () => {},
+    hasRowControls: () => false,
+    subscribeRowControls: () => {},
+    getRowControls: () => null,
+    sections: [
+      { label: 'Freight', ids: ['autobahn-traffic'] },
+      { label: 'Weather', ids: ['weather-radar'] },
+    ],
+  });
+  try {
+    panel.mount(container);
+    const rows = () =>
+      [...container.querySelectorAll('[data-layer-id]')].map((row) => [
+        row.dataset.layerId,
+        row.hidden,
+      ]);
+    assert.deepEqual(
+      [...container.querySelectorAll('.data-layer-group-heading')]
+        .filter((heading) => !heading.hidden)
+        .map((heading) => heading.textContent),
+      ['Freight', 'Weather'],
+    );
+    // Folded rows stay in the document, hidden, in upstream order.
+    assert.deepEqual(rows(), [
+      ['autobahn-traffic', false],
+      ['weather-radar', false],
+      ['flights', true],
+      ['earthquakes', true],
+    ]);
+    const disclosure = container.querySelector('.data-layer-disclosure');
+    assert.equal(disclosure.getAttribute('aria-expanded'), 'false');
+    assert.match(disclosure.textContent, /More layers/);
+    assert.match(disclosure.textContent, /1 on/);
+    disclosure.click();
+    await Promise.resolve();
+    assert.equal(
+      container
+        .querySelector('.data-layer-disclosure')
+        .getAttribute('aria-expanded'),
+      'true',
+    );
+    assert.deepEqual(rows(), [
+      ['autobahn-traffic', false],
+      ['weather-radar', false],
+      ['flights', false],
+      ['earthquakes', false],
+    ]);
+  } finally {
+    panel.destroy();
+    document.body.replaceChildren();
+  }
+});
+
+test('revealLayer unfolds More layers only for a folded row', async () => {
+  const { LayerPanel } = await import('./layerPanel.js');
+  document.body.replaceChildren();
+  const container = document.body.appendChild(document.createElement('div'));
+  const layers = ['autobahn-traffic', 'flights'].map((id) => ({
+    id,
+    name: id,
+    icon: '*',
+    source: 'Source',
+    enabled: false,
+    showInTogglePanel: true,
+    stats: {},
+  }));
+  const panel = new LayerPanel({
+    getLayers: () => layers,
+    isEnabled: () => false,
+    setEnabled: () => {},
+    setLayerParams: () => {},
+    hasRowControls: () => false,
+    subscribeRowControls: () => {},
+    getRowControls: () => null,
+    sections: [{ label: 'Freight', ids: ['autobahn-traffic'] }],
+  });
+  try {
+    panel.mount(container);
+    const flights = () => container.querySelector('[data-layer-id="flights"]');
+    panel.revealLayer('autobahn-traffic');
+    await Promise.resolve();
+    assert.equal(flights().hidden, true);
+    panel.revealLayer('flights');
+    await Promise.resolve();
+    assert.equal(flights().hidden, false);
+  } finally {
+    panel.destroy();
+    document.body.replaceChildren();
+  }
+});
+
+test('without sections the panel shows every row with no disclosure', async () => {
+  const { LayerPanel } = await import('./layerPanel.js');
+  document.body.replaceChildren();
+  const container = document.body.appendChild(document.createElement('div'));
+  const layers = ['flights', 'autobahn-traffic'].map((id) => ({
+    id,
+    name: id,
+    icon: '*',
+    source: 'Source',
+    enabled: false,
+    showInTogglePanel: true,
+    stats: {},
+  }));
+  const panel = new LayerPanel({
+    getLayers: () => layers,
+    isEnabled: () => false,
+    setEnabled: () => {},
+    setLayerParams: () => {},
+    hasRowControls: () => false,
+    subscribeRowControls: () => {},
+    getRowControls: () => null,
+  });
+  try {
+    panel.mount(container);
+    assert.equal(container.querySelector('.data-layer-disclosure'), null);
+    assert.ok(
+      [...container.querySelectorAll('[data-layer-id]')].every(
+        (row) => !row.hidden,
+      ),
+    );
+  } finally {
+    panel.destroy();
+    document.body.replaceChildren();
+  }
+});

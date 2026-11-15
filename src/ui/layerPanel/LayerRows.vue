@@ -13,6 +13,7 @@ import { vClassToggle } from '../rail/classToggle.js';
 defineProps({
   items: { type: Array, required: true },
   onToggle: { type: Function, default: () => {} },
+  onDisclosure: { type: Function, default: () => {} },
   onChip: { type: Function, default: () => {} },
   onListItem: { type: Function, default: () => {} },
   onSlider: { type: Function, default: () => {} },
@@ -22,11 +23,31 @@ defineProps({
 
 <template>
   <template v-for="item in items" :key="item.key"
-    ><h3 v-if="item.heading" class="data-layer-group-heading">{{
-      item.heading
-    }}</h3
+    ><button
+      v-if="item.disclosure"
+      type="button"
+      class="data-layer-disclosure"
+      :aria-expanded="String(item.disclosure.open)"
+      @click="onDisclosure()"
+      ><span class="data-layer-disclosure-label">{{
+        item.disclosure.label
+      }}</span
+      ><span
+        v-if="item.disclosure.active"
+        class="data-layer-disclosure-active"
+        >{{ item.disclosure.active }}</span
+      ><span
+        class="data-layer-disclosure-chevron"
+        aria-hidden="true"
+      ></span></button
+    ><h3
+      v-else-if="item.heading"
+      class="data-layer-group-heading"
+      :hidden="item.folded || undefined"
+      >{{ item.heading }}</h3
     ><div
       v-else
+      :hidden="item.folded || undefined"
       class="data-toggle-row"
       v-class-toggle="{
         'data-toggle-row--count-line': item.count?.countLine,

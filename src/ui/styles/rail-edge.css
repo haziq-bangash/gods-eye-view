@@ -12,7 +12,7 @@
 }
 
 .ui-rail.ui-rail--edge-hot {
-  border-color: rgba(48, 194, 224, 0.4);
+  border-color: rgb(var(--accent-rgb) / 0.4);
 }
 
 /* The highlight itself, matching an open item's own look. */

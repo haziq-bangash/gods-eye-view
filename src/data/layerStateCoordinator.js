@@ -63,6 +63,8 @@ export class LayerStateCoordinator {
       // without sleeping out a 90 s expiry.
       setTimer = (fn, ms) => setTimeout(fn, ms),
       clearTimer = (handle) => clearTimeout(handle),
+      // Layers a first visit opens with: no share link and nothing saved.
+      firstVisitLayerIds = [],
     } = {},
   ) {
     if (!dataManager?.registrationsFinalized) {
@@ -79,6 +81,9 @@ export class LayerStateCoordinator {
     this.now = now;
     this.setTimer = setTimer;
     this.clearTimer = clearTimer;
+    this.firstVisitLayerIds = Array.isArray(firstVisitLayerIds)
+      ? firstVisitLayerIds.map(String)
+      : [];
     this._durableState = createDefaultLayerState();
     this._source = 'defaults';
     this._destroyed = false;
@@ -124,6 +129,12 @@ export class LayerStateCoordinator {
       if (stored) {
         selected = this._normalize(stored);
         this._source = 'local';
+      } else if (this.firstVisitLayerIds.length) {
+        selected = this._normalize({
+          ...createDefaultLayerState(),
+          enabledLayerIds: this.firstVisitLayerIds,
+        });
+        this._source = 'first-visit';
       }
     } else {
       // A valid historical camera/style share with no v2 layer payload keeps

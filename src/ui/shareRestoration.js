@@ -1,4 +1,5 @@
 import { LayerStateCoordinator } from '../data/layerStateCoordinator.js';
+import { FREIGHT_FIRST_VISIT_LAYER_IDS } from '../freightProfile.js';
 import { stampInitialShareGesture } from '../navigationPolicy.js';
 import { canPresentDeferredStatusNotice } from '../loadingFeedback.js';
 import { t, msg, formatDate } from '../i18n/index.js';
@@ -408,6 +409,7 @@ export class ShareRestoration {
         this.shareLinkManager,
         {
           onDurableStateChange: (state) => this.syncModels3d(state),
+          firstVisitLayerIds: FREIGHT_FIRST_VISIT_LAYER_IDS,
           onTrackingRestoreStatus: (result) =>
             this._handleShareTrackingRestoreStatus(result),
         },

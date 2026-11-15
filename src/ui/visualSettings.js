@@ -1,4 +1,5 @@
 import { clampScopeFeatherPct } from '../scopeMaskPolicy.js';
+import { FREIGHT_VISUAL_DEFAULTS } from '../freightProfile.js';
 import { STYLE_STATUS_LABELS } from './visualPresets.js';
 import { RETIRED_STYLES } from '../visualStylePolicy.js';
 import { useDisplayStore } from './stores/display.js';
@@ -820,7 +821,9 @@ export class VisualSettings {
   }
 
   _applyGlobalPostDefaults() {
-    const defaults = GLOBAL_POST_DEFAULTS;
+    // Nadelöhr's first-load look (no surveillance HUD, no scope vignette) is
+    // applied here, not in GLOBAL_POST_DEFAULTS, which the share codec reads.
+    const defaults = { ...GLOBAL_POST_DEFAULTS, ...FREIGHT_VISUAL_DEFAULTS };
     if (typeof defaults.bloom?.intensity === 'number') {
       this._setBloomIntensity(clampBloomIntensity(defaults.bloom.intensity), {
         syncShare: false,
@@ -845,6 +848,9 @@ export class VisualSettings {
       this.hud.setMode(defaults.hudVisible ? 'on' : 'off');
       this._updateHudButtonState();
     }
+
+    if (typeof defaults.scopeMask === 'boolean')
+      this._setScope({ enabled: defaults.scopeMask });
 
     if (defaults.detectionMode) {
       this._setDetectionMode(defaults.detectionMode);

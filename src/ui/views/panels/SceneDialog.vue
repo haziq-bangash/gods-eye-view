@@ -37,12 +37,12 @@ const chosenText = (item) => {
 };
 const onFiles = (item, event) => controls.value?.setFiles(item.id, event.target.files ?? []);
 
-const dialogStyle = { background: '#08141e', color: '#e3faff', border: '1px solid #397080', borderRadius: '6px', padding: '20px', width: 'min(720px,calc(100vw - 32px))', boxSizing: 'border-box', position: 'fixed', inset: '0', margin: 'auto', maxHeight: 'calc(100vh - 32px)', overflow: 'auto', font: '14px/1.5 sans-serif' };
-const buttonStyle = { background: '#10242e', color: '#e3faff', border: '1px solid #397080', borderRadius: '3px', padding: '7px 11px', margin: '6px 6px 6px 0', cursor: 'pointer', font: 'inherit' };
-const fieldStyle = (multiline) => ({ display: 'block', boxSizing: 'border-box', width: '100%', padding: '7px', margin: '6px 0 14px', color: '#e3faff', background: '#10242e', border: '1px solid #397080', font: multiline ? '12px monospace' : 'inherit' });
+const dialogStyle = { background: 'rgb(var(--surface-rgb))', color: 'rgb(var(--ink-rgb))', border: '1px solid rgb(var(--ink-rgb) / 0.62)', borderRadius: '6px', padding: '20px', width: 'min(720px,calc(100vw - 32px))', boxSizing: 'border-box', position: 'fixed', inset: '0', margin: 'auto', maxHeight: 'calc(100vh - 32px)', overflow: 'auto', font: '14px/1.5 sans-serif' };
+const buttonStyle = { background: 'rgb(var(--surface-rgb))', color: 'rgb(var(--ink-rgb))', border: '1px solid rgb(var(--ink-rgb) / 0.62)', borderRadius: '3px', padding: '7px 11px', margin: '6px 6px 6px 0', cursor: 'pointer', font: 'inherit' };
+const fieldStyle = (multiline) => ({ display: 'block', boxSizing: 'border-box', width: '100%', padding: '7px', margin: '6px 0 14px', color: 'rgb(var(--ink-rgb))', background: 'rgb(var(--surface-rgb))', border: '1px solid rgb(var(--ink-rgb) / 0.62)', font: multiline ? '12px monospace' : 'inherit' });
 const fileInputStyle = { ...fieldStyle(false), position: 'absolute', inset: '0', width: '100%', height: '100%', margin: '0', padding: '0', border: '0', opacity: '0', cursor: 'pointer', zIndex: '1' };
-const fileRowStyle = { display: 'flex', alignItems: 'center', gap: '10px', margin: '6px 0 14px', padding: '7px', background: '#10242e', border: '1px solid #397080' };
-const chooserStyle = (focused) => ({ padding: '3px 9px', border: '1px solid #397080', borderRadius: '3px', background: '#08141e', cursor: 'pointer', outline: focused ? '2px solid #e3faff' : '' });
+const fileRowStyle = { display: 'flex', alignItems: 'center', gap: '10px', margin: '6px 0 14px', padding: '7px', background: 'rgb(var(--surface-rgb))', border: '1px solid rgb(var(--ink-rgb) / 0.62)' };
+const chooserStyle = (focused) => ({ padding: '3px 9px', border: '1px solid rgb(var(--ink-rgb) / 0.62)', borderRadius: '3px', background: 'rgb(var(--surface-rgb))', cursor: 'pointer', outline: focused ? '2px solid rgb(var(--ink-rgb))' : '' });
 </script>
 
 <template>
