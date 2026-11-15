@@ -1,0 +1,27 @@
+# Render Blueprint for Nadelöhr: one Node web service that builds the app
+# once and serves it with Vite's preview server, which also runs the data
+# routes (/api/...). Connect the repository in Render (New → Blueprint) and
+# it deploys main on every push. See the README's "Deploy" section.
+services:
+  - type: web
+    name: nadeloehr
+    runtime: node
+    plan: free
+    # Closest to German users and data sources.
+    region: frankfurt
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci && npm run build
+    startCommand: node scripts/render-start.mjs
+    healthCheckPath: /
+    envVars:
+      # Same Node line as CI and the Dockerfile.
+      - key: NODE_VERSION
+        value: 24.22.2
+      # Puppeteer is only used by QA scripts; skip its Chromium download.
+      - key: PUPPETEER_SKIP_DOWNLOAD
+        value: '1'
+      # A custom domain, if you add one (comma-separated, no wildcards). The
+      # *.onrender.com name is allowed automatically.
+      - key: GEV_ALLOWED_HOSTS
+        sync: false
