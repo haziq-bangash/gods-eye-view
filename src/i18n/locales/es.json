@@ -4037,5 +4037,26 @@
   "To, e.g. München": "Destino, p. ej. Múnich",
   "Your route": "Tu ruta",
   "the route": "la ruta",
-  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min en coche"
+  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min en coche",
+  "About usual (typically {usual})": "Lo habitual (normalmente {usual})",
+  "Forecast low tomorrow": "Mínimo previsto mañana",
+  "Forecast low tonight": "Mínimo previsto esta noche",
+  "Higher than usual (typically {usual})": "Más alto de lo habitual (normalmente {usual})",
+  "History builds up hourly; a comparison follows after a day.": "El historial crece cada hora; la comparación llega tras un día.",
+  "Last 7 days": "Últimos 7 días",
+  "Lower than usual (typically {usual})": "Más bajo de lo habitual (normalmente {usual})",
+  "My roads and places": "Mis carreteras y lugares",
+  "No closures or warnings": "Sin cortes ni avisos",
+  "Nothing nearby": "Nada cerca",
+  "Pin {name}": "Fijar {name}",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "Busca una autopista (A7) o un lugar y toca la chincheta para seguirlo aquí.",
+  "Unpin {name}": "Quitar {name}",
+  "evening": "noche",
+  "morning": "mañana",
+  "{events} within {km} km": "{events} a menos de {km} km",
+  "{count} closures": {
+    "one": "{count} corte",
+    "other": "{count} cortes",
+    "many": "{count} cortes"
+  }
 }

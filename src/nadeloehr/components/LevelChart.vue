@@ -9,6 +9,8 @@ const props = defineProps({
   series: { type: Array, required: true },
   color: { type: String, default: '#007aff' },
   references: { type: Boolean, default: true },
+  startLabel: { type: String, default: null },
+  endLabel: { type: String, default: null },
 });
 
 const W = 288;
@@ -96,7 +98,7 @@ const model = computed(() => {
       vector-effect="non-scaling-stroke"
     />
     <text :x="0" :y="H - 2" class="fill-muted-foreground text-[14px]">
-      {{ t('24 h ago') }}
+      {{ startLabel ?? t('24 h ago') }}
     </text>
     <text
       :x="W"
@@ -104,7 +106,7 @@ const model = computed(() => {
       text-anchor="end"
       class="fill-muted-foreground text-[14px]"
     >
-      {{ t('now') }}
+      {{ endLabel ?? t('now') }}
     </text>
   </svg>
 </template>

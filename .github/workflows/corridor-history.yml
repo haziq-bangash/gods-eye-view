@@ -1,0 +1,49 @@
+# Nadelöhr: record the corridor risk every hour into corridor-history.json
+# on the `history` branch, which the app reads for its 7-day view. Keeping
+# the data on its own branch leaves main's history clean.
+name: Corridor history
+
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: corridor-history
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Check out the history branch
+        run: |
+          git fetch origin history || true
+          if git show-ref --verify --quiet refs/remotes/origin/history; then
+            git worktree add -B history history-data origin/history
+          else
+            git worktree add --orphan -b history history-data
+          fi
+
+      - name: Record this hour
+        run: node scripts/record-corridor-history.mjs history-data/corridor-history.json
+
+      - name: Publish
+        working-directory: history-data
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add corridor-history.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Record corridor risk $(date -u +%Y-%m-%dT%H:00Z)"
+          git push origin history

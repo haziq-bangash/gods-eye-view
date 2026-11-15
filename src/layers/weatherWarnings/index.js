@@ -32,13 +32,19 @@ export function createWeatherWarningLayer({
   let _enabled = false;
   let _clickHandler = null;
   let _selectedId = null;
+  /** A host's time range ([from, to]); null shows every current warning. */
+  let _range = null;
+  const inRange = (row) =>
+    !_range ||
+    ((row.onset === null || row.onset < _range[1]) &&
+      (row.expires === null || row.expires > _range[0]));
   /** @type {Map<string, object>} */
   const _rowById = new Map();
   /** @type {Map<string, Cesium.Entity[]>} */
   const _entitiesById = new Map();
 
   const rows = () => [..._rowById.values()];
-  const publishRows = () => onRows?.(_enabled ? rows() : []);
+  const publishRows = () => onRows?.(_enabled ? rows().filter(inRange) : []);
   const publishSelected = () =>
     onSelect?.(_selectedId ? _rowById.get(_selectedId) || null : null);
 
@@ -46,6 +52,8 @@ export function createWeatherWarningLayer({
     for (const [id, entities] of _entitiesById) {
       const row = _rowById.get(id);
       const selected = id === _selectedId;
+      const shown = Boolean(row && inRange(row));
+      for (const entity of entities) entity.show = shown;
       const color = Cesium.Color.fromCssColorString(
         WARNING_COLORS[row?.level] || '#8e8e93',
       );
@@ -259,6 +267,20 @@ export function createWeatherWarningLayer({
           id: stableId,
           ...facts,
         }));
+    },
+
+    /**
+     * Show the warnings that apply during [from, to] (tonight, tomorrow);
+     * null shows every current one.
+     */
+    setTimeRange(range) {
+      _range =
+        Array.isArray(range) && range.every(Number.isFinite) ? range : null;
+      if (_selectedId && !inRange(_rowById.get(_selectedId) || {}))
+        _selectedId = null;
+      styleEntities();
+      publishSelected();
+      publishRows();
     },
 
     /** Select one warning by id, as a click on its area does; null clears. */

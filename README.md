@@ -17,6 +17,10 @@ server, and adds a German freight layer and an interface anyone can read.
 
 ### What is new in this fork
 
+- **Your roads and places.** Pin an Autobahn or a town from search; the top
+  of the panel then says what applies to each of them.
+- **Seven days of history.** Every corridor's score is recorded hourly; its
+  card shows the last week and whether today is higher or lower than usual.
 - **Check your route.** Type "Hamburg" and "München" to get the driving
   route scored like a corridor: closures on the route itself, truck parking
   beside it and the weather it crosses, drawn on the map.
@@ -150,6 +154,11 @@ More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
 
 ### Was dieser Fork neu macht
 
+- **Eigene Strecken und Orte.** Eine Autobahn oder einen Ort aus der Suche
+  anheften; oben im Bereich steht dann, was für sie gerade gilt.
+- **Sieben Tage Verlauf.** Der Wert jedes Korridors wird stündlich
+  aufgezeichnet; seine Karte zeigt die letzte Woche und ob heute mehr oder
+  weniger los ist als üblich.
 - **Route prüfen.** „Hamburg“ und „München“ eingeben und die Fahrtroute wie
   einen Korridor bewerten lassen: Sperrungen auf der Route, Lkw-Parkplätze
   daneben und das Wetter unterwegs, auf der Karte eingezeichnet.

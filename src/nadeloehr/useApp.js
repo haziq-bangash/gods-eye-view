@@ -15,6 +15,7 @@ import { useNadeloehrStore } from './store.js';
 import { CORRIDORS, scoreCorridors, scoreRoute } from '../freight/corridors.js';
 import { kaubRow, levelDuring } from '../layers/riverLevels/records.js';
 import { horizonRange } from '../freight/horizon.js';
+import { CORRIDOR_HISTORY_URL } from './history.js';
 import { affectedParkingIds } from '../layers/truckParking/records.js';
 import { localResults, searchPlacesDE } from './search.js';
 import { todayHeadline, todayKpis } from './today.js';
@@ -227,9 +228,9 @@ export function useApp() {
   /** [from, to] of the chosen horizon; "now" is the current instant. */
   const range = computed(() => horizonRange(horizon.value, clock.value));
   function applyTimeRange() {
-    autobahnModule()?.setTimeRange?.(
-      horizon.value === 'now' ? null : range.value,
-    );
+    const timed = horizon.value === 'now' ? null : range.value;
+    autobahnModule()?.setTimeRange?.(timed);
+    weatherModule()?.setTimeRange?.(timed);
     store.touchLayers();
   }
   function setHorizon(next) {
@@ -289,6 +290,22 @@ export function useApp() {
     const corridor = CORRIDORS.find((entry) => entry.id === id);
     if (corridor) services.value?.flyToPoints?.(corridor.path);
   }
+
+  // ── Corridor history (recorded hourly by a GitHub Action) ──────
+  const corridorHistory = shallowRef(null);
+  async function loadHistory() {
+    try {
+      const response = await fetch(CORRIDOR_HISTORY_URL, {
+        cache: 'no-cache',
+      });
+      if (response.ok) corridorHistory.value = await response.json();
+    } catch {
+      /* No history yet, or offline: the breakdown simply omits it. */
+    }
+  }
+  loadHistory();
+  const historyTimer = setInterval(loadHistory, 3_600_000);
+  onBeforeUnmount(() => clearInterval(historyTimer));
 
   // ── Check a route ─────────────────────────────────────────────
   /** { from, to, path, distanceM, durationS } once a route is found. */
@@ -576,6 +593,7 @@ export function useApp() {
     horizon,
     range,
     setHorizon,
+    corridorHistory,
     route,
     routeStatus,
     routeError,

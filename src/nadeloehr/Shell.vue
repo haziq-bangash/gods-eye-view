@@ -30,6 +30,7 @@ import MapLegend from './components/MapLegend.vue';
 import MapStylePicker from './components/MapStylePicker.vue';
 import PlaceCard from './components/PlaceCard.vue';
 import RouteCheck from './components/RouteCheck.vue';
+import MyPins from './components/MyPins.vue';
 import SearchField from './components/SearchField.vue';
 import TodayStrip from './components/TodayStrip.vue';
 
@@ -280,9 +281,16 @@ async function locate() {
         <CorridorDetail
           v-if="corridor"
           :corridor="corridor"
+          :history="app.corridorHistory.value"
           @close="app.selectCorridor(null)"
         />
-        <KaubInsight v-else :gauge="kaub" @open="app.showGaugeOnMap" />
+        <KaubInsight
+          v-else
+          :gauge="kaub"
+          :horizon="app.horizon.value"
+          :range="app.range.value"
+          @open="app.showGaugeOnMap"
+        />
       </template>
     </aside>
 
@@ -410,6 +418,7 @@ async function locate() {
         <CorridorDetail
           v-else-if="corridor && !wider"
           :corridor="corridor"
+          :history="app.corridorHistory.value"
           @close="app.selectCorridor(null)"
         />
         <div v-else class="flex flex-col gap-5">
@@ -418,6 +427,7 @@ async function locate() {
             :horizon="app.horizon.value"
             @open="openHeadline"
           />
+          <MyPins :app="app" />
           <RouteCheck :app="app" />
           <CorridorCards
             :corridors="corridors"

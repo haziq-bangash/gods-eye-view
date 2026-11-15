@@ -4037,5 +4037,26 @@
   "To, e.g. München": "Para, p. ex. Munique",
   "Your route": "Sua rota",
   "the route": "a rota",
-  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min de carro"
+  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min de carro",
+  "About usual (typically {usual})": "Como de costume (normalmente {usual})",
+  "Forecast low tomorrow": "Mínimo previsto amanhã",
+  "Forecast low tonight": "Mínimo previsto esta noite",
+  "Higher than usual (typically {usual})": "Mais alto que o normal (normalmente {usual})",
+  "History builds up hourly; a comparison follows after a day.": "O histórico cresce de hora em hora; a comparação vem depois de um dia.",
+  "Last 7 days": "Últimos 7 dias",
+  "Lower than usual (typically {usual})": "Mais baixo que o normal (normalmente {usual})",
+  "My roads and places": "Minhas vias e lugares",
+  "No closures or warnings": "Sem interdições ou alertas",
+  "Nothing nearby": "Nada por perto",
+  "Pin {name}": "Fixar {name}",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "Pesquise uma autoestrada (A7) ou um lugar e toque no alfinete para acompanhá-lo aqui.",
+  "Unpin {name}": "Desafixar {name}",
+  "evening": "noite",
+  "morning": "manhã",
+  "{events} within {km} km": "{events} num raio de {km} km",
+  "{count} closures": {
+    "one": "{count} interdição",
+    "other": "{count} interdições",
+    "many": "{count} interdições"
+  }
 }

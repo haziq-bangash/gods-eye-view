@@ -3939,5 +3939,25 @@
   "To, e.g. München": "Nach, z. B. München",
   "Your route": "Deine Route",
   "the route": "der Route",
-  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} Std. {minutes} Min. mit dem Auto"
+  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} Std. {minutes} Min. mit dem Auto",
+  "About usual (typically {usual})": "Wie üblich (sonst etwa {usual})",
+  "Forecast low tomorrow": "Vorhergesagtes Tief morgen",
+  "Forecast low tonight": "Vorhergesagtes Tief heute Nacht",
+  "Higher than usual (typically {usual})": "Höher als üblich (sonst etwa {usual})",
+  "History builds up hourly; a comparison follows after a day.": "Der Verlauf wächst stündlich; ein Vergleich folgt nach einem Tag.",
+  "Last 7 days": "Letzte 7 Tage",
+  "Lower than usual (typically {usual})": "Niedriger als üblich (sonst etwa {usual})",
+  "My roads and places": "Meine Strecken und Orte",
+  "No closures or warnings": "Keine Sperrungen oder Warnungen",
+  "Nothing nearby": "Nichts in der Nähe",
+  "Pin {name}": "{name} anheften",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "Autobahn (A7) oder Ort suchen und auf die Nadel tippen, um ihn hier zu verfolgen.",
+  "Unpin {name}": "{name} lösen",
+  "evening": "abends",
+  "morning": "morgens",
+  "{events} within {km} km": "{events} im Umkreis von {km} km",
+  "{count} closures": {
+    "one": "{count} Sperrung",
+    "other": "{count} Sperrungen"
+  }
 }

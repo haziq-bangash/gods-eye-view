@@ -4037,5 +4037,26 @@
   "To, e.g. München": "A, es. Monaco di Baviera",
   "Your route": "Il tuo percorso",
   "the route": "il percorso",
-  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min in auto"
+  "{distance} km · {hours} h {minutes} min by car": "{distance} km · {hours} h {minutes} min in auto",
+  "About usual (typically {usual})": "Nella norma (di solito {usual})",
+  "Forecast low tomorrow": "Minimo previsto domani",
+  "Forecast low tonight": "Minimo previsto stanotte",
+  "Higher than usual (typically {usual})": "Più alto del solito (di solito {usual})",
+  "History builds up hourly; a comparison follows after a day.": "Lo storico cresce ogni ora; un confronto arriva dopo un giorno.",
+  "Last 7 days": "Ultimi 7 giorni",
+  "Lower than usual (typically {usual})": "Più basso del solito (di solito {usual})",
+  "My roads and places": "Le mie strade e luoghi",
+  "No closures or warnings": "Nessuna chiusura o avviso",
+  "Nothing nearby": "Niente nelle vicinanze",
+  "Pin {name}": "Fissa {name}",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "Cerca un’autostrada (A7) o un luogo e tocca la puntina per seguirlo qui.",
+  "Unpin {name}": "Rimuovi {name}",
+  "evening": "sera",
+  "morning": "mattina",
+  "{events} within {km} km": "{events} entro {km} km",
+  "{count} closures": {
+    "one": "{count} chiusura",
+    "other": "{count} chiusure",
+    "many": "{count} chiusure"
+  }
 }

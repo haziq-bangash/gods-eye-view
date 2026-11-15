@@ -4037,5 +4037,26 @@
   "To, e.g. München": "אל, למשל מינכן",
   "Your route": "המסלול שלך",
   "the route": "המסלול",
-  "{distance} km · {hours} h {minutes} min by car": "{distance} ק״מ · {hours} ש׳ {minutes} דק׳ ברכב"
+  "{distance} km · {hours} h {minutes} min by car": "{distance} ק״מ · {hours} ש׳ {minutes} דק׳ ברכב",
+  "About usual (typically {usual})": "כרגיל (בדרך כלל {usual})",
+  "Forecast low tomorrow": "השפל הצפוי מחר",
+  "Forecast low tonight": "השפל הצפוי הלילה",
+  "Higher than usual (typically {usual})": "גבוה מהרגיל (בדרך כלל {usual})",
+  "History builds up hourly; a comparison follows after a day.": "ההיסטוריה מתמלאת כל שעה; השוואה תופיע אחרי יום.",
+  "Last 7 days": "7 הימים האחרונים",
+  "Lower than usual (typically {usual})": "נמוך מהרגיל (בדרך כלל {usual})",
+  "My roads and places": "הכבישים והמקומות שלי",
+  "No closures or warnings": "אין סגירות או אזהרות",
+  "Nothing nearby": "אין דבר בקרבת מקום",
+  "Pin {name}": "הצמדת {name}",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "חפשו כביש מהיר (A7) או מקום והקישו על הנעץ כדי לעקוב אחריו כאן.",
+  "Unpin {name}": "ביטול הצמדת {name}",
+  "evening": "ערב",
+  "morning": "בוקר",
+  "{events} within {km} km": "{events} ברדיוס {km} ק״מ",
+  "{count} closures": {
+    "one": "סגירה {count}",
+    "two": "{count} סגירות",
+    "other": "{count} סגירות"
+  }
 }

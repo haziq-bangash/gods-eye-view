@@ -3841,5 +3841,24 @@
   "To, e.g. München": "目的地（例：ミュンヘン）",
   "Your route": "あなたのルート",
   "the route": "ルート",
-  "{distance} km · {hours} h {minutes} min by car": "車で {distance} km · {hours} 時間 {minutes} 分"
+  "{distance} km · {hours} h {minutes} min by car": "車で {distance} km · {hours} 時間 {minutes} 分",
+  "About usual (typically {usual})": "いつも通り（通常 {usual}）",
+  "Forecast low tomorrow": "明日の予測最低水位",
+  "Forecast low tonight": "今夜の予測最低水位",
+  "Higher than usual (typically {usual})": "通常より高い（通常 {usual}）",
+  "History builds up hourly; a comparison follows after a day.": "履歴は毎時たまります。比較は1日後から表示されます。",
+  "Last 7 days": "過去 7 日間",
+  "Lower than usual (typically {usual})": "通常より低い（通常 {usual}）",
+  "My roads and places": "マイ道路・場所",
+  "No closures or warnings": "通行止めや警告はありません",
+  "Nothing nearby": "付近に何もありません",
+  "Pin {name}": "{name} をピン留め",
+  "Search an Autobahn (A7) or a place and tap the pin to follow it here.": "アウトバーン（A7）や場所を検索し、ピンをタップするとここで追跡できます。",
+  "Unpin {name}": "{name} のピンを外す",
+  "evening": "夕方",
+  "morning": "朝",
+  "{events} within {km} km": "半径 {km} km 以内に {events}",
+  "{count} closures": {
+    "other": "通行止め {count} 件"
+  }
 }
