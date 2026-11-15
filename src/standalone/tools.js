@@ -18,7 +18,10 @@ export function createStandaloneTools(options) {
     },
     ...options,
     voice: {
-      supportedProviders: ['openai', 'gemini'],
+      // GEV_ASSISTANT_PROVIDER pins one provider (a hosted site with one key).
+      supportedProviders: import.meta.env.GEV_ASSISTANT_PROVIDER
+        ? [import.meta.env.GEV_ASSISTANT_PROVIDER]
+        : ['openai', 'gemini'],
       panel: true,
       toolCatalog: loadToolCatalog,
       ...options?.voice,

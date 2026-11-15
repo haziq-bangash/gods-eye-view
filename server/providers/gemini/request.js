@@ -77,3 +77,39 @@ export async function readGeminiTokenRequest(req, signal, maxBytes = 1024) {
     return 'push-to-talk';
   throw fail('BAD_BODY');
 }
+
+const CLIENT_IP = /^[0-9a-f:.]{3,45}$/i;
+
+/**
+ * The typed assistant on a public deployment. The local gate above refuses
+ * anything that came through a proxy, which on a hosted site (Render behind
+ * Cloudflare) is every request. When `publicOrigin` is set (for example
+ * `GEV_PUBLIC_ASSISTANT_ORIGIN=https://nadeloehr.dropboard.de`), a proxied
+ * chat request is admitted only if its Origin and Host are exactly that
+ * site's and the browser does not call it cross-site.
+ *
+ * Returns the visitor's rate-limit key (Cloudflare's `cf-connecting-ip`,
+ * which Cloudflare sets and visitors cannot forge through it), or null when
+ * the request is not such a hosted request. Behind the proxy every socket
+ * peer is the proxy itself, so the socket address cannot tell visitors apart.
+ */
+export function hostedChatClient(req, publicOrigin = '') {
+  const configured = String(publicOrigin || '').trim();
+  if (!configured) return null;
+  let site;
+  try {
+    site = new URL(configured);
+  } catch {
+    return null;
+  }
+  if (site.protocol !== 'https:' || site.origin !== configured) return null;
+  const headers = req.headers || {};
+  if (headers.origin !== site.origin) return null;
+  if (String(headers.host || '').toLowerCase() !== site.host) return null;
+  const fetchSite = String(headers['sec-fetch-site'] || '')
+    .trim()
+    .toLowerCase();
+  if (fetchSite && fetchSite !== 'same-origin') return null;
+  const ip = String(headers['cf-connecting-ip'] || '').trim();
+  return CLIENT_IP.test(ip) ? `cf:${ip}` : null;
+}

@@ -25,3 +25,14 @@ services:
       # *.onrender.com name is allowed automatically.
       - key: GEV_ALLOWED_HOSTS
         sync: false
+      # The typed assistant ("Ask Nadelöhr") on this public site: admit chat
+      # requests whose Origin is exactly this address (the server otherwise
+      # answers AI requests only from the same machine), allow 10 questions
+      # per minute per visitor, and offer Gemini only (set GEMINI_API_KEY in
+      # the dashboard). Voice stays local-only.
+      - key: GEV_PUBLIC_ASSISTANT_ORIGIN
+        value: https://nadeloehr.dropboard.de
+      - key: GEV_RATELIMIT_GEMINI_CHAT_PER_MIN
+        value: '10'
+      - key: GEV_ASSISTANT_PROVIDER
+        value: gemini

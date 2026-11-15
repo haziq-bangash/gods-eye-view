@@ -6,7 +6,10 @@ import {
 } from './rate-limit.js';
 import { waitForSignal } from '../../../src/sources/requestDeadline.js';
 import { readResponseJsonCapped } from '../../../src/sources/httpBody.js';
-import { isGeminiRequestOriginAllowed } from '../gemini/request.js';
+import {
+  hostedChatClient,
+  isGeminiRequestOriginAllowed,
+} from '../gemini/request.js';
 import { parseUsage } from './textTools.js';
 
 const MAX_BYTES = 512 * 1024;
@@ -56,6 +59,9 @@ export function createTextChatHandler({
   resolveApiKey,
   resolveHost = () => process.env.HOST,
   resolveAllowedHosts = () => process.env.GEV_ALLOWED_HOSTS,
+  // A public deployment's exact origin (see hostedChatClient); unset keeps
+  // the chat local-only.
+  resolvePublicOrigin = () => process.env.GEV_PUBLIC_ASSISTANT_ORIGIN,
   resolveRateLimit = () =>
     process.env[`GEV_RATELIMIT_${provider.toUpperCase()}_CHAT_PER_MIN`],
   // An unset chat throttle follows the provider's own cost throttle.
@@ -100,7 +106,9 @@ export function createTextChatHandler({
     let response;
     let usage = null;
     try {
+      const hosted = hostedChatClient(req, resolvePublicOrigin());
       if (
+        !hosted &&
         !isGeminiRequestOriginAllowed(req, resolveHost(), resolveAllowedHosts())
       )
         return reply(403, FAILURE);
@@ -127,7 +135,7 @@ export function createTextChatHandler({
           resolveRateLimit(),
           resolvePerMinuteCap(resolveProviderRateLimit(), providerPerMin),
         );
-      if (limiter && !limiter(clientKey(req))) {
+      if (limiter && !limiter(hosted || clientKey(req))) {
         res.setHeader('Retry-After', '60');
         return reply(429, FAILURE, 'RATE_LIMITED');
       }
