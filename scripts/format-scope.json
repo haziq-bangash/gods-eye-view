@@ -1596,5 +1596,7 @@
   "src/nadeloehr/routeVerdict.js",
   "src/nadeloehr/routeVerdict.test.mjs",
   "src/nadeloehr/savedRoutes.js",
-  "src/nadeloehr/savedRoutes.test.mjs"
+  "src/nadeloehr/savedRoutes.test.mjs",
+  "src/nadeloehr/tripPlan.js",
+  "src/nadeloehr/tripPlan.test.mjs"
 ]

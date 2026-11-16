@@ -4223,5 +4223,22 @@
   "Remove {route}": "הסרת {route}",
   "Remove saved route": "הסרת המסלול השמור",
   "Save route": "שמירת מסלול",
-  "Looking for a way round…": "מחפשים מעקף…"
+  "Looking for a way round…": "מחפשים מעקף…",
+  "Arrive about {at} · {driving} driving": "הגעה בערך ב-{at} · {driving} נהיגה",
+  "Break at {place}": "הפסקה ב-{place}",
+  "Break due by {at}": "הפסקה נדרשת עד {at}",
+  "After {driving} · about {at} · {count} truck spaces": "אחרי {driving} · בערך ב-{at} · {count} מקומות למשאיות",
+  "No truck parking on your side of the road before then.": "אין חניית משאיות בצד שלך לפני כן.",
+  "By truck": "במשאית",
+  "Leaving at": "יציאה ב-",
+  "Plan the breaks": "תכנון ההפסקות",
+  "Turns on truck parking to find rest areas on your side.": "מפעיל חניות משאיות כדי למצוא תחנות מנוחה בצד שלך.",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "יותר מ-10 שעות נהיגה: יש לתכנן מנוחה של 11 שעות בדרך.",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "יותר מ-9 שעות נהיגה: מותר כיום של 10 שעות פעמיים בשבוע.",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "בממוצע {speed} קמ״ש, עם הפסקה של 45 דקות אחרי 4.5 שעות נהיגה (כללי האיחוד האירופי). כלי עזר לתכנון, לא טכוגרף.",
+  "You reach it about {at}, before it closes at {from}": "תגיעו בערך ב-{at}, לפני שייסגר ב-{from}",
+  "You reach it about {at}, after it reopened at {to}": "תגיעו בערך ב-{at}, אחרי שנפתח מחדש ב-{to}",
+  "You reach it about {at}, while it is closed until {to}": "תגיעו בערך ב-{at}, כשהוא סגור עד {to}",
+  "You reach it about {at}": "תגיעו בערך ב-{at}",
+  "{road}: open when you pass": "{road}: פתוח כשתעברו"
 }

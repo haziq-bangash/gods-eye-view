@@ -4011,5 +4011,22 @@
   "Remove {route}": "{route} を削除",
   "Remove saved route": "保存したルートを削除",
   "Save route": "ルートを保存",
-  "Looking for a way round…": "迂回路を探しています…"
+  "Looking for a way round…": "迂回路を探しています…",
+  "Arrive about {at} · {driving} driving": "到着 {at} 頃 · 運転 {driving}",
+  "Break at {place}": "{place}で休憩",
+  "Break due by {at}": "{at} までに休憩が必要",
+  "After {driving} · about {at} · {count} truck spaces": "{driving} 後 · {at} 頃 · トラック {count} 台分",
+  "No truck parking on your side of the road before then.": "それまでに進行方向側のトラック駐車場はありません。",
+  "By truck": "トラックで",
+  "Leaving at": "出発時刻",
+  "Plan the breaks": "休憩を計画",
+  "Turns on truck parking to find rest areas on your side.": "トラック駐車場をオンにして、進行方向側の休憩所を探します。",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "運転10時間超: 途中で11時間の休息を計画してください。",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "運転9時間超: 週2回まで10時間の日として認められます。",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "平均時速 {speed} km、運転4.5時間ごとに45分の休憩(EU規則)。計画の目安であり、タコグラフではありません。",
+  "You reach it about {at}, before it closes at {from}": "{at} 頃に到着。{from} の通行止め開始前です",
+  "You reach it about {at}, after it reopened at {to}": "{at} 頃に到着。{to} に解除済みです",
+  "You reach it about {at}, while it is closed until {to}": "{at} 頃に到着。{to} まで通行止め中です",
+  "You reach it about {at}": "{at} 頃に到着",
+  "{road}: open when you pass": "{road}: 通過時は通行可"
 }

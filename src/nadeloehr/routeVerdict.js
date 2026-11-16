@@ -109,6 +109,36 @@ export function detourVias(path, closure, offsetKm = DETOUR_OFFSET_KM) {
   ]);
 }
 
+/** The closures that stop you: all of them, unless timing says you pass one open. */
+export function blockingClosures(closures, timing = null) {
+  return closures.filter((row) => {
+    const state = timing?.get(row.stableId)?.state;
+    return state !== 'before' && state !== 'after';
+  });
+}
+
+/** "You reach it about 21:40, before it closes at 22:00." */
+function reachText(reach) {
+  if (!reach) return '';
+  const at = clock(reach.at);
+  if (reach.state === 'before')
+    return t('You reach it about {at}, before it closes at {from}', {
+      at,
+      from: clock(reach.from),
+    });
+  if (reach.state === 'after')
+    return t('You reach it about {at}, after it reopened at {to}', {
+      at,
+      to: clock(reach.to),
+    });
+  if (reach.state === 'during')
+    return t('You reach it about {at}, while it is closed until {to}', {
+      at,
+      to: clock(reach.to),
+    });
+  return t('You reach it about {at}', { at });
+}
+
 /** When a closure applies, from its notice: "22:00–05:00", or ''. */
 function closureWhen(row, now) {
   const schedule = scheduleNow(row.details, now);
@@ -134,6 +164,9 @@ function closureWhen(row, now) {
  * @param {?object} input.bans - banNotice() for the route's states.
  * @param {string} [input.horizon] - 'now' | 'tonight' | 'tomorrow'.
  * @param {number} [input.now]
+ * @param {?Map<string, object>} [input.timing] - When a truck reaches each
+ *   closure (planTrip's closures by stableId); a closure passed while open
+ *   is no problem.
  * @param {boolean} [input.detourPending] - A way round is being routed.
  * @param {boolean} [input.weatherChecked] - False while the warnings layer
  *   is off, so the verdict says the weather was not looked at.
@@ -148,20 +181,28 @@ export function routeVerdict({
   now = Date.now(),
   weatherChecked = true,
   detourPending = false,
+  timing = null,
 }) {
   const lines = [];
   const events = scored?.events || [];
-  const closures = events.filter((row) => row.kind === 'closure');
+  const allClosures = events.filter((row) => row.kind === 'closure');
+  const closures = blockingClosures(allClosures, timing);
   const detour = detourAround(route, closures);
 
-  for (const row of closures) {
+  for (const row of allClosures) {
     const when = closureWhen(row, now);
+    const reach = timing?.get(row.stableId);
+    const open = reach && (reach.state === 'before' || reach.state === 'after');
     lines.push({
-      kind: 'closure',
-      problem: true,
+      kind: open ? 'closure-open' : 'closure',
+      problem: !open,
       row,
-      title: t('{road} closed', { road: row.road || t('Road') }),
-      detail: [disruptionPlace(row), when].filter(Boolean).join(' · '),
+      title: open
+        ? t('{road}: open when you pass', { road: row.road || t('Road') })
+        : t('{road} closed', { road: row.road || t('Road') }),
+      detail: [disruptionPlace(row), reachText(reach) || when]
+        .filter(Boolean)
+        .join(' · '),
     });
   }
   if (closures.length)

@@ -4117,5 +4117,22 @@
   "Remove {route}": "Ta bort {route}",
   "Remove saved route": "Ta bort sparad rutt",
   "Save route": "Spara rutt",
-  "Looking for a way round…": "Letar efter en omväg…"
+  "Looking for a way round…": "Letar efter en omväg…",
+  "Arrive about {at} · {driving} driving": "Framme cirka {at} · {driving} körning",
+  "Break at {place}": "Rast vid {place}",
+  "Break due by {at}": "Rast senast {at}",
+  "After {driving} · about {at} · {count} truck spaces": "Efter {driving} · cirka {at} · {count} lastbilsplatser",
+  "No truck parking on your side of the road before then.": "Ingen lastbilsparkering på din sida före dess.",
+  "By truck": "Med lastbil",
+  "Leaving at": "Avgång",
+  "Plan the breaks": "Planera rasterna",
+  "Turns on truck parking to find rest areas on your side.": "Slår på lastbilsparkering för att hitta rastplatser på din sida.",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "Mer än 10 timmars körning: planera en 11 timmars vila på vägen.",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "Mer än 9 timmars körning: tillåtet som 10-timmarsdag två gånger i veckan.",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "Med i snitt {speed} km/h och 45 minuters rast efter 4,5 timmars körning (EU-regler). Ett planeringsstöd, inte en färdskrivare.",
+  "You reach it about {at}, before it closes at {from}": "Du når den cirka {at}, innan den stänger {from}",
+  "You reach it about {at}, after it reopened at {to}": "Du når den cirka {at}, efter att den öppnade igen {to}",
+  "You reach it about {at}, while it is closed until {to}": "Du når den cirka {at}, medan den är stängd till {to}",
+  "You reach it about {at}": "Du når den cirka {at}",
+  "{road}: open when you pass": "{road}: öppen när du passerar"
 }

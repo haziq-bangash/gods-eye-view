@@ -4,6 +4,8 @@ import {
   CORRIDORS,
   RISK_WEIGHTS,
   corridorEvents,
+  goesTheSameWay,
+  pathHeadingAt,
   distanceToPathKm,
   riskLevel,
   scoreCorridor,
@@ -177,4 +179,68 @@ test('thinning keeps the ends and roughly one point per step', () => {
   assert.deepEqual(thin[0], path[0]);
   assert.deepEqual(thin.at(-1), path.at(-1));
   assert.ok(thin.length > 90 && thin.length < 110, String(thin.length));
+});
+
+// A route heading south along 9.5° E, and events drawn in their direction
+// of travel, as Autobahn GmbH draws them.
+const SOUTH = [
+  [9.5, 52.0],
+  [9.5, 51.5],
+  [9.5, 51.0],
+];
+const directed = (kind, from, to, details = []) => ({
+  kind,
+  road: 'A7',
+  lon: from[0],
+  lat: from[1],
+  line: [from, to],
+  details,
+});
+
+test('a route reads its own heading', () => {
+  assert.equal(Math.round(pathHeadingAt(SOUTH, [9.5, 51.5])), 180);
+  assert.equal(pathHeadingAt([[9, 50]], [9, 50]), null);
+});
+
+test('a route counts the events on its own carriageway, not the other', () => {
+  const southbound = directed('closure', [9.5, 51.52], [9.5, 51.48]);
+  const northbound = directed('closure', [9.5, 51.48], [9.5, 51.52]);
+  const crossing = directed('closure', [9.48, 51.5], [9.52, 51.5]);
+  assert.equal(goesTheSameWay(southbound, SOUTH), true);
+  assert.equal(goesTheSameWay(northbound, SOUTH), false);
+  assert.equal(goesTheSameWay(crossing, SOUTH), false);
+  // Both ways in one notice, an exit ramp, or no usable line: it counts.
+  assert.equal(
+    goesTheSameWay(
+      event(
+        'roadworks',
+        [9.5, 51.48],
+        [9.5, 51.52],
+        ['A7, von AS Flensburg bis AS Schuby beide RiFa Bohrkernentnahmen'],
+      ),
+      SOUTH,
+    ),
+    true,
+  );
+  assert.equal(
+    goesTheSameWay({ ...northbound, kind: 'ramp-closure' }, SOUTH),
+    true,
+  );
+  assert.equal(goesTheSameWay({ ...northbound, line: null }, SOUTH), true);
+  assert.equal(
+    goesTheSameWay(directed('closure', [9.5, 51.5], [9.5, 51.5001]), SOUTH),
+    true,
+  );
+
+  const scored = scoreRoute(
+    { from: 'A', to: 'B', path: SOUTH },
+    { events: [southbound, northbound, crossing], now: 0 },
+  );
+  assert.deepEqual(scored.events, [southbound]);
+});
+
+test('a corridor, drawn through cities, still counts both ways', () => {
+  const corridor = { path: SOUTH, roads: ['A7'], bufferKm: 25 };
+  const northbound = directed('closure', [9.5, 51.48], [9.5, 51.52]);
+  assert.deepEqual(corridorEvents(corridor, [northbound]), [northbound]);
 });

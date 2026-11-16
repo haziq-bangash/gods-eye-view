@@ -162,9 +162,77 @@ export function distanceToPathKm(point, path) {
   return best;
 }
 
-/** The Autobahn events that lie on a corridor. */
+/** The Autobahn events that lie on a corridor (and, on a route, its way). */
 export function corridorEvents(corridor, events) {
-  return nearPath(corridor, events, corridor.bufferKm ?? CORRIDOR_BUFFER_KM);
+  const near = nearPath(
+    corridor,
+    events,
+    corridor.bufferKm ?? CORRIDOR_BUFFER_KM,
+  );
+  return corridor.directional
+    ? near.filter((row) => goesTheSameWay(row, corridor.path))
+    : near;
+}
+
+/** An event's line heads within this many degrees of the route to count. */
+export const SAME_WAY_DEGREES = 60;
+/** Lines shorter than this give no reliable heading. */
+const HEADING_MIN_KM = 0.15;
+/** Notices that say one event covers both carriageways. */
+const BOTH_WAYS =
+  /beide\s*(?:FR|Ri\.?Fa|Fahrtrichtungen|Richtungen)|(?:FR|Ri\.?Fa)\.?\s*beide|in beiden Richtungen/i;
+
+/** Compass bearing in degrees from a to b ([lon, lat]), flat at this scale. */
+function bearing(a, b) {
+  const k = Math.cos((((a[1] + b[1]) / 2) * Math.PI) / 180);
+  const deg = (Math.atan2((b[0] - a[0]) * k, b[1] - a[1]) * 180) / Math.PI;
+  return (deg + 360) % 360;
+}
+
+/** The route's heading near `point`: over about 2 km either side of it. */
+export function pathHeadingAt(path, point) {
+  if (!Array.isArray(path) || path.length < 2) return null;
+  let nearest = 0;
+  let best = Infinity;
+  for (let i = 0; i < path.length; i += 1) {
+    const d = distanceKm(point, path[i]);
+    if (d < best) {
+      best = d;
+      nearest = i;
+    }
+  }
+  const walk = (step) => {
+    let i = nearest;
+    let walked = 0;
+    while (i + step >= 0 && i + step < path.length && walked < 2) {
+      walked += distanceKm(path[i], path[i + step]);
+      i += step;
+    }
+    return path[i];
+  };
+  const [a, b] = [walk(-1), walk(1)];
+  return a === b ? null : bearing(a, b);
+}
+
+/**
+ * Whether an event applies to traffic going the route's way. Autobahn GmbH
+ * draws an event's line in its direction of travel ("Hamburg -> Hannover"
+ * runs south), so a closure on the other carriageway, or on a road the
+ * route crosses, heads elsewhere. Exit ramps, both-way notices and events
+ * without a usable line count, as before.
+ */
+export function goesTheSameWay(row, path) {
+  if (row?.kind === 'ramp-closure') return true;
+  if ((row?.details || []).some((line) => BOTH_WAYS.test(String(line))))
+    return true;
+  const line = row?.line;
+  if (!Array.isArray(line) || line.length < 2) return true;
+  const [first, last] = [line[0], line.at(-1)];
+  if (distanceKm(first, last) < HEADING_MIN_KM) return true;
+  const route = pathHeadingAt(path, [row.lon, row.lat]);
+  if (route === null) return true;
+  const diff = Math.abs(((bearing(first, last) - route + 540) % 360) - 180);
+  return diff <= SAME_WAY_DEGREES;
 }
 
 /** [west, south, east, north] of a path, widened by `km`. */
@@ -365,6 +433,8 @@ export function scoreRoute(route, inputs = {}) {
     roads: null,
     river: null,
     path: thinPath(route.path),
+    // A route goes one way: events on the other carriageway are not on it.
+    directional: true,
     bufferKm: ROUTE_EVENT_KM,
     parkingBufferKm: ROUTE_PARKING_KM,
   });
