@@ -4158,5 +4158,6 @@
   "In force when you leave, in {state}; it ends at {to}.": "Gilt schon bei der Abfahrt, in {state}; es endet um {to}.",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "Es beginnt um {at}, während du in {state} bist. Park bis dahin, zum Beispiel in {place} (gegen {time}), oder warte bis {to}.",
   "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "Es beginnt um {at}, während du in {state} bist. Park bis dahin; es endet um {to}.",
-  "Suggestions for {field}": "Vorschläge für {field}"
+  "Suggestions for {field}": "Vorschläge für {field}",
+  "Coordinates": "Koordinaten"
 }

@@ -4370,5 +4370,6 @@
   "In force when you leave, in {state}; it ends at {to}.": "Діє вже під час виїзду, у землі {state}; закінчується о {to}.",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "Починається о {at}, коли ви будете в землі {state}. Станьте на стоянку до того, наприклад на {place} (близько {time}), або чекайте до {to}.",
   "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "Починається о {at}, коли ви будете в землі {state}. Станьте на стоянку до того; закінчується о {to}.",
-  "Suggestions for {field}": "Підказки для поля «{field}»"
+  "Suggestions for {field}": "Підказки для поля «{field}»",
+  "Coordinates": "Координати"
 }

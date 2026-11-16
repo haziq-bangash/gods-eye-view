@@ -9,6 +9,8 @@ import {
   normalizePhotonFeature,
 } from '../keylessGeocoder.js';
 import { CORRIDORS } from '../freight/corridors.js';
+import { parseCoordinateQuery } from '../search/coordinateParser.js';
+import { msg, t } from '../i18n/index.js';
 
 const PHOTON = 'https://photon.komoot.io/api/';
 const GERMANY_CENTER = Object.freeze({ lat: 51.1, lon: 10.45 });
@@ -30,6 +32,30 @@ export function routeQuery(text) {
   return from.length >= 2 && to.length >= 2 ? [from, to] : null;
 }
 
+const COORDINATES = msg('Coordinates');
+
+/**
+ * Coordinates as a place result: decimal or degrees-minutes-seconds pairs,
+ * UTM and MGRS grid references, plus codes and geo: links, as a dispatcher
+ * might send a depot's position. Null for anything else.
+ */
+export function coordinateResult(text) {
+  const point = parseCoordinateQuery(String(text || ''));
+  if (!point) return null;
+  return {
+    type: 'place',
+    id: `coord:${point.lat.toFixed(5)},${point.lon.toFixed(5)}`,
+    instant: true,
+    place: {
+      name: point.label,
+      label: t(COORDINATES),
+      lat: point.lat,
+      lng: point.lon,
+      types: ['coordinates'],
+    },
+  };
+}
+
 /** "a 7", "A-7", "a7" → "A7"; anything else → null. */
 export function autobahnQuery(text) {
   const match = ROAD.exec(String(text || ''));
@@ -39,6 +65,8 @@ export function autobahnQuery(text) {
 /** Results that need no network: roads, gauges and corridors. */
 export function localResults(text, { events = [], gauges = [] } = {}) {
   const results = [];
+  const coordinates = coordinateResult(text);
+  if (coordinates) return [coordinates];
   const trip = routeQuery(text);
   if (trip)
     return [
@@ -120,7 +148,13 @@ export async function searchPlacesDE(
   } = {},
 ) {
   const query = String(text || '').trim();
-  if (query.length < 2 || autobahnQuery(query) || routeQuery(query)) return [];
+  if (
+    query.length < 2 ||
+    autobahnQuery(query) ||
+    routeQuery(query) ||
+    coordinateResult(query)
+  )
+    return [];
   const response = await fetchImpl(placeSearchUrl(query, locale), { signal });
   if (!response.ok) return [];
   const data = await response.json();

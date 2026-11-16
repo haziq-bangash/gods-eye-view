@@ -4052,5 +4052,6 @@
   "In force when you leave, in {state}; it ends at {to}.": "出發時已在{state}生效;{to} 結束。",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "{at} 開始,屆時你在{state}。請在此之前停車,例如在{place}(約 {time}),或等到 {to}。",
   "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "{at} 開始,屆時你在{state}。請在此之前停車;{to} 結束。",
-  "Suggestions for {field}": "{field}的建議"
+  "Suggestions for {field}": "{field}的建議",
+  "Coordinates": "座標"
 }

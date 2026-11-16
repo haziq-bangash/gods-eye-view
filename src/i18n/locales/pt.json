@@ -4264,5 +4264,6 @@
   "In force when you leave, in {state}; it ends at {to}.": "Em vigor na partida, em {state}; termina às {to}.",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "Começa às {at} enquanto você está em {state}. Estacione antes, por exemplo em {place} (por volta das {time}), ou espere até às {to}.",
   "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "Começa às {at} enquanto você está em {state}. Estacione antes; termina às {to}.",
-  "Suggestions for {field}": "Sugestões para {field}"
+  "Suggestions for {field}": "Sugestões para {field}",
+  "Coordinates": "Coordenadas"
 }

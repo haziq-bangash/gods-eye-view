@@ -417,6 +417,26 @@ right-hand insight card hides while Street Level is on. The Street Level
 browser gate (FIT/FILL) had been failing since the Today layout because the
 strip covered those controls.
 
+## Coordinates in search — Nadelöhr
+
+The search bar and the route's From and To fields read coordinates, so a
+depot position sent by a dispatcher can be pasted as it is. Accepted:
+
+- decimal or degrees-minutes-seconds pairs;
+- UTM and MGRS grid references;
+- plus codes;
+- `geo:` links.
+
+`coordinateResult` in `src/nadeloehr/search.js` makes them a place
+("51.3156° N, 9.4979° E") at once, without calling the place search. A
+typed route between two coordinate pairs stays a route.
+
+The parser is upstream's pull request #1750 (`src/search/coordinateParser.js`,
+`gridReference.js`, `plusCode.js` and their tests), copied over unchanged
+rather than merged. Upstream has since moved its globe behind a renderer
+that forbids direct Cesium use outside `src/render/`. Nadelöhr's layers
+use Cesium directly, so upstream changes are taken piece by piece.
+
 ## Suggestions while typing — Nadelöhr
 
 The search bar and the route's From and To fields suggest as you type.

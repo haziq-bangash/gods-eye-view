@@ -4264,5 +4264,6 @@
   "In force when you leave, in {state}; it ends at {to}.": "En vigueur à votre départ, en {state} ; elle se termine à {to}.",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "Elle commence à {at} alors que vous êtes en {state}. Garez-vous avant, par exemple à {place} (vers {time}), ou attendez {to}.",
   "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "Elle commence à {at} alors que vous êtes en {state}. Garez-vous avant ; elle se termine à {to}.",
-  "Suggestions for {field}": "Suggestions pour {field}"
+  "Suggestions for {field}": "Suggestions pour {field}",
+  "Coordinates": "Coordonnées"
 }
