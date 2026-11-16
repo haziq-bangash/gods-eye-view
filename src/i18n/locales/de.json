@@ -3702,8 +3702,6 @@
   "Wind speed and direction": "Windgeschwindigkeit und -richtung",
   "Ships": "Schiffe",
   "Live ship positions on rivers and seas": "Live-Schiffspositionen auf Flüssen und Meeren",
-  "Trains": "Züge",
-  "Live trains where operators publish them": "Live-Züge, wo Betreiber sie veröffentlichen",
   "Show all {count}": {
     "one": "Alle {count} anzeigen",
     "other": "Alle {count} anzeigen"
@@ -4035,5 +4033,27 @@
   "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "Auf iPhone und iPad zuerst Nadelöhr zum Home-Bildschirm hinzufügen („Teilen“, dann „Zum Home-Bildschirm“) und dort die Benachrichtigungen einschalten.",
   "Pin a road or place to get alerts for it.": "Hefte eine Strecke oder einen Ort an, um dafür Benachrichtigungen zu bekommen.",
   "This browser cannot show alerts.": "Dieser Browser kann keine Benachrichtigungen anzeigen.",
-  "The assistant has answered all it can for today. Ask again tomorrow.": "Der Assistent hat für heute alles beantwortet, was er kann. Frag morgen wieder."
+  "The assistant has answered all it can for today. Ask again tomorrow.": "Der Assistent hat für heute alles beantwortet, was er kann. Frag morgen wieder.",
+  "Train timetable unavailable": "Fahrplan nicht verfügbar",
+  "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "Fernzüge nach dem Fahrplan von gtfs.de (DELFI) platziert. Die Deutsche Bahn veröffentlicht keine Live-Positionen, daher werden Verspätungen nicht angezeigt.",
+  "Night and other trains": "Nacht- und andere Züge",
+  "At {station} until {time}": "In {station} bis {time}",
+  "Between {from} and {to}": "Zwischen {from} und {to}",
+  "To {place}": "Nach {place}",
+  "Next stop: {station} at {time}": "Nächster Halt: {station} um {time}",
+  "Journey progress": "Fahrtfortschritt",
+  "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "Position aus dem Fahrplan geschätzt. Die Deutsche Bahn veröffentlicht keine Live-Positionen von Zügen, daher werden Verspätungen nicht angezeigt.",
+  "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "Quelle: gtfs.de, Daten von DELFI e.V. (CC BY 4.0).",
+  "Long-distance trains": "Fernzüge",
+  "ICE, IC and EC placed by the timetable, delays not included": "ICE, IC und EC nach Fahrplan, ohne Verspätungen",
+  "Long-distance Trains": "Fernzüge",
+  "ICE": "ICE",
+  "IC / EC": "IC / EC",
+  "On time": "Pünktlich",
+  "+{count} min": "+{count} min",
+  "Follow": "Folgen",
+  "Following": "Folgt",
+  "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "Verspätung, wie die Deutsche Bahn sie an den großen Bahnhöfen meldet; zwischen den Bahnhöfen ist die Position geschätzt.",
+  "No delay reported for this train yet, so it is placed by the timetable.": "Für diesen Zug ist noch keine Verspätung gemeldet, daher steht er nach Fahrplan.",
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Quellen: gtfs.de mit Daten von DELFI e.V. und die Timetables-API der Deutschen Bahn (beide CC BY 4.0)."
 }

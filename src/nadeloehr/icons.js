@@ -87,6 +87,7 @@ const LAYER_ICONS = Object.freeze({
   'river-levels': { icon: PhWaves, color: C.blue },
   'weather-warnings': { icon: PhWarning, color: C.orange },
   'truck-parking': { icon: PhLetterCircleP, color: C.blue },
+  'db-trains': { icon: PhTrain, color: C.indigo },
   'weather-radar': { icon: PhCloudRain, color: C.blue },
   'weather-lightning': { icon: PhLightning, color: C.purple },
   wind: { icon: PhWind, color: C.teal },

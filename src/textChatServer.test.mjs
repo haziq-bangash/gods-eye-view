@@ -800,3 +800,12 @@ test('Vertex express keys go to Vertex AI, AI Studio keys to the Gemini API', as
   assert.match(geminiChatEndpoint('m', 'AIzaSyX', 'vertex'), /aiplatform/);
   assert.match(geminiChatEndpoint('m', 'AQ.x', 'gemini'), /generativelanguage/);
 });
+
+test('only Vertex requests carry the billing label the budget filters on', async () => {
+  const { billingLabels, geminiChatEndpoint } =
+    await import('../server/providers/gemini/chat.js');
+  assert.deepEqual(billingLabels(geminiChatEndpoint('m', 'AQ.x', '')), {
+    labels: { app: 'nadeloehr' },
+  });
+  assert.deepEqual(billingLabels(geminiChatEndpoint('m', 'AIzaSyX', '')), {});
+});

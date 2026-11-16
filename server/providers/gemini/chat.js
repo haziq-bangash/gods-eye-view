@@ -23,6 +23,19 @@ export function geminiChatEndpoint(model, apiKey, backend) {
     : `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 }
 
+/**
+ * Vertex AI bills labelled requests under these labels, so the Google Cloud
+ * budget that caps the assistant's lifetime spend counts only Nadelöhr's
+ * calls and not other Vertex use in the same project. The Gemini API has no
+ * labels field and would refuse the request, so it gets none.
+ */
+export const VERTEX_BILLING_LABELS = Object.freeze({ app: 'nadeloehr' });
+export function billingLabels(endpoint) {
+  return String(endpoint).startsWith('https://aiplatform.googleapis.com/')
+    ? { labels: { ...VERTEX_BILLING_LABELS } }
+    : {};
+}
+
 // The Gemini token route's throttle default (GEV_RATELIMIT_GEMINI_PER_MIN).
 export const GEMINI_DEFAULT_PER_MIN = 30;
 
@@ -126,10 +139,16 @@ export function createGeminiChatHandler({
         return null;
       if (!pairedContents(input.contents)) return null;
       const overpass = overpassConfigured();
+      const endpoint = geminiChatEndpoint(
+        model,
+        resolveApiKey(),
+        resolveBackend(),
+      );
       return {
-        endpoint: geminiChatEndpoint(model, resolveApiKey(), resolveBackend()),
+        endpoint,
         headers: (key) => ({ 'x-goog-api-key': key }),
         body: {
+          ...billingLabels(endpoint),
           contents: input.contents,
           systemInstruction: {
             parts: [

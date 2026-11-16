@@ -3613,8 +3613,6 @@
   "Wind speed and direction": "風速與風向",
   "Ships": "船舶",
   "Live ship positions on rivers and seas": "河流與海上的即時船舶位置",
-  "Trains": "列車",
-  "Live trains where operators publish them": "業者公開的即時列車",
   "Show all {count}": {
     "other": "全部顯示（{count}）"
   },
@@ -3935,5 +3933,27 @@
   "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "在 iPhone 和 iPad 上，請先將 Nadelöhr 加入主畫面（分享 →「加入主畫面」），再在那裡開啟提醒。",
   "Pin a road or place to get alerts for it.": "釘選一條道路或一個地點即可收到提醒。",
   "This browser cannot show alerts.": "此瀏覽器無法顯示提醒。",
-  "The assistant has answered all it can for today. Ask again tomorrow.": "助理今天已達到回答上限。明天再來提問吧。"
+  "The assistant has answered all it can for today. Ask again tomorrow.": "助理今天已達到回答上限。明天再來提問吧。",
+  "Train timetable unavailable": "列車時刻表無法使用",
+  "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "長途列車依 gtfs.de（DELFI）的時刻表定位。德國鐵路不公布即時位置，因此不顯示誤點。",
+  "Night and other trains": "夜車及其他列車",
+  "At {station} until {time}": "停靠{station}至{time}",
+  "Between {from} and {to}": "{from}與{to}之間",
+  "To {place}": "開往{place}",
+  "Next stop: {station} at {time}": "下一站：{station}，{time}抵達",
+  "Journey progress": "行程進度",
+  "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "位置依時刻表估算。德國鐵路不公布列車即時位置，因此不顯示誤點。",
+  "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "來源：gtfs.de，資料來自 DELFI e.V.（CC BY 4.0）。",
+  "Long-distance trains": "長途列車",
+  "ICE, IC and EC placed by the timetable, delays not included": "依時刻表顯示 ICE、IC 和 EC，不含誤點",
+  "Long-distance Trains": "長途列車",
+  "ICE": "ICE",
+  "IC / EC": "IC / EC",
+  "On time": "準點",
+  "+{count} min": "+{count} 分鐘",
+  "Follow": "跟隨",
+  "Following": "正在跟隨",
+  "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "誤點為德國鐵路在主要車站回報的資料；車站之間的位置為估算。",
+  "No delay reported for this train yet, so it is placed by the timetable.": "此列車尚無誤點回報，因此依時刻表顯示。",
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "來源：gtfs.de（資料來自 DELFI e.V.）及德國鐵路 Timetables API（皆為 CC BY 4.0）。"
 }

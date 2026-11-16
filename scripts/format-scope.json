@@ -1570,5 +1570,20 @@
   "src/nadeloehr/components/IntroTour.vue",
   "src/nadeloehr/components/PanelTabs.vue",
   "scripts/record-corridor-history.mjs",
-  "scripts/send-alerts.mjs"
+  "scripts/send-alerts.mjs",
+  "scripts/vertex-cap/cap.mjs",
+  "scripts/vertex-cap/index.mjs",
+  "scripts/vertex-cap/package.json",
+  "src/vertexCap.test.mjs",
+  "src/freight/dbTrains.js",
+  "src/freight/dbTrains.test.mjs",
+  "server/providers/dbTrains.js",
+  "src/data/dbTrainsProxy.test.mjs",
+  "src/layers/dbTrains/index.js",
+  "src/layers/dbTrains/source.js",
+  "src/app/layers/dbTrains.js",
+  "src/nadeloehr/components/TrainCard.vue",
+  "src/freight/dbTimetables.js",
+  "src/freight/dbTimetables.test.mjs",
+  "server/providers/dbTrainsDelays.js"
 ]

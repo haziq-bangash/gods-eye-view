@@ -1,0 +1,3 @@
+title: only-vertex-express
+description: May only change roles/aiplatform.expressUser grants
+expression: api.getAttribute('iam.googleapis.com/modifiedGrantsByRole', []).hasOnly(['roles/aiplatform.expressUser'])

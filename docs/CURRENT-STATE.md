@@ -366,6 +366,18 @@ reset it, and falls back to memory if Upstash fails. Over the ceiling, chat
 answers 429 `SITE_DAILY_LIMIT`. One request is about 16k tokens (mostly
 tool declarations), so the ceiling bounds what a billed key can spend.
 
+Lifetime spend is capped at $20 on Google Cloud. Vertex requests carry the
+label `app=nadeloehr` (the Gemini API gets none, it has no labels field), and
+a budget counts only Vertex AI spend with that label in the project, from
+2026-11-16 with no end date. Its notifications go to the Pub/Sub topic
+`nadeloehr-vertex-budget`. `scripts/vertex-cap` is a small Cloud Run service
+that, on a notification at 90% or more of the budget, removes
+`roles/aiplatform.expressUser` from the key's service account, so the key
+gets 403s from then on. The cut comes at 90% because billing data arrives
+hours late. `scripts/vertex-cap/setup.sh` holds the remaining one-time
+steps: a grant limited by condition to that one role, the deploy, and the
+push subscription.
+
 ## Push alerts for pinned roads and places — Nadelöhr
 
 - **Browser** (`src/nadeloehr/alerts.js`, `AlertsSwitch.vue` under "My roads
@@ -404,6 +416,53 @@ now starts below the number strip (`src/ui/styles/nadeloehr.css`), and the
 right-hand insight card hides while Street Level is on. The Street Level
 browser gate (FIT/FILL) had been failing since the Today layout because the
 strip covered those controls.
+
+## Long-distance trains — Nadelöhr
+
+Layer `db-trains` (share token `07`, in the Freight group and the shell's
+"Show on the map", replacing the upstream Rail entry, which has no German
+feed). Deutsche Bahn publishes no live train positions, so trains are placed
+by the timetable: gtfs.de's long-distance GTFS (ICE, IC, EC, ECE, RJ and
+night trains; CC BY 4.0, data from DELFI e.V.).
+
+- `src/freight/dbTrains.js` (portable): CSV reading, `buildTimetable`
+  (stations, services with calendar exceptions, runs), `trainsBetween`
+  (runs on the rails in a window, from service days two days back so night
+  trains past midnight count; service days start at noon minus 12 h Berlin
+  time, as GTFS defines), and `trainPosition` (standing at a station
+  between arrival and departure, else moving at an even pace in a straight
+  line between consecutive stops, with the bearing for the arrow).
+- `server/providers/dbTrains.js`: `/api/db-trains/now` downloads the
+  feed (twelve-hour cache, last timetable kept on failure), unzips it with
+  zlib, and answers the next 90 minutes (about 300 trains, 100 kB; cached
+  per minute).
+- `src/layers/dbTrains/`: rounded squares with a direction arrow (ICE
+  indigo, IC/EC teal, others grey, colours no other Nadelöhr mark uses),
+  moved once a second, ICE line labels within 250 km; the window is fetched
+  every 20 minutes.
+- `TrainCard.vue`: train number (or line) with an "On time" or "+N min"
+  badge, destination, the station it stands at or the two it is between, the
+  next stop with its expected arrival, progress along the run, a Follow
+  button (the camera stays above the train; panning lets go, zooming does
+  not) and what the position is based on.
+
+**Real delays** (`src/freight/dbTimetables.js`,
+`server/providers/dbTrainsDelays.js`): with `DB_CLIENT_ID` and
+`DB_API_KEY` the server reads Deutsche Bahn's Timetables API for 30 hubs
+(`DELAY_HUBS`, with gtfs.de name aliases), one call every 3 s while
+`/api/db-trains/delays` is asked: station numbers, then this hour's plans,
+then each hub's changes every two minutes, then next hour's plans. A planned
+stop matches a timetable train at the same hub, scheduled minute and category
+(EC/ECE, NJ/EN and RJ/RJX count as one); per train the report scheduled
+closest to now wins. The layer asks every minute, runs each train its delay
+behind the timetable, labels it with the real number and hides cancelled
+ones. Refused keys (401/403) pause the calls for five minutes. On 16 November
+2026 about 170 of 230 running trains matched within three minutes.
+
+The feed has no shapes, so trains cut straight between stops; snapping them
+to OpenStreetMap rail lines is a possible next step. gtfs.de's realtime
+stream is not used: 28 MB every ten seconds, with long-distance delays only
+in some regions.
 
 ## Tooltips and explanations — Nadelöhr
 

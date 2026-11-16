@@ -231,6 +231,15 @@ export const DATA_CREDITS = [
       ' (closures, roadworks, warnings and truck parking; informational only)',
   },
   {
+    key: 'gtfs-de',
+    html:
+      'Long-distance train timetable: ' +
+      '<a href="https://gtfs.de/" target="_blank" rel="noopener">gtfs.de</a>' +
+      ', data from DELFI e.V. (CC BY 4.0); delays and train numbers: ' +
+      '<a href="https://developers.deutschebahn.com/" target="_blank" rel="noopener">Deutsche Bahn Timetables API</a>' +
+      ' (CC BY 4.0)',
+  },
+  {
     key: 'pegelonline',
     html:
       'Water levels: ' +

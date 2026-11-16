@@ -11,6 +11,7 @@ import { gaugeCard } from './rivers.js';
 import { warningCard } from './warnings.js';
 import WarningCard from './components/WarningCard.vue';
 import ParkingCard from './components/ParkingCard.vue';
+import TrainCard from './components/TrainCard.vue';
 import { affectedParkingIds } from '../layers/truckParking/records.js';
 import { corridorView } from './today.js';
 import { kaubRow } from '../layers/riverLevels/records.js';
@@ -68,6 +69,7 @@ const warning = computed(() =>
   app.selectedWarning.value ? warningCard(app.selectedWarning.value) : null,
 );
 const parkingRow = computed(() => app.selectedParking.value);
+const trainRow = computed(() => app.selectedTrain.value);
 const parkingAffected = computed(
   () =>
     Boolean(parkingRow.value) &&
@@ -100,6 +102,7 @@ function closeCard() {
   app.selectGauge(null);
   app.selectWarning(null);
   app.selectParking(null);
+  app.selectTrain(null);
 }
 
 // ── The sheet (below 1024 px): peek, half and full, as in Apple Maps ──
@@ -110,7 +113,7 @@ function open() {
   if (!wide.value && sheet.value === 'peek') sheet.value = 'half';
 }
 watch(
-  [card, gauge, warning, parkingRow],
+  [card, gauge, warning, parkingRow, () => trainRow.value?.id],
   (selections) => selections.some(Boolean) && open(),
 );
 watch(corridor, (next) => next && !wider.value && open());
@@ -156,7 +159,13 @@ function onDragEnd(event) {
 // back). On any other card: right goes back to the list.
 const TAB_ORDER = ['today', 'routes', 'map'];
 const hasCard = computed(() =>
-  Boolean(card.value || gauge.value || warning.value || parkingRow.value),
+  Boolean(
+    card.value ||
+    gauge.value ||
+    warning.value ||
+    parkingRow.value ||
+    trainRow.value,
+  ),
 );
 const corridorIndex = computed(() =>
   corridors.value.findIndex((c) => c.id === corridor.value?.id),
@@ -490,6 +499,14 @@ async function locate() {
             :affected="parkingAffected"
             @close="closeCard"
             @focus="app.showParkingOnMap(parkingRow)"
+            @share="app.share()"
+          />
+          <TrainCard
+            v-else-if="trainRow"
+            :row="trainRow"
+            @close="closeCard"
+            @focus="app.showTrainOnMap(trainRow)"
+            @follow="app.followTrain(!trainRow.following)"
             @share="app.share()"
           />
           <CorridorDetail

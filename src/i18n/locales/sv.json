@@ -3702,8 +3702,6 @@
   "Wind speed and direction": "Vindhastighet och vindriktning",
   "Ships": "Fartyg",
   "Live ship positions on rivers and seas": "Fartygspositioner i realtid på floder och hav",
-  "Trains": "Tåg",
-  "Live trains where operators publish them": "Tåg i realtid där operatörerna publicerar dem",
   "Show all {count}": {
     "one": "Visa alla {count}",
     "other": "Visa alla {count}"
@@ -4035,5 +4033,27 @@
   "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "På iPhone och iPad: lägg först till Nadelöhr på hemskärmen (Dela, sedan ”Lägg till på hemskärmen”) och slå på aviseringar där.",
   "Pin a road or place to get alerts for it.": "Fäst en väg eller ort för att få aviseringar.",
   "This browser cannot show alerts.": "Den här webbläsaren kan inte visa aviseringar.",
-  "The assistant has answered all it can for today. Ask again tomorrow.": "Assistenten har svarat på allt den kan för i dag. Fråga igen i morgon."
+  "The assistant has answered all it can for today. Ask again tomorrow.": "Assistenten har svarat på allt den kan för i dag. Fråga igen i morgon.",
+  "Train timetable unavailable": "Tågtidtabellen är inte tillgänglig",
+  "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "Fjärrtåg placerade enligt tidtabellen från gtfs.de (DELFI). Deutsche Bahn publicerar inga positioner i realtid, så förseningar visas inte.",
+  "Night and other trains": "Nattåg och andra tåg",
+  "At {station} until {time}": "I {station} till {time}",
+  "Between {from} and {to}": "Mellan {from} och {to}",
+  "To {place}": "Mot {place}",
+  "Next stop: {station} at {time}": "Nästa station: {station} kl. {time}",
+  "Journey progress": "Resans förlopp",
+  "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "Positionen är uppskattad från tidtabellen. Deutsche Bahn publicerar inga tågpositioner i realtid, så förseningar visas inte.",
+  "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "Källa: gtfs.de, data från DELFI e.V. (CC BY 4.0).",
+  "Long-distance trains": "Fjärrtåg",
+  "ICE, IC and EC placed by the timetable, delays not included": "ICE, IC och EC enligt tidtabellen, utan förseningar",
+  "Long-distance Trains": "Fjärrtåg",
+  "ICE": "ICE",
+  "IC / EC": "IC / EC",
+  "On time": "I tid",
+  "+{count} min": "+{count} min",
+  "Follow": "Följ",
+  "Following": "Följer",
+  "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "Förseningen som Deutsche Bahn rapporterar den vid de stora stationerna; mellan stationerna är positionen uppskattad.",
+  "No delay reported for this train yet, so it is placed by the timetable.": "Ingen försening rapporterad för det här tåget ännu, så det placeras enligt tidtabellen.",
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Källor: gtfs.de med data från DELFI e.V. och Deutsche Bahns Timetables-API (båda CC BY 4.0)."
 }

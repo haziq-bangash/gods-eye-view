@@ -54,5 +54,10 @@ services:
         sync: false
       - key: UPSTASH_REDIS_REST_TOKEN
         sync: false
+      # Deutsche Bahn Timetables API: real train delays (free plan).
+      - key: DB_CLIENT_ID
+        sync: false
+      - key: DB_API_KEY
+        sync: false
       - key: VAPID_PUBLIC_KEY
         value: BJHrgQPJfV24UZ79usDUoEvUA3AtT-Jn2kF5MRZNZurv2hnlKorJU16Ps5Lc0hFxQeOZKl1Oj_KDtbvP8kRyyBY
