@@ -21,6 +21,12 @@ import { CORRIDOR_HISTORY_URL } from './history.js';
 import { affectedParkingIds } from '../layers/truckParking/records.js';
 import { localResults, searchPlacesDE } from './search.js';
 import { todayHeadline, todayKpis } from './today.js';
+import { statesAlong } from '../freight/germanStates.js';
+import {
+  detourAround,
+  detourVias,
+  routeVerdict as verdictFor,
+} from './routeVerdict.js';
 
 const MINOR_KINDS = Object.freeze([
   'ramp-closure',
@@ -457,6 +463,7 @@ export function useApp() {
     routeFrom.value = fromText;
     routeTo.value = toText;
     routeRequest?.abort();
+    detourRequest?.abort();
     const request = new AbortController();
     routeRequest = request;
     routeStatus.value = 'loading';
@@ -477,7 +484,7 @@ export function useApp() {
         .map((place) => `${place.lng.toFixed(5)},${place.lat.toFixed(5)}`)
         .join(';');
       const response = await fetch(
-        `/api/route?${new URLSearchParams({ profile: 'car', coords })}`,
+        `/api/route?${new URLSearchParams({ profile: 'car', coords, alternatives: '1' })}`,
         { signal: request.signal },
       );
       const payload = await response.json().catch(() => null);
@@ -492,6 +499,14 @@ export function useApp() {
         path: payload.geometry,
         distanceM: payload.distanceM,
         durationS: payload.durationS,
+        summary: payload.summary || '',
+        alternatives: Array.isArray(payload.alternatives)
+          ? payload.alternatives
+          : [],
+        // State holidays ban trucks only in that state.
+        states: statesAlong(payload.geometry),
+        // Kept to route a way round a closure through a forcing point.
+        ends: [from, to].map((place) => [place.lng, place.lat]),
       };
       routeStatus.value = 'idle';
       select(null);
@@ -510,6 +525,7 @@ export function useApp() {
   }
   function clearRoute() {
     routeRequest?.abort();
+    detourRequest?.abort();
     route.value = null;
     routeStatus.value = 'idle';
     routeError.value = '';
@@ -521,6 +537,84 @@ export function useApp() {
           warnings: weatherOn.value ? warnings.value : null,
           restAreas: parkingOn.value ? parking.value : null,
           range: horizon.value === 'now' ? null : range.value,
+        })
+      : null,
+  );
+  /** The route's answer in plain words: problems, detour, bans. */
+  // ── A way round a closure ──
+  // When none of the router's own alternatives avoids the first closure on
+  // the route, route twice more through a point 20 km to either side of it.
+  const detourPending = shallowRef(false);
+  let detourRequest = null;
+  let detourTried = new Set();
+  let detourFor = null;
+  async function searchDetour(current, closure) {
+    const vias = detourVias(current.path, closure);
+    if (!vias || !current.ends) return;
+    detourRequest?.abort();
+    const request = new AbortController();
+    detourRequest = request;
+    detourPending.value = true;
+    const found = [];
+    try {
+      for (const via of vias) {
+        const coords = [current.ends[0], via, current.ends[1]]
+          .map(([lng, lat]) => `${lng.toFixed(5)},${lat.toFixed(5)}`)
+          .join(';');
+        const response = await fetch(
+          `/api/route?${new URLSearchParams({ profile: 'car', coords, alternatives: '1' })}`,
+          { signal: request.signal },
+        );
+        const payload = await response.json().catch(() => null);
+        if (response.ok && payload?.geometry)
+          found.push({
+            distanceM: payload.distanceM,
+            durationS: payload.durationS,
+            summary: payload.summary || '',
+            geometry: payload.geometry,
+          });
+      }
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+    } finally {
+      if (detourRequest === request) {
+        detourRequest = null;
+        detourPending.value = false;
+      }
+    }
+    if (route.value === current && found.length)
+      route.value = {
+        ...current,
+        alternatives: [...current.alternatives, ...found],
+      };
+  }
+  watch(routeScore, (scored) => {
+    const current = route.value;
+    if (!scored || !current) return;
+    // A new route starts afresh; a route grown by a detour keeps its tries.
+    if (detourFor !== current.path) {
+      detourFor = current.path;
+      detourTried = new Set();
+    }
+    const closures = scored.events.filter((row) => row.kind === 'closure');
+    if (!closures.length || detourAround(current, closures)) return;
+    const [first] = closures;
+    const key = first.stableId ?? `${first.lon},${first.lat}`;
+    if (detourTried.has(key)) return;
+    detourTried.add(key);
+    searchDetour(current, first);
+  });
+
+  const routeVerdict = computed(() =>
+    route.value && routeScore.value
+      ? verdictFor({
+          route: route.value,
+          scored: routeScore.value,
+          bans: bansFor(route.value.states.length ? route.value.states : null),
+          horizon: horizon.value,
+          now: clock.value,
+          weatherChecked: weatherOn.value,
+          detourPending: detourPending.value,
         })
       : null,
   );
@@ -748,6 +842,7 @@ export function useApp() {
     routeStatus,
     routeError,
     routeScore,
+    routeVerdict,
     checkRoute,
     clearRoute,
     corridors,

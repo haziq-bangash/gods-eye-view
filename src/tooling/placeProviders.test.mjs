@@ -668,3 +668,70 @@ test('both paid Google routes refuse cross-site requests before calling Google',
   );
   assert.equal(upstream, 1);
 });
+
+test('alternatives are opt-in and come with the main roads of each route', async (t) => {
+  _resetRouteUpstreamForTest();
+  const request = install(installRouteMiddleware);
+  const asked = [];
+  const line = (lon) => ({
+    coordinates: [
+      [lon, 50],
+      [lon + 0.1, 50.1],
+    ],
+  });
+  t.mock.method(globalThis, 'fetch', async (url) => {
+    asked.push(String(url));
+    return Response.json({
+      code: 'Ok',
+      routes: [
+        {
+          distance: 1000,
+          duration: 600,
+          geometry: line(9),
+          legs: [{ summary: 'A 7, A 3' }],
+        },
+        {
+          distance: 1200,
+          duration: 900,
+          geometry: line(9.5),
+          legs: [{ summary: "A 1, Up'n Dieck" }, { summary: 'A 1, A 44' }],
+        },
+        {
+          distance: 1500,
+          duration: 1200,
+          geometry: line(10),
+          legs: [{ summary: '' }],
+        },
+        { distance: 1900, duration: 1500, geometry: line(11), legs: [] },
+      ],
+    });
+  });
+  const query = '?profile=car&coords=9,50;9.1,50.1';
+  const plain = await request('/api/route', query);
+  assert.match(asked[0], /alternatives=false/);
+  assert.equal('alternatives' in plain.body, false);
+  assert.equal('summary' in plain.body, false);
+
+  const withAlternatives = await request(
+    '/api/route',
+    `${query}&alternatives=1`,
+  );
+  assert.equal(asked.length, 2, 'its own cache entry');
+  assert.match(asked[1], /alternatives=2/);
+  // Road names need steps upstream; the answer leaves them out.
+  assert.match(asked[1], /steps=true/);
+  assert.equal('steps' in withAlternatives.body, false);
+  assert.equal(withAlternatives.body.summary, 'A 7, A 3');
+  assert.deepEqual(
+    withAlternatives.body.alternatives.map((other) => [
+      other.durationS,
+      other.summary,
+    ]),
+    [
+      [900, 'A 1, A 44'],
+      [1200, ''],
+    ],
+  );
+  await request('/api/route', `${query}&alternatives=1`);
+  assert.equal(asked.length, 2, 'served from cache');
+});

@@ -1588,5 +1588,13 @@
   "server/providers/dbTrainsDelays.js",
   "src/nadeloehr/schedule.js",
   "src/nadeloehr/schedule.test.mjs",
-  "src/nadeloehr/components/WatchList.vue"
+  "src/nadeloehr/components/WatchList.vue",
+  "src/app/viewer.test.mjs",
+  "src/freight/germanStates.js",
+  "src/freight/germanStates.test.mjs",
+  "scripts/build-german-states.mjs",
+  "src/nadeloehr/routeVerdict.js",
+  "src/nadeloehr/routeVerdict.test.mjs",
+  "src/nadeloehr/savedRoutes.js",
+  "src/nadeloehr/savedRoutes.test.mjs"
 ]

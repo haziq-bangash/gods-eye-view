@@ -38,9 +38,11 @@ server, and adds a German freight layer and an interface anyone can read.
   of the panel then says what applies to each of them.
 - **Seven days of history.** Every corridor's score is recorded hourly; its
   card shows the last week and whether today is higher or lower than usual.
-- **Check your route.** Type "Hamburg" and "München" to get the driving
-  route scored like a corridor: closures on the route itself, truck parking
-  beside it and the weather it crosses, drawn on the map.
+- **Check your route.** Type "Hamburg" and "München" for a plain answer:
+  "Tonight: 2 problems on the way". It lists the closures on the route with
+  their hours, a way round with its extra time, truck bans in the states
+  you cross and the weather on the way, plus a corridor-style score. Save a
+  route to check it again with one tap.
 - **Now, tonight or tomorrow.** One switch shows the closures announced for
   the night or the next day, the official Kaub water-level forecast and the
   DWD warnings for that time, with the corridor scores to match.
@@ -203,9 +205,12 @@ More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
 - **Sieben Tage Verlauf.** Der Wert jedes Korridors wird stündlich
   aufgezeichnet; seine Karte zeigt die letzte Woche und ob heute mehr oder
   weniger los ist als üblich.
-- **Route prüfen.** „Hamburg“ und „München“ eingeben und die Fahrtroute wie
-  einen Korridor bewerten lassen: Sperrungen auf der Route, Lkw-Parkplätze
-  daneben und das Wetter unterwegs, auf der Karte eingezeichnet.
+- **Route prüfen.** „Hamburg“ und „München“ eingeben und eine klare Antwort
+  bekommen: „Heute Nacht: 2 Probleme unterwegs“. Sie nennt die Sperrungen
+  auf der Route mit ihren Zeiten, eine Umfahrung mit der Mehrzeit, Lkw-Fahrverbote
+  in den durchfahrenen Ländern und das Wetter unterwegs, dazu eine Bewertung
+  wie für einen Korridor. Routen lassen sich speichern und mit einem Tipp neu
+  prüfen.
 - **Jetzt, heute Nacht oder morgen.** Ein Schalter zeigt die für die Nacht
   oder den nächsten Tag angekündigten Sperrungen, die amtliche Pegelvorhersage
   für Kaub und die DWD-Warnungen für diese Zeit, samt passenden

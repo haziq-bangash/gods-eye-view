@@ -440,7 +440,8 @@
     "▲ {frp} MW",
     "ICE",
     "IC / EC",
-    "+{count} min"
+    "+{count} min",
+    "{hours} h {minutes} min"
   ],
   "fr": [
     "1 min/s",
@@ -680,7 +681,8 @@
     "UV",
     "ICE",
     "IC / EC",
-    "+{count} min"
+    "+{count} min",
+    "{hours} h {minutes} min"
   ],
   "it": [
     "+{minutes} min",
@@ -899,7 +901,9 @@
     "▲ {frp} MW",
     "ICE",
     "IC / EC",
-    "+{count} min"
+    "+{count} min",
+    "{hours} h {minutes} min",
+    "via {roads}"
   ],
   "ja": [
     "1090 MHz",
@@ -1145,7 +1149,8 @@
     "▲ {frp} MW",
     "ICE",
     "IC / EC",
-    "+{count} min"
+    "+{count} min",
+    "{hours} h {minutes} min"
   ],
   "ru": [
     "1900–1945",
@@ -1357,7 +1362,9 @@
     "UV",
     "ICE",
     "IC / EC",
-    "+{count} min"
+    "+{count} min",
+    "{hours} h {minutes} min",
+    "via {roads}"
   ],
   "uk": [
     "1900–1945",

@@ -407,6 +407,27 @@ export function applicationViewerOptions(
   };
 }
 
+/** Most pixels per CSS pixel the map draws: 3× phones cost too much frame rate. */
+export const MAX_PIXEL_RATIO = 2;
+
+/**
+ * Cesium draws at CSS-pixel resolution by default, so on a high-DPI screen
+ * the map's labels and lines look soft. Draw at the device's resolution,
+ * capped at MAX_PIXEL_RATIO.
+ */
+export function sharpenForDisplay(
+  viewer,
+  devicePixelRatio = globalThis.devicePixelRatio || 1,
+) {
+  const ratio =
+    Number.isFinite(devicePixelRatio) && devicePixelRatio > 0
+      ? devicePixelRatio
+      : 1;
+  viewer.useBrowserRecommendedResolution = false;
+  viewer.resolutionScale = Math.min(1, MAX_PIXEL_RATIO / ratio);
+  return Math.min(ratio, MAX_PIXEL_RATIO);
+}
+
 /** Create the standard globe viewer in caller-owned, visible containers. */
 export function createApplicationViewer({
   container,
@@ -421,6 +442,7 @@ export function createApplicationViewer({
   );
   try {
     viewer.targetFrameRate = 60;
+    sharpenForDisplay(viewer);
     // A phone pinch spans fewer screen pixels than desktop zoom gestures.
     // Keep Cesium's distance-aware zoom and collision limits, with less travel
     // required on touch-first screens. Mouse/trackpad sensitivity stays native.
