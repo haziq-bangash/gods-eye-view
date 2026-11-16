@@ -60,6 +60,11 @@ server, and adds a German freight layer and an interface anyone can read.
     colours, with what each warning means for a truck.
   - **Truck parking** at Autobahn rest areas, red where a closure may shut a
     rest area or its access.
+  - **Long-distance trains** (ICE, IC, EC and night trains) moving along
+    their runs: placed by the timetable from gtfs.de and held back by the
+    real delays Deutsche Bahn reports at 30 major stations, with real train
+    numbers, cancelled trains removed and a Follow button. Deutsche Bahn
+    publishes no live GPS, so positions between stations are estimates.
 - **Corridor risk score** for Hamburg → Dortmund (A1), Hamburg → Ulm (A7) and
   the Rhine axis Duisburg → Karlsruhe, with a breakdown that explains every
   part (see below).
@@ -96,6 +101,8 @@ implemented in [`src/freight/corridors.js`](src/freight/corridors.js).
 | Closures, roadworks, warnings, truck parking | [Autobahn GmbH API](https://github.com/bundesAPI/autobahn-api) (`verkehr.autobahn.de`) | Public, community-documented, may change without notice; informational only |
 | Water levels                                 | [PEGELONLINE](https://www.pegelonline.wsv.de/) (WSV)                                   | [DL-DE Zero 2.0](https://www.govdata.de/dl-de/zero-2-0)                     |
 | Weather warnings                             | [Deutscher Wetterdienst](https://www.dwd.de/) open data (WFS)                          | CC BY 4.0                                                                   |
+| Long-distance train timetable                | [gtfs.de](https://gtfs.de/en/feeds/de_fv/), data from DELFI e.V.                       | CC BY 4.0                                                                   |
+| Train delays and numbers                     | Deutsche Bahn [Timetables API](https://developers.deutschebahn.com/) (DB InfraGO)      | CC BY 4.0; free key, 60 calls a minute                                      |
 | Places                                       | [Photon](https://photon.komoot.io/) (OpenStreetMap)                                    | ODbL                                                                        |
 | Base map                                     | [Stadia Maps](https://stadiamaps.com/) Alidade Smooth, OpenMapTiles, OpenStreetMap     | Stadia terms; a deployed site must register its domain                      |
 
@@ -218,6 +225,12 @@ More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
     jede Warnung für einen Lkw bedeutet.
   - **Lkw-Parkplätze** an Rastanlagen, rot, wenn eine Sperrung den Rastplatz
     oder seine Zufahrt schließen kann.
+  - **Fernzüge** (ICE, IC, EC und Nachtzüge), die sich entlang ihrer Strecke
+    bewegen: nach dem Fahrplan von gtfs.de platziert und um die echten
+    Verspätungen verschoben, die die Deutsche Bahn an 30 großen Bahnhöfen
+    meldet, mit echten Zugnummern, ohne ausgefallene Züge und mit einer
+    Folgen-Taste. Die Bahn veröffentlicht kein Live-GPS; zwischen den
+    Bahnhöfen ist die Position geschätzt.
 - **Korridor-Risikowert** für Hamburg → Dortmund (A1), Hamburg → Ulm (A7) und
   die Rheinachse Duisburg → Karlsruhe, mit einer Aufschlüsselung, die jeden
   Teil erklärt.
@@ -251,7 +264,8 @@ Teile ohne Daten — und H auf reinen Straßenkorridoren — entfallen, die
 
 Autobahn GmbH (Sperrungen, Baustellen, Warnungen, Lkw-Parkplätze;
 nur zur Information), PEGELONLINE der WSV (Datenlizenz Deutschland – Zero 2.0),
-Deutscher Wetterdienst (CC BY 4.0), Photon/OpenStreetMap (Ortssuche) und
+Deutscher Wetterdienst (CC BY 4.0), gtfs.de mit Daten von DELFI e.V.
+(Fernverkehrsfahrplan, CC BY 4.0), Photon/OpenStreetMap (Ortssuche) und
 Stadia Maps (Grundkarte). Einzelheiten in [DATA_SOURCES.md](DATA_SOURCES.md).
 
 ### Grenzen

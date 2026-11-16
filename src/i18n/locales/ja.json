@@ -3613,8 +3613,6 @@
   "Wind speed and direction": "風速と風向",
   "Ships": "船舶",
   "Live ship positions on rivers and seas": "河川と海の船舶位置（ライブ）",
-  "Trains": "列車",
-  "Live trains where operators publish them": "運行会社が公開している列車（ライブ）",
   "Show all {count}": {
     "other": "すべて表示（{count}）"
   },
@@ -3935,5 +3933,27 @@
   "On iPhone and iPad, add Nadelöhr to the Home Screen first (Share, then “Add to Home Screen”), then turn alerts on there.": "iPhone と iPad では、まず Nadelöhr をホーム画面に追加し（共有 →「ホーム画面に追加」）、そこから通知をオンにしてください。",
   "Pin a road or place to get alerts for it.": "道路か場所をピン留めすると通知が届きます。",
   "This browser cannot show alerts.": "このブラウザでは通知を表示できません。",
-  "The assistant has answered all it can for today. Ask again tomorrow.": "アシスタントは今日の回答上限に達しました。また明日お試しください。"
+  "The assistant has answered all it can for today. Ask again tomorrow.": "アシスタントは今日の回答上限に達しました。また明日お試しください。",
+  "Train timetable unavailable": "列車時刻表を取得できません",
+  "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "gtfs.de（DELFI）の時刻表に基づいて配置した長距離列車です。ドイツ鉄道はリアルタイムの位置を公開していないため、遅延は表示されません。",
+  "Night and other trains": "夜行列車ほか",
+  "At {station} until {time}": "{station}に{time}まで停車",
+  "Between {from} and {to}": "{from}〜{to}間",
+  "To {place}": "{place}行き",
+  "Next stop: {station} at {time}": "次の停車駅：{station}（{time}着）",
+  "Journey progress": "運行の進み具合",
+  "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "位置は時刻表からの推定です。ドイツ鉄道は列車のリアルタイム位置を公開していないため、遅延は表示されません。",
+  "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "出典：gtfs.de、データ提供 DELFI e.V.（CC BY 4.0）。",
+  "Long-distance trains": "長距離列車",
+  "ICE, IC and EC placed by the timetable, delays not included": "ICE・IC・ECを時刻表どおりに表示（遅延は含みません）",
+  "Long-distance Trains": "長距離列車",
+  "ICE": "ICE",
+  "IC / EC": "IC / EC",
+  "On time": "定刻",
+  "+{count} min": "+{count}分",
+  "Follow": "追跡",
+  "Following": "追跡中",
+  "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "遅延はドイツ鉄道が主要駅で報告する値です。駅間の位置は推定です。",
+  "No delay reported for this train yet, so it is placed by the timetable.": "この列車の遅延はまだ報告されていないため、時刻表どおりに表示しています。",
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "出典：gtfs.de（データ提供 DELFI e.V.）とドイツ鉄道の Timetables API（いずれも CC BY 4.0）。"
 }

@@ -31,6 +31,11 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
   /** Truck rest areas from the parking layer, and the picked one. */
   const parking = shallowRef([]);
   const selectedParking = shallowRef(null);
+  /**
+   * The picked long-distance train with where the timetable has it now; the
+   * layer publishes it again every second while it is picked.
+   */
+  const selectedTrain = shallowRef(null);
   /** Bumped when layer state changes, so computed reads re-run. */
   const layerRevision = shallowRef(0);
 
@@ -41,6 +46,7 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
       selectedGauge,
       selectedWarning,
       selectedParking,
+      selectedTrain,
     }))
       if (name !== keep) ref.value = null;
   }
@@ -89,6 +95,12 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
     if (row) clearOthers('selectedParking');
   }
 
+  function publishSelectedTrain(row) {
+    const picked = selectedTrain.value;
+    selectedTrain.value = row || null;
+    if (row && row.id !== picked?.id) clearOthers('selectedTrain');
+  }
+
   function publishGauges(rows) {
     gauges.value = Array.isArray(rows) ? rows : [];
     const picked = selectedGauge.value;
@@ -117,6 +129,7 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
     selectedWarning,
     parking,
     selectedParking,
+    selectedTrain,
     layerRevision,
     connect,
     publishDisruptions,
@@ -127,6 +140,7 @@ export const useNadeloehrStore = defineStore('nadeloehr', () => {
     publishSelectedWarning,
     publishParking,
     publishSelectedParking,
+    publishSelectedTrain,
     touchLayers,
   };
 });

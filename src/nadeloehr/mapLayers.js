@@ -56,9 +56,11 @@ export const MAIN_LAYERS = Object.freeze([
     subtitle: msg('Live ship positions on rivers and seas'),
   }),
   Object.freeze({
-    id: 'rail',
-    title: msg('Trains'),
-    subtitle: msg('Live trains where operators publish them'),
+    id: 'db-trains',
+    title: msg('Long-distance trains'),
+    subtitle: msg(
+      'ICE, IC and EC placed by the timetable, delays not included',
+    ),
   }),
 ]);
 

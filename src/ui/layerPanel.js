@@ -111,6 +111,7 @@ const PANEL_GROUPS = [
       'river-levels',
       'weather-warnings',
       'truck-parking',
+      'db-trains',
     ],
   },
   // Directions renders in the Utilities panel, beside Draw and Import, and

@@ -36,6 +36,13 @@ const items = computed(() => [
       props.app.setLayer('truck-parking', !layerOn('truck-parking')),
   },
   {
+    id: 'db-trains',
+    label: t('Train'),
+    swatch: 'train',
+    on: layerOn('db-trains'),
+    toggle: () => props.app.setLayer('db-trains', !layerOn('db-trains')),
+  },
+  {
     id: 'weather-warnings',
     label: t('Weather warning'),
     swatch: 'weather',
@@ -102,6 +109,24 @@ const items = computed(() => [
           aria-hidden="true"
           >P</span
         >
+        <svg
+          v-else-if="item.swatch === 'train'"
+          class="size-3.5 drop-shadow-[0_0_1px_rgb(0_0_0/0.25)]"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <rect
+            x="3"
+            y="3"
+            width="26"
+            height="26"
+            rx="8"
+            fill="#5856d6"
+            stroke="#fff"
+            stroke-width="3"
+          />
+          <path d="M16 7.5 L22.5 21 L16 17.5 L9.5 21 Z" fill="#fff" />
+        </svg>
         <span
           v-else-if="item.swatch === 'weather'"
           class="size-3 rounded-[3px] border border-[#ff9500] bg-[linear-gradient(135deg,#ffcc00aa,#ff3b30aa)]"

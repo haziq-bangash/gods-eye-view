@@ -247,7 +247,9 @@
       "src/nadeloehr/bans.js",
       "src/nadeloehr/components/Tip.vue",
       "src/nadeloehr/alerts.js",
-      "src/nadeloehr/components/AlertsSwitch.vue"
+      "src/nadeloehr/components/AlertsSwitch.vue",
+      "src/freight/dbTrains.js",
+      "src/nadeloehr/components/TrainCard.vue"
     ],
     "external": [
       "vue",
@@ -3933,7 +3935,11 @@
       "src/layers/truckParking/records.js",
       "src/layers/truckParking/index.js",
       "src/app/layers/truckParking.js",
-      "src/freight/horizon.js"
+      "src/freight/horizon.js",
+      "src/layers/dbTrains/source.js",
+      "src/freight/dbTrains.js",
+      "src/layers/dbTrains/index.js",
+      "src/app/layers/dbTrains.js"
     ],
     "external": [
       "hls.js",
@@ -4670,7 +4676,11 @@
       "src/layers/truckParking/records.js",
       "src/layers/truckParking/index.js",
       "src/app/layers/truckParking.js",
-      "src/freight/horizon.js"
+      "src/freight/horizon.js",
+      "src/layers/dbTrains/source.js",
+      "src/freight/dbTrains.js",
+      "src/layers/dbTrains/index.js",
+      "src/app/layers/dbTrains.js"
     ],
     "external": [
       "hls.js",
@@ -5268,7 +5278,10 @@
       "src/layers/wildlifeSightings/performance.js",
       "src/layers/riverLevels/source.js",
       "src/layers/weatherWarnings/source.js",
-      "src/layers/truckParking/source.js"
+      "src/layers/truckParking/source.js",
+      "src/freight/horizon.js",
+      "src/freight/dbTrains.js",
+      "src/layers/dbTrains/source.js"
     ],
     "external": []
   },
@@ -5940,6 +5953,44 @@
       "src/layers/autobahn/records.js",
       "src/sources/httpBody.js",
       "src/layers/truckParking/source.js",
+      "src/i18n/marker.js"
+    ],
+    "external": []
+  },
+  "db-trains": {
+    "exports": ["./layers/db-trains"],
+    "modules": [
+      "src/layers/dbTrains/index.js",
+      "src/layers/dbTrains/source.js",
+      "src/freight/dbTrains.js",
+      "src/freight/horizon.js",
+      "src/sources/httpBody.js",
+      "src/i18n/marker.js",
+      "src/i18n/locale.js",
+      "src/i18n/locales/de.json",
+      "src/i18n/locales/es.json",
+      "src/i18n/locales/ar.json",
+      "src/i18n/locales/fr.json",
+      "src/i18n/locales/it.json",
+      "src/i18n/locales/he.json",
+      "src/i18n/locales/pt.json",
+      "src/i18n/locales/ja.json",
+      "src/i18n/locales/ru.json",
+      "src/i18n/locales/sv.json",
+      "src/i18n/locales/uk.json",
+      "src/i18n/locales/zh-Hant.json",
+      "src/i18n/locales/zh-CN.json",
+      "src/i18n/index.js"
+    ],
+    "external": ["cesium"]
+  },
+  "db-trains-source": {
+    "exports": ["./layers/db-trains/source"],
+    "modules": [
+      "src/layers/dbTrains/source.js",
+      "src/freight/dbTrains.js",
+      "src/freight/horizon.js",
+      "src/sources/httpBody.js",
       "src/i18n/marker.js"
     ],
     "external": []

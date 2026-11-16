@@ -33,6 +33,7 @@ import { shipwrecksProxy } from './shipwrecks.js';
 import { droneAirspaceProxy } from './droneAirspace.js';
 import { autobahnProxy } from './autobahn.js';
 import { pegelonlineProxy } from './pegelonline.js';
+import { dbTrainsProxy } from './dbTrains.js';
 import { dwdWarningsProxy } from './dwdWarnings.js';
 import { alertsProxy } from './alerts.js';
 import { newsProxy } from './news.js';
@@ -96,6 +97,7 @@ function localProviderPlugins({
     droneAirspaceProxy(),
     autobahnProxy(),
     pegelonlineProxy(),
+    dbTrainsProxy(),
     dwdWarningsProxy(),
     alertsProxy(),
     newsProxy(),

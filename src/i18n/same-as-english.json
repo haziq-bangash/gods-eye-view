@@ -47,7 +47,9 @@
     "▲ {frp} MW",
     "ICAO: {id}",
     "MMSI: {id}",
-    "NORAD: {id}"
+    "NORAD: {id}",
+    "ICE",
+    "IC / EC"
   ],
   "de": [
     "1 min/s",
@@ -260,7 +262,10 @@
     "ΔN",
     "Ⅱ PAUSE",
     "≥ {value} MW",
-    "▲ {frp} MW"
+    "▲ {frp} MW",
+    "ICE",
+    "IC / EC",
+    "+{count} min"
   ],
   "es": [
     "+{minutes} min",
@@ -432,7 +437,10 @@
     "ΔE",
     "ΔN",
     "≥ {value} MW",
-    "▲ {frp} MW"
+    "▲ {frp} MW",
+    "ICE",
+    "IC / EC",
+    "+{count} min"
   ],
   "fr": [
     "1 min/s",
@@ -669,7 +677,10 @@
     "Corridors",
     "cm",
     "Corridor",
-    "UV"
+    "UV",
+    "ICE",
+    "IC / EC",
+    "+{count} min"
   ],
   "it": [
     "+{minutes} min",
@@ -885,7 +896,10 @@
     "ΔE",
     "ΔN",
     "≥ {value} MW",
-    "▲ {frp} MW"
+    "▲ {frp} MW",
+    "ICE",
+    "IC / EC",
+    "+{count} min"
   ],
   "ja": [
     "1090 MHz",
@@ -954,7 +968,9 @@
     "NORAD: {id}",
     "{length} km",
     "{level} cm",
-    "cm"
+    "cm",
+    "ICE",
+    "IC / EC"
   ],
   "pt": [
     "+{minutes} min",
@@ -1126,7 +1142,10 @@
     "{value} KM/S",
     "ΔN",
     "≥ {value} MW",
-    "▲ {frp} MW"
+    "▲ {frp} MW",
+    "ICE",
+    "IC / EC",
+    "+{count} min"
   ],
   "ru": [
     "1900–1945",
@@ -1163,7 +1182,9 @@
     "ICAO: {id}",
     "MMSI: {id}",
     "NORAD: {id}",
-    "{datasets} · {tiles} · {packs}"
+    "{datasets} · {tiles} · {packs}",
+    "ICE",
+    "IC / EC"
   ],
   "sv": [
     "STATION",
@@ -1333,7 +1354,10 @@
     "cm",
     "Live · {time}",
     "Tornado",
-    "UV"
+    "UV",
+    "ICE",
+    "IC / EC",
+    "+{count} min"
   ],
   "uk": [
     "1900–1945",
@@ -1364,7 +1388,9 @@
     "{division}, {country}",
     "ICAO: {id}",
     "MMSI: {id}",
-    "NORAD: {id}"
+    "NORAD: {id}",
+    "ICE",
+    "IC / EC"
   ],
   "zh-CN": [
     "1090 MHz",
@@ -1435,7 +1461,9 @@
     "CC BY 4.0",
     "acartia.io ↗",
     "iNaturalist ↗",
-    "iNaturalist"
+    "iNaturalist",
+    "ICE",
+    "IC / EC"
   ],
   "zh-Hant": [
     "1090 MHz",
@@ -1506,7 +1534,9 @@
     "CC BY 4.0",
     "acartia.io ↗",
     "iNaturalist ↗",
-    "iNaturalist"
+    "iNaturalist",
+    "ICE",
+    "IC / EC"
   ],
   "he": [
     "{speed} kn",
@@ -1607,6 +1637,8 @@
     "ICAO: {id}",
     "MMSI: {id}",
     "NORAD: {id}",
-    "UV"
+    "UV",
+    "ICE",
+    "IC / EC"
   ]
 }

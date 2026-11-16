@@ -32,6 +32,7 @@ const AUTOBAHN = 'autobahn-traffic';
 const RIVERS = 'river-levels';
 const WEATHER = 'weather-warnings';
 const PARKING = 'truck-parking';
+const TRAINS = 'db-trains';
 
 /**
  * A repeating timer that never keeps Node alive (tests mount the shell
@@ -57,6 +58,7 @@ export function useApp() {
     selectedWarning,
     parking,
     selectedParking,
+    selectedTrain,
     layerRevision,
   } = storeToRefs(store);
   const camera = computed(() => globe.camera);
@@ -89,6 +91,7 @@ export function useApp() {
   const riverModule = () => layerModule(RIVERS);
   const weatherModule = () => layerModule(WEATHER);
   const parkingModule = () => layerModule(PARKING);
+  const trainsModule = () => layerModule(TRAINS);
   /** Clear every layer's selection but one, so one card shows at a time. */
   function clearLayerSelections(keep) {
     for (const [id, module] of [
@@ -96,6 +99,7 @@ export function useApp() {
       [RIVERS, riverModule],
       [WEATHER, weatherModule],
       [PARKING, parkingModule],
+      [TRAINS, trainsModule],
     ])
       if (id !== keep) module()?.select?.(null);
   }
@@ -173,6 +177,20 @@ export function useApp() {
     if (!row) return;
     selectParking(row);
     flyFlat(row.lat, row.lon, 12_000);
+  }
+  function selectTrain(row) {
+    if (row) clearLayerSelections(TRAINS);
+    if (!trainsModule()?.select?.(row ? row.id : null))
+      store.publishSelectedTrain(row || null);
+  }
+  /** Keep the camera on the picked train (true) or let go (false). */
+  function followTrain(on) {
+    return trainsModule()?.follow?.(on) ?? false;
+  }
+  function showTrainOnMap(row) {
+    if (!row) return;
+    selectTrain(row);
+    flyFlat(row.lat, row.lon, 60_000);
   }
   function selectWarning(row) {
     if (row) clearLayerSelections(WEATHER);
@@ -677,6 +695,10 @@ export function useApp() {
     selectedParking,
     selectParking,
     showParkingOnMap,
+    selectedTrain,
+    selectTrain,
+    showTrainOnMap,
+    followTrain,
     parkingOn,
     horizon,
     range,

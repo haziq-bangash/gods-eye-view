@@ -287,6 +287,8 @@
     "./layers/weather-warnings/source": "./src/layers/weatherWarnings/source.js",
     "./layers/truck-parking": "./src/layers/truckParking/index.js",
     "./layers/truck-parking/source": "./src/layers/truckParking/source.js",
+    "./layers/db-trains": "./src/layers/dbTrains/index.js",
+    "./layers/db-trains/source": "./src/layers/dbTrains/source.js",
     "./layers/news/source": "./src/layers/news/source.js",
     "./layers/firms/source": "./src/layers/firms/source.js",
     "./layers/installations/source": "./src/layers/installations/source.js",
