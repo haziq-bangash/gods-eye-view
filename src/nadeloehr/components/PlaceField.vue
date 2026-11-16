@@ -117,7 +117,7 @@ function sublabel(place) {
       :aria-activedescendant="
         expanded && active >= 0 ? `${id}-${active}` : undefined
       "
-      class="h-9 w-full rounded-[12px] bg-input px-3 text-callout outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
+      class="h-9 w-full scroll-mt-24 rounded-[12px] bg-input px-3 text-callout outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
       :placeholder="placeholder"
       :aria-label="label"
       @focus="open = true"
@@ -130,7 +130,7 @@ function sublabel(place) {
       :id="listId"
       role="listbox"
       :aria-label="t('Suggestions for {field}', { field: label })"
-      class="glass-strong absolute inset-x-0 top-10 z-20 max-h-72 overflow-y-auto rounded-group py-1"
+      class="absolute inset-x-0 top-10 z-20 max-h-72 overflow-y-auto rounded-group bg-background py-1 shadow-lg ring-1 ring-border"
     >
       <li
         v-for="(result, index) in results"

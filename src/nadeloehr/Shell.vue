@@ -160,6 +160,17 @@ function step(direction) {
   sheet.value =
     order[Math.min(order.length - 1, Math.max(0, index + direction))];
 }
+// Typing in a field with suggestions needs room above the keyboard: the
+// sheet opens fully and the field moves to the top of it.
+function onSheetFocus(event) {
+  if (wide.value || !event.target?.matches?.('input[role="combobox"]')) return;
+  sheet.value = 'full';
+  const field = event.target;
+  setTimeout(
+    () => field.scrollIntoView?.({ block: 'start', behavior: 'smooth' }),
+    320,
+  );
+}
 function toggleSheet() {
   sheet.value = expanded.value ? 'peek' : narrow.value ? 'half' : 'full';
 }
@@ -525,6 +536,7 @@ async function locate() {
           dragOffset ? { transform: `translateY(${dragOffset}px)` } : null
         "
         aria-label="Nadelöhr"
+        @focusin="onSheetFocus"
       >
         <div
           v-if="!wide"
