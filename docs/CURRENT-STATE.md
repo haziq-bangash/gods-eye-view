@@ -417,6 +417,48 @@ right-hand insight card hides while Street Level is on. The Street Level
 browser gate (FIT/FILL) had been failing since the Today layout because the
 strip covered those controls.
 
+## Route verdict, way round, saved routes, sharper map — Nadelöhr
+
+**Verdict.** A checked route now leads with an answer for the chosen time:
+"Tonight: 2 problems on the way" or "Right now: clear run"
+(`src/nadeloehr/routeVerdict.js`). The lines include:
+
+- each full closure on the route, with its window from the notice;
+- each traffic warning (now only);
+- truck bans in force in the states the route crosses;
+- strong-and-above DWD warnings;
+- the next ban.
+
+Closures and bans make it "blocked" (red); other problems make it "caution". While
+the warnings layer is off it says the weather was not checked. The corridor
+score follows below it. Known limit: an event within 1.5 km of the route
+counts whatever its direction, so a closure on the other carriageway or on
+a road crossing the route can appear.
+
+**States.** `src/freight/germanStates.js` tells which state a point is in,
+from Germany's 16 states taken out of the bundled Natural Earth admin-1
+pack (`scripts/build-german-states.mjs` → `germanStatesData.js`, 25 kB,
+public domain). `statesAlong(path)` gives the states a route crosses, so a
+state holiday's ban applies only where it holds.
+
+**Way round.** `/api/route` takes `alternatives=1`: the router is asked
+for up to two other routes, plus steps so it names the roads; the answer
+carries `summary` ("A 7, A 9", motorway and federal numbers when there are
+any) and `alternatives`, without the steps, in its own cache entry. When
+none of them keeps 3 km clear of every closure, the app routes twice more
+through a point 20 km to either side of the first closure (`detourVias`)
+and shows the quickest clear one: "Way round via A 25, A 7, A 9: +1 h 13
+min". It says the signed diversion may be shorter. That is often true for
+junction closures, because the estimate avoids the closure completely.
+
+**Saved routes.** The bookmark on a route saves its two place names
+(`nadeloehr.routes.v1`, up to six); they show as chips under the form and
+check again with one tap. They are not part of push alerts.
+
+**Sharper map.** The viewer draws at the screen's resolution, capped at 2×
+(`sharpenForDisplay` in `src/app/viewer.js`), instead of Cesium's
+CSS-pixel default that left labels soft on high-DPI screens.
+
 ## Calmer map, live train tracker, closure timing, things to watch — Nadelöhr
 
 **Map.** DWD warnings draw from "Strong" (moderate) up by default; the Map
@@ -442,7 +484,7 @@ window in force as a since–until bar, how many windows follow and when the
 whole project ends, and folds the notice away. It lists the corridors the
 disruption lies on (tap to open), the nearest open truck parking on the same
 road within 40 km (`nearestParking`), and "Watch A7", which pins the road so
-alerts cover it. No detour estimate: there is no routing to base it on.
+alerts cover it. Detour estimates live on the route check (see above).
 
 **Home (phones).** The minimised strip is a Now / Tonight / Tomorrow switch
 and the time of the traffic data; the numbers are under the arrow. The

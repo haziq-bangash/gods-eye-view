@@ -27,6 +27,24 @@ const ROUTE_CACHE_MS = 600000;
  */
 const _routeInflight = new Map();
 
+/** Other routes a caller may ask for (`alternatives=1`), besides the best. */
+export const ROUTE_ALTERNATIVES_MAX = 2;
+
+/**
+ * OSRM's names for the main roads of a route: "A 7, A 3". OSRM only fills
+ * them in when asked for steps, so an alternatives request asks for steps
+ * and keeps just these names.
+ */
+function routeSummary(route) {
+  const names = [];
+  for (const leg of Array.isArray(route?.legs) ? route.legs : [])
+    for (const name of String(leg?.summary || '').split(','))
+      if (name.trim() && !names.includes(name.trim())) names.push(name.trim());
+  // Motorway and federal road numbers say more than the street left home on.
+  const numbered = names.filter((name) => /^[AB] ?\d+[a-z]?$/.test(name));
+  return (numbered.length ? numbered : names).join(', ').slice(0, 120);
+}
+
 /** Hard cap on the OSRM route response we will buffer. */
 const ROUTE_MAX_RESPONSE_BYTES = 8 * 1024 * 1024; // 8 MB
 
@@ -162,6 +180,8 @@ async function cancelBody(response) {
  * @param {string} request.base Endpoint base for this profile.
  * @param {string} request.coords `lon,lat;lon,lat[;...]`
  * @param {boolean} request.withSteps Ask upstream for maneuvers.
+ * @param {boolean} [request.withAlternatives] Ask upstream for up to
+ *   ROUTE_ALTERNATIVES_MAX other routes, and the main roads of each.
  * @param {Function} request.fetchImpl Injected request function.
  * @returns {Promise<{payload: object|null, error: string|null}>}
  */
@@ -171,6 +191,7 @@ async function fetchRoute({
   base,
   coords,
   withSteps,
+  withAlternatives = false,
   fetchImpl,
 }) {
   // `steps` is opt-in per request. Asking for maneuvers on every call made the
@@ -178,7 +199,7 @@ async function fetchRoute({
   // voice route annotation, fly_route), on someone else's bandwidth.
   const upstream =
     `${base.replace(/\/$/, '')}/route/v1/${osrmProfile}/${coords}` +
-    `?overview=full&geometries=geojson&alternatives=false&steps=${withSteps ? 'true' : 'false'}`;
+    `?overview=full&geometries=geojson&alternatives=${withAlternatives ? ROUTE_ALTERNATIVES_MAX : 'false'}&steps=${withSteps || withAlternatives ? 'true' : 'false'}`;
   const controller = new AbortController();
   // The 12 s budget includes queue wait, so Directions (15 s) hears back.
   const timer = setTimeout(() => controller.abort(), 12000);
@@ -236,6 +257,18 @@ async function fetchRoute({
   if (osrm?.code !== 'Ok' || !route?.geometry?.coordinates?.length)
     return { payload: null, error: 'no route found' };
   const payload = projectRouteResult(route, profile);
+  if (withAlternatives) {
+    payload.summary = routeSummary(route);
+    payload.alternatives = osrm.routes
+      .slice(1, 1 + ROUTE_ALTERNATIVES_MAX)
+      .filter((other) => other?.geometry?.coordinates?.length)
+      .map((other) => ({
+        distanceM: Math.round(other.distance),
+        durationS: Math.round(other.duration),
+        summary: routeSummary(other),
+        geometry: other.geometry.coordinates,
+      }));
+  }
   if (withSteps) {
     const { steps, truncated } = normalizeOsrmSteps(route);
     payload.steps = steps;
@@ -251,10 +284,12 @@ export function installRouteMiddleware(
   const _routeCache = new Map();
 
   // Real OSM routing via the public FOSSGIS OSRM servers (foot/car/bike).
-  // GET /api/route?profile=foot|car|bike&coords=lon,lat;lon,lat[;...][&steps=1]
+  // GET /api/route?profile=foot|car|bike&coords=lon,lat;lon,lat[;...][&steps=1][&alternatives=1]
   // `steps=1` adds turn-by-turn maneuvers (src/data/routeSteps.js) and is the
-  // only shape that asks the upstream for them. A response WITHOUT steps is
-  // byte for byte what this endpoint has always returned.
+  // only shape that asks the upstream for them. `alternatives=1` adds
+  // `summary` and up to two `alternatives` (Nadelöhr's detour estimate). A
+  // response with neither is byte for byte what this endpoint has always
+  // returned.
   middlewares.use('/api/route', async (req, res) => {
     if (req.method !== 'GET') {
       res.writeHead(405, { 'Content-Type': 'application/json', Allow: 'GET' });
@@ -325,7 +360,9 @@ export function installRouteMiddleware(
       }
       if (totalKm > ROUTE_MAX_TOTAL_KM) return fail('route too long');
       const coords = clean.join(';');
-      const cacheKey = `${profile}|${coords}`;
+      // Alternatives make a different, larger answer: their own cache entry.
+      const wantAlternatives = url.searchParams.get('alternatives') === '1';
+      const cacheKey = `${profile}|${coords}${wantAlternatives ? '|alt' : ''}`;
       const base =
         endpoints[profile] ||
         `https://routing.openstreetmap.de/routed-${profile}`;
@@ -358,6 +395,7 @@ export function installRouteMiddleware(
           base,
           coords,
           withSteps: wantSteps,
+          withAlternatives: wantAlternatives,
           fetchImpl,
         });
         _routeInflight.set(inflightKey, pending);

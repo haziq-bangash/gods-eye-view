@@ -3,7 +3,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as Cesium from 'cesium';
-import { limitZoomOut, zoomOutLimit } from './viewer.js';
+import {
+  limitZoomOut,
+  MAX_PIXEL_RATIO,
+  sharpenForDisplay,
+  zoomOutLimit,
+} from './viewer.js';
 
 // The share of the screen's height the globe spans from `altitude`.
 function globeShare(altitude, fovy) {
@@ -21,7 +26,10 @@ test("zooming out stops with the globe 30% of the screen's height across", () =>
 
 test('a wide screen, whose view is narrower, may zoom out farther', () => {
   assert.ok(zoomOutLimit(0.4) > zoomOutLimit(Math.PI / 3));
-  assert.ok(zoomOutLimit(Math.PI / 3) > 20_000_000, 'past the views a link opens');
+  assert.ok(
+    zoomOutLimit(Math.PI / 3) > 20_000_000,
+    'past the views a link opens',
+  );
 });
 
 function fakeViewer({ fovy = Math.PI / 3, height = 10_000_000 } = {}) {
@@ -70,4 +78,18 @@ test('flat maps keep zooming out unlimited', () => {
   viewer.camera.frustum = {};
   viewer.scene.preRender.raiseEvent();
   assert.equal(controller.maximumZoomDistance, Infinity);
+});
+
+test('the map draws at the screen’s resolution, up to 2×', () => {
+  for (const [dpr, scale, ratio] of [
+    [1, 1, 1],
+    [2, 1, 2],
+    [3, 2 / 3, MAX_PIXEL_RATIO],
+    [Number.NaN, 1, 1],
+  ]) {
+    const viewer = {};
+    assert.equal(sharpenForDisplay(viewer, dpr), ratio, `dpr ${dpr}`);
+    assert.equal(viewer.useBrowserRecommendedResolution, false);
+    assert.ok(Math.abs(viewer.resolutionScale - scale) < 1e-9, `dpr ${dpr}`);
+  }
 });

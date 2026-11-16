@@ -5,21 +5,25 @@
 import { computed } from 'vue';
 import {
   PhArrowsDownUp,
+  PhArrowsSplit,
+  PhBookmarkSimple,
+  PhCalendarBlank,
   PhCaretRight,
+  PhCheckCircle,
   PhCircleNotch,
+  PhCloudLightning,
+  PhCloudSlash,
   PhPath,
+  PhTruck,
+  PhWarningCircle,
   PhX,
 } from '@phosphor-icons/vue';
 import { formatNumber, t } from '../../i18n/index.js';
-import {
-  disruptionPlace,
-  disruptionTitle,
-  severityOf,
-  sortDisruptions,
-} from '../disruptions.js';
+import { WARNING_COLORS } from '../../layers/weatherWarnings/records.js';
 import { KIND_ICONS, SYSTEM_COLORS } from '../icons.js';
 import { corridorView } from '../today.js';
 import { useCollapsed } from '../collapse.js';
+import { routeId, useSavedRoutes } from '../savedRoutes.js';
 import CorridorDetail from './CorridorDetail.vue';
 import IconBadge from './IconBadge.vue';
 import RoadShield from './RoadShield.vue';
@@ -49,18 +53,48 @@ const summary = computed(() => {
   if (!route) return '';
   const hours = Math.floor(route.durationS / 3600);
   const minutes = Math.round((route.durationS % 3600) / 60);
-  return t('{distance} km · {hours} h {minutes} min by car', {
+  const time = t('{distance} km · {hours} h {minutes} min by car', {
     distance: formatNumber(Math.round(route.distanceM / 1000)),
     hours: formatNumber(hours),
     minutes: formatNumber(minutes),
   });
+  return route.summary
+    ? `${time} · ${t('via {roads}', { roads: route.summary })}`
+    : time;
 });
-/** Critical and major events on the route, worst first. */
-const onRoute = computed(() =>
-  sortDisruptions(props.app.routeScore.value?.events || []).filter(
-    (row) => severityOf(row.kind) !== 'minor',
-  ),
-);
+const verdict = computed(() => props.app.routeVerdict.value);
+const TONES = {
+  clear: { icon: PhCheckCircle, color: SYSTEM_COLORS.green },
+  caution: { icon: PhWarningCircle, color: SYSTEM_COLORS.orange },
+  blocked: { icon: PhWarningCircle, color: SYSTEM_COLORS.red },
+};
+/** The icon and colour for one line of the verdict. */
+function lineIcon(line) {
+  if (line.kind === 'closure') return KIND_ICONS.closure;
+  if (line.kind === 'traffic') return KIND_ICONS.warning;
+  if (line.kind === 'detour')
+    return { icon: PhArrowsSplit, color: SYSTEM_COLORS.blue };
+  if (line.kind === 'ban') return { icon: PhTruck, color: SYSTEM_COLORS.red };
+  if (line.kind === 'next-ban')
+    return { icon: PhCalendarBlank, color: SYSTEM_COLORS.gray };
+  if (line.kind === 'weather')
+    return { icon: PhCloudLightning, color: WARNING_COLORS[line.level] };
+  return { icon: PhCloudSlash, color: SYSTEM_COLORS.gray };
+}
+
+const savedRoutes = useSavedRoutes();
+const isSaved = computed(() => {
+  const route = props.app.route.value;
+  return Boolean(route) && savedRoutes.isSaved(from.value, to.value);
+});
+function toggleSaved() {
+  if (!from.value.trim() || !to.value.trim()) return;
+  if (isSaved.value) savedRoutes.remove(routeId(from.value, to.value));
+  else savedRoutes.save(from.value.trim(), to.value.trim());
+}
+function checkSaved(item) {
+  props.app.checkRoute(item.from, item.to);
+}
 
 function submit() {
   if (from.value.trim() && to.value.trim())
@@ -127,6 +161,36 @@ function swap() {
         </div>
       </form>
 
+      <ul
+        v-if="!view && savedRoutes.saved.value.length"
+        class="mt-2 flex flex-wrap gap-1.5"
+        :aria-label="t('Saved routes')"
+      >
+        <li
+          v-for="item in savedRoutes.saved.value"
+          :key="item.id"
+          class="flex items-center rounded-full bg-card"
+        >
+          <button
+            type="button"
+            class="press cursor-pointer rounded-full py-1.5 ps-3 pe-1 text-subhead outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
+            @click="checkSaved(item)"
+          >
+            {{ item.from }} → {{ item.to }}
+          </button>
+          <button
+            type="button"
+            class="grid size-7 cursor-pointer place-items-center rounded-full text-muted-foreground outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
+            :aria-label="
+              t('Remove {route}', { route: `${item.from} → ${item.to}` })
+            "
+            @click="savedRoutes.remove(item.id)"
+          >
+            <PhX weight="bold" class="size-3" />
+          </button>
+        </li>
+      </ul>
+
       <p
         v-if="app.routeStatus.value === 'error'"
         role="status"
@@ -146,6 +210,19 @@ function swap() {
           </p>
           <button
             type="button"
+            class="grid size-7 cursor-pointer place-items-center rounded-full outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
+            :class="isSaved ? 'text-primary-ink' : 'text-muted-foreground'"
+            :aria-label="isSaved ? t('Remove saved route') : t('Save route')"
+            :aria-pressed="isSaved"
+            @click="toggleSaved"
+          >
+            <PhBookmarkSimple
+              :weight="isSaved ? 'fill' : 'bold'"
+              class="size-3.5"
+            />
+          </button>
+          <button
+            type="button"
             class="grid size-7 cursor-pointer place-items-center rounded-full text-muted-foreground outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
             :aria-label="t('Clear route')"
             @click="app.clearRoute()"
@@ -153,42 +230,57 @@ function swap() {
             <PhX weight="bold" class="size-3.5" />
           </button>
         </div>
-        <CorridorDetail :corridor="view" :closable="false" />
 
-        <template v-if="onRoute.length">
-          <Separator />
-          <h3 class="nd-eyebrow">{{ t('On your route') }}</h3>
-          <ul class="-mx-1">
-            <li v-for="row in onRoute.slice(0, 8)" :key="row.stableId">
-              <button
-                type="button"
-                class="press flex w-full cursor-pointer items-center gap-3 rounded-[12px] px-1 py-1.5 text-start outline-none hover:bg-accent focus-visible:bg-accent"
-                @click="app.showOnMap(row)"
+        <template v-if="verdict">
+          <p
+            role="status"
+            class="nd-ink flex items-center gap-2 text-title2 font-bold"
+            :style="{ '--ink': TONES[verdict.tone].color }"
+          >
+            <component
+              :is="TONES[verdict.tone].icon"
+              weight="fill"
+              class="size-5 shrink-0"
+              aria-hidden="true"
+            />
+            {{ verdict.headline }}
+          </p>
+          <ul v-if="verdict.lines.length" class="-mx-1">
+            <li v-for="(line, index) in verdict.lines" :key="index">
+              <component
+                :is="line.row ? 'button' : 'div'"
+                :type="line.row ? 'button' : undefined"
+                class="flex w-full items-center gap-3 rounded-[12px] px-1 py-1.5 text-start"
+                :class="
+                  line.row
+                    ? 'press cursor-pointer outline-none hover:bg-accent focus-visible:bg-accent'
+                    : ''
+                "
+                @click="line.row && app.showOnMap(line.row)"
               >
                 <IconBadge
-                  :icon="KIND_ICONS[row.kind]?.icon"
-                  :color="KIND_ICONS[row.kind]?.color"
+                  :icon="lineIcon(line).icon"
+                  :color="lineIcon(line).color"
                   size="sm"
                 />
                 <span class="min-w-0 flex-1">
                   <span class="flex items-center gap-1.5">
-                    <RoadShield :road="row.road" />
-                    <span class="truncate text-headline">{{
-                      disruptionTitle(row.kind)
-                    }}</span>
+                    <RoadShield v-if="line.row?.road" :road="line.row.road" />
+                    <span class="text-headline">{{ line.title }}</span>
                   </span>
                   <span
-                    class="block truncate text-subhead text-muted-foreground"
-                    >{{ disruptionPlace(row) }}</span
+                    v-if="line.detail"
+                    class="block text-subhead text-muted-foreground"
+                    >{{ line.detail }}</span
                   >
                 </span>
-              </button>
+              </component>
             </li>
           </ul>
         </template>
-        <p v-else class="text-callout text-muted-foreground">
-          {{ t('No closures or traffic warnings on this route.') }}
-        </p>
+
+        <Separator />
+        <CorridorDetail :corridor="view" :closable="false" />
       </div>
     </template>
   </section>
