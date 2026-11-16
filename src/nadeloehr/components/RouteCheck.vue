@@ -273,7 +273,8 @@ function swap() {
           <button
             type="button"
             class="grid size-7 cursor-pointer place-items-center rounded-full outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
-            :class="isSaved ? 'text-primary-ink' : 'text-muted-foreground'"
+            :class="isSaved ? '' : 'text-muted-foreground'"
+            :style="isSaved ? { color: SYSTEM_COLORS.brand } : null"
             :aria-label="isSaved ? t('Remove saved route') : t('Save route')"
             :aria-pressed="isSaved"
             @click="toggleSaved"
@@ -310,13 +311,13 @@ function swap() {
         <template v-if="verdict">
           <p
             role="status"
-            class="nd-ink flex items-center gap-2 text-title2 font-bold"
-            :style="{ '--ink': TONES[verdict.tone].color }"
+            class="flex items-center gap-2 text-title2 font-bold"
           >
             <component
               :is="TONES[verdict.tone].icon"
               weight="fill"
-              class="size-5 shrink-0"
+              class="size-6 shrink-0"
+              :style="{ color: TONES[verdict.tone].color }"
               aria-hidden="true"
             />
             {{ verdict.headline }}
