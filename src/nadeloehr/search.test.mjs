@@ -6,6 +6,7 @@ import {
   placeSearchUrl,
   routeQuery,
   searchPlacesDE,
+  coordinateResult,
 } from './search.js';
 
 test('Autobahn numbers are read however they are typed', () => {
@@ -109,4 +110,37 @@ test('a trip typed in search becomes a route check', () => {
   assert.deepEqual(routeQuery('Hamburg nach München'), ['Hamburg', 'München']);
   assert.equal(routeQuery('Duisburg-Ruhrort'), null);
   assert.equal(routeQuery('Bad Hersfeld'), null);
+});
+
+test('coordinates, grid references and plus codes become a place at once', async () => {
+  for (const text of [
+    '51.3155, 9.4979',
+    `51°18'56"N 9°29'52"E`,
+    '32U 534869 5687178',
+    '9F3F8F8X+65',
+  ]) {
+    const [result] = localResults(text);
+    assert.equal(result?.type, 'place', text);
+    assert.ok(
+      Math.abs(result.place.lat - 51.3) < 0.1,
+      `${text}: ${result.place.lat}`,
+    );
+    assert.ok(
+      Math.abs(result.place.lng - 9.5) < 0.1,
+      `${text}: ${result.place.lng}`,
+    );
+    assert.match(result.place.name, /° N, .*° E$/);
+  }
+  assert.equal(coordinateResult('Kassel'), null);
+  // A route between two coordinate pairs is still a route.
+  assert.equal(localResults('51.3, 9.5 → 48.1, 11.6')[0].type, 'route');
+  // Coordinates never go to the place search.
+  let called = false;
+  await searchPlacesDE('51.3155, 9.4979', {
+    fetchImpl: async () => {
+      called = true;
+      return Response.json({ features: [] });
+    },
+  });
+  assert.equal(called, false);
 });

@@ -4582,5 +4582,6 @@
   "In force when you leave, in {state}; it ends at {to}.": "سارٍ عند مغادرتك، في {state}؛ وينتهي في {to}.",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "يبدأ في {at} وأنت في {state}. توقف قبل ذلك، مثلًا في {place} (نحو {time})، أو انتظر حتى {to}.",
   "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "يبدأ في {at} وأنت في {state}. توقف قبل ذلك؛ وينتهي في {to}.",
-  "Suggestions for {field}": "اقتراحات لحقل {field}"
+  "Suggestions for {field}": "اقتراحات لحقل {field}",
+  "Coordinates": "إحداثيات"
 }

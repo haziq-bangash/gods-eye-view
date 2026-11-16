@@ -19,7 +19,7 @@ import { kaubRow, levelDuring } from '../layers/riverLevels/records.js';
 import { berlinParts, berlinTime, horizonRange } from '../freight/horizon.js';
 import { CORRIDOR_HISTORY_URL } from './history.js';
 import { affectedParkingIds } from '../layers/truckParking/records.js';
-import { localResults, searchPlacesDE } from './search.js';
+import { coordinateResult, localResults, searchPlacesDE } from './search.js';
 import { todayHeadline, todayKpis } from './today.js';
 import { statesAlong } from '../freight/germanStates.js';
 import {
@@ -454,6 +454,8 @@ export function useApp() {
   const routeError = shallowRef('');
   let routeRequest = null;
   async function findPlace(text, signal) {
+    const typed = coordinateResult(text);
+    if (typed) return typed.place;
     const [first] = await searchPlacesDE(text, {
       locale: getLocale(),
       signal,
@@ -812,9 +814,13 @@ export function useApp() {
     return mergeSuggestions(instant, await placesFor(text, signal), 8);
   }
   /** Places only, for the route's fields: cities at once… */
-  const instantPlaces = (text) => cityMatches(text);
+  const instantPlaces = (text) => {
+    const typed = coordinateResult(text);
+    return typed ? [typed] : cityMatches(text);
+  };
   /** …and the place search's answers merged in. */
   async function suggestPlaces(text, { signal } = {}) {
+    if (coordinateResult(text)) return instantPlaces(text);
     return mergeSuggestions(cityMatches(text), await placesFor(text, signal));
   }
   function pickResult(result) {
