@@ -11,6 +11,7 @@ import {
 } from '../layers/weatherWarnings/records.js';
 import { formatDate, formatNumber, t, tn } from '../i18n/index.js';
 import { disruptionPlace } from './disruptions.js';
+import { BAN_NAMES, STATE_NAMES } from './bans.js';
 import { scheduleNow } from './schedule.js';
 
 /** An alternative counts as avoiding a closure when it stays this far away. */
@@ -139,6 +140,41 @@ function reachText(reach) {
   return t('You reach it about {at}', { at });
 }
 
+/** One ban the trip runs into, in plain words. */
+function tripBanLine(hit) {
+  const name = t(BAN_NAMES[hit.ban.name] || hit.ban.name);
+  const state = STATE_NAMES[hit.state] ? t(STATE_NAMES[hit.state]) : hit.state;
+  const to = clock(hit.ban.to);
+  let detail;
+  if (hit.atStart)
+    detail = t('In force when you leave, in {state}; it ends at {to}.', {
+      state,
+      to,
+    });
+  else if (hit.shelter)
+    detail = t(
+      'It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.',
+      {
+        at: clock(hit.at),
+        state,
+        place: hit.shelter.row.name,
+        time: clock(hit.shelter.at),
+        to,
+      },
+    );
+  else
+    detail = t(
+      'It starts at {at} while you are in {state}. Park by then; it ends at {to}.',
+      { at: clock(hit.at), state, to },
+    );
+  return {
+    kind: 'ban',
+    problem: true,
+    title: t('Truck ban: {name}', { name }),
+    detail,
+  };
+}
+
 /** When a closure applies, from its notice: "22:00–05:00", or ''. */
 function closureWhen(row, now) {
   const schedule = scheduleNow(row.details, now);
@@ -167,6 +203,8 @@ function closureWhen(row, now) {
  * @param {?Map<string, object>} [input.timing] - When a truck reaches each
  *   closure (planTrip's closures by stableId); a closure passed while open
  *   is no problem.
+ * @param {?object[]} [input.tripBans] - planTrip's bans: those the trip
+ *   runs into. Given, they replace the bans for the chosen time.
  * @param {boolean} [input.detourPending] - A way round is being routed.
  * @param {boolean} [input.weatherChecked] - False while the warnings layer
  *   is off, so the verdict says the weather was not looked at.
@@ -182,6 +220,7 @@ export function routeVerdict({
   weatherChecked = true,
   detourPending = false,
   timing = null,
+  tripBans = null,
 }) {
   const lines = [];
   const events = scored?.events || [];
@@ -246,13 +285,17 @@ export function routeVerdict({
     }),
   );
 
-  for (const ban of bans?.active || [])
-    lines.push({
-      kind: 'ban',
-      problem: true,
-      title: t('Truck ban: {name}', { name: ban.label }),
-      detail: ban.body,
-    });
+  // With a trip plan, the bans are the ones the trip itself runs into;
+  // without one, those in force for the chosen time.
+  const banLines = Array.isArray(tripBans)
+    ? tripBans.map((hit) => tripBanLine(hit))
+    : (bans?.active || []).map((ban) => ({
+        kind: 'ban',
+        problem: true,
+        title: t('Truck ban: {name}', { name: ban.label }),
+        detail: ban.body,
+      }));
+  lines.push(...banLines);
 
   const weather = (scored?.warnings || []).filter(
     (row) => WARNING_LEVELS.indexOf(row.level) >= PROBLEM_LEVEL,
@@ -281,7 +324,7 @@ export function routeVerdict({
       detail: t('Turn on weather warnings to include them.'),
     });
 
-  if (!bans?.active?.length && bans?.next)
+  if (!banLines.length && bans?.next && !bans?.active?.length)
     lines.push({
       kind: 'next-ban',
       problem: false,
@@ -290,7 +333,7 @@ export function routeVerdict({
     });
 
   const problems = lines.filter((line) => line.problem).length;
-  const blocked = closures.length > 0 || Boolean(bans?.active?.length);
+  const blocked = closures.length > 0 || banLines.length > 0;
   const WHEN = {
     now: t('Right now'),
     tonight: t('Tonight'),

@@ -8,7 +8,7 @@ import { banNotice } from './bans.js';
 import { fetchMiddleRhineShips } from './rhineShips.js';
 import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { getLocale, t } from '../i18n/index.js';
+import { formatDate, getLocale, t } from '../i18n/index.js';
 import { LOCALES, LOCALE_NAMES } from '../i18n/locale.js';
 import { useGlobeActionsStore } from '../ui/stores/globeActions.js';
 import { useLocaleStore } from '../ui/stores/locale.js';
@@ -29,6 +29,7 @@ import {
   routeVerdict as verdictFor,
 } from './routeVerdict.js';
 import { planTrip } from './tripPlan.js';
+import { readTripQuery, tripQuery, withoutTrip } from './tripLink.js';
 
 const MINOR_KINDS = Object.freeze([
   'ramp-closure',
@@ -595,6 +596,46 @@ export function useApp() {
     return setLayer(PARKING, true);
   }
 
+  /** 'shared' | 'copied' | 'failed' for a moment after sharing, else ''. */
+  const shareStatus = shallowRef('');
+  let shareStatusTimer = null;
+  /** Share the checked trip: the phone's share sheet, else the clipboard. */
+  async function shareRoute() {
+    if (!route.value) return;
+    const query = tripQuery({
+      from: routeFrom.value,
+      to: routeTo.value,
+      leave: departAt.value,
+      when: horizon.value,
+    });
+    if (!query) return;
+    const { origin, pathname } = globalThis.location;
+    const url = `${origin}${pathname}${query}`;
+    const text = routeVerdict.value
+      ? `${routeFrom.value} → ${routeTo.value}: ${routeVerdict.value.headline}`
+      : `${routeFrom.value} → ${routeTo.value}`;
+    let status = 'failed';
+    try {
+      if (
+        globalThis.navigator?.share &&
+        globalThis.matchMedia?.('(pointer: coarse)').matches
+      ) {
+        // i18n-ignore: the product's name
+        await globalThis.navigator.share({ title: 'Nadelöhr', text, url });
+        status = 'shared';
+      } else {
+        await globalThis.navigator.clipboard.writeText(url);
+        status = 'copied';
+      }
+    } catch (error) {
+      // Closing the share sheet is not a failure.
+      if (error?.name === 'AbortError') return;
+    }
+    shareStatus.value = status;
+    clearTimeout(shareStatusTimer);
+    shareStatusTimer = setTimeout(() => (shareStatus.value = ''), 3000);
+  }
+
   // ── A way round a closure ──
   // When none of the router's own alternatives avoids the first closure on
   // the route, route twice more through a point 20 km to either side of it.
@@ -673,6 +714,7 @@ export function useApp() {
           weatherChecked: weatherOn.value,
           detourPending: detourPending.value,
           timing: closureTiming.value,
+          tripBans: tripPlan.value?.bans ?? null,
         })
       : null,
   );
@@ -856,6 +898,71 @@ export function useApp() {
   const locale = computed(() => localeStore.picker?.current || getLocale());
   const setLocale = (id) => localeStore.picker?.onSelect?.(id);
 
+  // ── The plan on the map: the way round, breaks and closures, with times ──
+  watch(
+    [routeVerdict, tripPlan, services],
+    ([verdict, plan, next]) => {
+      const overlay = next?.corridorOverlay;
+      if (!overlay?.setRoutePlan) return;
+      if (!verdict || !plan) return overlay.setRoutePlan(null);
+      const time = (ms) =>
+        formatDate(ms, { hour: '2-digit', minute: '2-digit' });
+      const blocking = new Set(
+        verdict.lines
+          .filter((line) => line.kind === 'closure')
+          .map((line) => line.row?.stableId),
+      );
+      overlay.setRoutePlan({
+        detour: verdict.detour?.geometry || null,
+        markers: [
+          ...plan.breaks
+            .filter((stop) => stop.row && plan.parkingKnown)
+            .map((stop) => ({
+              lon: stop.row.lon,
+              lat: stop.row.lat,
+              label: `☕ ${time(stop.at)}`,
+              color: '#007aff',
+            })),
+          ...plan.closures
+            .filter((entry) => blocking.has(entry.row.stableId))
+            .map((entry) => ({
+              lon: entry.row.lon,
+              lat: entry.row.lat,
+              label: `${entry.row.road || ''} · ${time(entry.at)}`.trim(),
+              color: '#ff3b30',
+            })),
+        ],
+      });
+    },
+    { immediate: true },
+  );
+
+  // ── A trip link: open one, share one ──
+  // A link with ?from=…&to=… opens that trip once the map is ready, then
+  // leaves the address bar as it was without it.
+  let sharedTrip = readTripQuery(globalThis.location?.search);
+  watch(
+    services,
+    (next) => {
+      if (!next || !sharedTrip) return;
+      const trip = sharedTrip;
+      sharedTrip = null;
+      setTab('routes');
+      setHorizon(trip.when);
+      setDepartAt(trip.leave);
+      checkRoute(trip.from, trip.to);
+      try {
+        globalThis.history?.replaceState(
+          globalThis.history.state,
+          '',
+          withoutTrip(globalThis.location.href),
+        );
+      } catch {
+        /* An embedded page may not own its address bar. */
+      }
+    },
+    { immediate: true },
+  );
   return {
     ready,
     services,
@@ -906,6 +1013,8 @@ export function useApp() {
     departAt,
     setDepartAt,
     planBreaks,
+    shareRoute,
+    shareStatus,
     checkRoute,
     clearRoute,
     corridors,

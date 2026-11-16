@@ -111,3 +111,39 @@ test('it tells whether you reach a closure before, during or after it', () => {
     ['before', 'during', 'after', 'unknown'],
   );
 });
+
+test('a Saturday night trip runs into the Sunday ban, with a place to sit it out', () => {
+  const saturday = Date.UTC(2026, 10, 21, 17, 0); // Sat 18:00 in Berlin
+  const plan = planTrip({
+    path: PATH,
+    distanceM: KM * 1000,
+    durationS: 0,
+    depart: saturday,
+    restAreas: [area('good', 310, 'right', 40), area('late', 380, 'right', 30)],
+  });
+  assert.equal(plan.bans.length, 1);
+  const [hit] = plan.bans;
+  assert.equal(hit.ban.kind, 'sunday');
+  assert.equal(hit.at, Date.UTC(2026, 10, 21, 23, 0), 'Sunday 00:00 in Berlin');
+  assert.equal(hit.atStart, false);
+  assert.ok(hit.state, 'in a German state');
+  // About 5 h 15 of driving by then (one break): the last stop before is 'late'.
+  assert.equal(hit.shelter.row.stableId, 'late');
+
+  const weekday = planTrip({
+    path: PATH,
+    distanceM: KM * 1000,
+    durationS: 0,
+    depart: DEPART,
+  });
+  assert.deepEqual(weekday.bans, []);
+
+  const sundayMorning = planTrip({
+    path: PATH.slice(0, 200),
+    distanceM: 0,
+    durationS: 0,
+    depart: Date.UTC(2026, 10, 22, 9, 0),
+  });
+  assert.equal(sundayMorning.bans[0].atStart, true);
+  assert.equal(sundayMorning.bans[0].shelter, null);
+});

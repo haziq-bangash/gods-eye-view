@@ -47,6 +47,8 @@ server, and adds a German freight layer and an interface anyone can read.
   truck speed, the EU-required breaks at rest areas on your side of the road
   with free truck spaces, and whether each closure is open when you reach
   it. Closures on the other carriageway don't count against your route.
+  It warns when a Sunday or holiday ban starts while you're still driving,
+  shows the plan on the map and shares it as one link to send to a driver.
 - **Now, tonight or tomorrow.** One switch shows the closures announced for
   the night or the next day, the official Kaub water-level forecast and the
   DWD warnings for that time, with the corridor scores to match.
@@ -219,7 +221,9 @@ More detail on each part is in [docs/CURRENT-STATE.md](docs/CURRENT-STATE.md)
   Lkw-Tempo sehen, die vorgeschriebenen Pausen an Rastplätzen auf deiner
   Fahrbahnseite mit Lkw-Stellplätzen und ob jede Sperrung offen ist, wenn du
   sie erreichst. Sperrungen auf der Gegenfahrbahn zählen nicht für deine
-  Route.
+  Route. Es warnt, wenn ein Sonntags- oder Feiertagsfahrverbot beginnt,
+  während du noch fährst, zeigt den Plan auf der Karte und teilt ihn als
+  Link, den du einem Fahrer schicken kannst.
 - **Jetzt, heute Nacht oder morgen.** Ein Schalter zeigt die für die Nacht
   oder den nächsten Tag angekündigten Sperrungen, die amtliche Pegelvorhersage
   für Kaub und die DWD-Warnungen für diese Zeit, samt passenden

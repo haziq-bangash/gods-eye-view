@@ -17,6 +17,8 @@ export function createCorridorOverlay(viewer) {
   viewer.dataSources.add(source);
   const routeSource = new Cesium.CustomDataSource('nadeloehr-route');
   viewer.dataSources.add(routeSource);
+  const planSource = new Cesium.CustomDataSource('nadeloehr-route-plan');
+  viewer.dataSources.add(planSource);
   let destroyed = false;
 
   return {
@@ -89,8 +91,67 @@ export function createCorridorOverlay(viewer) {
       }
       viewer.scene.requestRender?.();
     },
+    /**
+     * The trip plan on the route: the way round a closure as a grey line,
+     * and markers ({lon, lat, label, color}) for breaks and closures, each
+     * labelled with its time. Null clears it.
+     * @param {?{detour?: ?number[][], markers?: object[]}} plan
+     */
+    setRoutePlan(plan) {
+      if (destroyed || viewer.isDestroyed?.()) return;
+      planSource.entities.removeAll();
+      const detour = plan?.detour;
+      if (Array.isArray(detour) && detour.length >= 2)
+        planSource.entities.add({
+          id: 'nadeloehr-route:detour',
+          polyline: {
+            positions: detour.map(([lon, lat]) =>
+              Cesium.Cartesian3.fromDegrees(lon, lat),
+            ),
+            width: 5,
+            clampToGround: true,
+            zIndex: 0,
+            material: new Cesium.PolylineDashMaterialProperty({
+              color: Cesium.Color.fromCssColorString('#8e8e93'),
+              dashLength: 14,
+            }),
+          },
+        });
+      (plan?.markers || []).forEach((marker, index) => {
+        if (!Number.isFinite(marker?.lon) || !Number.isFinite(marker?.lat))
+          return;
+        const color = Cesium.Color.fromCssColorString(
+          marker.color || '#007aff',
+        );
+        planSource.entities.add({
+          id: `nadeloehr-route:marker:${index}`,
+          position: Cesium.Cartesian3.fromDegrees(marker.lon, marker.lat),
+          point: {
+            pixelSize: 14,
+            color,
+            outlineColor: Cesium.Color.WHITE,
+            outlineWidth: 3,
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+          label: {
+            text: marker.label || '',
+            font: '600 13px system-ui, sans-serif',
+            fillColor: Cesium.Color.fromCssColorString('#1c1c1e'),
+            showBackground: true,
+            backgroundColor: Cesium.Color.WHITE.withAlpha(0.94),
+            backgroundPadding: new Cesium.Cartesian2(8, 5),
+            pixelOffset: new Cesium.Cartesian2(0, -22),
+            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+      });
+      viewer.scene.requestRender?.();
+    },
     destroy() {
       destroyed = true;
+      if (!viewer.isDestroyed?.()) viewer.dataSources.remove(planSource, true);
       if (!viewer.isDestroyed?.()) viewer.dataSources.remove(routeSource, true);
       if (!viewer.isDestroyed?.()) viewer.dataSources.remove(source, true);
     },

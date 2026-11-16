@@ -265,7 +265,15 @@
     "▲ {frp} MW",
     "ICE",
     "IC / EC",
-    "+{count} min"
+    "+{count} min",
+    "Baden-Württemberg",
+    "Berlin",
+    "Brandenburg",
+    "Bremen",
+    "Hamburg",
+    "Mecklenburg-Vorpommern",
+    "Saarland",
+    "Schleswig-Holstein"
   ],
   "es": [
     "+{minutes} min",
@@ -441,7 +449,10 @@
     "ICE",
     "IC / EC",
     "+{count} min",
-    "{hours} h {minutes} min"
+    "{hours} h {minutes} min",
+    "Bremen",
+    "Hesse",
+    "Schleswig-Holstein"
   ],
   "fr": [
     "1 min/s",
@@ -682,7 +693,10 @@
     "ICE",
     "IC / EC",
     "+{count} min",
-    "{hours} h {minutes} min"
+    "{hours} h {minutes} min",
+    "Berlin",
+    "Hesse",
+    "Schleswig-Holstein"
   ],
   "it": [
     "+{minutes} min",
@@ -903,7 +917,10 @@
     "IC / EC",
     "+{count} min",
     "{hours} h {minutes} min",
-    "via {roads}"
+    "via {roads}",
+    "Baden-Württemberg",
+    "Saarland",
+    "Schleswig-Holstein"
   ],
   "ja": [
     "1090 MHz",
@@ -1150,7 +1167,11 @@
     "ICE",
     "IC / EC",
     "+{count} min",
-    "{hours} h {minutes} min"
+    "{hours} h {minutes} min",
+    "Baden-Württemberg",
+    "Bremen",
+    "Hesse",
+    "Schleswig-Holstein"
   ],
   "ru": [
     "1900–1945",
@@ -1364,7 +1385,15 @@
     "IC / EC",
     "+{count} min",
     "{hours} h {minutes} min",
-    "via {roads}"
+    "via {roads}",
+    "Baden-Württemberg",
+    "Berlin",
+    "Brandenburg",
+    "Bremen",
+    "Hamburg",
+    "Mecklenburg-Vorpommern",
+    "Saarland",
+    "Schleswig-Holstein"
   ],
   "uk": [
     "1900–1945",

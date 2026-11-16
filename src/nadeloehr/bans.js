@@ -6,7 +6,28 @@
 import { formatDate, msg, t } from '../i18n/index.js';
 import { STATES, bansDuring, nextBan } from '../freight/drivingBans.js';
 
-const BAN_NAMES = Object.freeze({
+/** The 16 states' names, for translation (codes as in drivingBans.js). */
+export const STATE_NAMES = Object.freeze({
+  BW: msg('Baden-Württemberg'),
+  BY: msg('Bavaria'),
+  BE: msg('Berlin'),
+  BB: msg('Brandenburg'),
+  HB: msg('Bremen'),
+  HH: msg('Hamburg'),
+  HE: msg('Hesse'),
+  MV: msg('Mecklenburg-Vorpommern'),
+  NI: msg('Lower Saxony'),
+  NW: msg('North Rhine-Westphalia'),
+  RP: msg('Rhineland-Palatinate'),
+  SL: msg('Saarland'),
+  SN: msg('Saxony'),
+  ST: msg('Saxony-Anhalt'),
+  SH: msg('Schleswig-Holstein'),
+  TH: msg('Thuringia'),
+});
+
+/** Ban names (drivingBans.js) in plain words, for translation. */
+export const BAN_NAMES = Object.freeze({
   Sunday: msg('Sunday'),
   'Summer Saturday': msg('Summer Saturday'),
   "New Year's Day": msg("New Year's Day"),

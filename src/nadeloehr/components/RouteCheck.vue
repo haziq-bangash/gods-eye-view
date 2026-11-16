@@ -17,6 +17,7 @@ import {
   PhCloudLightning,
   PhCloudSlash,
   PhPath,
+  PhShareNetwork,
   PhTruck,
   PhWarningCircle,
   PhX,
@@ -249,6 +250,14 @@ function swap() {
           </p>
           <button
             type="button"
+            class="grid size-7 cursor-pointer place-items-center rounded-full text-muted-foreground outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
+            :aria-label="t('Share this trip')"
+            @click="app.shareRoute()"
+          >
+            <PhShareNetwork weight="bold" class="size-3.5" />
+          </button>
+          <button
+            type="button"
             class="grid size-7 cursor-pointer place-items-center rounded-full outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
             :class="isSaved ? 'text-primary-ink' : 'text-muted-foreground'"
             :aria-label="isSaved ? t('Remove saved route') : t('Save route')"
@@ -269,6 +278,20 @@ function swap() {
             <PhX weight="bold" class="size-3.5" />
           </button>
         </div>
+
+        <p
+          v-if="app.shareStatus.value"
+          role="status"
+          class="-mt-1 text-subhead text-muted-foreground"
+        >
+          {{
+            app.shareStatus.value === 'copied'
+              ? t('Link copied. Anyone who opens it sees this trip.')
+              : app.shareStatus.value === 'shared'
+                ? t('Trip shared.')
+                : t('Could not share the link.')
+          }}
+        </p>
 
         <template v-if="verdict">
           <p

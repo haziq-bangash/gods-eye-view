@@ -417,6 +417,36 @@ right-hand insight card hides while Street Level is on. The Street Level
 browser gate (FIT/FILL) had been failing since the Today layout because the
 strip covered those controls.
 
+## Bans along the trip, trip links, the plan on the map — Nadelöhr
+
+**Bans along the trip.** `planTrip` now checks the trip itself against the
+truck bans: every 10 minutes from departure to arrival, where the truck
+is (breaks stop it) and which state that is (`stateAt`). The first moment
+it would be driving in a state where a ban holds is reported. The report
+gives the time and the state, and suggests the last rest area on your side
+before then to park and wait. A ban already in force at departure says so.
+With a plan, these replace the bans for the chosen Now/Tonight/Tomorrow in
+the verdict; the 16 state names are translatable (`STATE_NAMES` in
+`bans.js`).
+
+**Breaks.** A break is never planned more than 2 hours before it is due
+(`EARLY_BREAK_S`). Without a rest area in that stretch the break shows as
+"due by" with no parking named, instead of a stop a few minutes after the
+last one.
+
+**Trip links** (`src/nadeloehr/tripLink.js`). A link of the form
+`?from=Hamburg&to=München&leave=19:30&when=tonight` opens the trip once
+the map is ready: Routes tab, time switch, departure, route check. It then
+removes these parameters from the address bar. The route card's Share
+button uses the phone's share sheet on touch screens and copies the link
+elsewhere, and says which it did.
+
+**On the map.** The corridor overlay has `setRoutePlan`, which draws:
+
+- the way round as a dashed grey line;
+- a blue marker per break stop, with its time;
+- a red marker per closure that stops you, with the time you reach it.
+
 ## Truck trip plan and direction-aware routes — Nadelöhr
 
 **Direction.** A checked route counts an Autobahn event only when the
