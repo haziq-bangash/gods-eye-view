@@ -9,6 +9,8 @@
  * planning aid, not a tachograph.
  */
 import { parseSchedule } from './schedule.js';
+import { bansDuring } from '../freight/drivingBans.js';
+import { stateAt } from '../freight/germanStates.js';
 
 /** Average truck speed over a motorway trip, including slower stretches. */
 export const TRUCK_KMH = 75;
@@ -17,9 +19,13 @@ export const DRIVE_BEFORE_BREAK_S = 4.5 * 3600;
 export const BREAK_S = 45 * 60;
 /** A break is looked for in the last stretch before it is due. */
 export const BREAK_WINDOW_S = 60 * 60;
+/** No break is planned earlier than this before it is due. */
+export const EARLY_BREAK_S = 2 * 3600;
 /** Daily driving limit, and the longer day allowed twice a week. */
 export const DAILY_DRIVING_S = 9 * 3600;
 export const LONG_DAY_DRIVING_S = 10 * 3600;
+/** How often the trip is checked against truck bans. */
+export const BAN_SAMPLE_S = 10 * 60;
 /** Rest areas this close to the route are on it. */
 export const REST_AREA_KM = 1;
 /** Fewer truck spaces than this and a rest area is a last resort. */
@@ -126,7 +132,9 @@ function closureAt(windows, at) {
  * @param {Set<string>} [input.unusable] - Rest areas blocked or by a closure.
  * @param {object[]} [input.closures] - Closure rows on the route.
  * @returns {{drivingS: number, arrive: number, breaks: object[],
- *   overDay: ?string, closures: object[], parkingKnown: boolean}}
+ *   bans: object[], overDay: ?string, closures: object[],
+ *   parkingKnown: boolean}} `bans`: each ban the trip runs into, with
+ *   when and in which state, and the last rest area before it.
  */
 export function planTrip({
   path,
@@ -173,7 +181,9 @@ export function planTrip({
     // The latest with room, else the latest at all, else an earlier one.
     const roomy = inWindow.filter((stop) => stop.row.lorrySpaces >= FEW_SPACES);
     const earlier = stops.filter(
-      (stop) => stop.driveS > since + 1800 && stop.driveS <= due,
+      (stop) =>
+        stop.driveS > Math.max(since + 1800, due - EARLY_BREAK_S) &&
+        stop.driveS <= due,
     );
     const pick = roomy.at(-1) || inWindow.at(-1) || earlier.at(-1) || null;
     const driveS = pick ? pick.driveS : due;
@@ -190,9 +200,67 @@ export function planTrip({
     depart +
     (driveS + breaks.filter((b) => b.driveS < driveS).length * BREAK_S) * 1000;
 
+  const arrive = clockAt(drivingS);
+  // Driving seconds done by clock time `ms`: a break stops the count.
+  const drivenBy = (ms) => {
+    let driven = (ms - depart) / 1000;
+    for (const stop of breaks) {
+      if (driven <= stop.driveS) break;
+      driven = Math.max(stop.driveS, driven - BREAK_S);
+    }
+    return Math.max(0, Math.min(drivingS, driven));
+  };
+  const onBreak = (ms) =>
+    breaks.some((stop) => ms >= stop.at && ms < stop.at + BREAK_S * 1000);
+  // Where the truck is after `driveS` seconds of driving.
+  const pointAt = (driveS) => {
+    const km = (driveS / drivingS) * pathKm;
+    let lo = 0;
+    let hi = along.length - 1;
+    while (hi - lo > 1) {
+      const mid = (lo + hi) >> 1;
+      if (along[mid] <= km) lo = mid;
+      else hi = mid;
+    }
+    const span = along[hi] - along[lo] || 1;
+    const t = Math.max(0, Math.min(1, (km - along[lo]) / span));
+    return [
+      path[lo][0] + (path[hi][0] - path[lo][0]) * t,
+      path[lo][1] + (path[hi][1] - path[lo][1]) * t,
+    ];
+  };
+
+  // Truck bans the trip runs into: the first moment the truck would be
+  // driving in a state where a ban holds. A trip can't wait for one at home.
+  const bans = [];
+  for (const ban of bansDuring(depart, arrive)) {
+    const from = Math.max(ban.from, depart);
+    const to = Math.min(ban.to, arrive);
+    for (let at = from; at < to; at += BAN_SAMPLE_S * 1000) {
+      if (onBreak(at)) continue;
+      const driven = drivenBy(at);
+      if (driven >= drivingS) break;
+      const state = stateAt(pointAt(driven));
+      if (!state || !ban.states.includes(state)) continue;
+      // The last rest area on your side before then, to sit the ban out.
+      const shelter = stops.filter((stop) => stop.driveS <= driven).at(-1);
+      bans.push({
+        ban,
+        at,
+        state,
+        atStart: at <= depart,
+        shelter: shelter
+          ? { row: shelter.row, at: clockAt(shelter.driveS) }
+          : null,
+      });
+      break;
+    }
+  }
+
   return {
     drivingS,
-    arrive: clockAt(drivingS),
+    arrive,
+    bans,
     breaks,
     overDay:
       drivingS > LONG_DAY_DRIVING_S

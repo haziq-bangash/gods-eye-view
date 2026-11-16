@@ -1598,5 +1598,7 @@
   "src/nadeloehr/savedRoutes.js",
   "src/nadeloehr/savedRoutes.test.mjs",
   "src/nadeloehr/tripPlan.js",
-  "src/nadeloehr/tripPlan.test.mjs"
+  "src/nadeloehr/tripPlan.test.mjs",
+  "src/nadeloehr/tripLink.js",
+  "src/nadeloehr/tripLink.test.mjs"
 ]
