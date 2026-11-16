@@ -4011,5 +4011,22 @@
   "Remove {route}": "移除 {route}",
   "Remove saved route": "移除已保存的路线",
   "Save route": "保存路线",
-  "Looking for a way round…": "正在寻找绕行路线…"
+  "Looking for a way round…": "正在寻找绕行路线…",
+  "Arrive about {at} · {driving} driving": "约 {at} 到达 · 驾驶 {driving}",
+  "Break at {place}": "在{place}休息",
+  "Break due by {at}": "须在 {at} 前休息",
+  "After {driving} · about {at} · {count} truck spaces": "{driving} 后 · 约 {at} · {count} 个货车车位",
+  "No truck parking on your side of the road before then.": "在此之前你这一侧没有货车停车场。",
+  "By truck": "货车",
+  "Leaving at": "出发时间",
+  "Plan the breaks": "规划休息",
+  "Turns on truck parking to find rest areas on your side.": "打开货车停车场,查找你这一侧的服务区。",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "驾驶超过 10 小时:请在途中安排 11 小时休息。",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "驾驶超过 9 小时:每周可有两天延长至 10 小时。",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "平均时速 {speed} 公里,每驾驶 4.5 小时休息 45 分钟(欧盟规定)。仅供规划,不是行车记录仪。",
+  "You reach it about {at}, before it closes at {from}": "约 {at} 到达,在 {from} 封闭之前",
+  "You reach it about {at}, after it reopened at {to}": "约 {at} 到达,已于 {to} 重新开放",
+  "You reach it about {at}, while it is closed until {to}": "约 {at} 到达,封闭至 {to}",
+  "You reach it about {at}": "约 {at} 到达",
+  "{road}: open when you pass": "{road}:经过时通行"
 }

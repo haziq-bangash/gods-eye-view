@@ -4117,5 +4117,22 @@
   "Remove {route}": "{route} entfernen",
   "Remove saved route": "Gespeicherte Route entfernen",
   "Save route": "Route speichern",
-  "Looking for a way round…": "Suche nach einer Umfahrung…"
+  "Looking for a way round…": "Suche nach einer Umfahrung…",
+  "Arrive about {at} · {driving} driving": "Ankunft gegen {at} · {driving} Fahrzeit",
+  "Break at {place}": "Pause in {place}",
+  "Break due by {at}": "Pause fällig bis {at}",
+  "After {driving} · about {at} · {count} truck spaces": "Nach {driving} · gegen {at} · {count} Lkw-Stellplätze",
+  "No truck parking on your side of the road before then.": "Bis dahin kein Lkw-Parkplatz auf deiner Fahrbahnseite.",
+  "By truck": "Mit dem Lkw",
+  "Leaving at": "Abfahrt um",
+  "Plan the breaks": "Pausen planen",
+  "Turns on truck parking to find rest areas on your side.": "Schaltet Lkw-Parkplätze ein, um Rastplätze auf deiner Seite zu finden.",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "Mehr als 10 Stunden Fahrzeit: plane unterwegs eine 11-stündige Ruhezeit.",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "Mehr als 9 Stunden Fahrzeit: zweimal pro Woche als 10-Stunden-Tag erlaubt.",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "Mit durchschnittlich {speed} km/h und 45 Minuten Pause nach 4,5 Stunden Fahrt (EU-Regeln). Eine Planungshilfe, kein Fahrtenschreiber.",
+  "You reach it about {at}, before it closes at {from}": "Du erreichst sie gegen {at}, bevor sie um {from} schließt",
+  "You reach it about {at}, after it reopened at {to}": "Du erreichst sie gegen {at}, nachdem sie um {to} wieder öffnete",
+  "You reach it about {at}, while it is closed until {to}": "Du erreichst sie gegen {at}, während sie bis {to} gesperrt ist",
+  "You reach it about {at}": "Du erreichst sie gegen {at}",
+  "{road}: open when you pass": "{road}: frei, wenn du durchfährst"
 }

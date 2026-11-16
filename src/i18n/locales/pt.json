@@ -4223,5 +4223,22 @@
   "Remove {route}": "Remover {route}",
   "Remove saved route": "Remover rota salva",
   "Save route": "Salvar rota",
-  "Looking for a way round…": "Procurando um desvio…"
+  "Looking for a way round…": "Procurando um desvio…",
+  "Arrive about {at} · {driving} driving": "Chegada por volta das {at} · {driving} de condução",
+  "Break at {place}": "Pausa em {place}",
+  "Break due by {at}": "Pausa obrigatória até às {at}",
+  "After {driving} · about {at} · {count} truck spaces": "Após {driving} · por volta das {at} · {count} vagas para caminhões",
+  "No truck parking on your side of the road before then.": "Nenhum estacionamento para caminhões do seu lado antes disso.",
+  "By truck": "De caminhão",
+  "Leaving at": "Partida às",
+  "Plan the breaks": "Planejar as pausas",
+  "Turns on truck parking to find rest areas on your side.": "Ativa o estacionamento de caminhões para encontrar áreas de descanso do seu lado.",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "Mais de 10 horas de condução: planeje um descanso de 11 horas no caminho.",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "Mais de 9 horas de condução: permitido como dia de 10 horas duas vezes por semana.",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "A {speed} km/h em média, com uma pausa de 45 minutos após 4,5 horas de condução (regras da UE). Uma ajuda de planejamento, não um tacógrafo.",
+  "You reach it about {at}, before it closes at {from}": "Você chega por volta das {at}, antes de fechar às {from}",
+  "You reach it about {at}, after it reopened at {to}": "Você chega por volta das {at}, depois de reabrir às {to}",
+  "You reach it about {at}, while it is closed until {to}": "Você chega por volta das {at}, enquanto está fechada até às {to}",
+  "You reach it about {at}": "Você chega por volta das {at}",
+  "{road}: open when you pass": "{road}: aberta quando você passar"
 }

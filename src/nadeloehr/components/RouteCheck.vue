@@ -6,7 +6,10 @@ import { computed } from 'vue';
 import {
   PhArrowsDownUp,
   PhArrowsSplit,
+  PhBed,
   PhBookmarkSimple,
+  PhCoffee,
+  PhFlagCheckered,
   PhCalendarBlank,
   PhCaretRight,
   PhCheckCircle,
@@ -18,7 +21,10 @@ import {
   PhWarningCircle,
   PhX,
 } from '@phosphor-icons/vue';
-import { formatNumber, t } from '../../i18n/index.js';
+import { formatDate, formatNumber, t } from '../../i18n/index.js';
+import { berlinParts } from '../../freight/horizon.js';
+import { durationText } from '../routeVerdict.js';
+import { TRUCK_KMH } from '../tripPlan.js';
 import { WARNING_COLORS } from '../../layers/weatherWarnings/records.js';
 import { KIND_ICONS, SYSTEM_COLORS } from '../icons.js';
 import { corridorView } from '../today.js';
@@ -63,6 +69,39 @@ const summary = computed(() => {
     : time;
 });
 const verdict = computed(() => props.app.routeVerdict.value);
+
+// ── By truck ──
+const trip = computed(() => props.app.tripPlan.value);
+const clock = (ms) => formatDate(ms, { hour: '2-digit', minute: '2-digit' });
+/** The departure as the time field wants it: 24-hour Berlin "HH:MM". */
+const departValue = computed(() => {
+  const p = berlinParts(props.app.departure.value);
+  return `${String(p.hour).padStart(2, '0')}:${String(p.minute).padStart(2, '0')}`;
+});
+const tripLine = computed(() =>
+  trip.value
+    ? t('Arrive about {at} · {driving} driving', {
+        at: clock(trip.value.arrive),
+        driving: durationText(trip.value.drivingS),
+      })
+    : '',
+);
+function breakTitle(stop) {
+  return stop.row
+    ? t('Break at {place}', {
+        place: [stop.row.name, stop.row.road].filter(Boolean).join(', '),
+      })
+    : t('Break due by {at}', { at: clock(stop.due) });
+}
+function breakDetail(stop) {
+  return stop.row
+    ? t('After {driving} · about {at} · {count} truck spaces', {
+        driving: durationText(stop.driveS),
+        at: clock(stop.at),
+        count: formatNumber(stop.row.lorrySpaces),
+      })
+    : t('No truck parking on your side of the road before then.');
+}
 const TONES = {
   clear: { icon: PhCheckCircle, color: SYSTEM_COLORS.green },
   caution: { icon: PhWarningCircle, color: SYSTEM_COLORS.orange },
@@ -277,6 +316,114 @@ function swap() {
               </component>
             </li>
           </ul>
+        </template>
+
+        <template v-if="trip">
+          <Separator />
+          <section class="flex flex-col gap-2" :aria-label="t('By truck')">
+            <h3 class="nd-eyebrow">{{ t('By truck') }}</h3>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <label class="flex items-center gap-2 text-callout">
+                {{ t('Leaving at') }}
+                <input
+                  type="time"
+                  class="h-8 rounded-[10px] bg-input px-2 text-callout outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
+                  :value="departValue"
+                  @change="app.setDepartAt($event.target.value)"
+                />
+              </label>
+              <span
+                class="flex items-center gap-1.5 text-subhead text-muted-foreground"
+              >
+                <PhFlagCheckered
+                  weight="bold"
+                  class="size-3.5"
+                  aria-hidden="true"
+                />
+                {{ tripLine }}
+              </span>
+            </div>
+
+            <ul v-if="trip.breaks.length && trip.parkingKnown" class="-mx-1">
+              <li v-for="(stop, index) in trip.breaks" :key="index">
+                <component
+                  :is="stop.row ? 'button' : 'div'"
+                  :type="stop.row ? 'button' : undefined"
+                  class="flex w-full items-center gap-3 rounded-[12px] px-1 py-1.5 text-start"
+                  :class="
+                    stop.row
+                      ? 'press cursor-pointer outline-none hover:bg-accent focus-visible:bg-accent'
+                      : ''
+                  "
+                  @click="stop.row && app.showParkingOnMap(stop.row)"
+                >
+                  <IconBadge
+                    :icon="PhCoffee"
+                    :color="
+                      stop.row ? SYSTEM_COLORS.blue : SYSTEM_COLORS.orange
+                    "
+                    size="sm"
+                  />
+                  <span class="min-w-0 flex-1">
+                    <span class="block text-headline">{{
+                      breakTitle(stop)
+                    }}</span>
+                    <span class="block text-subhead text-muted-foreground">{{
+                      breakDetail(stop)
+                    }}</span>
+                  </span>
+                </component>
+              </li>
+            </ul>
+            <button
+              v-else-if="trip.breaks.length"
+              type="button"
+              class="press flex cursor-pointer items-center gap-3 rounded-[12px] px-1 py-1.5 text-start outline-none hover:bg-accent focus-visible:bg-accent"
+              @click="app.planBreaks()"
+            >
+              <IconBadge
+                :icon="PhCoffee"
+                :color="SYSTEM_COLORS.blue"
+                size="sm"
+              />
+              <span class="min-w-0 flex-1">
+                <span class="block text-headline text-primary-ink">{{
+                  t('Plan the breaks')
+                }}</span>
+                <span class="block text-subhead text-muted-foreground">{{
+                  t('Turns on truck parking to find rest areas on your side.')
+                }}</span>
+              </span>
+            </button>
+
+            <p
+              v-if="trip.overDay"
+              class="flex items-start gap-3 px-1 text-callout"
+            >
+              <IconBadge
+                :icon="PhBed"
+                :color="SYSTEM_COLORS.indigo"
+                size="sm"
+              />
+              <span class="min-w-0 flex-1">{{
+                trip.overDay === 'rest'
+                  ? t(
+                      'More than 10 hours of driving: plan an 11-hour rest on the way.',
+                    )
+                  : t(
+                      'More than 9 hours of driving: allowed as a 10-hour day twice a week.',
+                    )
+              }}</span>
+            </p>
+            <p class="text-caption text-muted-foreground">
+              {{
+                t(
+                  'At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.',
+                  { speed: formatNumber(TRUCK_KMH) },
+                )
+              }}
+            </p>
+          </section>
         </template>
 
         <Separator />

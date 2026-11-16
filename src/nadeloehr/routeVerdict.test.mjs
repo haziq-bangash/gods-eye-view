@@ -142,3 +142,34 @@ test('while a way round is routed, the verdict says so', () => {
   });
   assert.equal(verdict.lines[1].title, 'Looking for a way round…');
 });
+
+test('a closure you pass before it starts is no problem, and needs no way round', () => {
+  const at = Date.UTC(2026, 10, 18, 20, 40); // 21:40 in Berlin
+  const verdict = routeVerdict({
+    route,
+    scored: { events: [closure], warnings: [] },
+    timing: new Map([
+      [
+        'c1',
+        {
+          state: 'before',
+          at,
+          from: Date.UTC(2026, 10, 18, 21),
+          to: Date.UTC(2026, 10, 19, 4),
+        },
+      ],
+    ]),
+    horizon: 'tonight',
+  });
+  assert.equal(verdict.tone, 'clear');
+  assert.equal(verdict.headline, 'Tonight: clear run');
+  assert.deepEqual(
+    verdict.lines.map((line) => line.kind),
+    ['closure-open'],
+  );
+  assert.equal(verdict.lines[0].title, 'A7: open when you pass');
+  assert.match(
+    verdict.lines[0].detail,
+    /You reach it about 09:40 PM, before it closes at 10:00 PM$/,
+  );
+});

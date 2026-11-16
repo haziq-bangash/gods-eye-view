@@ -4329,5 +4329,22 @@
   "Remove {route}": "Удалить {route}",
   "Remove saved route": "Удалить сохранённый маршрут",
   "Save route": "Сохранить маршрут",
-  "Looking for a way round…": "Ищем объезд…"
+  "Looking for a way round…": "Ищем объезд…",
+  "Arrive about {at} · {driving} driving": "Прибытие около {at} · {driving} в пути",
+  "Break at {place}": "Перерыв: {place}",
+  "Break due by {at}": "Перерыв нужен до {at}",
+  "After {driving} · about {at} · {count} truck spaces": "Через {driving} · около {at} · {count} мест для грузовиков",
+  "No truck parking on your side of the road before then.": "До этого времени на вашей стороне нет стоянок для грузовиков.",
+  "By truck": "На грузовике",
+  "Leaving at": "Выезд в",
+  "Plan the breaks": "Спланировать перерывы",
+  "Turns on truck parking to find rest areas on your side.": "Включает стоянки для грузовиков, чтобы найти площадки отдыха на вашей стороне.",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "Больше 10 часов за рулём: запланируйте 11-часовой отдых в пути.",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "Больше 9 часов за рулём: допускается как 10-часовой день дважды в неделю.",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "В среднем {speed} км/ч, с перерывом 45 минут после 4,5 часа вождения (правила ЕС). Помощь в планировании, а не тахограф.",
+  "You reach it about {at}, before it closes at {from}": "Вы доедете около {at}, до закрытия в {from}",
+  "You reach it about {at}, after it reopened at {to}": "Вы доедете около {at}, после открытия в {to}",
+  "You reach it about {at}, while it is closed until {to}": "Вы доедете около {at}, когда она закрыта до {to}",
+  "You reach it about {at}": "Вы доедете около {at}",
+  "{road}: open when you pass": "{road}: открыта, когда вы проезжаете"
 }

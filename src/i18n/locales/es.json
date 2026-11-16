@@ -4223,5 +4223,22 @@
   "Remove {route}": "Quitar {route}",
   "Remove saved route": "Quitar ruta guardada",
   "Save route": "Guardar ruta",
-  "Looking for a way round…": "Buscando un desvío…"
+  "Looking for a way round…": "Buscando un desvío…",
+  "Arrive about {at} · {driving} driving": "Llegada hacia las {at} · {driving} de conducción",
+  "Break at {place}": "Pausa en {place}",
+  "Break due by {at}": "Pausa obligatoria antes de las {at}",
+  "After {driving} · about {at} · {count} truck spaces": "Tras {driving} · hacia las {at} · {count} plazas para camiones",
+  "No truck parking on your side of the road before then.": "No hay aparcamiento para camiones en tu lado antes de esa hora.",
+  "By truck": "En camión",
+  "Leaving at": "Salida a las",
+  "Plan the breaks": "Planificar las pausas",
+  "Turns on truck parking to find rest areas on your side.": "Activa el aparcamiento de camiones para buscar áreas de descanso en tu lado.",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "Más de 10 horas de conducción: planifica un descanso de 11 horas en el camino.",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "Más de 9 horas de conducción: permitido como jornada de 10 horas dos veces por semana.",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "A {speed} km/h de media, con una pausa de 45 minutos tras 4,5 horas de conducción (normas de la UE). Una ayuda de planificación, no un tacógrafo.",
+  "You reach it about {at}, before it closes at {from}": "Llegas hacia las {at}, antes de que cierre a las {from}",
+  "You reach it about {at}, after it reopened at {to}": "Llegas hacia las {at}, después de que reabriera a las {to}",
+  "You reach it about {at}, while it is closed until {to}": "Llegas hacia las {at}, mientras está cerrada hasta las {to}",
+  "You reach it about {at}": "Llegas hacia las {at}",
+  "{road}: open when you pass": "{road}: abierta cuando pases"
 }

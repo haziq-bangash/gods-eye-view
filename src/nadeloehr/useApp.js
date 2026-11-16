@@ -16,17 +16,19 @@ import { useVoiceStore } from '../ui/stores/voice.js';
 import { useNadeloehrStore } from './store.js';
 import { CORRIDORS, scoreCorridors, scoreRoute } from '../freight/corridors.js';
 import { kaubRow, levelDuring } from '../layers/riverLevels/records.js';
-import { horizonRange } from '../freight/horizon.js';
+import { berlinParts, berlinTime, horizonRange } from '../freight/horizon.js';
 import { CORRIDOR_HISTORY_URL } from './history.js';
 import { affectedParkingIds } from '../layers/truckParking/records.js';
 import { localResults, searchPlacesDE } from './search.js';
 import { todayHeadline, todayKpis } from './today.js';
 import { statesAlong } from '../freight/germanStates.js';
 import {
+  blockingClosures,
   detourAround,
   detourVias,
   routeVerdict as verdictFor,
 } from './routeVerdict.js';
+import { planTrip } from './tripPlan.js';
 
 const MINOR_KINDS = Object.freeze([
   'ramp-closure',
@@ -541,6 +543,58 @@ export function useApp() {
       : null,
   );
   /** The route's answer in plain words: problems, detour, bans. */
+  // ── The trip by truck: departure, breaks, when you reach closures ──
+  /** "HH:MM" the reader chose to leave at, or '' for the horizon's start. */
+  const departAt = shallowRef('');
+  /** Departure, epoch ms: the chosen time on the horizon's day, else its start. */
+  const departure = computed(() => {
+    const start = horizon.value === 'now' ? clock.value : range.value[0];
+    const match = /^(\d{1,2}):(\d{2})$/.exec(departAt.value);
+    if (!match) return start;
+    const p = berlinParts(start);
+    let at = berlinTime(
+      p.year,
+      p.month,
+      p.day,
+      Number(match[1]),
+      Number(match[2]),
+    );
+    // A time already gone today means tomorrow.
+    if (at < clock.value - 5 * 60_000) at += 24 * 3_600_000;
+    return at;
+  });
+  const tripPlan = computed(() => {
+    const current = route.value;
+    const scored = routeScore.value;
+    if (!current || !scored) return null;
+    const rows = parkingOn.value ? parking.value : null;
+    return planTrip({
+      path: current.path,
+      distanceM: current.distanceM,
+      durationS: current.durationS,
+      depart: departure.value,
+      restAreas: rows,
+      unusable: rows ? affectedParkingIds(rows, disruptions.value) : new Set(),
+      closures: scored.events.filter((row) => row.kind === 'closure'),
+    });
+  });
+  /** When the truck reaches each closure, by stableId. */
+  const closureTiming = computed(
+    () =>
+      new Map(
+        (tripPlan.value?.closures || []).map((entry) => [
+          entry.row.stableId,
+          entry,
+        ]),
+      ),
+  );
+  function setDepartAt(value) {
+    departAt.value = /^\d{1,2}:\d{2}$/.test(value) ? value : '';
+  }
+  function planBreaks() {
+    return setLayer(PARKING, true);
+  }
+
   // ── A way round a closure ──
   // When none of the router's own alternatives avoids the first closure on
   // the route, route twice more through a point 20 km to either side of it.
@@ -596,7 +650,10 @@ export function useApp() {
       detourFor = current.path;
       detourTried = new Set();
     }
-    const closures = scored.events.filter((row) => row.kind === 'closure');
+    const closures = blockingClosures(
+      scored.events.filter((row) => row.kind === 'closure'),
+      closureTiming.value,
+    );
     if (!closures.length || detourAround(current, closures)) return;
     const [first] = closures;
     const key = first.stableId ?? `${first.lon},${first.lat}`;
@@ -615,6 +672,7 @@ export function useApp() {
           now: clock.value,
           weatherChecked: weatherOn.value,
           detourPending: detourPending.value,
+          timing: closureTiming.value,
         })
       : null,
   );
@@ -843,6 +901,11 @@ export function useApp() {
     routeError,
     routeScore,
     routeVerdict,
+    tripPlan,
+    departure,
+    departAt,
+    setDepartAt,
+    planBreaks,
     checkRoute,
     clearRoute,
     corridors,

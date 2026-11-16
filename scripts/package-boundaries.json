@@ -255,7 +255,8 @@
       "src/nadeloehr/routeVerdict.js",
       "src/nadeloehr/savedRoutes.js",
       "src/freight/germanStates.js",
-      "src/freight/germanStatesData.js"
+      "src/freight/germanStatesData.js",
+      "src/nadeloehr/tripPlan.js"
     ],
     "external": [
       "vue",

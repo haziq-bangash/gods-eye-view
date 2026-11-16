@@ -417,6 +417,42 @@ right-hand insight card hides while Street Level is on. The Street Level
 browser gate (FIT/FILL) had been failing since the Today layout because the
 strip covered those controls.
 
+## Truck trip plan and direction-aware routes — Nadelöhr
+
+**Direction.** A checked route counts an Autobahn event only when the
+event's line heads within 60° of the route there (`goesTheSameWay` in
+`src/freight/corridors.js`). Autobahn GmbH draws each event's line in its
+direction of travel ("Hamburg -> Hannover" runs south). That leaves out
+closures on the other carriageway and on roads the route crosses. Some
+events still count:
+
+- exit ramps;
+- notices saying both carriageways ("beide FR", "beide RiFa");
+- lines too short to give a heading.
+
+Corridors, drawn through cities, still count both ways.
+
+**By truck** (`src/nadeloehr/tripPlan.js`). A route is driven at an average
+of 75 km/h, and never faster than the router's car time. It starts at a
+chosen departure time, which defaults to now, 18:00 tonight or 06:00
+tomorrow. The plan then:
+
+- **Breaks:** puts the 45-minute break due after 4.5 hours of driving
+  (EU 561/2006) at the latest rest area with at least 10 truck spaces in
+  the hour before it is due. Rest areas must be on your side of the road,
+  not blocked, and not next to a closure.
+- **Side of the road:** Germany drives on the right, so a rest area to the
+  right of the route serves your carriageway. On the live A7 data all 51
+  rest areas near a southbound route matched their published direction.
+- **Arrival:** gives the arrival time with the breaks included.
+- **Long days:** flags more than 9 or 10 hours of driving.
+- **Closures:** says when you reach each closure on the route.
+
+A closure you pass before it starts or after it reopens no longer counts as
+a problem ("A7: open when you pass"), and the way round is only searched
+for closures that stop you. Breaks need the truck parking layer; the card
+offers to turn it on.
+
 ## Route verdict, way round, saved routes, sharper map — Nadelöhr
 
 **Verdict.** A checked route now leads with an answer for the chosen time:
@@ -431,9 +467,7 @@ strip covered those controls.
 
 Closures and bans make it "blocked" (red); other problems make it "caution". While
 the warnings layer is off it says the weather was not checked. The corridor
-score follows below it. Known limit: an event within 1.5 km of the route
-counts whatever its direction, so a closure on the other carriageway or on
-a road crossing the route can appear.
+score follows below it.
 
 **States.** `src/freight/germanStates.js` tells which state a point is in,
 from Germany's 16 states taken out of the bundled Natural Earth admin-1

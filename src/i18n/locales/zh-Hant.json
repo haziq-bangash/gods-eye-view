@@ -4011,5 +4011,22 @@
   "Remove {route}": "移除 {route}",
   "Remove saved route": "移除已儲存的路線",
   "Save route": "儲存路線",
-  "Looking for a way round…": "正在尋找繞行路線…"
+  "Looking for a way round…": "正在尋找繞行路線…",
+  "Arrive about {at} · {driving} driving": "約 {at} 抵達 · 駕駛 {driving}",
+  "Break at {place}": "在{place}休息",
+  "Break due by {at}": "須在 {at} 前休息",
+  "After {driving} · about {at} · {count} truck spaces": "{driving} 後 · 約 {at} · {count} 個貨車車位",
+  "No truck parking on your side of the road before then.": "在此之前你這一側沒有貨車停車場。",
+  "By truck": "貨車",
+  "Leaving at": "出發時間",
+  "Plan the breaks": "規劃休息",
+  "Turns on truck parking to find rest areas on your side.": "開啟貨車停車場,尋找你這一側的服務區。",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "駕駛超過 10 小時:請在途中安排 11 小時休息。",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "駕駛超過 9 小時:每週可有兩天延長至 10 小時。",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "平均時速 {speed} 公里,每駕駛 4.5 小時休息 45 分鐘(歐盟規定)。僅供規劃,不是行車紀錄器。",
+  "You reach it about {at}, before it closes at {from}": "約 {at} 抵達,在 {from} 封閉之前",
+  "You reach it about {at}, after it reopened at {to}": "約 {at} 抵達,已於 {to} 重新開放",
+  "You reach it about {at}, while it is closed until {to}": "約 {at} 抵達,封閉至 {to}",
+  "You reach it about {at}": "約 {at} 抵達",
+  "{road}: open when you pass": "{road}:經過時可通行"
 }

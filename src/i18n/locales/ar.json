@@ -4541,5 +4541,22 @@
   "Remove {route}": "إزالة {route}",
   "Remove saved route": "إزالة المسار المحفوظ",
   "Save route": "حفظ المسار",
-  "Looking for a way round…": "جارٍ البحث عن طريق بديل…"
+  "Looking for a way round…": "جارٍ البحث عن طريق بديل…",
+  "Arrive about {at} · {driving} driving": "الوصول نحو {at} · {driving} قيادة",
+  "Break at {place}": "استراحة في {place}",
+  "Break due by {at}": "الاستراحة مطلوبة قبل {at}",
+  "After {driving} · about {at} · {count} truck spaces": "بعد {driving} · نحو {at} · {count} موقفًا للشاحنات",
+  "No truck parking on your side of the road before then.": "لا توجد مواقف للشاحنات في جهتك قبل ذلك.",
+  "By truck": "بالشاحنة",
+  "Leaving at": "المغادرة في",
+  "Plan the breaks": "خطط للاستراحات",
+  "Turns on truck parking to find rest areas on your side.": "يشغّل مواقف الشاحنات للعثور على استراحات في جهتك.",
+  "More than 10 hours of driving: plan an 11-hour rest on the way.": "أكثر من 10 ساعات قيادة: خطط لراحة 11 ساعة في الطريق.",
+  "More than 9 hours of driving: allowed as a 10-hour day twice a week.": "أكثر من 9 ساعات قيادة: مسموح كيوم من 10 ساعات مرتين في الأسبوع.",
+  "At {speed} km/h on average, with a 45-minute break after 4.5 hours of driving (EU rules). A planning aid, not a tachograph.": "بمتوسط {speed} كم/س، مع استراحة 45 دقيقة بعد 4.5 ساعات قيادة (قواعد الاتحاد الأوروبي). أداة تخطيط، وليست جهاز تاكوغراف.",
+  "You reach it about {at}, before it closes at {from}": "تصل إليه نحو {at}، قبل إغلاقه في {from}",
+  "You reach it about {at}, after it reopened at {to}": "تصل إليه نحو {at}، بعد إعادة فتحه في {to}",
+  "You reach it about {at}, while it is closed until {to}": "تصل إليه نحو {at}، وهو مغلق حتى {to}",
+  "You reach it about {at}": "تصل إليه نحو {at}",
+  "{road}: open when you pass": "{road}: مفتوح عند مرورك"
 }
