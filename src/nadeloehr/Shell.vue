@@ -386,7 +386,12 @@ async function locate() {
         <div
           class="glass pointer-events-auto min-w-0 flex-1 rounded-[22px] lg:mx-auto lg:max-w-[460px]"
         >
-          <SearchField floating :search="app.search" @pick="app.pickResult" />
+          <SearchField
+            floating
+            :search="app.search"
+            :instant="app.instantSearch"
+            @pick="app.pickResult"
+          />
         </div>
         <HeaderTools v-if="wide" :app="app" />
         <p

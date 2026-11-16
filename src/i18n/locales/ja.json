@@ -4051,5 +4051,6 @@
   "Could not share the link.": "リンクを共有できませんでした。",
   "In force when you leave, in {state}; it ends at {to}.": "出発時点で {state} で適用中。{to} に終了します。",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "{state} を走行中の {at} に始まります。それまでに駐車してください。例: {place}({time} 頃)。または {to} まで待機。",
-  "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "{state} を走行中の {at} に始まります。それまでに駐車してください。{to} に終了します。"
+  "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "{state} を走行中の {at} に始まります。それまでに駐車してください。{to} に終了します。",
+  "Suggestions for {field}": "{field} の候補"
 }

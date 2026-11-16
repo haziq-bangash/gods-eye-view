@@ -1600,5 +1600,11 @@
   "src/nadeloehr/tripPlan.js",
   "src/nadeloehr/tripPlan.test.mjs",
   "src/nadeloehr/tripLink.js",
-  "src/nadeloehr/tripLink.test.mjs"
+  "src/nadeloehr/tripLink.test.mjs",
+  "src/nadeloehr/suggest.js",
+  "src/nadeloehr/suggest.test.mjs",
+  "src/nadeloehr/components/PlaceField.vue",
+  "scripts/build-german-cities.mjs",
+  "src/nadeloehr/components/SearchField.vue",
+  "src/nadeloehr/Shell.vue"
 ]

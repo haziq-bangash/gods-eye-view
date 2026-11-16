@@ -29,6 +29,7 @@ import {
   routeVerdict as verdictFor,
 } from './routeVerdict.js';
 import { planTrip } from './tripPlan.js';
+import { cityMatches, mergeSuggestions, SUGGESTIONS_MAX } from './suggest.js';
 import { readTripQuery, tripQuery, withoutTrip } from './tripLink.js';
 
 const MINOR_KINDS = Object.freeze([
@@ -462,7 +463,13 @@ export function useApp() {
   /** The route form's two fields, shared with the search bar. */
   const routeFrom = shallowRef('');
   const routeTo = shallowRef('');
-  async function checkRoute(fromText, toText) {
+  /**
+   * @param {string} fromText
+   * @param {string} toText
+   * @param {{fromPlace?: ?object, toPlace?: ?object}} [picked] - Places
+   *   chosen from suggestions: used as they are, not looked up again.
+   */
+  async function checkRoute(fromText, toText, picked = {}) {
     routeFrom.value = fromText;
     routeTo.value = toText;
     routeRequest?.abort();
@@ -473,8 +480,8 @@ export function useApp() {
     routeError.value = '';
     try {
       const [from, to] = await Promise.all([
-        findPlace(fromText, request.signal),
-        findPlace(toText, request.signal),
+        picked.fromPlace || findPlace(fromText, request.signal),
+        picked.toPlace || findPlace(toText, request.signal),
       ]);
       if (!from || !to) {
         routeStatus.value = 'error';
@@ -765,19 +772,50 @@ export function useApp() {
   }
 
   /** Search: roads, gauges and corridors first, then places in Germany. */
-  async function search(text, { signal } = {}) {
+  /**
+   * What the search can show at once: a route or an Autobahn alone; else
+   * corridors, then cities (most searches are a city), then river gauges.
+   */
+  function instantSearch(text) {
     const local = localResults(text, {
       events: disruptions.value,
       gauges: gauges.value,
     });
-    let places = [];
+    if (
+      local.some((result) => result.type === 'route' || result.type === 'road')
+    )
+      return local;
+    const corridors = local.filter((result) => result.type === 'corridor');
+    const rest = local.filter((result) => result.type !== 'corridor');
+    return [...corridors, ...cityMatches(text, 4), ...rest].slice(
+      0,
+      SUGGESTIONS_MAX,
+    );
+  }
+  async function placesFor(text, signal) {
     try {
-      places = await searchPlacesDE(text, { locale: getLocale(), signal });
+      return await searchPlacesDE(text, { locale: getLocale(), signal });
     } catch (error) {
       if (error?.name !== 'AbortError')
         console.warn('[Nadelöhr] place search failed:', error);
+      return [];
     }
-    return [...local, ...places];
+  }
+  async function search(text, { signal } = {}) {
+    const instant = instantSearch(text);
+    if (
+      instant.some(
+        (result) => result.type === 'route' || result.type === 'road',
+      )
+    )
+      return instant;
+    return mergeSuggestions(instant, await placesFor(text, signal), 8);
+  }
+  /** Places only, for the route's fields: cities at once… */
+  const instantPlaces = (text) => cityMatches(text);
+  /** …and the place search's answers merged in. */
+  async function suggestPlaces(text, { signal } = {}) {
+    return mergeSuggestions(cityMatches(text), await placesFor(text, signal));
   }
   function pickResult(result) {
     if (!result) return;
@@ -1035,6 +1073,9 @@ export function useApp() {
     minorOnMap,
     setMinorOnMap,
     search,
+    instantSearch,
+    instantPlaces,
+    suggestPlaces,
     pickResult,
     kindVisible,
     setKindVisible,

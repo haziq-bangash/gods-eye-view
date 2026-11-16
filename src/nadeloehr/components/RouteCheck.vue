@@ -32,6 +32,7 @@ import { corridorView } from '../today.js';
 import { useCollapsed } from '../collapse.js';
 import { routeId, useSavedRoutes } from '../savedRoutes.js';
 import CorridorDetail from './CorridorDetail.vue';
+import PlaceField from './PlaceField.vue';
 import IconBadge from './IconBadge.vue';
 import RoadShield from './RoadShield.vue';
 import SectionHeader from './SectionHeader.vue';
@@ -136,12 +137,25 @@ function checkSaved(item) {
   props.app.checkRoute(item.from, item.to);
 }
 
+// The places picked from suggestions, while their names stay in the fields.
+const picked = { from: null, to: null };
+const pickedFor = (field, text) =>
+  picked[field]?.name === text.trim() ? picked[field] : null;
 function submit() {
-  if (from.value.trim() && to.value.trim())
-    props.app.checkRoute(from.value.trim(), to.value.trim());
+  if (!from.value.trim() || !to.value.trim()) return;
+  props.app.checkRoute(from.value.trim(), to.value.trim(), {
+    fromPlace: pickedFor('from', from.value),
+    toPlace: pickedFor('to', to.value),
+  });
+}
+function pickPlace(field, place) {
+  picked[field] = place;
+  // Both places chosen: check the route straight away.
+  if (field === 'to' && from.value.trim()) submit();
 }
 function swap() {
   [from.value, to.value] = [to.value, from.value];
+  [picked.from, picked.to] = [picked.to, picked.from];
 }
 </script>
 
@@ -159,21 +173,21 @@ function swap() {
         @submit.prevent="submit"
       >
         <div class="flex min-w-0 flex-1 flex-col gap-1.5">
-          <input
+          <PlaceField
             v-model="from"
-            type="text"
-            autocomplete="off"
-            class="h-9 w-full rounded-[12px] bg-input px-3 text-callout outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
+            :label="t('From')"
             :placeholder="t('From, e.g. Hamburg')"
-            :aria-label="t('From')"
+            :instant="app.instantPlaces"
+            :search="app.suggestPlaces"
+            @pick="(place) => pickPlace('from', place)"
           />
-          <input
+          <PlaceField
             v-model="to"
-            type="text"
-            autocomplete="off"
-            class="h-9 w-full rounded-[12px] bg-input px-3 text-callout outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
+            :label="t('To')"
             :placeholder="t('To, e.g. München')"
-            :aria-label="t('To')"
+            :instant="app.instantPlaces"
+            :search="app.suggestPlaces"
+            @pick="(place) => pickPlace('to', place)"
           />
         </div>
         <div class="flex flex-col gap-1.5">

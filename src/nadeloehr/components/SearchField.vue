@@ -1,7 +1,7 @@
 <script setup>
 // Apple Maps' search field: an Autobahn ("A7"), a gauge, a corridor or a
 // place; pick a suggestion and the map follows.
-import { computed, ref, watch, onBeforeUnmount } from 'vue';
+import { computed, ref, watch, onBeforeUnmount, useId } from 'vue';
 import { PhMagnifyingGlass, PhPushPinSimple, PhX } from '@phosphor-icons/vue';
 import { KIND_ICONS, TOOL_ICONS, layerIcon } from '../icons.js';
 import { gaugeStatus, levelText } from '../rivers.js';
@@ -10,9 +10,12 @@ import RoadShield from './RoadShield.vue';
 import IconBadge from './IconBadge.vue';
 import { t, tn } from '../../i18n/index.js';
 import { placeId, usePins } from '../pins.js';
+import { moveActive } from '../suggest.js';
 
 const props = defineProps({
   search: { type: Function, required: true },
+  /** (text) => results shown at once, before the search answers. */
+  instant: { type: Function, default: null },
   /** Results float under the field (the desktop bar) instead of in flow. */
   floating: { type: Boolean, default: false },
 });
@@ -41,6 +44,10 @@ const prompt = computed(() => t('Search a city, an Autobahn (A7) or a river'));
 const query = ref('');
 const results = ref([]);
 const searching = ref(false);
+const active = ref(-1);
+// Prefixed: the upstream globe UI is a second Vue app with the same ids.
+const id = `nd-${useId()}`;
+const listId = `${id}-list`;
 let timer = null;
 let controller = null;
 
@@ -49,10 +56,13 @@ function reset() {
   controller?.abort();
   results.value = [];
   searching.value = false;
+  active.value = -1;
 }
 
 watch(query, (text) => {
   reset();
+  // Roads, gauges and cities show from the first letter.
+  if (props.instant && text.trim()) results.value = props.instant(text.trim());
   if (text.trim().length < 2) return;
   searching.value = true;
   timer = setTimeout(async () => {
@@ -106,8 +116,23 @@ function pick(place) {
 }
 
 function submit() {
-  if (results.value[0]) pick(results.value[0]);
+  const chosen = results.value[active.value] || results.value[0];
+  if (chosen) pick(chosen);
   else if (query.value.trim()) pick({ label: query.value.trim() });
+}
+function onKeydown(event) {
+  if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    if (!results.value.length) return;
+    event.preventDefault();
+    active.value = moveActive(
+      active.value,
+      results.value.length,
+      event.key === 'ArrowDown' ? 1 : -1,
+    );
+  } else if (event.key === 'Escape' && (results.value.length || query.value)) {
+    event.preventDefault();
+    query.value = '';
+  }
 }
 </script>
 
@@ -128,10 +153,16 @@ function submit() {
         type="search"
         enterkeyhint="search"
         autocomplete="off"
+        role="combobox"
+        aria-autocomplete="list"
+        :aria-expanded="String(results.length > 0)"
+        :aria-controls="listId"
+        :aria-activedescendant="active >= 0 ? `${id}-${active}` : undefined"
         class="h-full min-w-0 flex-1 bg-transparent text-body outline-none placeholder:text-muted-foreground"
         :placeholder="prompt"
         :aria-label="prompt"
         @focus="$emit('focus')"
+        @keydown="onKeydown"
       />
       <button
         v-if="query"
@@ -145,7 +176,7 @@ function submit() {
     </form>
 
     <p
-      v-if="searching"
+      v-if="searching && !results.length"
       class="px-2 text-subhead text-muted-foreground"
       :class="
         floating
@@ -157,6 +188,8 @@ function submit() {
     </p>
     <ul
       v-else-if="results.length"
+      :id="listId"
+      role="listbox"
       class="overflow-hidden rounded-group"
       :class="
         floating
@@ -166,13 +199,18 @@ function submit() {
       :aria-label="t('Search results')"
     >
       <li
-        v-for="result in results"
+        v-for="(result, index) in results"
         :key="result.id || label(result)"
         class="flex items-center pe-1.5"
+        :class="index === active ? 'bg-accent' : ''"
       >
         <button
+          :id="`${id}-${index}`"
           type="button"
+          role="option"
+          :aria-selected="String(index === active)"
           class="flex min-w-0 flex-1 cursor-pointer items-center gap-3 px-3 py-2.5 text-start hover:bg-accent focus-visible:bg-accent outline-none"
+          @mousedown.prevent
           @click="pick(result)"
         >
           <span

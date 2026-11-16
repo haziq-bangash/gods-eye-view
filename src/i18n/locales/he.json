@@ -4263,5 +4263,6 @@
   "Could not share the link.": "לא ניתן לשתף את הקישור.",
   "In force when you leave, in {state}; it ends at {to}.": "בתוקף כבר ביציאה, ב{state}; מסתיים ב-{to}.",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "מתחיל ב-{at} כשתהיו ב{state}. יש לחנות לפני כן, למשל ב{place} (בערך ב-{time}), או לחכות עד {to}.",
-  "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "מתחיל ב-{at} כשתהיו ב{state}. יש לחנות לפני כן; מסתיים ב-{to}."
+  "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "מתחיל ב-{at} כשתהיו ב{state}. יש לחנות לפני כן; מסתיים ב-{to}.",
+  "Suggestions for {field}": "הצעות עבור {field}"
 }

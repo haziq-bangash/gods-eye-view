@@ -257,7 +257,10 @@
       "src/freight/germanStates.js",
       "src/freight/germanStatesData.js",
       "src/nadeloehr/tripPlan.js",
-      "src/nadeloehr/tripLink.js"
+      "src/nadeloehr/tripLink.js",
+      "src/nadeloehr/suggest.js",
+      "src/nadeloehr/germanCitiesData.js",
+      "src/nadeloehr/components/PlaceField.vue"
     ],
     "external": [
       "vue",

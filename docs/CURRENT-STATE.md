@@ -417,6 +417,25 @@ right-hand insight card hides while Street Level is on. The Street Level
 browser gate (FIT/FILL) had been failing since the Today layout because the
 strip covered those controls.
 
+## Suggestions while typing — Nadelöhr
+
+The search bar and the route's From and To fields suggest as you type.
+
+- **German cities:** shown at once from a bundled list of 58 cities
+  (`germanCitiesData.js`, built by `scripts/build-german-cities.mjs` from
+  Natural Earth, public domain, with German names such as München and
+  Köln).
+- **Place search:** Photon's answers are merged in when they arrive, and a
+  place both lists found shows once (`src/nadeloehr/suggest.js`).
+- **Search bar order:** a route or an Autobahn alone, otherwise corridors,
+  then cities, then river gauges.
+- **Keyboard and screen readers:** both are comboboxes; arrow keys move,
+  Enter picks, Escape closes. Their ids are prefixed `nd-`, because the
+  upstream globe UI is a second Vue app whose `useId()` ids would clash.
+- **Route fields** (`PlaceField.vue`): a picked place keeps its
+  coordinates, so the route goes to it rather than to whatever its name
+  first geocodes to. Picking the destination checks the route at once.
+
 ## Bans along the trip, trip links, the plan on the map — Nadelöhr
 
 **Bans along the trip.** `planTrip` now checks the trip itself against the

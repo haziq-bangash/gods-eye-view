@@ -4263,5 +4263,6 @@
   "Could not share the link.": "No se pudo compartir el enlace.",
   "In force when you leave, in {state}; it ends at {to}.": "Vigente al salir, en {state}; termina a las {to}.",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "Empieza a las {at} mientras estás en {state}. Aparca antes, por ejemplo en {place} (hacia las {time}), o espera hasta las {to}.",
-  "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "Empieza a las {at} mientras estás en {state}. Aparca antes; termina a las {to}."
+  "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "Empieza a las {at} mientras estás en {state}. Aparca antes; termina a las {to}.",
+  "Suggestions for {field}": "Sugerencias para {field}"
 }

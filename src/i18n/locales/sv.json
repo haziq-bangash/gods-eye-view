@@ -4157,5 +4157,6 @@
   "Could not share the link.": "Kunde inte dela länken.",
   "In force when you leave, in {state}; it ends at {to}.": "Gäller när du åker, i {state}; det slutar {to}.",
   "It starts at {at} while you are in {state}. Park by then, for example at {place} (about {time}), or wait until {to}.": "Det börjar {at} medan du är i {state}. Parkera innan dess, till exempel vid {place} (cirka {time}), eller vänta till {to}.",
-  "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "Det börjar {at} medan du är i {state}. Parkera innan dess; det slutar {to}."
+  "It starts at {at} while you are in {state}. Park by then; it ends at {to}.": "Det börjar {at} medan du är i {state}. Parkera innan dess; det slutar {to}.",
+  "Suggestions for {field}": "Förslag för {field}"
 }
