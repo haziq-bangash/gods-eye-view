@@ -13,19 +13,16 @@ import HorizonSwitch from './HorizonSwitch.vue';
 const phone = globalThis.matchMedia?.('(max-width: 639px)').matches === true;
 const strip = useCollapsed('today', { byDefault: () => phone });
 
-const props = defineProps({
+defineProps({
   kpis: { type: Array, required: true },
   active: { type: String, default: null },
   horizon: { type: String, default: 'now' },
   /** Before the first data: placeholders instead of zeros. */
   loading: { type: Boolean, default: false },
+  /** When the traffic data was fetched, as a clock time. */
+  updatedAt: { type: String, default: null },
 });
-const emit = defineEmits(['pick', 'update:horizon']);
-/** The minimised strip's time chip steps Now → Tonight → Tomorrow. */
-function nextHorizon() {
-  const index = HORIZONS.indexOf(props.horizon);
-  emit('update:horizon', HORIZONS[(index + 1) % HORIZONS.length]);
-}
+defineEmits(['pick', 'update:horizon']);
 </script>
 
 <template>
@@ -38,51 +35,55 @@ function nextHorizon() {
       :model-value="horizon"
       @update:model-value="$emit('update:horizon', $event)"
     />
-    <!-- Minimised: one line of small chips -->
+    <!-- Minimised: when, and how fresh the data is; the numbers are one
+         tap away under the arrow, so nothing is cut off on a phone. -->
     <div
       v-if="strip.isCollapsed()"
-      class="nd-strip flex min-w-0 flex-1 items-center gap-1 overflow-x-auto"
+      class="flex min-w-0 flex-1 items-center gap-1.5"
     >
-      <button
-        type="button"
-        class="press flex shrink-0 cursor-pointer items-center gap-1 rounded-full bg-primary-fill px-3 py-1.5 text-caption font-semibold text-primary-foreground outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
-        :aria-label="
-          t('When: {time}. Tap for {next}.', {
-            time: t(HORIZON_LABELS[horizon]),
-            next: t(
-              HORIZON_LABELS[
-                HORIZONS[(HORIZONS.indexOf(horizon) + 1) % HORIZONS.length]
-              ],
-            ),
-          })
-        "
-        @click="nextHorizon"
+      <div
+        class="flex shrink-0 rounded-full bg-card p-0.5"
+        role="radiogroup"
+        :aria-label="t('When')"
       >
-        {{ t(HORIZON_LABELS[horizon]) }}
-      </button>
-      <template v-if="loading">
+        <button
+          v-for="option in HORIZONS"
+          :key="option"
+          type="button"
+          role="radio"
+          class="nd-tap cursor-pointer rounded-full px-2.5 py-1.5 text-caption font-semibold whitespace-nowrap outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
+          :class="
+            horizon === option
+              ? 'bg-primary-fill text-primary-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground'
+          "
+          :aria-checked="String(horizon === option)"
+          @click="$emit('update:horizon', option)"
+        >
+          {{ t(HORIZON_LABELS[option]) }}
+        </button>
+      </div>
+      <span
+        v-if="loading"
+        class="nd-skeleton h-7 w-20 shrink rounded-full"
+        aria-hidden="true"
+      />
+      <span
+        v-else-if="updatedAt"
+        class="flex min-w-0 items-center gap-1.5 rounded-full bg-card px-2.5 py-1.5 text-caption font-semibold"
+        :title="t('Traffic data from {time}', { time: updatedAt })"
+      >
         <span
-          v-for="index in 4"
-          :key="index"
-          class="nd-skeleton h-7 w-24 shrink-0 rounded-full"
+          class="size-2 shrink-0 rounded-full bg-[#34c759]"
           aria-hidden="true"
         />
-      </template>
-      <button
-        v-for="kpi in loading ? [] : kpis"
-        :key="kpi.id"
-        type="button"
-        class="press flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-card px-3 py-1.5 text-caption font-semibold outline-none hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring"
-        :class="active === kpi.id ? 'ring-2 ring-[var(--kpi)]' : ''"
-        :style="{ '--kpi': kpi.color }"
-        @click="$emit('pick', kpi)"
-      >
-        <span class="size-2 rounded-full" :style="{ background: kpi.color }" />
-        <span class="tabular-nums"
-          >{{ kpi.value }}{{ kpi.unit ? ` ${kpi.unit}` : '' }}</span
-        >
-        <span class="text-muted-foreground">{{ kpi.label }}</span>
-      </button>
+        <span class="sr-only">{{
+          t('Live · {time}', { time: updatedAt })
+        }}</span>
+        <span class="truncate tabular-nums" aria-hidden="true">{{
+          updatedAt
+        }}</span>
+      </span>
     </div>
     <div v-else class="nd-strip flex min-w-0 flex-1 gap-1.5 overflow-x-auto">
       <template v-if="loading">

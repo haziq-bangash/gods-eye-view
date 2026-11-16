@@ -4082,7 +4082,6 @@
   "Install": "התקנה",
   "Not now": "לא עכשיו",
   "Opens full screen in one tap, like an app. No store, no account.": "נפתח במסך מלא בהקשה אחת, כמו אפליקציה. בלי חנות ובלי חשבון.",
-  "When: {time}. Tap for {next}.": "מתי: {time}. הקישו עבור {next}.",
   "You have asked your {count} questions for today. Ask again tomorrow.": {
     "one": "שאלת את השאלה היומית שלך ({count}). אפשר לשאול שוב מחר.",
     "two": "שאלת את {count} השאלות שלך להיום. אפשר לשאול שוב מחר.",
@@ -4137,11 +4136,7 @@
   "Train timetable unavailable": "לוח הזמנים של הרכבות אינו זמין",
   "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "רכבות למרחקים ארוכים ממוקמות לפי לוח הזמנים של gtfs.de (DELFI). דויטשה באן אינה מפרסמת מיקומים בזמן אמת, ולכן עיכובים אינם מוצגים.",
   "Night and other trains": "רכבות לילה ואחרות",
-  "At {station} until {time}": "ב{station} עד {time}",
-  "Between {from} and {to}": "בין {from} ל{to}",
   "To {place}": "אל {place}",
-  "Next stop: {station} at {time}": "התחנה הבאה: {station} ב-{time}",
-  "Journey progress": "התקדמות הנסיעה",
   "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "המיקום מוערך לפי לוח הזמנים. דויטשה באן אינה מפרסמת מיקומי רכבות בזמן אמת, ולכן עיכובים אינם מוצגים.",
   "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "מקור: gtfs.de, נתונים מ-DELFI e.V. (CC BY 4.0).",
   "Long-distance trains": "רכבות למרחקים ארוכים",
@@ -4155,5 +4150,55 @@
   "Following": "במעקב",
   "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "העיכוב כפי שדויטשה באן מדווחת עליו בתחנות הגדולות; בין התחנות המיקום מוערך.",
   "No delay reported for this train yet, so it is placed by the timetable.": "עדיין לא דווח עיכוב לרכבת זו, ולכן היא ממוקמת לפי לוח הזמנים.",
-  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "מקורות: gtfs.de עם נתונים מ-DELFI e.V., וממשק Timetables של דויטשה באן (שניהם CC BY 4.0)."
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "מקורות: gtfs.de עם נתונים מ-DELFI e.V., וממשק Timetables של דויטשה באן (שניהם CC BY 4.0).",
+  "Strong and above": "חזקות ומעלה",
+  "Severe only": "חמורות בלבד",
+  "Weather warnings drawn on the map": "אזהרות מזג אוויר במפה",
+  "{shown} of {count} warnings on the map": {
+    "one": "{shown} מתוך {count} אזהרה במפה",
+    "two": "{shown} מתוך {count} אזהרות במפה",
+    "other": "{shown} מתוך {count} אזהרות במפה"
+  },
+  "Arrived at {station}": "הגיעה ל{station}",
+  "Arriving at {station}": "מגיעה ל{station}",
+  "Due {due}, expected {expected}": "מתוכנן {due}, צפוי {expected}",
+  "Due {due}": "מתוכנן {due}",
+  "Stops": "תחנות",
+  "At {station}, leaves in {count} min": {
+    "one": "ב{station}, יוצאת בעוד {count} דק׳",
+    "two": "ב{station}, יוצאת בעוד {count} דק׳",
+    "other": "ב{station}, יוצאת בעוד {count} דק׳"
+  },
+  "{station} in {count} min": {
+    "one": "{station} בעוד {count} דק׳",
+    "two": "{station} בעוד {count} דק׳",
+    "other": "{station} בעוד {count} דק׳"
+  },
+  "+ {count} more stops to {place}": {
+    "one": "+ עוד {count} תחנות עד {place}",
+    "two": "+ עוד {count} תחנות עד {place}",
+    "other": "+ עוד {count} תחנות עד {place}"
+  },
+  "Pin {road} to My roads and places; alerts cover pinned roads": "הצמדת {road} לדרכים ולמקומות שלי; ההתראות חלות על דרכים מוצמדות",
+  "Watching": "במעקב",
+  "Watch {road}": "מעקב אחר {road}",
+  "Since {time}": "מאז {time}",
+  "Until {time}": "עד {time}",
+  "Next: {from} to {to}": "הבא: {from} עד {to}",
+  "The whole project runs until {date}.": "הפרויקט כולו נמשך עד {date}.",
+  "What it means": "מה זה אומר",
+  "On this corridor · {level}": "במסדרון הזה · {level}",
+  "Nearest truck parking": "חניון המשאיות הקרוב",
+  "{name} · {km} km away": "{name} · במרחק {km} ק״מ",
+  "spaces": "מקומות",
+  "{count} more windows planned.": {
+    "one": "מתוכננים עוד {count} חלונות זמן.",
+    "two": "מתוכננים עוד {count} חלונות זמן.",
+    "other": "מתוכננים עוד {count} חלונות זמן."
+  },
+  "Rhine at Kaub": "הריין בקאוב",
+  "Truck ban in force": "איסור משאיות בתוקף",
+  "Next truck ban": "איסור המשאיות הבא",
+  "until {time}": "עד {time}",
+  "Traffic data from {time}": "נתוני תנועה מ-{time}"
 }

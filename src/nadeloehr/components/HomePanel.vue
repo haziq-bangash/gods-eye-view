@@ -4,11 +4,12 @@
 // never used a GIS.
 import { computed, ref } from 'vue';
 import { PhCaretDown, PhCaretRight } from '@phosphor-icons/vue';
-import { t, tn } from '../../i18n/index.js';
+import { msg, t, tn } from '../../i18n/index.js';
 import { layerNameForId } from '../../ui/layerNames.js';
 import { MAIN_LAYERS, HIDDEN_FROM_MORE } from '../mapLayers.js';
 import { gaugeStatus, levelText, riverName, trendText } from '../rivers.js';
 import { gaugeColor } from '../../layers/riverLevels/records.js';
+import { WARNING_LEVELS } from '../../layers/weatherWarnings/records.js';
 import {
   warningColor,
   warningLevelLabel,
@@ -70,13 +71,37 @@ const mainRows = computed(() =>
       ...entry,
       badge: layerIcon(entry.id),
       title: t(entry.title),
-      subtitle: t(entry.subtitle),
+      subtitle:
+        entry.id === 'weather-warnings' && layer.enabled
+          ? tn(
+              weatherCounts.value.total,
+              '{shown} of {count} warning on the map',
+              '{shown} of {count} warnings on the map',
+              { shown: weatherCounts.value.shown },
+            )
+          : t(entry.subtitle),
       on: layer.enabled === true,
       disabled: needsKey && !layer.enabled,
       note: needsKey ? t('Needs a free key — open Settings') : '',
     };
   }).filter(Boolean),
 );
+
+/** Which DWD levels the map draws; lists and scores keep every level. */
+const WEATHER_OPTIONS = [
+  { level: 'minor', label: msg('All') },
+  { level: 'moderate', label: msg('Strong and above') },
+  { level: 'severe', label: msg('Severe only') },
+];
+const weatherCounts = computed(() => {
+  const all = props.app.warnings.value;
+  const least = WARNING_LEVELS.indexOf(props.app.weatherLevel.value);
+  return {
+    total: all.length,
+    shown: all.filter((row) => WARNING_LEVELS.indexOf(row.level) >= least)
+      .length,
+  };
+});
 
 const autobahnOn = computed(
   () => props.app.layerById('autobahn-traffic')?.enabled === true,
@@ -327,6 +352,29 @@ const tools = computed(() => [
                 @update:model-value="(on) => setMain(row, on)"
               />
             </label>
+            <div
+              v-if="row.id === 'weather-warnings' && row.on"
+              class="flex flex-wrap gap-1.5 px-3 pb-2.5 ps-14"
+              role="radiogroup"
+              :aria-label="t('Weather warnings drawn on the map')"
+            >
+              <button
+                v-for="option in WEATHER_OPTIONS"
+                :key="option.level"
+                type="button"
+                role="radio"
+                :aria-checked="String(app.weatherLevel.value === option.level)"
+                class="nd-tap cursor-pointer rounded-full px-3 py-1 text-caption font-semibold outline-none focus-visible:ring-[3px] focus-visible:ring-ring"
+                :class="
+                  app.weatherLevel.value === option.level
+                    ? 'bg-foreground text-background'
+                    : 'bg-muted text-muted-foreground hover:bg-accent'
+                "
+                @click="app.setWeatherLevel(option.level)"
+              >
+                {{ t(option.label) }}
+              </button>
+            </div>
           </li>
         </ul>
 

@@ -1585,5 +1585,8 @@
   "src/nadeloehr/components/TrainCard.vue",
   "src/freight/dbTimetables.js",
   "src/freight/dbTimetables.test.mjs",
-  "server/providers/dbTrainsDelays.js"
+  "server/providers/dbTrainsDelays.js",
+  "src/nadeloehr/schedule.js",
+  "src/nadeloehr/schedule.test.mjs",
+  "src/nadeloehr/components/WatchList.vue"
 ]

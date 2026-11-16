@@ -8,6 +8,7 @@ import {
   AUTOBAHN_SEVERITY_COLORS,
   autobahnSeverity,
 } from '../layers/autobahn/records.js';
+import { isScheduleLine, scheduleNow } from './schedule.js';
 
 export {
   AUTOBAHN_SEVERITIES as SEVERITIES,
@@ -130,7 +131,9 @@ export function disruptionPlace(row) {
  * The place card for one event: title, where, a facts row like Apple Maps'
  * "Hours · Ratings · Distance", a plain hint, and the official lines.
  */
-export function disruptionCard(row) {
+export function disruptionCard(row, now = Date.now()) {
+  // When it applies, read from the notice; the card draws it as a bar.
+  const schedule = scheduleNow(row.details, now);
   const facts = [];
   if (Number.isFinite(row.delayMinutes) && row.delayMinutes > 0)
     facts.push({
@@ -153,7 +156,7 @@ export function disruptionCard(row) {
       label: t('Speed'),
       value: t('{speed} km/h', { speed: formatNumber(row.averageSpeedKmh) }),
     });
-  if (Number.isFinite(row.startTime))
+  if (Number.isFinite(row.startTime) && !schedule)
     facts.push({
       key: 'since',
       label: t('Since'),
@@ -174,6 +177,43 @@ export function disruptionCard(row) {
     direction: row.direction || '',
     hint: t(KIND_COPY[row.kind]?.hint || msg('Check the official notice.')),
     facts,
-    details: Array.isArray(row.details) ? row.details.slice(0, 6) : [],
+    schedule,
+    // The notice without the dates the schedule bar already shows.
+    details: (Array.isArray(row.details) ? row.details : [])
+      .filter((line) => !schedule || !isScheduleLine(line))
+      .slice(0, 6),
   };
+}
+
+const toRad = (deg) => (deg * Math.PI) / 180;
+function distanceKm(lat1, lon1, lat2, lon2) {
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return 2 * 6371 * Math.asin(Math.sqrt(a));
+}
+
+/** How far truck parking may be from a disruption to be offered. */
+export const NEAREST_PARKING_KM = 40;
+
+/**
+ * The closest rest area with truck spaces on the same Autobahn, not itself
+ * blocked or next to a closure (`affected` ids): where a driver can wait or
+ * plan a stop. Null when none is within NEAREST_PARKING_KM.
+ * @returns {{row: object, km: number} | null}
+ */
+export function nearestParking(row, parking = [], affected = new Set()) {
+  if (!row || !Number.isFinite(row.lat) || !Number.isFinite(row.lon))
+    return null;
+  let best = null;
+  for (const area of parking) {
+    if (area.road !== row.road || !(area.lorrySpaces > 0)) continue;
+    if (area.blocked || affected.has(area.stableId)) continue;
+    const km = distanceKm(row.lat, row.lon, area.lat, area.lon);
+    if (km <= NEAREST_PARKING_KM && (!best || km < best.km))
+      best = { row: area, km };
+  }
+  return best;
 }

@@ -417,6 +417,39 @@ right-hand insight card hides while Street Level is on. The Street Level
 browser gate (FIT/FILL) had been failing since the Today layout because the
 strip covered those controls.
 
+## Calmer map, live train tracker, closure timing, things to watch — Nadelöhr
+
+**Map.** DWD warnings draw from "Strong" (moderate) up by default; the Map
+tab offers All, Strong and above, or Severe only (`nadeloehr.weatherLevel.v1`,
+`setMinimumLevel` on the layer) and says how many are drawn. Lists, cards and
+corridor scores still count every level. Autobahn markers now group: points
+clamped to the ground are drawn as billboards, so `clusterBillboards` must be
+on (with points alone nothing grouped), and the cluster SVG needs an explicit
+size or it renders as a black square. Affected stretches (not closures) draw
+only within 350 km, and markers have white outlines.
+
+**Train card.** `trainStops` gives each stop its scheduled and expected
+times and state (passed, here, next, later). The card leads with "Würzburg
+Hbf in 50 min" or "At Hannover Hbf, leaves in 2 min", then a stop timeline
+(scheduled times struck through beside expected ones when late; arrivals
+ahead, departures behind; "+ N more stops" expands). Map labels are white
+pills in the train's colour with the delay ("ICE 1185 +21").
+
+**Closure card.** `src/nadeloehr/schedule.js` reads when a closure applies
+from the German notice (phases "Beginn … / Ende …" and windows "… bis zum …"
+or "… von … bis …", plus "Ende der Gesamtmaßnahme"); the card shows the
+window in force as a since–until bar, how many windows follow and when the
+whole project ends, and folds the notice away. It lists the corridors the
+disruption lies on (tap to open), the nearest open truck parking on the same
+road within 40 km (`nearestParking`), and "Watch A7", which pins the road so
+alerts cover it. No detour estimate: there is no routing to base it on.
+
+**Home (phones).** The minimised strip is a Now / Tonight / Tomorrow switch
+and the time of the traffic data; the numbers are under the arrow. The
+sheet's peek shows the headline and up to three things to watch (Kaub with
+its 24-hour change, the riskiest corridor, the ban in force or next), each a
+shortcut.
+
 ## Long-distance trains — Nadelöhr
 
 Layer `db-trains` (share token `07`, in the Freight group and the shell's

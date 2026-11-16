@@ -4082,7 +4082,6 @@
   "Install": "Installa",
   "Not now": "Non ora",
   "Opens full screen in one tap, like an app. No store, no account.": "Si apre a schermo intero con un tocco, come un’app. Nessuno store, nessun account.",
-  "When: {time}. Tap for {next}.": "Quando: {time}. Tocca per {next}.",
   "You have asked your {count} questions for today. Ask again tomorrow.": {
     "one": "Hai già fatto la tua {count} domanda di oggi. Riprova domani.",
     "other": "Hai già fatto le tue {count} domande di oggi. Riprova domani.",
@@ -4137,11 +4136,7 @@
   "Train timetable unavailable": "Orario dei treni non disponibile",
   "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "Treni a lunga percorrenza posizionati in base all’orario di gtfs.de (DELFI). Deutsche Bahn non pubblica posizioni in tempo reale, quindi i ritardi non sono mostrati.",
   "Night and other trains": "Treni notturni e altri",
-  "At {station} until {time}": "A {station} fino alle {time}",
-  "Between {from} and {to}": "Tra {from} e {to}",
   "To {place}": "Per {place}",
-  "Next stop: {station} at {time}": "Prossima fermata: {station} alle {time}",
-  "Journey progress": "Avanzamento del viaggio",
   "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "Posizione stimata dall’orario. Deutsche Bahn non pubblica la posizione dei treni in tempo reale, quindi i ritardi non sono mostrati.",
   "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "Fonte: gtfs.de, dati di DELFI e.V. (CC BY 4.0).",
   "Long-distance trains": "Treni a lunga percorrenza",
@@ -4155,5 +4150,55 @@
   "Following": "In corso",
   "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "Ritardo come lo comunica Deutsche Bahn nelle stazioni principali; tra una stazione e l’altra la posizione è stimata.",
   "No delay reported for this train yet, so it is placed by the timetable.": "Nessun ritardo ancora segnalato per questo treno, quindi è posizionato secondo l’orario.",
-  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Fonti: gtfs.de con dati di DELFI e.V. e l’API Timetables di Deutsche Bahn (entrambe CC BY 4.0)."
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Fonti: gtfs.de con dati di DELFI e.V. e l’API Timetables di Deutsche Bahn (entrambe CC BY 4.0).",
+  "Strong and above": "Forti e oltre",
+  "Severe only": "Solo gravi",
+  "Weather warnings drawn on the map": "Allerte meteo sulla mappa",
+  "{shown} of {count} warnings on the map": {
+    "one": "{shown} di {count} allerta sulla mappa",
+    "many": "{shown} di {count} allerte sulla mappa",
+    "other": "{shown} di {count} allerte sulla mappa"
+  },
+  "Arrived at {station}": "Arrivato a {station}",
+  "Arriving at {station}": "In arrivo a {station}",
+  "Due {due}, expected {expected}": "Previsto {due}, atteso {expected}",
+  "Due {due}": "Previsto {due}",
+  "Stops": "Fermate",
+  "At {station}, leaves in {count} min": {
+    "one": "A {station}, riparte tra {count} min",
+    "many": "A {station}, riparte tra {count} min",
+    "other": "A {station}, riparte tra {count} min"
+  },
+  "{station} in {count} min": {
+    "one": "{station} tra {count} min",
+    "many": "{station} tra {count} min",
+    "other": "{station} tra {count} min"
+  },
+  "+ {count} more stops to {place}": {
+    "one": "+ {count} altra fermata fino a {place}",
+    "many": "+ {count} altre fermate fino a {place}",
+    "other": "+ {count} altre fermate fino a {place}"
+  },
+  "Pin {road} to My roads and places; alerts cover pinned roads": "Fissa {road} in Le mie strade e luoghi; gli avvisi riguardano le strade fissate",
+  "Watching": "Seguita",
+  "Watch {road}": "Segui {road}",
+  "Since {time}": "Dal {time}",
+  "Until {time}": "Fino al {time}",
+  "Next: {from} to {to}": "Prossima: {from} – {to}",
+  "The whole project runs until {date}.": "L’intero cantiere dura fino al {date}.",
+  "What it means": "Cosa significa",
+  "On this corridor · {level}": "Su questo corridoio · {level}",
+  "Nearest truck parking": "Parcheggio camion più vicino",
+  "{name} · {km} km away": "{name} · a {km} km",
+  "spaces": "posti",
+  "{count} more windows planned.": {
+    "one": "{count} altra fascia prevista.",
+    "many": "{count} altre fasce previste.",
+    "other": "{count} altre fasce previste."
+  },
+  "Rhine at Kaub": "Il Reno a Kaub",
+  "Truck ban in force": "Divieto per i camion in vigore",
+  "Next truck ban": "Prossimo divieto per i camion",
+  "until {time}": "fino alle {time}",
+  "Traffic data from {time}": "Dati sul traffico delle {time}"
 }

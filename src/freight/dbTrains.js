@@ -371,3 +371,38 @@ export function validTrainWindow(value) {
     )
   );
 }
+
+/**
+ * A train's stops for a timeline: name, scheduled arrival and departure,
+ * the same moved by `delay` seconds as expected, and its state at `ms`:
+ * 'passed', 'here' (standing there), 'next' (heading there) or 'later'.
+ */
+export function trainStops(window, train, ms, delay = 0) {
+  const shift = (Number.isFinite(delay) ? delay : 0) * 1000;
+  const at = (seconds) => window.from + seconds * 1000;
+  let nextFound = false;
+  return (train.stops || []).map(([station, arrival, departure], i, all) => {
+    const [name] = window.stations[station];
+    const arrives = at(arrival);
+    const departs = at(departure);
+    const first = i === 0;
+    const last = i === all.length - 1;
+    let state;
+    if (ms >= departs + shift && !last) state = 'passed';
+    else if (ms >= arrives + shift && (ms < departs + shift || last))
+      state = last && ms > arrives + shift ? 'passed' : 'here';
+    else if (!nextFound) {
+      nextFound = true;
+      state = 'next';
+    } else state = 'later';
+    if (state === 'here') nextFound = true;
+    return {
+      name,
+      arrives: first ? null : arrives,
+      departs: last ? null : departs,
+      expectedArrives: first ? null : arrives + shift,
+      expectedDeparts: last ? null : departs + shift,
+      state,
+    };
+  });
+}

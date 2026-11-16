@@ -4,6 +4,7 @@ import {
   TRAIN_COLORS,
   trainColor,
   trainPosition,
+  trainStops,
 } from '../../freight/dbTrains.js';
 export { createDbTrainsSource } from './source.js';
 export { TRAIN_COLORS, trainColor };
@@ -86,6 +87,7 @@ export function createDbTrainsLayer({
     return {
       ...facts,
       ...position,
+      stops: trainStops(_window, train, now(), live?.delay || 0),
       number: live?.number || '',
       // Seconds behind the timetable; null where DB has not reported it.
       delay: live ? live.delay : null,
@@ -138,7 +140,11 @@ export function createDbTrainsLayer({
       const position = live?.cancelled
         ? null
         : trainPosition(_window, train, ms, live?.delay || 0);
-      const label = live?.number || train.line || train.category;
+      // The real number when DB reports one, with the delay from 2 minutes.
+      const late = live ? Math.round(live.delay / 60) : 0;
+      const label =
+        (live?.number || train.line || train.category) +
+        (late >= 2 ? ` +${late}` : '');
       if (_labelById.get(id) !== label) {
         _labelById.set(id, label);
         entity.label.text = label;
@@ -222,11 +228,13 @@ export function createDbTrainsLayer({
         },
         label: {
           text: train.line || train.category,
-          font: '600 12px -apple-system, system-ui, sans-serif',
-          fillColor: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.fromCssColorString(color),
-          outlineWidth: 3,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          // A white pill with coloured text: outlined text blurs on the map.
+          font: '700 11px -apple-system, system-ui, sans-serif',
+          fillColor: Cesium.Color.fromCssColorString(color),
+          showBackground: true,
+          backgroundColor: Cesium.Color.WHITE.withAlpha(0.95),
+          backgroundPadding: new Cesium.Cartesian2(6, 3),
+          style: Cesium.LabelStyle.FILL,
           pixelOffset: new Cesium.Cartesian2(0, -18),
           distanceDisplayCondition: LABEL_NEAR,
           disableDepthTestDistance: Number.POSITIVE_INFINITY,

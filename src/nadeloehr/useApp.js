@@ -273,10 +273,37 @@ export function useApp() {
       now: clock.value,
       states,
     });
+  /**
+   * The least DWD level drawn on the map: 'moderate' by default, because
+   * minor warnings often cover most of the country and hide everything else.
+   * Kept in the browser; lists and corridor scores still count every level.
+   */
+  const WEATHER_LEVEL_KEY = 'nadeloehr.weatherLevel.v1';
+  const WEATHER_LEVELS = ['minor', 'moderate', 'severe'];
+  const weatherLevel = shallowRef(
+    (() => {
+      try {
+        const saved = globalThis.localStorage?.getItem(WEATHER_LEVEL_KEY);
+        return WEATHER_LEVELS.includes(saved) ? saved : 'moderate';
+      } catch {
+        return 'moderate';
+      }
+    })(),
+  );
+  function setWeatherLevel(level) {
+    if (!WEATHER_LEVELS.includes(level)) return;
+    weatherLevel.value = level;
+    try {
+      globalThis.localStorage?.setItem(WEATHER_LEVEL_KEY, level);
+    } catch {}
+    weatherModule()?.setMinimumLevel?.(level);
+    store.touchLayers();
+  }
   function applyTimeRange() {
     const timed = horizon.value === 'now' ? null : range.value;
     autobahnModule()?.setTimeRange?.(timed);
     weatherModule()?.setTimeRange?.(timed);
+    weatherModule()?.setMinimumLevel?.(weatherLevel.value);
     store.touchLayers();
   }
   function setHorizon(next) {
@@ -285,6 +312,11 @@ export function useApp() {
   }
   // A freshly loaded layer starts at "now"; give it the chosen range.
   watch([services, range], applyTimeRange);
+  // A layer switched on later gets the chosen weather level too.
+  watch(
+    () => weatherOn.value,
+    (on) => on && weatherModule()?.setMinimumLevel?.(weatherLevel.value),
+  );
   /** Kaub's level for the horizon: the reading now, else the forecast. */
   const kaubLevel = computed(() => {
     const kaub = kaubRow(gauges.value);
@@ -695,6 +727,8 @@ export function useApp() {
     selectedParking,
     selectParking,
     showParkingOnMap,
+    weatherLevel,
+    setWeatherLevel,
     selectedTrain,
     selectTrain,
     showTrainOnMap,

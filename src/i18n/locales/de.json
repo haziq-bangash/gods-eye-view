@@ -3983,7 +3983,6 @@
   "Install": "Installieren",
   "Not now": "Nicht jetzt",
   "Opens full screen in one tap, like an app. No store, no account.": "Öffnet sich mit einem Tipp im Vollbild, wie eine App. Kein Store, kein Konto.",
-  "When: {time}. Tap for {next}.": "Zeit: {time}. Tippen für {next}.",
   "You have asked your {count} questions for today. Ask again tomorrow.": {
     "one": "Du hast deine {count} Frage für heute gestellt. Frag morgen wieder.",
     "other": "Du hast deine {count} Fragen für heute gestellt. Frag morgen wieder."
@@ -4037,11 +4036,7 @@
   "Train timetable unavailable": "Fahrplan nicht verfügbar",
   "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "Fernzüge nach dem Fahrplan von gtfs.de (DELFI) platziert. Die Deutsche Bahn veröffentlicht keine Live-Positionen, daher werden Verspätungen nicht angezeigt.",
   "Night and other trains": "Nacht- und andere Züge",
-  "At {station} until {time}": "In {station} bis {time}",
-  "Between {from} and {to}": "Zwischen {from} und {to}",
   "To {place}": "Nach {place}",
-  "Next stop: {station} at {time}": "Nächster Halt: {station} um {time}",
-  "Journey progress": "Fahrtfortschritt",
   "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "Position aus dem Fahrplan geschätzt. Die Deutsche Bahn veröffentlicht keine Live-Positionen von Zügen, daher werden Verspätungen nicht angezeigt.",
   "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "Quelle: gtfs.de, Daten von DELFI e.V. (CC BY 4.0).",
   "Long-distance trains": "Fernzüge",
@@ -4055,5 +4050,50 @@
   "Following": "Folgt",
   "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "Verspätung, wie die Deutsche Bahn sie an den großen Bahnhöfen meldet; zwischen den Bahnhöfen ist die Position geschätzt.",
   "No delay reported for this train yet, so it is placed by the timetable.": "Für diesen Zug ist noch keine Verspätung gemeldet, daher steht er nach Fahrplan.",
-  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Quellen: gtfs.de mit Daten von DELFI e.V. und die Timetables-API der Deutschen Bahn (beide CC BY 4.0)."
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Quellen: gtfs.de mit Daten von DELFI e.V. und die Timetables-API der Deutschen Bahn (beide CC BY 4.0).",
+  "Strong and above": "Ab markant",
+  "Severe only": "Nur Unwetter",
+  "Weather warnings drawn on the map": "Wetterwarnungen auf der Karte",
+  "{shown} of {count} warnings on the map": {
+    "one": "{shown} von {count} Warnung auf der Karte",
+    "other": "{shown} von {count} Warnungen auf der Karte"
+  },
+  "Arrived at {station}": "In {station} angekommen",
+  "Arriving at {station}": "Fährt ein in {station}",
+  "Due {due}, expected {expected}": "Planmäßig {due}, erwartet {expected}",
+  "Due {due}": "Planmäßig {due}",
+  "Stops": "Halte",
+  "At {station}, leaves in {count} min": {
+    "one": "In {station}, fährt in {count} Min. ab",
+    "other": "In {station}, fährt in {count} Min. ab"
+  },
+  "{station} in {count} min": {
+    "one": "{station} in {count} Min.",
+    "other": "{station} in {count} Min."
+  },
+  "+ {count} more stops to {place}": {
+    "one": "+ {count} weiterer Halt bis {place}",
+    "other": "+ {count} weitere Halte bis {place}"
+  },
+  "Pin {road} to My roads and places; alerts cover pinned roads": "{road} unter „Meine Straßen und Orte“ anheften; Hinweise gelten für angeheftete Straßen",
+  "Watching": "Beobachtet",
+  "Watch {road}": "{road} beobachten",
+  "Since {time}": "Seit {time}",
+  "Until {time}": "Bis {time}",
+  "Next: {from} to {to}": "Nächste: {from} bis {to}",
+  "The whole project runs until {date}.": "Die gesamte Maßnahme läuft bis {date}.",
+  "What it means": "Was das bedeutet",
+  "On this corridor · {level}": "Auf diesem Korridor · {level}",
+  "Nearest truck parking": "Nächster Lkw-Parkplatz",
+  "{name} · {km} km away": "{name} · {km} km entfernt",
+  "spaces": "Plätze",
+  "{count} more windows planned.": {
+    "one": "{count} weiteres Zeitfenster geplant.",
+    "other": "{count} weitere Zeitfenster geplant."
+  },
+  "Rhine at Kaub": "Rhein bei Kaub",
+  "Truck ban in force": "Lkw-Fahrverbot gilt",
+  "Next truck ban": "Nächstes Lkw-Fahrverbot",
+  "until {time}": "bis {time}",
+  "Traffic data from {time}": "Verkehrsdaten von {time}"
 }

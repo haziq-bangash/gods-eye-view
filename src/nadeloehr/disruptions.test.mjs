@@ -138,3 +138,41 @@ test('severity groups: closures critical, warnings major, the rest minor', () =>
   assert.equal(disruptionColor('closure'), SEVERITY_COLORS.critical);
   assert.equal(severityCopy('minor').label, 'Minor');
 });
+
+test('offers the closest open truck parking on the same Autobahn', async () => {
+  const { nearestParking, disruptionCard } = await import('./disruptions.js');
+  const closure = { road: 'A7', lat: 53.4, lon: 9.98 };
+  const areas = [
+    { stableId: 'far', road: 'A7', lat: 53.9, lon: 9.98, lorrySpaces: 90 },
+    { stableId: 'near', road: 'A7', lat: 53.45, lon: 9.98, lorrySpaces: 48 },
+    { stableId: 'shut', road: 'A7', lat: 53.41, lon: 9.98, lorrySpaces: 30 },
+    { stableId: 'other', road: 'A1', lat: 53.4, lon: 9.99, lorrySpaces: 60 },
+    { stableId: 'cars', road: 'A7', lat: 53.402, lon: 9.98, lorrySpaces: 0 },
+  ];
+  const best = nearestParking(closure, areas, new Set(['shut']));
+  assert.equal(best.row.stableId, 'near');
+  assert.ok(Math.abs(best.km - 5.56) < 0.05);
+  assert.equal(nearestParking({ ...closure, road: 'A3' }, areas), null);
+  // The schedule replaces "Since" and leaves the dates out of the notice.
+  const card = disruptionCard(
+    {
+      stableId: 'x',
+      kind: 'closure',
+      road: 'A3',
+      startTime: 0,
+      details: [
+        'Zeitraum dieser Bauphase:',
+        'Beginn: 21.11.26 um 21:00 Uhr',
+        'Ende: 22.11.26 um 12:00 Uhr',
+        'Ersatzneubau Hauptbrücke',
+      ],
+    },
+    Date.UTC(2026, 10, 22, 0, 0),
+  );
+  assert.equal(card.schedule.active, true);
+  assert.equal(
+    card.facts.some((fact) => fact.key === 'since'),
+    false,
+  );
+  assert.deepEqual(card.details, ['Ersatzneubau Hauptbrücke']);
+});

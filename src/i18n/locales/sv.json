@@ -3983,7 +3983,6 @@
   "Install": "Installera",
   "Not now": "Inte nu",
   "Opens full screen in one tap, like an app. No store, no account.": "Öppnas i helskärm med ett tryck, som en app. Ingen butik, inget konto.",
-  "When: {time}. Tap for {next}.": "När: {time}. Tryck för {next}.",
   "You have asked your {count} questions for today. Ask again tomorrow.": {
     "one": "Du har ställt din {count} fråga för i dag. Fråga igen i morgon.",
     "other": "Du har ställt dina {count} frågor för i dag. Fråga igen i morgon."
@@ -4037,11 +4036,7 @@
   "Train timetable unavailable": "Tågtidtabellen är inte tillgänglig",
   "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "Fjärrtåg placerade enligt tidtabellen från gtfs.de (DELFI). Deutsche Bahn publicerar inga positioner i realtid, så förseningar visas inte.",
   "Night and other trains": "Nattåg och andra tåg",
-  "At {station} until {time}": "I {station} till {time}",
-  "Between {from} and {to}": "Mellan {from} och {to}",
   "To {place}": "Mot {place}",
-  "Next stop: {station} at {time}": "Nästa station: {station} kl. {time}",
-  "Journey progress": "Resans förlopp",
   "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "Positionen är uppskattad från tidtabellen. Deutsche Bahn publicerar inga tågpositioner i realtid, så förseningar visas inte.",
   "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "Källa: gtfs.de, data från DELFI e.V. (CC BY 4.0).",
   "Long-distance trains": "Fjärrtåg",
@@ -4055,5 +4050,50 @@
   "Following": "Följer",
   "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "Förseningen som Deutsche Bahn rapporterar den vid de stora stationerna; mellan stationerna är positionen uppskattad.",
   "No delay reported for this train yet, so it is placed by the timetable.": "Ingen försening rapporterad för det här tåget ännu, så det placeras enligt tidtabellen.",
-  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Källor: gtfs.de med data från DELFI e.V. och Deutsche Bahns Timetables-API (båda CC BY 4.0)."
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Källor: gtfs.de med data från DELFI e.V. och Deutsche Bahns Timetables-API (båda CC BY 4.0).",
+  "Strong and above": "Kraftiga och värre",
+  "Severe only": "Endast svåra",
+  "Weather warnings drawn on the map": "Vädervarningar på kartan",
+  "{shown} of {count} warnings on the map": {
+    "one": "{shown} av {count} varning på kartan",
+    "other": "{shown} av {count} varningar på kartan"
+  },
+  "Arrived at {station}": "Framme i {station}",
+  "Arriving at {station}": "Ankommer till {station}",
+  "Due {due}, expected {expected}": "Enligt tidtabell {due}, väntas {expected}",
+  "Due {due}": "Enligt tidtabell {due}",
+  "Stops": "Stationer",
+  "At {station}, leaves in {count} min": {
+    "one": "I {station}, avgår om {count} min",
+    "other": "I {station}, avgår om {count} min"
+  },
+  "{station} in {count} min": {
+    "one": "{station} om {count} min",
+    "other": "{station} om {count} min"
+  },
+  "+ {count} more stops to {place}": {
+    "one": "+ {count} station till {place}",
+    "other": "+ {count} stationer till {place}"
+  },
+  "Pin {road} to My roads and places; alerts cover pinned roads": "Fäst {road} under Mina vägar och platser; aviseringar gäller fästa vägar",
+  "Watching": "Bevakas",
+  "Watch {road}": "Bevaka {road}",
+  "Since {time}": "Sedan {time}",
+  "Until {time}": "Till {time}",
+  "Next: {from} to {to}": "Nästa: {from} till {to}",
+  "The whole project runs until {date}.": "Hela arbetet pågår till {date}.",
+  "What it means": "Vad det betyder",
+  "On this corridor · {level}": "På den här korridoren · {level}",
+  "Nearest truck parking": "Närmaste lastbilsparkering",
+  "{name} · {km} km away": "{name} · {km} km bort",
+  "spaces": "platser",
+  "{count} more windows planned.": {
+    "one": "{count} tidsfönster till planerat.",
+    "other": "{count} tidsfönster till planerade."
+  },
+  "Rhine at Kaub": "Rhen vid Kaub",
+  "Truck ban in force": "Lastbilsförbud gäller",
+  "Next truck ban": "Nästa lastbilsförbud",
+  "until {time}": "till {time}",
+  "Traffic data from {time}": "Trafikdata från {time}"
 }

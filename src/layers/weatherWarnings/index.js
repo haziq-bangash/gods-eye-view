@@ -34,6 +34,16 @@ export function createWeatherWarningLayer({
   let _selectedId = null;
   /** A host's time range ([from, to]); null shows every current warning. */
   let _range = null;
+  /**
+   * The least level drawn on the map ('minor' draws all). Lists, the
+   * selection and corridor scores still see every warning: this only keeps
+   * country-wide minor warnings from covering the other layers.
+   */
+  let _minLevel = 'minor';
+  const onMap = (row, id) =>
+    inRange(row) &&
+    (id === _selectedId ||
+      WARNING_LEVELS.indexOf(row.level) >= WARNING_LEVELS.indexOf(_minLevel));
   const inRange = (row) =>
     !_range ||
     ((row.onset === null || row.onset < _range[1]) &&
@@ -52,7 +62,7 @@ export function createWeatherWarningLayer({
     for (const [id, entities] of _entitiesById) {
       const row = _rowById.get(id);
       const selected = id === _selectedId;
-      const shown = Boolean(row && inRange(row));
+      const shown = Boolean(row && onMap(row, id));
       for (const entity of entities) entity.show = shown;
       const color = Cesium.Color.fromCssColorString(
         WARNING_COLORS[row?.level] || '#8e8e93',
@@ -281,6 +291,17 @@ export function createWeatherWarningLayer({
       styleEntities();
       publishSelected();
       publishRows();
+    },
+
+    /**
+     * Draw only warnings at `level` or above ('minor', 'moderate', 'severe'
+     * or 'extreme'); the picked one is always drawn.
+     */
+    setMinimumLevel(level) {
+      if (!WARNING_LEVELS.includes(level)) return false;
+      _minLevel = level;
+      styleEntities();
+      return true;
     },
 
     /** Select one warning by id, as a click on its area does; null clears. */
