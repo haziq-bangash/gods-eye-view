@@ -3884,7 +3884,6 @@
   "Install": "安装",
   "Not now": "以后再说",
   "Opens full screen in one tap, like an app. No store, no account.": "像应用一样一键全屏打开。无需应用商店，无需账号。",
-  "When: {time}. Tap for {next}.": "时间：{time}。点按切换到{next}。",
   "You have asked your {count} questions for today. Ask again tomorrow.": {
     "other": "你今天的 {count} 个问题已用完。明天再来提问吧。"
   },
@@ -3937,11 +3936,7 @@
   "Train timetable unavailable": "列车时刻表不可用",
   "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "长途列车按 gtfs.de（DELFI）的时刻表定位。德国铁路不公布实时位置，因此不显示晚点。",
   "Night and other trains": "夜车及其他列车",
-  "At {station} until {time}": "停靠{station}至{time}",
-  "Between {from} and {to}": "{from}与{to}之间",
   "To {place}": "开往{place}",
-  "Next stop: {station} at {time}": "下一站：{station}，{time}到达",
-  "Journey progress": "行程进度",
   "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "位置根据时刻表估算。德国铁路不公布列车实时位置，因此不显示晚点。",
   "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "来源：gtfs.de，数据来自 DELFI e.V.（CC BY 4.0）。",
   "Long-distance trains": "长途列车",
@@ -3955,5 +3950,45 @@
   "Following": "正在跟随",
   "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "晚点为德国铁路在主要车站报告的数据；车站之间的位置为估算。",
   "No delay reported for this train yet, so it is placed by the timetable.": "该列车尚无晚点报告，因此按时刻表显示。",
-  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "来源：gtfs.de（数据来自 DELFI e.V.）及德国铁路 Timetables API（均为 CC BY 4.0）。"
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "来源：gtfs.de（数据来自 DELFI e.V.）及德国铁路 Timetables API（均为 CC BY 4.0）。",
+  "Strong and above": "强烈及以上",
+  "Severe only": "仅严重",
+  "Weather warnings drawn on the map": "地图上显示的天气预警",
+  "{shown} of {count} warnings on the map": {
+    "other": "地图上显示 {shown}/{count} 条预警"
+  },
+  "Arrived at {station}": "已到达{station}",
+  "Arriving at {station}": "即将到达{station}",
+  "Due {due}, expected {expected}": "计划 {due}，预计 {expected}",
+  "Due {due}": "计划 {due}",
+  "Stops": "停靠站",
+  "At {station}, leaves in {count} min": {
+    "other": "停靠{station}，{count} 分钟后出发"
+  },
+  "{station} in {count} min": {
+    "other": "{count} 分钟后到达{station}"
+  },
+  "+ {count} more stops to {place}": {
+    "other": "+ 还有 {count} 站到{place}"
+  },
+  "Pin {road} to My roads and places; alerts cover pinned roads": "将 {road} 固定到“我的道路和地点”；提醒覆盖已固定的道路",
+  "Watching": "已关注",
+  "Watch {road}": "关注 {road}",
+  "Since {time}": "自 {time}",
+  "Until {time}": "至 {time}",
+  "Next: {from} to {to}": "下一次：{from} 至 {to}",
+  "The whole project runs until {date}.": "整个工程持续到 {date}。",
+  "What it means": "这意味着什么",
+  "On this corridor · {level}": "位于此走廊 · {level}",
+  "Nearest truck parking": "最近的卡车停车场",
+  "{name} · {km} km away": "{name} · {km} 公里外",
+  "spaces": "个车位",
+  "{count} more windows planned.": {
+    "other": "另有 {count} 个时段已计划。"
+  },
+  "Rhine at Kaub": "考布的莱茵河",
+  "Truck ban in force": "货车禁行生效中",
+  "Next truck ban": "下一次货车禁行",
+  "until {time}": "至 {time}",
+  "Traffic data from {time}": "{time} 的交通数据"
 }

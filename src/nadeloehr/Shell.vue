@@ -6,8 +6,9 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { formatDate, t } from '../i18n/index.js';
 import { useApp } from './useApp.js';
-import { disruptionCard } from './disruptions.js';
-import { gaugeCard } from './rivers.js';
+import { disruptionCard, nearestParking } from './disruptions.js';
+import { usePins } from './pins.js';
+import { gaugeCard, kaubSummary, trendChange } from './rivers.js';
 import { warningCard } from './warnings.js';
 import WarningCard from './components/WarningCard.vue';
 import ParkingCard from './components/ParkingCard.vue';
@@ -16,7 +17,9 @@ import { affectedParkingIds } from '../layers/truckParking/records.js';
 import { corridorView } from './today.js';
 import { kaubRow } from '../layers/riverLevels/records.js';
 import { useCollapsed } from './collapse.js';
-import { PhCaretDown } from '@phosphor-icons/vue';
+import { PhCaretDown, PhPath, PhProhibit, PhWaves } from '@phosphor-icons/vue';
+import { SYSTEM_COLORS } from './icons.js';
+import WatchList from './components/WatchList.vue';
 import { TooltipProvider } from 'reka-ui';
 import BrandMark from './components/BrandMark.vue';
 import CorridorCards from './components/CorridorCards.vue';
@@ -76,6 +79,40 @@ const parkingAffected = computed(
     affectedParkingIds([parkingRow.value], app.disruptions.value).size > 0,
 );
 const corridors = computed(() => app.corridors.value.map(corridorView));
+// What the picked disruption means: the corridors it lies on, the nearest
+// open truck parking on its road, and whether its road is pinned.
+const pins = usePins();
+const cardCorridors = computed(() => {
+  const picked = app.selected.value;
+  if (!picked) return [];
+  return app.corridors.value
+    .filter((entry) =>
+      entry.events?.some((event) => event.stableId === picked.stableId),
+    )
+    .map(corridorView);
+});
+const cardParking = computed(() => {
+  const picked = app.selected.value;
+  if (!picked) return null;
+  return nearestParking(
+    picked,
+    app.parking.value,
+    affectedParkingIds(app.parking.value, app.disruptions.value),
+  );
+});
+const cardWatching = computed(
+  () => Boolean(card.value?.road) && pins.isRoadPinned(card.value.road),
+);
+function toggleWatch() {
+  const road = card.value?.road;
+  if (!road) return;
+  if (pins.isRoadPinned(road)) pins.unpinRoad(road);
+  else pins.pinRoad(road);
+}
+function openCorridor(id) {
+  app.select(null);
+  app.selectCorridor(id);
+}
 const corridor = computed(
   () =>
     corridors.value.find((c) => c.id === app.selectedCorridorId.value) || null,
@@ -225,6 +262,62 @@ function openHeadline(headline) {
   else if (headline.warning) app.showWarningOnMap(headline.warning);
   else if (headline.corridorId) app.selectCorridor(headline.corridorId);
 }
+/**
+ * The peek's "things to watch" on phones: Kaub, the riskiest corridor and
+ * the truck ban in force or next, each a shortcut to its detail.
+ */
+const watchRows = computed(() => {
+  const rows = [];
+  const kaub = kaubSummary(app.gauges.value);
+  if (kaub)
+    rows.push({
+      id: 'kaub',
+      icon: PhWaves,
+      color: kaub.color,
+      title: t('Rhine at Kaub'),
+      sub: kaub.status,
+      value: kaub.level,
+      valueSub: trendChange(kaub.row.trendCm) || '',
+      valueColor: SYSTEM_COLORS.gray,
+      gauge: kaub.row,
+    });
+  const worst = corridors.value[0];
+  if (worst?.score !== null && worst?.score !== undefined)
+    rows.push({
+      id: 'corridor',
+      icon: PhPath,
+      color: worst.color,
+      title: worst.title,
+      sub: worst.driver,
+      value: String(worst.score),
+      valueSub: worst.levelLabel,
+      valueColor: worst.color,
+      corridorId: worst.id,
+    });
+  const ban = app.bans.value?.active?.[0] || app.bans.value?.next;
+  if (ban)
+    rows.push({
+      id: 'ban',
+      icon: PhProhibit,
+      color: SYSTEM_COLORS.gray,
+      title: app.bans.value.active?.length
+        ? t('Truck ban in force')
+        : t('Next truck ban'),
+      sub: ban.label,
+      // Short: the weekday or "until 22:00"; the hours are one tap away.
+      value: ban.until
+        ? t('until {time}', { time: ban.until })
+        : formatDate(new Date(`${ban.date}T12:00:00`), { weekday: 'short' }),
+      valueSub: '',
+      valueColor: SYSTEM_COLORS.gray,
+    });
+  return rows;
+});
+function pickWatch(row) {
+  if (row.gauge) app.showGaugeOnMap(row.gauge);
+  else if (row.corridorId) app.selectCorridor(row.corridorId);
+  else open();
+}
 const peekLine = computed(() =>
   app.disruptions.value.length || app.gauges.value.length
     ? app.headline.value.title
@@ -315,6 +408,7 @@ async function locate() {
         :active="activeKpi"
         :horizon="app.horizon.value"
         :loading="!app.loaded.value"
+        :updated-at="updatedAt"
         @pick="pickKpi"
         @update:horizon="app.setHorizon"
       />
@@ -447,14 +541,21 @@ async function locate() {
               class="mx-auto block h-[5px] w-9 rounded-full bg-muted-foreground/45"
             ></span>
           </button>
-          <button
-            v-if="!expanded"
-            type="button"
-            class="block min-h-11 w-full cursor-pointer truncate px-5 pb-3 text-start text-headline"
-            @click="toggleSheet"
-          >
-            {{ peekLine }}
-          </button>
+          <template v-if="!expanded">
+            <button
+              type="button"
+              class="block min-h-11 w-full cursor-pointer truncate px-5 pb-2 text-start text-headline"
+              @click="toggleSheet"
+            >
+              {{ peekLine }}
+            </button>
+            <WatchList
+              v-if="watchRows.length && app.loaded.value"
+              class="px-4 pb-4"
+              :rows="watchRows"
+              @pick="pickWatch"
+            />
+          </template>
         </div>
 
         <div
@@ -470,9 +571,15 @@ async function locate() {
           <PlaceCard
             v-if="card"
             :card="card"
+            :corridors="cardCorridors"
+            :parking="cardParking"
+            :watching="cardWatching"
             @close="closeCard"
             @focus="app.showOnMap(app.selected.value, { close: true })"
             @share="app.share()"
+            @watch="toggleWatch"
+            @corridor="openCorridor"
+            @parking="app.showParkingOnMap"
           />
           <GaugeCard
             v-else-if="gauge"

@@ -4181,7 +4181,6 @@
   "Install": "Встановити",
   "Not now": "Не зараз",
   "Opens full screen in one tap, like an app. No store, no account.": "Відкривається на весь екран одним дотиком, як застосунок. Без магазину й облікового запису.",
-  "When: {time}. Tap for {next}.": "Час: {time}. Торкніться для варіанта «{next}».",
   "You have asked your {count} questions for today. Ask again tomorrow.": {
     "one": "Ви поставили своє {count} запитання на сьогодні. Запитайте знову завтра.",
     "few": "Ви поставили свої {count} запитання на сьогодні. Запитайте знову завтра.",
@@ -4237,11 +4236,7 @@
   "Train timetable unavailable": "Розклад поїздів недоступний",
   "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "Поїзди далекого сполучення розміщено за розкладом gtfs.de (DELFI). Deutsche Bahn не публікує положення поїздів у реальному часі, тому затримки не показано.",
   "Night and other trains": "Нічні та інші поїзди",
-  "At {station} until {time}": "{station} до {time}",
-  "Between {from} and {to}": "Між {from} і {to}",
   "To {place}": "До {place}",
-  "Next stop: {station} at {time}": "Наступна зупинка: {station} о {time}",
-  "Journey progress": "Перебіг поїздки",
   "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "Положення розраховано за розкладом. Deutsche Bahn не публікує положення поїздів у реальному часі, тому затримки не показано.",
   "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "Джерело: gtfs.de, дані DELFI e.V. (CC BY 4.0).",
   "Long-distance trains": "Поїзди далекого сполучення",
@@ -4255,5 +4250,60 @@
   "Following": "Стеження",
   "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "Затримка за даними Deutsche Bahn на великих станціях; між станціями положення розраховано.",
   "No delay reported for this train yet, so it is placed by the timetable.": "Для цього поїзда затримку ще не повідомлено, тому його показано за розкладом.",
-  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Джерела: gtfs.de з даними DELFI e.V. та API Timetables Deutsche Bahn (обидва CC BY 4.0)."
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Джерела: gtfs.de з даними DELFI e.V. та API Timetables Deutsche Bahn (обидва CC BY 4.0).",
+  "Strong and above": "Сильні й вище",
+  "Severe only": "Лише небезпечні",
+  "Weather warnings drawn on the map": "Погодні попередження на мапі",
+  "{shown} of {count} warnings on the map": {
+    "one": "{shown} з {count} попередження на мапі",
+    "few": "{shown} з {count} попереджень на мапі",
+    "many": "{shown} з {count} попереджень на мапі",
+    "other": "{shown} з {count} попередження на мапі"
+  },
+  "Arrived at {station}": "Прибув до {station}",
+  "Arriving at {station}": "Прибуває до {station}",
+  "Due {due}, expected {expected}": "За розкладом {due}, очікується {expected}",
+  "Due {due}": "За розкладом {due}",
+  "Stops": "Зупинки",
+  "At {station}, leaves in {count} min": {
+    "one": "{station}, відправлення за {count} хв",
+    "few": "{station}, відправлення за {count} хв",
+    "many": "{station}, відправлення за {count} хв",
+    "other": "{station}, відправлення за {count} хв"
+  },
+  "{station} in {count} min": {
+    "one": "{station} за {count} хв",
+    "few": "{station} за {count} хв",
+    "many": "{station} за {count} хв",
+    "other": "{station} за {count} хв"
+  },
+  "+ {count} more stops to {place}": {
+    "one": "+ ще {count} зупинка до {place}",
+    "few": "+ ще {count} зупинки до {place}",
+    "many": "+ ще {count} зупинок до {place}",
+    "other": "+ ще {count} зупинок до {place}"
+  },
+  "Pin {road} to My roads and places; alerts cover pinned roads": "Закріпити {road} у «Мої дороги й місця»; сповіщення надходять щодо закріплених доріг",
+  "Watching": "Відстежується",
+  "Watch {road}": "Стежити за {road}",
+  "Since {time}": "З {time}",
+  "Until {time}": "До {time}",
+  "Next: {from} to {to}": "Наступна: {from} – {to}",
+  "The whole project runs until {date}.": "Усі роботи триватимуть до {date}.",
+  "What it means": "Що це означає",
+  "On this corridor · {level}": "На цьому коридорі · {level}",
+  "Nearest truck parking": "Найближча стоянка для вантажівок",
+  "{name} · {km} km away": "{name} · за {km} км",
+  "spaces": "місць",
+  "{count} more windows planned.": {
+    "one": "Заплановано ще {count} вікно.",
+    "few": "Заплановано ще {count} вікна.",
+    "many": "Заплановано ще {count} вікон.",
+    "other": "Заплановано ще {count} вікон."
+  },
+  "Rhine at Kaub": "Рейн біля Кауба",
+  "Truck ban in force": "Діє заборона для вантажівок",
+  "Next truck ban": "Наступна заборона для вантажівок",
+  "until {time}": "до {time}",
+  "Traffic data from {time}": "Дані про рух на {time}"
 }

@@ -160,3 +160,27 @@ test('rejects windows that point at missing stations', () => {
   );
   assert.equal(validTrainWindow(null), false);
 });
+
+test('lists the stops of a train with expected times and where it is', async () => {
+  const { trainStops } = await import('./dbTrains.js');
+  const timetable = buildTimetable(feed());
+  const from = at(16, 10, 0);
+  const window = trainsBetween(timetable, from, from + 90 * 60_000);
+  const train = window.trains.find((row) => row.id === 't1@20261116');
+  // Ten minutes late, between Hamburg and Hannover.
+  const stops = trainStops(window, train, at(16, 10, 30), 600);
+  assert.deepEqual(
+    stops.map(({ name, state }) => [name, state]),
+    [
+      ['Hamburg Hbf', 'passed'],
+      ['Hannover Hbf', 'next'],
+      ['Frankfurt (Main) Hbf', 'later'],
+    ],
+  );
+  assert.equal(stops[0].arrives, null);
+  assert.equal(stops[1].arrives, at(16, 11, 15));
+  assert.equal(stops[1].expectedArrives, at(16, 11, 25));
+  assert.equal(stops[2].departs, null);
+  // Standing at Hannover (due 11:15–11:18, ten minutes late).
+  assert.equal(trainStops(window, train, at(16, 11, 26), 600)[1].state, 'here');
+});

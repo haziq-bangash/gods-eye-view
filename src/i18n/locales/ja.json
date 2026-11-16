@@ -3884,7 +3884,6 @@
   "Install": "インストール",
   "Not now": "今はしない",
   "Opens full screen in one tap, like an app. No store, no account.": "アプリのようにワンタップで全画面表示。ストアもアカウントも不要です。",
-  "When: {time}. Tap for {next}.": "時間：{time}。タップで{next}に切り替え。",
   "You have asked your {count} questions for today. Ask again tomorrow.": {
     "other": "今日の質問（{count} 件）をすべて使いました。また明日お試しください。"
   },
@@ -3937,11 +3936,7 @@
   "Train timetable unavailable": "列車時刻表を取得できません",
   "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "gtfs.de（DELFI）の時刻表に基づいて配置した長距離列車です。ドイツ鉄道はリアルタイムの位置を公開していないため、遅延は表示されません。",
   "Night and other trains": "夜行列車ほか",
-  "At {station} until {time}": "{station}に{time}まで停車",
-  "Between {from} and {to}": "{from}〜{to}間",
   "To {place}": "{place}行き",
-  "Next stop: {station} at {time}": "次の停車駅：{station}（{time}着）",
-  "Journey progress": "運行の進み具合",
   "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "位置は時刻表からの推定です。ドイツ鉄道は列車のリアルタイム位置を公開していないため、遅延は表示されません。",
   "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "出典：gtfs.de、データ提供 DELFI e.V.（CC BY 4.0）。",
   "Long-distance trains": "長距離列車",
@@ -3955,5 +3950,45 @@
   "Following": "追跡中",
   "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "遅延はドイツ鉄道が主要駅で報告する値です。駅間の位置は推定です。",
   "No delay reported for this train yet, so it is placed by the timetable.": "この列車の遅延はまだ報告されていないため、時刻表どおりに表示しています。",
-  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "出典：gtfs.de（データ提供 DELFI e.V.）とドイツ鉄道の Timetables API（いずれも CC BY 4.0）。"
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "出典：gtfs.de（データ提供 DELFI e.V.）とドイツ鉄道の Timetables API（いずれも CC BY 4.0）。",
+  "Strong and above": "強い警報以上",
+  "Severe only": "重大警報のみ",
+  "Weather warnings drawn on the map": "地図に表示する気象警報",
+  "{shown} of {count} warnings on the map": {
+    "other": "{count}件中{shown}件を地図に表示"
+  },
+  "Arrived at {station}": "{station}に到着",
+  "Arriving at {station}": "まもなく{station}",
+  "Due {due}, expected {expected}": "定刻 {due}、見込み {expected}",
+  "Due {due}": "定刻 {due}",
+  "Stops": "停車駅",
+  "At {station}, leaves in {count} min": {
+    "other": "{station}に停車中、{count}分後に発車"
+  },
+  "{station} in {count} min": {
+    "other": "{count}分後に{station}"
+  },
+  "+ {count} more stops to {place}": {
+    "other": "+ {place}まであと{count}駅"
+  },
+  "Pin {road} to My roads and places; alerts cover pinned roads": "{road}を「マイ道路・地点」に固定します。通知は固定した道路が対象です",
+  "Watching": "監視中",
+  "Watch {road}": "{road}を監視",
+  "Since {time}": "{time}から",
+  "Until {time}": "{time}まで",
+  "Next: {from} to {to}": "次回：{from}〜{to}",
+  "The whole project runs until {date}.": "工事全体は{date}まで続きます。",
+  "What it means": "影響",
+  "On this corridor · {level}": "この回廊上 · {level}",
+  "Nearest truck parking": "最寄りのトラック駐車場",
+  "{name} · {km} km away": "{name} · {km} km先",
+  "spaces": "台分",
+  "{count} more windows planned.": {
+    "other": "ほかに{count}回の予定があります。"
+  },
+  "Rhine at Kaub": "カウプのライン川",
+  "Truck ban in force": "トラック通行禁止中",
+  "Next truck ban": "次のトラック通行禁止",
+  "until {time}": "{time}まで",
+  "Traffic data from {time}": "{time}時点の交通情報"
 }

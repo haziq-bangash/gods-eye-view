@@ -54,14 +54,19 @@ const DEFAULT_HIDDEN_KINDS = Object.freeze([
 ]);
 
 /** Nearby markers merge into one numbered ring, coloured by the worst. */
-const CLUSTER_PIXEL_RANGE = 34;
+const CLUSTER_PIXEL_RANGE = 44;
+/**
+ * Affected stretches draw only from closer than this: at country scale a
+ * 2 km line is a smudge under its own marker. Closures keep theirs.
+ */
+const STRETCH_NEAR = new Cesium.DistanceDisplayCondition(0, 350_000);
 const _clusterImages = new Map();
 function clusterImage(count, color) {
   const key = `${count}|${color}`;
   if (!_clusterImages.has(key)) {
     const label = count > 99 ? '99+' : String(count);
     const svg =
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">' +
       `<circle cx="32" cy="32" r="30" fill="${color}" fill-opacity="0.16"/>` +
       `<circle cx="32" cy="32" r="22" fill="${color}" fill-opacity="0.24"/>` +
       `<circle cx="32" cy="32" r="15" fill="${color}" stroke="#fff" stroke-width="3"/>` +
@@ -264,7 +269,9 @@ export function createAutobahnLayer({
     const clustering = _dataSource.clustering;
     clustering.pixelRange = CLUSTER_PIXEL_RANGE;
     clustering.minimumClusterSize = 2;
-    clustering.clusterBillboards = false;
+    // Points clamped to the ground are drawn as billboards, so billboards
+    // must cluster too: with points alone nothing ever grouped.
+    clustering.clusterBillboards = true;
     clustering.clusterLabels = false;
     clustering.clusterPoints = true;
     clustering.enabled = true;
@@ -306,8 +313,8 @@ export function createAutobahnLayer({
         point: {
           pixelSize: POINT_SIZE[row.kind] || 7,
           color,
-          outlineColor: Cesium.Color.BLACK.withAlpha(0.8),
-          outlineWidth: 1.5,
+          outlineColor: Cesium.Color.WHITE,
+          outlineWidth: 2,
           heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
         },
@@ -324,6 +331,9 @@ export function createAutobahnLayer({
             clampToGround: true,
             width: row.kind === 'closure' ? 5 : 3,
             material: new Cesium.ColorMaterialProperty(color.withAlpha(0.85)),
+            ...(row.kind === 'closure'
+              ? {}
+              : { distanceDisplayCondition: STRETCH_NEAR }),
           },
         }),
       );

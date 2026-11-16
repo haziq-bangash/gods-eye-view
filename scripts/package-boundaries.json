@@ -249,7 +249,9 @@
       "src/nadeloehr/alerts.js",
       "src/nadeloehr/components/AlertsSwitch.vue",
       "src/freight/dbTrains.js",
-      "src/nadeloehr/components/TrainCard.vue"
+      "src/nadeloehr/components/TrainCard.vue",
+      "src/nadeloehr/schedule.js",
+      "src/nadeloehr/components/WatchList.vue"
     ],
     "external": [
       "vue",

@@ -4181,7 +4181,6 @@
   "Install": "Установить",
   "Not now": "Не сейчас",
   "Opens full screen in one tap, like an app. No store, no account.": "Открывается на весь экран одним нажатием, как приложение. Без магазина и аккаунта.",
-  "When: {time}. Tap for {next}.": "Время: {time}. Нажмите для варианта «{next}».",
   "You have asked your {count} questions for today. Ask again tomorrow.": {
     "one": "Вы задали свой {count} вопрос на сегодня. Спросите снова завтра.",
     "few": "Вы задали свои {count} вопроса на сегодня. Спросите снова завтра.",
@@ -4237,11 +4236,7 @@
   "Train timetable unavailable": "Расписание поездов недоступно",
   "Long-distance trains placed by the timetable from gtfs.de (DELFI). Deutsche Bahn publishes no live positions, so delays are not shown.": "Поезда дальнего следования размещены по расписанию gtfs.de (DELFI). Deutsche Bahn не публикует положение поездов в реальном времени, поэтому задержки не показаны.",
   "Night and other trains": "Ночные и другие поезда",
-  "At {station} until {time}": "{station} до {time}",
-  "Between {from} and {to}": "Между {from} и {to}",
   "To {place}": "До {place}",
-  "Next stop: {station} at {time}": "Следующая остановка: {station} в {time}",
-  "Journey progress": "Ход поездки",
   "Position estimated from the timetable. Deutsche Bahn publishes no live train positions, so delays are not shown.": "Положение рассчитано по расписанию. Deutsche Bahn не публикует положение поездов в реальном времени, поэтому задержки не показаны.",
   "Source: gtfs.de, data from DELFI e.V. (CC BY 4.0).": "Источник: gtfs.de, данные DELFI e.V. (CC BY 4.0).",
   "Long-distance trains": "Поезда дальнего следования",
@@ -4255,5 +4250,60 @@
   "Following": "Слежение",
   "Delay as Deutsche Bahn reports it at the major stations; between stations the position is estimated.": "Задержка по данным Deutsche Bahn на крупных станциях; между станциями положение рассчитано.",
   "No delay reported for this train yet, so it is placed by the timetable.": "Для этого поезда задержка пока не сообщалась, поэтому он показан по расписанию.",
-  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Источники: gtfs.de с данными DELFI e.V. и API Timetables Deutsche Bahn (оба CC BY 4.0)."
+  "Sources: gtfs.de with data from DELFI e.V., and the Deutsche Bahn Timetables API (both CC BY 4.0).": "Источники: gtfs.de с данными DELFI e.V. и API Timetables Deutsche Bahn (оба CC BY 4.0).",
+  "Strong and above": "Сильные и выше",
+  "Severe only": "Только опасные",
+  "Weather warnings drawn on the map": "Погодные предупреждения на карте",
+  "{shown} of {count} warnings on the map": {
+    "one": "{shown} из {count} предупреждения на карте",
+    "few": "{shown} из {count} предупреждений на карте",
+    "many": "{shown} из {count} предупреждений на карте",
+    "other": "{shown} из {count} предупреждения на карте"
+  },
+  "Arrived at {station}": "Прибыл в {station}",
+  "Arriving at {station}": "Прибывает в {station}",
+  "Due {due}, expected {expected}": "По расписанию {due}, ожидается {expected}",
+  "Due {due}": "По расписанию {due}",
+  "Stops": "Остановки",
+  "At {station}, leaves in {count} min": {
+    "one": "{station}, отправление через {count} мин",
+    "few": "{station}, отправление через {count} мин",
+    "many": "{station}, отправление через {count} мин",
+    "other": "{station}, отправление через {count} мин"
+  },
+  "{station} in {count} min": {
+    "one": "{station} через {count} мин",
+    "few": "{station} через {count} мин",
+    "many": "{station} через {count} мин",
+    "other": "{station} через {count} мин"
+  },
+  "+ {count} more stops to {place}": {
+    "one": "+ ещё {count} остановка до {place}",
+    "few": "+ ещё {count} остановки до {place}",
+    "many": "+ ещё {count} остановок до {place}",
+    "other": "+ ещё {count} остановок до {place}"
+  },
+  "Pin {road} to My roads and places; alerts cover pinned roads": "Закрепить {road} в «Мои дороги и места»; уведомления приходят по закреплённым дорогам",
+  "Watching": "Отслеживается",
+  "Watch {road}": "Следить за {road}",
+  "Since {time}": "С {time}",
+  "Until {time}": "До {time}",
+  "Next: {from} to {to}": "Следующая: {from} – {to}",
+  "The whole project runs until {date}.": "Все работы продлятся до {date}.",
+  "What it means": "Что это значит",
+  "On this corridor · {level}": "На этом коридоре · {level}",
+  "Nearest truck parking": "Ближайшая стоянка для грузовиков",
+  "{name} · {km} km away": "{name} · в {km} км",
+  "spaces": "мест",
+  "{count} more windows planned.": {
+    "one": "Запланировано ещё {count} окно.",
+    "few": "Запланировано ещё {count} окна.",
+    "many": "Запланировано ещё {count} окон.",
+    "other": "Запланировано ещё {count} окон."
+  },
+  "Rhine at Kaub": "Рейн у Кауба",
+  "Truck ban in force": "Действует запрет для грузовиков",
+  "Next truck ban": "Следующий запрет для грузовиков",
+  "until {time}": "до {time}",
+  "Traffic data from {time}": "Данные о движении на {time}"
 }
