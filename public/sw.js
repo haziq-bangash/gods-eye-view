@@ -22,7 +22,7 @@ self.addEventListener('push', (event) => {
       icon: '/icons/icon-192.png',
       badge: '/icons/icon-192.png',
       tag: String(data.tag || 'nadeloehr'),
-      data: { url: typeof data.url === 'string' ? data.url : '/' },
+      data: { url: typeof data.url === 'string' ? data.url : '/map' },
     }),
   );
 });
@@ -30,12 +30,14 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const target = new URL(
-    event.notification.data?.url || '/',
+    event.notification.data?.url || '/map',
     self.location.origin,
   );
   // Only ever open this app's own pages.
   const url =
-    target.origin === self.location.origin ? target.href : self.location.origin;
+    target.origin === self.location.origin
+      ? target.href
+      : self.location.origin + '/map';
   event.waitUntil(
     self.clients
       .matchAll({ type: 'window', includeUncontrolled: true })
