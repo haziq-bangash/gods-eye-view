@@ -3,7 +3,7 @@
   "name": "Nadelöhr",
   "short_name": "Nadelöhr",
   "description": "Live freight disruption map for Germany: Autobahn, rivers, weather.",
-  "start_url": ".",
+  "start_url": "map",
   "scope": ".",
   "display": "standalone",
   "orientation": "any",

@@ -56,7 +56,7 @@ test('iOS gets a raster home-screen icon', () => {
 test('the manifest declares a standalone installable app', () => {
   const manifest = JSON.parse(readFileSync(publicFile(manifestHref), 'utf8'));
   assert.equal(manifest.display, 'standalone');
-  assert.equal(manifest.start_url, '.');
+  assert.equal(manifest.start_url, 'map');
   assert.equal(manifest.scope, '.');
   for (const field of ['name', 'short_name', 'background_color', 'theme_color'])
     assert.ok(manifest[field], `manifest is missing ${field}`);
@@ -138,7 +138,7 @@ test('install assets stay inside a non-root Vite base', async (t) => {
     );
     return url;
   };
-  assert.equal(inBase(manifest.start_url).href, origin + base);
+  assert.equal(inBase(manifest.start_url).href, origin + base + 'map');
   assert.equal(inBase(manifest.scope).href, origin + base);
   for (const icon of manifest.icons) {
     const url = inBase(icon.src);

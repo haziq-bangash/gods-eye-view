@@ -32,13 +32,15 @@ test('explicit build inputs preserve browser-only defines, plugin order and loop
   assert.equal(config.plugins[0].enforce, 'pre');
   assert.equal(config.plugins[1].name, 'host-check');
   assert.equal(config.plugins[1].enforce, 'pre');
-  assert.equal(config.plugins[3].name, 'vite:vue');
+  // The landing page answers the site root right after those checks.
+  assert.equal(config.plugins[2].name, 'landing-route');
+  assert.equal(config.plugins[4].name, 'vite:vue');
   // Nadelöhr's shell styles: Tailwind's plugin group follows Vue.
-  assert.ok(Array.isArray(config.plugins[4]));
+  assert.ok(Array.isArray(config.plugins[5]));
   assert.ok(
-    config.plugins[4].every((entry) => entry.name.startsWith('@tailwindcss/')),
+    config.plugins[5].every((entry) => entry.name.startsWith('@tailwindcss/')),
   );
-  assert.equal(config.plugins[5], plugin);
+  assert.equal(config.plugins[6], plugin);
   assert.equal(config.server.host, 'localhost');
   assert.equal(config.server.port, 4173);
   assert.deepEqual(config.server.allowedHosts, ['localhost', '127.0.0.1']);
@@ -150,7 +152,7 @@ test('build helper does not discover environment values or construct local provi
       undefined,
     );
     assert.deepEqual(
-      config.plugins.slice(5).map((plugin) => plugin.name),
+      config.plugins.slice(6).map((plugin) => plugin.name),
       ['embed-framing', 'panel-build'],
     );
   } finally {
@@ -164,7 +166,7 @@ test('root config retains existing named exports and standalone provider order',
     assert.equal(compatibility[name], value, name);
   const config = standaloneConfig({ mode: 'test' }, { nominatimStorageDir });
   const standaloneProviders = config.plugins
-    .slice(5, -6)
+    .slice(6, -6)
     .map((plugin) => plugin.name);
   assert.equal(
     standaloneProviders.filter((name) => name === 'gemini-live-proxy').length,
@@ -236,6 +238,7 @@ test('only embed-mode documents may be framed, and only by the allowed ancestors
     await import('../../build/embed-framing.js');
   assert.equal(isEmbedDocumentRequest('/?embed=1'), true);
   assert.equal(isEmbedDocumentRequest('/index.html?embed=1#v=2'), true);
+  assert.equal(isEmbedDocumentRequest('/map?embed=1'), true);
   assert.equal(isEmbedDocumentRequest('/?embed=0'), false);
   assert.equal(isEmbedDocumentRequest('/api/x?embed=1'), false);
   assert.equal(isEmbedDocumentRequest('/src/main.js?embed=1'), false);

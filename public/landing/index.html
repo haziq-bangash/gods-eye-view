@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nadelöhr · See every freight bottleneck in Germany, live</title>
+  <title>Nadelöhr · Germany's freight bottlenecks, live</title>
   <meta name="description" content="Autobahn closures, Rhine water levels at Kaub, DWD weather warnings, truck driving bans and long-distance trains with real delays, on one map and explained in plain words." />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Nadelöhr" />
   <meta property="og:title" content="Nadelöhr · Germany's freight bottlenecks, live" />
-  <meta property="og:description" content="One map for every chokepoint on Germany's freight network." />
+  <meta property="og:description" content="One map for every chokepoint on Germany's freight network, with a corridor risk score and a plan for the trip." />
   <meta property="og:image" content="/og-image.png" />
   <meta name="theme-color" content="#1c100f" />
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png" />
@@ -20,104 +21,271 @@
 <body>
   <header class="nav-wrap">
     <nav class="nav" aria-label="Main">
-      <a class="brand" href="/landing/">
+      <a class="brand" href="/">
         <img src="/brand/mark-light.svg" alt="" width="22" height="22" />
         <span>Nadelöhr</span>
       </a>
-      <a href="#platform">Platform</a>
-      <a href="#coverage">Coverage</a>
+      <a href="#layers">Layers</a>
+      <a href="#how">How it works</a>
+      <a href="#score">Risk score</a>
+      <a href="#trip">Trip planner</a>
       <a href="#sources">Sources</a>
-      <a href="https://github.com/haziq-bangash/gods-eye-view">GitHub</a>
-      <a class="btn btn-dark" href="/">Open the map</a>
+      <a class="btn btn-dark" href="/map">Open the map</a>
     </nav>
   </header>
 
   <main>
+    <!-- Hero -->
     <section class="hero">
       <div class="bars" id="bars" aria-hidden="true"></div>
       <div class="hero-copy">
+        <p class="hero-tag">Freight bottlenecks across Germany</p>
         <h1>See every bottleneck on Germany's freight network, live.</h1>
-        <p>Built for dispatchers and planners who can't afford a surprise — across every Autobahn, river gauge, rail corridor and weather warning in one view.</p>
+        <p class="hero-sub">Built for dispatchers and planners who can't afford a surprise: Autobahn closures, Rhine levels, weather warnings, truck bans and trains on one map, explained in plain words.</p>
         <div class="cta">
-          <a class="btn btn-accent" href="/">Open the map</a>
-          <a class="btn btn-light" href="#platform">Learn more</a>
+          <a class="btn btn-accent btn-lg" href="/map">Open the map</a>
+          <a class="btn btn-light btn-lg" href="#layers">See how it works</a>
         </div>
       </div>
     </section>
 
-    <section class="section" id="platform">
-      <p class="eyebrow">What it does</p>
-      <h2>One map to see every chokepoint.</h2>
+    <!-- Facts strip -->
+    <section class="facts" aria-label="At a glance">
+      <div class="fact reveal"><strong>5</strong><span>live freight layers</span></div>
+      <div class="fact reveal"><strong>3</strong><span>scored corridors</span></div>
+      <div class="fact reveal"><strong>7&nbsp;days</strong><span>of score history</span></div>
+      <div class="fact reveal"><strong>15&nbsp;min</strong><span>alert checks, no account</span></div>
+      <div class="fact reveal"><strong>13</strong><span>languages</span></div>
+    </section>
 
-      <div class="tree">
+    <!-- Layers -->
+    <section class="section" id="layers">
+      <p class="eyebrow">What it does</p>
+      <h2 class="reveal">One map to see every chokepoint.</h2>
+      <p class="lede reveal">Five live German freight layers, each explained on a plain card the moment you tap it.</p>
+
+      <div class="tree reveal">
         <div class="tree-root"><img src="/brand/mark-light.svg" alt="Nadelöhr" width="30" height="30" /></div>
         <svg class="tree-lines" viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true">
           <path d="M500 0 C500 40 100 50 100 150" />
+          <path d="M500 0 C500 40 300 50 300 150" />
           <path d="M500 0 L500 150" />
+          <path d="M500 0 C500 40 700 50 700 150" />
           <path d="M500 0 C500 40 900 50 900 150" />
         </svg>
         <div class="tree-tags">
-          <span class="tag" style="left:10%">Watch</span>
-          <span class="tag" style="left:50%">Explain</span>
-          <span class="tag" style="left:90%">Plan</span>
+          <span class="tag" style="left:20%">Roads</span>
+          <span class="tag" style="left:50%">Rivers &amp; weather</span>
+          <span class="tag" style="left:80%">Rail</span>
         </div>
         <div class="cards">
           <article class="card">
             <h3>Autobahn closures</h3>
-            <p>Every closure, lane restriction and roadwork on the network, as it happens.</p>
+            <p>Closures, warnings, exit closures and roadworks on the A1, A2, A3, A5, A7, A40 and A61, grouped by severity.</p>
           </article>
           <article class="card">
-            <h3>Rhine at Kaub</h3>
-            <p>The water level that decides how much a barge can carry, read for you.</p>
+            <h3>Truck parking</h3>
+            <p>Rest-area spaces, marked red where a closure may shut a rest area or its access.</p>
+          </article>
+          <article class="card">
+            <h3>Rhine &amp; Elbe levels</h3>
+            <p>Gauges with Kaub, the shallowest point of the Middle Rhine, rated from "normal" to "shipping stopped".</p>
           </article>
           <article class="card">
             <h3>Weather warnings</h3>
-            <p>DWD alerts placed on the corridors they actually affect.</p>
+            <p>DWD areas in the warning colours, with what each one means for a truck.</p>
           </article>
           <article class="card">
-            <h3>Truck driving bans</h3>
-            <p>Sunday and holiday bans, so a route never ends at a locked road.</p>
-          </article>
-          <article class="card">
-            <h3>Rail delays</h3>
-            <p>Long-distance trains with their real delays, not the timetable.</p>
+            <h3>Long-distance trains</h3>
+            <p>ICE, IC, EC and night trains placed by timetable and held back by real delays.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section split" id="coverage">
-      <div class="panel" aria-hidden="true">
-        <div class="ticket">
-          <span class="mono">CORRIDOR RISK</span>
-          <div class="barcode" id="barcode"></div>
-          <span class="mono muted">LIVE · UPDATED EVERY MINUTE</span>
+    <!-- How it works -->
+    <section class="section band" id="how">
+      <p class="eyebrow">How it works</p>
+      <h2 class="reveal">From public data to a plain answer.</h2>
+      <ol class="steps">
+        <li class="step reveal">
+          <span class="step-n">01</span>
+          <h3>Official sources</h3>
+          <p>Autobahn GmbH, PEGELONLINE, the German weather service, gtfs.de and Deutsche Bahn, all open or free to use.</p>
+        </li>
+        <li class="step reveal">
+          <span class="step-n">02</span>
+          <h3>Bounded, cached routes</h3>
+          <p>Every request goes through the app's own server routes. The browser never chooses an upstream URL.</p>
+        </li>
+        <li class="step reveal">
+          <span class="step-n">03</span>
+          <h3>A score you can read</h3>
+          <p>Closures, parking, water and weather combine into one corridor number, and every part is explained.</p>
+        </li>
+        <li class="step reveal">
+          <span class="step-n">04</span>
+          <h3>Now, tonight or tomorrow</h3>
+          <p>One switch moves the whole map and the scores to the night or the next day.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Risk score (dark) -->
+    <section class="dark" id="score">
+      <div class="dark-inner">
+        <p class="eyebrow eyebrow-dark">Corridor risk score</p>
+        <h2 class="reveal">One number per corridor. Four parts you can check.</h2>
+        <p class="lede lede-dark reveal">Hamburg → Dortmund (A1), Hamburg → Ulm (A7) and the Rhine axis Duisburg → Karlsruhe, each scored from 0 to 100.</p>
+
+        <pre class="formula reveal" aria-label="R equals 0.35 C plus 0.20 P plus 0.25 H plus 0.20 W">R = 0.35·C + 0.20·P + 0.25·H + 0.20·W</pre>
+
+        <div class="parts">
+          <article class="part reveal">
+            <span class="part-k">C</span>
+            <h3>Closures <em>0.35</em></h3>
+            <p>Autobahn events within 25 km of the corridor, weighted by severity on a saturating curve.</p>
+          </article>
+          <article class="part reveal">
+            <span class="part-k">P</span>
+            <h3>Truck parking <em>0.20</em></h3>
+            <p>Usable spaces per 100 km. A rest area next to a closure doesn't count.</p>
+          </article>
+          <article class="part reveal">
+            <span class="part-k">H</span>
+            <h3>Hydrology <em>0.25</em></h3>
+            <p>The Kaub water level, for river corridors. Low and high water both raise the score.</p>
+          </article>
+          <article class="part reveal">
+            <span class="part-k">W</span>
+            <h3>Weather <em>0.20</em></h3>
+            <p>The highest DWD warning crossing the corridor now or within 12 hours.</p>
+          </article>
         </div>
-      </div>
-      <div class="split-copy">
-        <p class="eyebrow">Corridor coverage</p>
-        <h2>Built for the way freight really moves.</h2>
-        <p>A closure, a low river and a storm warning rarely arrive alone. Nadelöhr puts them on one map and scores each corridor, then explains in plain words what it means for your load.</p>
-        <a class="btn btn-dark" href="/">Try it on the map</a>
+
+        <div class="gauge reveal" aria-label="Score bands">
+          <div class="gauge-bar"><i class="g-low"></i><i class="g-mid"></i><i class="g-high"></i></div>
+          <div class="gauge-labels"><span>Low · under 33</span><span>Elevated · 33 to 66</span><span>High · over 66</span></div>
+        </div>
+        <p class="fine reveal">Weights and reference values are starting guesses, not calibrated against real delays. A reading aid, not a forecast. Parts with no data are left out and the rest rescaled.</p>
       </div>
     </section>
 
-    <section class="section sources" id="sources">
+    <!-- Trip planner -->
+    <section class="section split" id="trip">
+      <div class="panel reveal" aria-hidden="true">
+        <div class="route-card">
+          <span class="mono muted">CHECK YOUR ROUTE</span>
+          <div class="route-line"><b>Hamburg</b><i></i><b>München</b></div>
+          <div class="route-verdict">Tonight: problems on the way</div>
+          <ul class="route-list">
+            <li><span class="dot dot-red"></span>Closures on the route, with their hours</li>
+            <li><span class="dot dot-amber"></span>A way round, with its extra time</li>
+            <li><span class="dot dot-blue"></span>Truck bans in the states you cross</li>
+            <li><span class="dot dot-grey"></span>Weather on the way</li>
+          </ul>
+        </div>
+      </div>
+      <div class="split-copy reveal">
+        <p class="eyebrow">Check and plan</p>
+        <h2>Type two places. Get a plain answer.</h2>
+        <p>Search "Hamburg" and "München" and Nadelöhr lists what is in your way tonight. Then plan it by truck: pick a departure time and see the arrival at truck speed.</p>
+        <ul class="ticks">
+          <li>EU-required breaks at rest areas on your side of the road, with free truck spaces</li>
+          <li>Whether each closure is open by the time you reach it</li>
+          <li>A warning when a Sunday or holiday ban starts while you're still driving</li>
+          <li>The whole plan as one link to send to a driver</li>
+        </ul>
+        <a class="btn btn-dark" href="/map">Try it on the map</a>
+      </div>
+    </section>
+
+    <!-- Everyday use -->
+    <section class="section band" id="everyday">
+      <p class="eyebrow">Made for the day</p>
+      <h2 class="reveal">Short on screen, thorough underneath.</h2>
+      <div class="grid3">
+        <article class="feature reveal">
+          <h3>Today, at a glance</h3>
+          <p>Big numbers for roads closed, warnings, Kaub's level and gauges below normal, plus one highlighted "What matters today" message.</p>
+        </article>
+        <article class="feature reveal">
+          <h3>Your roads and places</h3>
+          <p>Pin an Autobahn or a town. The top of the panel then says what applies to each, with the last seven days of every corridor's score.</p>
+        </article>
+        <article class="feature reveal">
+          <h3>Alerts, no account</h3>
+          <p>Get a phone or desktop notification when a pinned road gets a new closure, or when Kaub crosses a low-water line. Checked every 15 minutes.</p>
+        </article>
+        <article class="feature reveal">
+          <h3>Truck driving bans</h3>
+          <p>Sundays, public holidays by state and the summer Saturday ban, for now, tonight or tomorrow.</p>
+        </article>
+        <article class="feature reveal">
+          <h3>Ships on the Middle Rhine</h3>
+          <p>Next to the Kaub level, the live count of ships under way and stopped between Bingen and Koblenz, from AIS.</p>
+        </article>
+        <article class="feature reveal">
+          <h3>Made for phones</h3>
+          <p>Controls at least 44 px to the finger, swipe between tabs and corridors, light and dark, 13 languages, and it installs to the home screen.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Assistant -->
+    <section class="section split split-rev" id="assistant">
+      <div class="split-copy reveal">
+        <p class="eyebrow">For your assistant</p>
+        <h2>Ask Claude or Codex about a corridor.</h2>
+        <p>Nadelöhr ships a tool, <code>get_corridor_risk</code>, so an assistant can answer "What is the risk on the Hamburg–Ruhr corridor tonight?" with the same numbers you see, and a link that opens the map on the corridor.</p>
+        <a class="btn btn-dark" href="https://github.com/haziq-bangash/gods-eye-view#readme">Read the README</a>
+      </div>
+      <div class="panel panel-dark reveal" aria-hidden="true">
+        <div class="terminal">
+          <span class="t-dim">&gt; What is the risk on the Hamburg–Ruhr corridor tonight?</span>
+          <span class="t-tool">get_corridor_risk</span>
+          <span>Corridor Hamburg → Dortmund (A1)</span>
+          <span>Score and breakdown, with a link</span>
+          <span>that opens the map on the corridor.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sources -->
+    <section class="section" id="sources">
       <p class="eyebrow">Open data</p>
-      <h2>Real sources, no guesswork.</h2>
-      <ul class="chips">
-        <li>Autobahn API</li>
-        <li>Pegelonline · Kaub</li>
-        <li>DWD warnings</li>
-        <li>Truck-ban calendar</li>
-        <li>Long-distance rail</li>
-      </ul>
+      <h2 class="reveal">Real sources, no guesswork.</h2>
+      <div class="table reveal" role="table" aria-label="Data sources">
+        <div class="tr th" role="row"><span role="columnheader">Data</span><span role="columnheader">Source</span><span role="columnheader">Terms</span></div>
+        <div class="tr" role="row"><span>Closures, roadworks, truck parking</span><span>Autobahn GmbH API</span><span>Public, informational only</span></div>
+        <div class="tr" role="row"><span>Water levels</span><span>PEGELONLINE (WSV)</span><span>DL-DE Zero 2.0</span></div>
+        <div class="tr" role="row"><span>Weather warnings</span><span>Deutscher Wetterdienst</span><span>CC BY 4.0</span></div>
+        <div class="tr" role="row"><span>Train timetable</span><span>gtfs.de (DELFI e.V.)</span><span>CC BY 4.0</span></div>
+        <div class="tr" role="row"><span>Train delays</span><span>Deutsche Bahn Timetables API</span><span>CC BY 4.0</span></div>
+        <div class="tr" role="row"><span>Places</span><span>Photon (OpenStreetMap)</span><span>ODbL</span></div>
+      </div>
+      <p class="fine reveal">Deutsche Bahn publishes no live GPS, so train positions between stations are estimates. Full details in the data sources file in the repository.</p>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final">
+      <div class="final-inner reveal">
+        <h2>See where it's stuck, before you're in it.</h2>
+        <div class="cta">
+          <a class="btn btn-accent btn-lg" href="/map">Open the map</a>
+          <a class="btn btn-light btn-lg" href="https://github.com/haziq-bangash/gods-eye-view">View on GitHub</a>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <span>© Nadelöhr · Part of Gods Eye View, MIT licensed</span>
-    <a href="/">Open the map →</a>
+    <span>© Nadelöhr · A fork of God's Eye View, MIT licensed</span>
+    <span class="footer-links">
+      <a href="https://github.com/haziq-bangash/gods-eye-view#readme">README</a>
+      <a href="https://github.com/haziq-bangash/gods-eye-view/blob/main/DATA_SOURCES.md">Data sources</a>
+      <a href="/map">Open the map →</a>
+    </span>
   </footer>
 
   <script src="/landing/landing.js"></script>

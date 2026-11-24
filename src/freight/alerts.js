@@ -132,7 +132,7 @@ export function alertItems(sub, { events = [], kaubLevelCm = null } = {}) {
     items.set(`c:${row.stableId}`, {
       title: copy.roadTitle(row.road),
       body: [row.section, row.direction].filter(Boolean).join(' · '),
-      url: '/',
+      url: '/map',
     });
   }
   for (const place of sub.pins?.places || []) {
@@ -150,7 +150,7 @@ export function alertItems(sub, { events = [], kaubLevelCm = null } = {}) {
       items.set(`p:${place.id}:${row.stableId}`, {
         title: copy.placeTitle(place.name),
         body: [where(row), row.direction].filter(Boolean).join(' · '),
-        url: '/',
+        url: '/map',
       });
     }
   }
@@ -160,7 +160,7 @@ export function alertItems(sub, { events = [], kaubLevelCm = null } = {}) {
       items.set(`k:${band}`, {
         title: copy.kaubTitle(Math.round(kaubLevelCm)),
         body: copy.kaub[band] || '',
-        url: '/',
+        url: '/map',
       });
   }
   return items;
@@ -191,7 +191,7 @@ export function nextAlerts(sub, current) {
         key: 'summary',
         title: copy.summaryTitle(closures.length),
         body: copy.summaryBody,
-        url: '/',
+        url: '/map',
       },
       ...kaub,
     ],
