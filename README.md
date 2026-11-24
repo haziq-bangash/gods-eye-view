@@ -17,6 +17,10 @@ server, and adds a German freight layer and an interface anyone can read.
 
 ### What is new in this fork
 
+- **A landing page and the map at `/map`.** The site root shows a page that
+  explains what Nadelöhr does and how the corridor score works; the app itself
+  is at `/map`. Links that carry a query (`/?embed=1`, `/?lang=de`), a hash
+  (`/#v=2&…`) or a share path (`/share/<code>`) still open the app.
 - **Alerts.** Switch on alerts under "My roads and places" and get a phone
   or desktop notification when a pinned Autobahn or place gets a new
   closure (and, if you like, when Kaub crosses a low-water line). No
