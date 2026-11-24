@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { VUE_PLUGIN_OPTIONS } from './vueOptions.js';
 import { DEFAULT_ALLOWED_HOSTS, hostCheckPlugin } from './allowedHosts.js';
 import { embedFramingPlugin } from './embed-framing.js';
+import { landingRoutePlugin } from './landing.js';
 import { panelBuildPlugin } from './panel.js';
 
 /**
@@ -185,6 +186,8 @@ export function createBrowserViteConfig({
       apiResponseHeadersPlugin(),
       // Next, so no provider route answers a Host the server does not allow.
       hostCheckPlugin(),
+      // The site root is the landing page; the app is at /map.
+      landingRoutePlugin(),
       cesium(),
       // Application views are Vue single-file components.
       vue(VUE_PLUGIN_OPTIONS),
