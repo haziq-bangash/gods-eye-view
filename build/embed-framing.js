@@ -30,7 +30,10 @@ export function isEmbedDocumentRequest(url) {
   }
   return (
     parsed.searchParams.get('embed') === '1' &&
-    (parsed.pathname === '/' || parsed.pathname.endsWith('.html'))
+    (parsed.pathname === '/' ||
+      parsed.pathname === '/map' ||
+      parsed.pathname === '/map/' ||
+      parsed.pathname.endsWith('.html'))
   );
 }
 
